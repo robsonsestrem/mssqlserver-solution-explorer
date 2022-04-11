@@ -25,6 +25,36 @@
           <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>COMANDOS-SET.sql</FullPath>
         </FileNode>
+        <FileNode Name="CONJUNTOS.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>CONJUNTOS.sql</FullPath>
+        </FileNode>
+        <FileNode Name="CTE.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>CTE.sql</FullPath>
+        </FileNode>
+        <FileNode Name="CURSOR.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>CURSOR.sql</FullPath>
+        </FileNode>
+        <FileNode Name="FUNÇÕES-COM-DATA.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>FUNÇÕES-COM-DATA.sql</FullPath>
+        </FileNode>
+        <FileNode Name="FUNÇÕES-COM-STRING.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>FUNÇÕES-COM-STRING.sql</FullPath>
+        </FileNode>
       </Items>
     </LogicalFolder>
     <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
