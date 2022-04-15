@@ -55,6 +55,30 @@
           <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>FUNÇÕES-COM-STRING.sql</FullPath>
         </FileNode>
+        <FileNode Name="OPERAÇÕES-COM-MERGE.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>OPERAÇÕES-COM-MERGE.sql</FullPath>
+        </FileNode>
+        <FileNode Name="OUTPUT.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>OUTPUT.sql</FullPath>
+        </FileNode>
+        <FileNode Name="SEQUENCE.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>SEQUENCE.sql</FullPath>
+        </FileNode>
+        <FileNode Name="XML.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>XML.sql</FullPath>
+        </FileNode>
       </Items>
     </LogicalFolder>
     <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
