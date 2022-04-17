@@ -73,6 +73,18 @@
           <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>SEQUENCE.sql</FullPath>
         </FileNode>
+        <FileNode Name="WINDOW-FUNCTION.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>WINDOW-FUNCTION.sql</FullPath>
+        </FileNode>
+        <FileNode Name="WINDOW-FUNCTION-MASSA-DE-DADOS.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>WINDOW-FUNCTION-MASSA-DE-DADOS.sql</FullPath>
+        </FileNode>
         <FileNode Name="XML.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
