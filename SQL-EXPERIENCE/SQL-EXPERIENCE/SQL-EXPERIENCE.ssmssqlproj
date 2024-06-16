@@ -19,11 +19,89 @@
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
-        <FileNode Name="RETIRA-DADOS-DUPLICADOS.sql">
+        <FileNode Name="ConjuntosOuterCroosAplly.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
           <AssociatedConnUserName>sa</AssociatedConnUserName>
-          <FullPath>RETIRA-DADOS-DUPLICADOS.sql</FullPath>
+          <FullPath>ConjuntosOuterCroosAplly.sql</FullPath>
+        </FileNode>
+        <FileNode Name="CteRecursiva.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>CteRecursiva.sql</FullPath>
+        </FileNode>
+        <FileNode Name="IdentificaRemoveDadosDuplicados.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>IdentificaRemoveDadosDuplicados.sql</FullPath>
+        </FileNode>
+        <FileNode Name="LagLeadEquivalent.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>LagLeadEquivalent.sql</FullPath>
+        </FileNode>
+        <FileNode Name="NúmerosOuListaRandômica.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>NúmerosOuListaRandômica.sql</FullPath>
+        </FileNode>
+        <FileNode Name="OffsetFetch_Paginacao.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>OffsetFetch_Paginacao.sql</FullPath>
+        </FileNode>
+        <FileNode Name="OuterApplyValorAnterior.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>OuterApplyValorAnterior.sql</FullPath>
+        </FileNode>
+        <FileNode Name="QuerySQLhandle.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>QuerySQLhandle.sql</FullPath>
+        </FileNode>
+        <FileNode Name="RankLogError.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>RankLogError.sql</FullPath>
+        </FileNode>
+        <FileNode Name="RankOPGesCooper.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>RankOPGesCooper.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Shutdown.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Shutdown.sql</FullPath>
+        </FileNode>
+        <FileNode Name="SimulaBloqueio.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>SimulaBloqueio.sql</FullPath>
+        </FileNode>
+        <FileNode Name="SimulaDeadLock.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>SimulaDeadLock.sql</FullPath>
+        </FileNode>
+        <FileNode Name="WindowFunctionCRVSQL01.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>WindowFunctionCRVSQL01.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>

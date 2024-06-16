@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="CRAVIL-REPORTS">
+  <Items>
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items>
+        <ConnectionNode Name="OPTIMUS-PRIME:sa">
+          <Created>2024-06-16T17:39:33.98597-03:00</Created>
+          <Type>SQL</Type>
+          <Server>OPTIMUS-PRIME</Server>
+          <UserName>sa</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB>Eletronicos</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="01ExemploCondicionaisColunas.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>01ExemploCondicionaisColunas.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AcessoPrograma.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AcessoPrograma.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Aniversariantes.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Aniversariantes.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AniversariantesRádio.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AniversariantesRádio.sql</FullPath>
+        </FileNode>
+        <FileNode Name="CaixasComPeriodoDeUso.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>CaixasComPeriodoDeUso.sql</FullPath>
+        </FileNode>
+        <FileNode Name="ContaCXErrada.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>ContaCXErrada.sql</FullPath>
+        </FileNode>
+        <FileNode Name="CuponsNãoIntegrados.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>CuponsNãoIntegrados.sql</FullPath>
+        </FileNode>
+        <FileNode Name="DesvioPadrão.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>DesvioPadrão.sql</FullPath>
+        </FileNode>
+        <FileNode Name="EstoqueProdPromocao.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>EstoqueProdPromocao.sql</FullPath>
+        </FileNode>
+        <FileNode Name="FechamentosVendas.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>FechamentosVendas.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Índice-NãoAssociados 1.0.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Índice-NãoAssociados 1.0.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Índice-NãoAssociados 2.0.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Índice-NãoAssociados 2.0.sql</FullPath>
+        </FileNode>
+        <FileNode Name="PagamentosOP-27-79.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>PagamentosOP-27-79.sql</FullPath>
+        </FileNode>
+        <FileNode Name="ProdutoPermiteTroca.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>ProdutoPermiteTroca.sql</FullPath>
+        </FileNode>
+        <FileNode Name="ProdutosEmDesativação.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>ProdutosEmDesativação.sql</FullPath>
+        </FileNode>
+        <FileNode Name="ProdutoSemPeso.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>ProdutoSemPeso.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>

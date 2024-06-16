@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="CRAVIL-DML">
+  <Items>
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items>
+        <ConnectionNode Name="OPTIMUS-PRIME:sa">
+          <Created>2024-06-16T17:17:09.7885255-03:00</Created>
+          <Type>SQL</Type>
+          <Server>OPTIMUS-PRIME</Server>
+          <UserName>sa</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB>Eletronicos</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="AjustaLogradouro.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>AjustaLogradouro.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AjustaPlacaNF.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AjustaPlacaNF.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AjustaTratamentos.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AjustaTratamentos.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AjusteSIG.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AjusteSIG.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AlteraClienteCupom.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AlteraClienteCupom.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AlteraDataSIG.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AlteraDataSIG.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AlteraFiliaisCIDASC.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AlteraFiliaisCIDASC.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AlteraNF-Entrada.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AlteraNF-Entrada.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AlteraNF-OP39.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AlteraNF-OP39.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AlteraSitFinLojas.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AlteraSitFinLojas.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AlteraVersãoUsuários.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AlteraVersãoUsuários.sql</FullPath>
+        </FileNode>
+        <FileNode Name="CargaNosCaixas.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>CargaNosCaixas.sql</FullPath>
+        </FileNode>
+        <FileNode Name="CertificadoDigitalFiliais.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>CertificadoDigitalFiliais.sql</FullPath>
+        </FileNode>
+        <FileNode Name="ContaCXErrada.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>ContaCXErrada.sql</FullPath>
+        </FileNode>
+        <FileNode Name="DeletaCupom.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>DeletaCupom.sql</FullPath>
+        </FileNode>
+        <FileNode Name="DesabilitaTriggersLog.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>DesabilitaTriggersLog.sql</FullPath>
+        </FileNode>
+        <FileNode Name="InserePermissaoPrograma.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>InserePermissaoPrograma.sql</FullPath>
+        </FileNode>
+        <FileNode Name="UpdateEntreBDEmMassa.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>UpdateEntreBDEmMassa.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>

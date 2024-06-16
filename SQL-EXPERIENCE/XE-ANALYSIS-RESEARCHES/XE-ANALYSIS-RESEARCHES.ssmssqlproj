@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="XE-ANALYSIS-RESEARCHES">
+  <Items>
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items />
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="AnáliseExtendedEvents.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseExtendedEvents.sql</FullPath>
+        </FileNode>
+        <FileNode Name="BuscaQueryIdSessao.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>BuscaQueryIdSessao.sql</FullPath>
+        </FileNode>
+        <FileNode Name="CriarColetaRollback.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>CriarColetaRollback.sql</FullPath>
+        </FileNode>
+        <FileNode Name="HistoricBlockedProcess.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>HistoricBlockedProcess.sql</FullPath>
+        </FileNode>
+        <FileNode Name="HistoricDeadLock01.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>HistoricDeadLock01.sql</FullPath>
+        </FileNode>
+        <FileNode Name="HistoricDeadLock02.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>HistoricDeadLock02.sql</FullPath>
+        </FileNode>
+        <FileNode Name="HistoricDeadLock03.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>HistoricDeadLock03.sql</FullPath>
+        </FileNode>
+        <FileNode Name="HistoricQuerySlow.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>HistoricQuerySlow.sql</FullPath>
+        </FileNode>
+        <FileNode Name="LongRunningQuery.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>LongRunningQuery.sql</FullPath>
+        </FileNode>
+        <FileNode Name="PageSplit.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>PageSplit.sql</FullPath>
+        </FileNode>
+        <FileNode Name="SortWarning.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>SortWarning.sql</FullPath>
+        </FileNode>
+        <FileNode Name="sp_blocked_process_report_viewer.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>sp_blocked_process_report_viewer.sql</FullPath>
+        </FileNode>
+        <FileNode Name="SuspectDatabasePages.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>SuspectDatabasePages.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TestBrentozarDeadLockBlockedProcess.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>TestBrentozarDeadLockBlockedProcess.sql</FullPath>
+        </FileNode>
+        <FileNode Name="VisionDeadlocks.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>VisionDeadlocks.sql</FullPath>
+        </FileNode>
+        <FileNode Name="XEventsTraceFlag1222.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>XEventsTraceFlag1222.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>
