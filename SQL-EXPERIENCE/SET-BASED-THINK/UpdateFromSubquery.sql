@@ -1,0 +1,54 @@
+USE GesCooper90
+GO
+
+BEGIN TRANSACTION
+
+BEGIN TRY
+UPDATE GesCooper90.dbo.TRACONTASLEVEL1
+set TraConBanCod = 0
+WHERE TraConCod in 
+	(
+		select Cod from
+			(SELECT 
+			 Cod=TRACOD
+			,Nome=TRANOM
+			,Nat=TRANATJURIDICA
+			,CPF=TRACPF
+			,CNPJ=TraCnpj
+			,Origem='Transacionadores'
+			,Banco=TRABANCOD
+			,Age=TRAAGECOD
+			,Conta=TRACODCONTABANCO 
+			 FROM GesCooper90.dbo.TRANSACIONADORES T 
+			 WHERE T.TRASIT = 1
+
+			 UNION
+
+			 SELECT TRACOD
+			,TRANOM
+			,TRANATJURIDICA
+			,TRACPF
+			,TraCnpj
+			, 'TraContasLevel1'
+			,TraConBanCod
+			,TraconAgeCod
+			,TraConNumCon
+
+			  FROM GesCooper90.dbo.TRANSACIONADORES T 
+			 INNER JOIN GesCooper90.dbo.TRACONTASLEVEL1  C ON T.TRACOD=C.TRACONCOD
+			 WHERE T.TRASIT = 1 
+		) x
+		WHERE X.BANCO = 1
+		and x.Cod = TraConCod
+	)
+	and TraConBanCod = 1
+	
+END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		SELECT ERROR_NUMBER(), ERROR_MESSAGE()
+	END CATCH
+
+
+--COMMIT TRANSACTION
+--SELECT @@TRANCOUNT

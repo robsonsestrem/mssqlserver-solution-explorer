@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="TROUBLESHOOTING-OBJECTS">
+  <Items>
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items>
+        <ConnectionNode Name="OPTIMUS-PRIME:sa">
+          <Created>2024-06-22T17:55:19.8818356-03:00</Created>
+          <Type>SQL</Type>
+          <Server>OPTIMUS-PRIME</Server>
+          <UserName>sa</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB>Eletronicos</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="AnáliseDependências.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>AnáliseDependências.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseEmail.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseEmail.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseJobs.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseJobs.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseServiceBrokerEventNotification.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseServiceBrokerEventNotification.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseTabelasNãoUtilizadas.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseTabelasNãoUtilizadas.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseTriggers.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseTriggers.sql</FullPath>
+        </FileNode>
+        <FileNode Name="BuscarTodasTriggersDatabase.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>BuscarTodasTriggersDatabase.sql</FullPath>
+        </FileNode>
+        <FileNode Name="CreateDatabase.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>CreateDatabase.sql</FullPath>
+        </FileNode>
+        <FileNode Name="DicionárioDeDados.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>DicionárioDeDados.sql</FullPath>
+        </FileNode>
+        <FileNode Name="ForeignKeys.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>ForeignKeys.sql</FullPath>
+        </FileNode>
+        <FileNode Name="ManutençãoForeignKeys.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>ManutençãoForeignKeys.sql</FullPath>
+        </FileNode>
+        <FileNode Name="PadrãoControleTransacional.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>PadrãoControleTransacional.sql</FullPath>
+        </FileNode>
+        <FileNode Name="PadrãoTryCatchProcedureComum.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>PadrãoTryCatchProcedureComum.sql</FullPath>
+        </FileNode>
+        <FileNode Name="PadrãoTryCatchProcedureControleTransacional.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>PadrãoTryCatchProcedureControleTransacional.sql</FullPath>
+        </FileNode>
+        <FileNode Name="PadrãoTryCatchTriggerAuditoria.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>PadrãoTryCatchTriggerAuditoria.sql</FullPath>
+        </FileNode>
+        <FileNode Name="PadrãoTryCatchTriggerComum.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>PadrãoTryCatchTriggerComum.sql</FullPath>
+        </FileNode>
+        <FileNode Name="PesquisarObjetosDatabase.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>PesquisarObjetosDatabase.sql</FullPath>
+        </FileNode>
+        <FileNode Name="RenameDatabase.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>RenameDatabase.sql</FullPath>
+        </FileNode>
+        <FileNode Name="SequencesReinícioIncrementos.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>SequencesReinícioIncrementos.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TriggersObjectsExecuteSp_settriggerorder.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>TriggersObjectsExecuteSp_settriggerorder.sql</FullPath>
+        </FileNode>
+        <FileNode Name="VerificaTamanhoÍndices.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>VerificaTamanhoÍndices.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>
