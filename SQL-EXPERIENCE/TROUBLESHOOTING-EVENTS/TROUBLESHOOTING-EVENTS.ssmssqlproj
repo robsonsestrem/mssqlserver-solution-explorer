@@ -1,0 +1,280 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="TROUBLESHOOTING-EVENTS">
+  <Items>
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items>
+        <ConnectionNode Name="OPTIMUS-PRIME:sa">
+          <Created>2024-06-22T17:58:46.7044913-03:00</Created>
+          <Type>SQL</Type>
+          <Server>OPTIMUS-PRIME</Server>
+          <UserName>sa</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB>Eletronicos</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="Análise_RecursosDeltaWhoIsActive.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Análise_RecursosDeltaWhoIsActive.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Análise_RequestTinyWhoIsActive.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Análise_RequestTinyWhoIsActive.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Análise_RequestWhoIsActive.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Análise_RequestWhoIsActive.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Análise_SessãoComTRACE.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Análise_SessãoComTRACE.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Análise_sp_WhoisActive.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Análise_sp_WhoisActive.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Análise_WhoIsActiveLowConsumption.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Análise_WhoIsActiveLowConsumption.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseBatchRequest.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseBatchRequest.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseBloqueios.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseBloqueios.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseCorrupçãoPáginaOuBase.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseCorrupçãoPáginaOuBase.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseDeadLock.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseDeadLock.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseDeadLockFull.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseDeadLockFull.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseEventosEspera.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseEventosEspera.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseLentidãoTraceDiário.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseLentidãoTraceDiário.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseReinicializações.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseReinicializações.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AnáliseSessionTransactionLog.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AnáliseSessionTransactionLog.sql</FullPath>
+        </FileNode>
+        <FileNode Name="AuditoriaInLive.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>AuditoriaInLive.sql</FullPath>
+        </FileNode>
+        <FileNode Name="CadeiaBloqueios.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>CadeiaBloqueios.sql</FullPath>
+        </FileNode>
+        <FileNode Name="ColetaLockInfo.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>ColetaLockInfo.sql</FullPath>
+        </FileNode>
+        <FileNode Name="ColetaScriptBloqueador.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>ColetaScriptBloqueador.sql</FullPath>
+        </FileNode>
+        <FileNode Name="DMVcoletaLockCursor.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>DMVcoletaLockCursor.sql</FullPath>
+        </FileNode>
+        <FileNode Name="KillConexõesFantasma.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>KillConexõesFantasma.sql</FullPath>
+        </FileNode>
+        <FileNode Name="KillConexõesParaManutenções.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>KillConexõesParaManutenções.sql</FullPath>
+        </FileNode>
+        <FileNode Name="KillSessõesBloqueadas.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>KillSessõesBloqueadas.sql</FullPath>
+        </FileNode>
+        <FileNode Name="KillSessõesBloqueadasUsandoCursores.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>KillSessõesBloqueadasUsandoCursores.sql</FullPath>
+        </FileNode>
+        <FileNode Name="MonitoraBloqueios.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>MonitoraBloqueios.sql</FullPath>
+        </FileNode>
+        <FileNode Name="MonitoraFullScan.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>MonitoraFullScan.sql</FullPath>
+        </FileNode>
+        <FileNode Name="MonitoraParalelismo.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>MonitoraParalelismo.sql</FullPath>
+        </FileNode>
+        <FileNode Name="MonitoraRequests.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>MonitoraRequests.sql</FullPath>
+        </FileNode>
+        <FileNode Name="MonitoraRequestsPaulRandal.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>MonitoraRequestsPaulRandal.sql</FullPath>
+        </FileNode>
+        <FileNode Name="MonitoraSessõesDornel.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>MonitoraSessõesDornel.sql</FullPath>
+        </FileNode>
+        <FileNode Name="MonitoraTransaçõesAbertas.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>MonitoraTransaçõesAbertas.sql</FullPath>
+        </FileNode>
+        <FileNode Name="PercentCompleteEstimarQuandoProcessosSqlDeLongaDuraçãoTerminarão.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>PercentCompleteEstimarQuandoProcessosSqlDeLongaDuraçãoTerminarão.sql</FullPath>
+        </FileNode>
+        <FileNode Name="QuerySQLhandle.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>QuerySQLhandle.sql</FullPath>
+        </FileNode>
+        <FileNode Name="SessõesAbertasDornel.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>SessõesAbertasDornel.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Shutdown.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Shutdown.sql</FullPath>
+        </FileNode>
+        <FileNode Name="SimulaBloqueio.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>SimulaBloqueio.sql</FullPath>
+        </FileNode>
+        <FileNode Name="SimulaDeadLock.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>SimulaDeadLock.sql</FullPath>
+        </FileNode>
+        <FileNode Name="SimularColetaLockCursor.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>SimularColetaLockCursor.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TeclógicaAutocrescimentoDatafiles.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>TeclógicaAutocrescimentoDatafiles.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TeclógicaEventosDeCrescimentoDoArquivoLdf.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>TeclógicaEventosDeCrescimentoDoArquivoLdf.sql</FullPath>
+        </FileNode>
+        <FileNode Name="WhoIsActiveHmap.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>WhoIsActiveHmap.sql</FullPath>
+        </FileNode>
+        <FileNode Name="WhoIsActiveLowConsuptionHmap.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>WhoIsActiveLowConsuptionHmap.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>

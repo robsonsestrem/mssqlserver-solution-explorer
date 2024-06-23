@@ -74,9 +74,9 @@
           <FullPath>UpdateFromEmMassa.sql</FullPath>
         </FileNode>
         <FileNode Name="UpdateFromJoin.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>UpdateFromJoin.sql</FullPath>
         </FileNode>
         <FileNode Name="UpdateFromSubquery.sql">

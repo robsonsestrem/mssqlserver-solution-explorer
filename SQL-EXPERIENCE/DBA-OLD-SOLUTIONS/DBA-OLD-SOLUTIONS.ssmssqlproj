@@ -3,6 +3,30 @@
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
+        <ConnectionNode Name="119.8.144.232:dixhealth_adm">
+          <Created>2024-06-18T14:44:41.5841252-03:00</Created>
+          <Type>SQL</Type>
+          <Server>119.8.144.232</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB />
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
+        <ConnectionNode Name="119.8.155.38:dixhealth_adm">
+          <Created>2024-06-22T17:39:12.531784-03:00</Created>
+          <Type>SQL</Type>
+          <Server>119.8.155.38</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB />
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
         <ConnectionNode Name="OPTIMUS-PRIME:sa">
           <Created>2024-06-16T18:00:02.3629955-03:00</Created>
           <Type>SQL</Type>
@@ -15,248 +39,74 @@
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
         </ConnectionNode>
+        <ConnectionNode Name="rds.hmg.healthmap.com.br:dixhealth_adm">
+          <Created>2024-06-17T12:56:00.2495157-03:00</Created>
+          <Type>SQL</Type>
+          <Server>rds.hmg.healthmap.com.br</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB>H_HEALTHMAP_APP01</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
       </Items>
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
-        <FileNode Name="Análise_RecursosDeltaWhoIsActive.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
-          <AssociatedConnUserName>sa</AssociatedConnUserName>
-          <FullPath>Análise_RecursosDeltaWhoIsActive.sql</FullPath>
-        </FileNode>
-        <FileNode Name="Análise_RequestTinyWhoIsActive.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>Análise_RequestTinyWhoIsActive.sql</FullPath>
-        </FileNode>
-        <FileNode Name="Análise_RequestWhoIsActive.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>Análise_RequestWhoIsActive.sql</FullPath>
-        </FileNode>
-        <FileNode Name="Análise_SessãoComTRACE.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>Análise_SessãoComTRACE.sql</FullPath>
-        </FileNode>
-        <FileNode Name="Análise_sp_WhoisActive.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>Análise_sp_WhoisActive.sql</FullPath>
-        </FileNode>
-        <FileNode Name="Análise_WhoIsActiveLowConsumption.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>Análise_WhoIsActiveLowConsumption.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseBackup.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseBackup.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseBatchRequest.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseBatchRequest.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseBloqueios.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseBloqueios.sql</FullPath>
-        </FileNode>
         <FileNode Name="AnáliseCluster.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>AnáliseCluster.sql</FullPath>
         </FileNode>
-        <FileNode Name="AnáliseCorrupçãoPáginaOuBase.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseCorrupçãoPáginaOuBase.sql</FullPath>
-        </FileNode>
         <FileNode Name="AnáliseCrescimentoTabelas.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>AnáliseCrescimentoTabelas.sql</FullPath>
         </FileNode>
-        <FileNode Name="AnáliseDeadLock.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseDeadLock.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseDeadLockFull.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseDeadLockFull.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseDependências.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseDependências.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseEmail.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseEmail.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseEventosEspera.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseEventosEspera.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseJobs.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseJobs.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseLentidãoPorObjeto.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseLentidãoPorObjeto.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseLentidãoQueryDMV.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseLentidãoQueryDMV.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseLentidãoTraceDiário.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseLentidãoTraceDiário.sql</FullPath>
-        </FileNode>
         <FileNode Name="AnáliseNF-eNaoAutorizada.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>AnáliseNF-eNaoAutorizada.sql</FullPath>
         </FileNode>
-        <FileNode Name="AnálisePermissões.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnálisePermissões.sql</FullPath>
-        </FileNode>
         <FileNode Name="AnálisePlanoDeExecução.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>AnálisePlanoDeExecução.sql</FullPath>
         </FileNode>
         <FileNode Name="AnáliseRebuildReorganize.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>AnáliseRebuildReorganize.sql</FullPath>
         </FileNode>
-        <FileNode Name="AnáliseReinicializações.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseReinicializações.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseServiceBrokerEventNotification.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseServiceBrokerEventNotification.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseSessionTransactionLog.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseSessionTransactionLog.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseTabelasNãoUtilizadas.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseTabelasNãoUtilizadas.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AnáliseTriggers.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AnáliseTriggers.sql</FullPath>
-        </FileNode>
-        <FileNode Name="AuditoriaInLive.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>AuditoriaInLive.sql</FullPath>
-        </FileNode>
         <FileNode Name="BloquedProcess - Tendência.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>BloquedProcess - Tendência.sql</FullPath>
         </FileNode>
-        <FileNode Name="CadeiaBloqueios.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>CadeiaBloqueios.sql</FullPath>
-        </FileNode>
-        <FileNode Name="ColetaLockInfo.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>ColetaLockInfo.sql</FullPath>
-        </FileNode>
-        <FileNode Name="ColetaScriptBloqueador.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>ColetaScriptBloqueador.sql</FullPath>
-        </FileNode>
-        <FileNode Name="CreateDatabase.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>CreateDatabase.sql</FullPath>
-        </FileNode>
         <FileNode Name="Crescimento Database - Tendência.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>Crescimento Database - Tendência.sql</FullPath>
         </FileNode>
         <FileNode Name="DeadLock - Tendência.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>DeadLock - Tendência.sql</FullPath>
         </FileNode>
-        <FileNode Name="DMVcoletaLockCursor.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>DMVcoletaLockCursor.sql</FullPath>
-        </FileNode>
         <FileNode Name="fn_CalculateDifferenceTime.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>fn_CalculateDifferenceTime.sql</FullPath>
         </FileNode>
         <FileNode Name="fn_ConverteDatetimeJobs.sql">
@@ -338,88 +188,34 @@
           <FullPath>fn_ValueSeparateByVarious.sql</FullPath>
         </FileNode>
         <FileNode Name="IdentificaAusenciaÍndices.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>IdentificaAusenciaÍndices.sql</FullPath>
         </FileNode>
         <FileNode Name="IdentificaIndexStatistics.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>IdentificaIndexStatistics.sql</FullPath>
         </FileNode>
         <FileNode Name="LimparEstatisticas.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>LimparEstatisticas.sql</FullPath>
         </FileNode>
-        <FileNode Name="Manutenção_Foreign_Keys.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>Manutenção_Foreign_Keys.sql</FullPath>
-        </FileNode>
         <FileNode Name="MemóriaPLE.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>MemóriaPLE.sql</FullPath>
         </FileNode>
         <FileNode Name="MissingIndexInfo.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>MissingIndexInfo.sql</FullPath>
-        </FileNode>
-        <FileNode Name="MonitoraBloqueios.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>MonitoraBloqueios.sql</FullPath>
-        </FileNode>
-        <FileNode Name="MonitoraFullScan.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>MonitoraFullScan.sql</FullPath>
-        </FileNode>
-        <FileNode Name="MonitoraMemóriaRaw.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>MonitoraMemóriaRaw.sql</FullPath>
-        </FileNode>
-        <FileNode Name="MonitoraParalelismo.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>MonitoraParalelismo.sql</FullPath>
-        </FileNode>
-        <FileNode Name="MonitoraRequests.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>MonitoraRequests.sql</FullPath>
-        </FileNode>
-        <FileNode Name="MonitoraRequestsPaulRandal.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>MonitoraRequestsPaulRandal.sql</FullPath>
-        </FileNode>
-        <FileNode Name="MonitoraSessõesDornel.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>MonitoraSessõesDornel.sql</FullPath>
-        </FileNode>
-        <FileNode Name="MonitoraTransaçõesAbertas.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>MonitoraTransaçõesAbertas.sql</FullPath>
         </FileNode>
         <FileNode Name="OLA_CommandExecute.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
@@ -464,27 +260,15 @@
           <FullPath>ReindexTesteIntegraTICravil.sql</FullPath>
         </FileNode>
         <FileNode Name="Requisições lentas - Tendência.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>Requisições lentas - Tendência.sql</FullPath>
         </FileNode>
-        <FileNode Name="SessõesAbertasDornel.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>SessõesAbertasDornel.sql</FullPath>
-        </FileNode>
-        <FileNode Name="SimularColetaLockCursor.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>SimularColetaLockCursor.sql</FullPath>
-        </FileNode>
         <FileNode Name="sp_AlertPLE.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>sp_AlertPLE.sql</FullPath>
         </FileNode>
         <FileNode Name="sp_AlterObjects.sql">
@@ -878,21 +662,21 @@
           <FullPath>StatisticsDesnecessárias.sql</FullPath>
         </FileNode>
         <FileNode Name="StatisticsNãoAtualizadas.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>StatisticsNãoAtualizadas.sql</FullPath>
         </FileNode>
         <FileNode Name="StatisticsUse.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>StatisticsUse.sql</FullPath>
         </FileNode>
         <FileNode Name="tr_AddCampoLog.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>tr_AddCampoLog.sql</FullPath>
         </FileNode>
         <FileNode Name="tr_BlockedLogin.sql">
@@ -950,15 +734,15 @@
           <FullPath>tr_Filiais_HoraVerao_U.sql</FullPath>
         </FileNode>
         <FileNode Name="tr_GesCooper90DDLTransaction_BD.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>tr_GesCooper90DDLTransaction_BD.sql</FullPath>
         </FileNode>
         <FileNode Name="tr_NotDropDatabase.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>tr_NotDropDatabase.sql</FullPath>
         </FileNode>
         <FileNode Name="tr_Produtos_LogUID.sql">
@@ -992,9 +776,9 @@
           <FullPath>tr_ValueNewOld.sql</FullPath>
         </FileNode>
         <FileNode Name="VisãoHistóricoFragmentações.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>VisãoHistóricoFragmentações.sql</FullPath>
         </FileNode>
         <FileNode Name="VisãoPerformanceMonitor.sql">
@@ -1016,21 +800,21 @@
           <FullPath>vw_MonioringLogRecords.sql</FullPath>
         </FileNode>
         <FileNode Name="vw_MonitoringEmail.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>vw_MonitoringEmail.sql</FullPath>
         </FileNode>
         <FileNode Name="vw_MonitoringLogRecordsPaul.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>vw_MonitoringLogRecordsPaul.sql</FullPath>
         </FileNode>
         <FileNode Name="vw_SizeTables.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>vw_SizeTables.sql</FullPath>
         </FileNode>
       </Items>

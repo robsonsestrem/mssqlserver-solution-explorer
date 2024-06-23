@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Aqui está o script sugerido por SQL Expert aasim abdullah , que escreveu excelente script que volta e recupera o histórico de qualquer banco de dados único.
--- Encontrando o último tempo de backup para todos os bancos de dados, inclusive o LSN (Log sequence Number)
+-- Aqui estÃ¡ o script sugerido por SQL Expert aasim abdullah , que escreveu excelente script que volta e recupera o histÃ³rico de qualquer banco de dados Ãºnico.
+-- Encontrando o Ãºltimo tempo de backup para todos os bancos de dados, inclusive o LSN (Log sequence Number)
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 use GesCooper90
 go
@@ -24,3 +24,5 @@ INNER JOIN msdb.dbo.backupmediafamily m ON s.media_set_id = m.media_set_id
 WHERE s.database_name = DB_NAME() -- Remove this line for all the database
 ORDER BY backup_start_date DESC, backup_finish_date
 GO
+
+

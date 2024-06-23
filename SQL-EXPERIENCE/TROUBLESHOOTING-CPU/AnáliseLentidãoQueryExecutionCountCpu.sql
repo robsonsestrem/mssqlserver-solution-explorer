@@ -18,7 +18,7 @@
 consideradas. Alguns recursos de temporização como o WAITFOR 
 não são considerados nas DMV e aparecem no Profiler.
 #################################################################*/
-SELECT TOP 30
+SELECT TOP 10
 
 SUBSTRING (qt.text,(qs.statement_start_offset/2) + 1,
 ((CASE WHEN qs.statement_end_offset = -1

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="CRAVIL-DML">
+<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="TROUBLESHOOTING-OBJECTS">
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
         <ConnectionNode Name="OPTIMUS-PRIME:sa">
-          <Created>2024-06-16T17:17:09.7885255-03:00</Created>
+          <Created>2024-06-22T17:55:19.8818356-03:00</Created>
           <Type>SQL</Type>
           <Server>OPTIMUS-PRIME</Server>
           <UserName>sa</UserName>
@@ -15,129 +15,135 @@
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
         </ConnectionNode>
-        <ConnectionNode Name="rds.hmg.healthmap.com.br:dixhealth_adm">
-          <Created>2024-06-17T12:56:23.792867-03:00</Created>
-          <Type>SQL</Type>
-          <Server>rds.hmg.healthmap.com.br</Server>
-          <UserName>dixhealth_adm</UserName>
-          <Authentication>SQL</Authentication>
-          <InitialDB>master</InitialDB>
-          <LoginTimeout>30</LoginTimeout>
-          <ExecutionTimeout>0</ExecutionTimeout>
-          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
-          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
-        </ConnectionNode>
       </Items>
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
-        <FileNode Name="AjustaLogradouro.sql">
+        <FileNode Name="AnáliseDependências.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
           <AssociatedConnUserName>sa</AssociatedConnUserName>
-          <FullPath>AjustaLogradouro.sql</FullPath>
+          <FullPath>AnáliseDependências.sql</FullPath>
         </FileNode>
-        <FileNode Name="AjustaPlacaNF.sql">
+        <FileNode Name="AnáliseEmail.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>AjustaPlacaNF.sql</FullPath>
+          <FullPath>AnáliseEmail.sql</FullPath>
         </FileNode>
-        <FileNode Name="AjustaTratamentos.sql">
+        <FileNode Name="AnáliseJobs.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>AjustaTratamentos.sql</FullPath>
+          <FullPath>AnáliseJobs.sql</FullPath>
         </FileNode>
-        <FileNode Name="AjusteSIG.sql">
+        <FileNode Name="AnáliseServiceBrokerEventNotification.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>AjusteSIG.sql</FullPath>
+          <FullPath>AnáliseServiceBrokerEventNotification.sql</FullPath>
         </FileNode>
-        <FileNode Name="AlteraClienteCupom.sql">
+        <FileNode Name="AnáliseTabelasNãoUtilizadas.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>AlteraClienteCupom.sql</FullPath>
+          <FullPath>AnáliseTabelasNãoUtilizadas.sql</FullPath>
         </FileNode>
-        <FileNode Name="AlteraDataSIG.sql">
+        <FileNode Name="AnáliseTriggers.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>AlteraDataSIG.sql</FullPath>
+          <FullPath>AnáliseTriggers.sql</FullPath>
         </FileNode>
-        <FileNode Name="AlteraFiliaisCIDASC.sql">
+        <FileNode Name="BuscarTodasTriggersDatabase.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>AlteraFiliaisCIDASC.sql</FullPath>
+          <FullPath>BuscarTodasTriggersDatabase.sql</FullPath>
         </FileNode>
-        <FileNode Name="AlteraNF-Entrada.sql">
+        <FileNode Name="CreateDatabase.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>AlteraNF-Entrada.sql</FullPath>
+          <FullPath>CreateDatabase.sql</FullPath>
         </FileNode>
-        <FileNode Name="AlteraNF-OP39.sql">
+        <FileNode Name="DicionárioDeDados.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>AlteraNF-OP39.sql</FullPath>
+          <FullPath>DicionárioDeDados.sql</FullPath>
         </FileNode>
-        <FileNode Name="AlteraSitFinLojas.sql">
+        <FileNode Name="ForeignKeys.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>AlteraSitFinLojas.sql</FullPath>
+          <FullPath>ForeignKeys.sql</FullPath>
         </FileNode>
-        <FileNode Name="AlteraVersãoUsuários.sql">
+        <FileNode Name="ManutençãoForeignKeys.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>AlteraVersãoUsuários.sql</FullPath>
+          <FullPath>ManutençãoForeignKeys.sql</FullPath>
         </FileNode>
-        <FileNode Name="CargaNosCaixas.sql">
+        <FileNode Name="PadrãoControleTransacional.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>CargaNosCaixas.sql</FullPath>
+          <FullPath>PadrãoControleTransacional.sql</FullPath>
         </FileNode>
-        <FileNode Name="CertificadoDigitalFiliais.sql">
+        <FileNode Name="PadrãoTryCatchProcedureComum.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>CertificadoDigitalFiliais.sql</FullPath>
+          <FullPath>PadrãoTryCatchProcedureComum.sql</FullPath>
         </FileNode>
-        <FileNode Name="ContaCXErrada.sql">
+        <FileNode Name="PadrãoTryCatchProcedureControleTransacional.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>ContaCXErrada.sql</FullPath>
+          <FullPath>PadrãoTryCatchProcedureControleTransacional.sql</FullPath>
         </FileNode>
-        <FileNode Name="DeletaCupom.sql">
+        <FileNode Name="PadrãoTryCatchTriggerAuditoria.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>DeletaCupom.sql</FullPath>
+          <FullPath>PadrãoTryCatchTriggerAuditoria.sql</FullPath>
         </FileNode>
-        <FileNode Name="DesabilitaTriggersLog.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:rds.hmg.healthmap.com.br:False:dixhealth_adm</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>rds.hmg.healthmap.com.br</AssociatedConnSrvName>
-          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
-          <FullPath>DesabilitaTriggersLog.sql</FullPath>
-        </FileNode>
-        <FileNode Name="InserePermissaoPrograma.sql">
+        <FileNode Name="PadrãoTryCatchTriggerComum.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>InserePermissaoPrograma.sql</FullPath>
+          <FullPath>PadrãoTryCatchTriggerComum.sql</FullPath>
         </FileNode>
-        <FileNode Name="UpdateEntreBDEmMassa.sql">
+        <FileNode Name="PesquisarObjetosDatabase.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>UpdateEntreBDEmMassa.sql</FullPath>
+          <FullPath>PesquisarObjetosDatabase.sql</FullPath>
+        </FileNode>
+        <FileNode Name="RenameDatabase.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>RenameDatabase.sql</FullPath>
+        </FileNode>
+        <FileNode Name="SequencesReinícioIncrementos.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>SequencesReinícioIncrementos.sql</FullPath>
+        </FileNode>
+        <FileNode Name="TriggersObjectsExecuteSp_settriggerorder.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>TriggersObjectsExecuteSp_settriggerorder.sql</FullPath>
+        </FileNode>
+        <FileNode Name="VerificaTamanhoÍndices.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>VerificaTamanhoÍndices.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>

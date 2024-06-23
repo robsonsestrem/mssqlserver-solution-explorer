@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SECURITY">
+<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="TROUBLESHOOTING-MEMORY">
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
         <ConnectionNode Name="OPTIMUS-PRIME:sa">
-          <Created>2024-06-16T18:12:48.1574644-03:00</Created>
+          <Created>2024-06-18T21:25:02.2465444-03:00</Created>
           <Type>SQL</Type>
           <Server>OPTIMUS-PRIME</Server>
           <UserName>sa</UserName>
@@ -19,35 +19,47 @@
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
-        <FileNode Name="AlteraProprietarioBD.sql">
+        <FileNode Name="AcustomDiagnosticQueryMemory.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
           <AssociatedConnUserName>sa</AssociatedConnUserName>
-          <FullPath>AlteraProprietarioBD.sql</FullPath>
+          <FullPath>AcustomDiagnosticQueryMemory.sql</FullPath>
         </FileNode>
-        <FileNode Name="AuditoriaUsuários.sql">
+        <FileNode Name="MonitoraMemóriaJonathanKehayias.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>MonitoraMemóriaJonathanKehayias.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Top-10AdhocQueriesMemoryConsumptionPerExecution.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>AuditoriaUsuários.sql</FullPath>
+          <FullPath>Top-10AdhocQueriesMemoryConsumptionPerExecution.sql</FullPath>
         </FileNode>
-        <FileNode Name="ControleConexões.sql">
+        <FileNode Name="Top-10AdhocQueriesMemoryConsumptionTotal.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>ControleConexões.sql</FullPath>
+          <FullPath>Top-10AdhocQueriesMemoryConsumptionTotal.sql</FullPath>
         </FileNode>
-        <FileNode Name="ErroLoginEstatística.sql">
+        <FileNode Name="Top-10HighMemoryConsumingQueries.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>ErroLoginEstatística.sql</FullPath>
+          <FullPath>Top-10HighMemoryConsumingQueries.sql</FullPath>
         </FileNode>
-        <FileNode Name="ErroLoginRingBuffer.sql">
+        <FileNode Name="Top-10ProceduresMemoryConsumptionPerExecution.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>ErroLoginRingBuffer.sql</FullPath>
+          <FullPath>Top-10ProceduresMemoryConsumptionPerExecution.sql</FullPath>
+        </FileNode>
+        <FileNode Name="Top-10ProceduresMemoryConsumptionTotal.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>Top-10ProceduresMemoryConsumptionTotal.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>

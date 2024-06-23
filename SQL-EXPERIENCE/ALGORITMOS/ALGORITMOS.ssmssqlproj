@@ -3,6 +3,18 @@
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
+        <ConnectionNode Name="119.8.229.208:dixhealth_adm">
+          <Created>2024-06-20T13:18:17.1963457-03:00</Created>
+          <Type>SQL</Type>
+          <Server>119.8.229.208</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB>P_HEALTHMAP_CAREPLUS_TDE</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
         <ConnectionNode Name="OPTIMUS-PRIME:sa">
           <Created>2024-06-16T18:20:04.6083778-03:00</Created>
           <Type>SQL</Type>
@@ -74,9 +86,9 @@
           <FullPath>ContarDadosPorData.sql</FullPath>
         </FileNode>
         <FileNode Name="DefinirDatetime.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.229.208:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.229.208</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>DefinirDatetime.sql</FullPath>
         </FileNode>
         <FileNode Name="Feliznatal.sql">
