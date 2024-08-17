@@ -3,6 +3,18 @@
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
+        <ConnectionNode Name="119.8.229.208:dixhealth_adm">
+          <Created>2024-08-08T11:47:41.067614-03:00</Created>
+          <Type>SQL</Type>
+          <Server>119.8.229.208</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB />
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
         <ConnectionNode Name="OPTIMUS-PRIME:sa">
           <Created>2022-04-10T15:11:00.4148942-03:00</Created>
           <Type>SQL</Type>
@@ -50,9 +62,9 @@
           <FullPath>HmapFuntionLeadIdentificaReaberturaAvals.sql</FullPath>
         </FileNode>
         <FileNode Name="HmapMonitoraDuplicidadeAgendamentoSelfJoinComRowNumber.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.229.208:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.229.208</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>HmapMonitoraDuplicidadeAgendamentoSelfJoinComRowNumber.sql</FullPath>
         </FileNode>
         <FileNode Name="IdentificaRemoveDadosDuplicados.sql">

@@ -458,9 +458,9 @@
           <FullPath>sp_InsertExcel.sql</FullPath>
         </FileNode>
         <FileNode Name="sp_LoadFragmentationIndexDB6.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>sp_LoadFragmentationIndexDB6.sql</FullPath>
         </FileNode>
         <FileNode Name="sp_LoadFragmentationIndexDefault.sql">

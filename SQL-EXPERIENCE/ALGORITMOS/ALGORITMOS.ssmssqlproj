@@ -68,9 +68,9 @@
           <FullPath>AlgoritmoValidaStringsNúmeros.sql</FullPath>
         </FileNode>
         <FileNode Name="CalendárioMensal.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>CalendárioMensal.sql</FullPath>
         </FileNode>
         <FileNode Name="ColocaPontoNumeraçãoMilhar.sql">
@@ -98,9 +98,9 @@
           <FullPath>Feliznatal.sql</FullPath>
         </FileNode>
         <FileNode Name="IntervaloDeHoras.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>IntervaloDeHoras.sql</FullPath>
         </FileNode>
         <FileNode Name="LastDayMonth.sql">
@@ -110,9 +110,9 @@
           <FullPath>LastDayMonth.sql</FullPath>
         </FileNode>
         <FileNode Name="ListaHorasDoDia.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>ListaHorasDoDia.sql</FullPath>
         </FileNode>
         <FileNode Name="Pinheiro.sql">
@@ -122,15 +122,15 @@
           <FullPath>Pinheiro.sql</FullPath>
         </FileNode>
         <FileNode Name="TotalizaPartesDatas.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>TotalizaPartesDatas.sql</FullPath>
         </FileNode>
         <FileNode Name="TransformaCharDate.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.229.208:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.229.208</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>TransformaCharDate.sql</FullPath>
         </FileNode>
         <FileNode Name="TransformaDiasEmMinutos.sql">

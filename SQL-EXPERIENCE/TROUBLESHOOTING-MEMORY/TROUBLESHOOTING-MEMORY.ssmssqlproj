@@ -44,9 +44,9 @@
           <FullPath>Top-10AdhocQueriesMemoryConsumptionTotal.sql</FullPath>
         </FileNode>
         <FileNode Name="Top-10HighMemoryConsumingQueries.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>Top-10HighMemoryConsumingQueries.sql</FullPath>
         </FileNode>
         <FileNode Name="Top-10ProceduresMemoryConsumptionPerExecution.sql">

@@ -3,6 +3,30 @@
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
+        <ConnectionNode Name="119.8.229.208:dixhealth_adm">
+          <Created>2024-08-01T06:23:17.4575011-03:00</Created>
+          <Type>SQL</Type>
+          <Server>119.8.229.208</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB />
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
+        <ConnectionNode Name="182.160.25.149:dixhealth_adm">
+          <Created>2024-07-09T10:47:58.9298885-03:00</Created>
+          <Type>SQL</Type>
+          <Server>182.160.25.149</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB>MAINTENANCE_DIX</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
         <ConnectionNode Name="OPTIMUS-PRIME:sa">
           <Created>2024-06-22T17:58:46.7044913-03:00</Created>
           <Type>SQL</Type>
@@ -56,9 +80,9 @@
           <FullPath>Análise_WhoIsActiveLowConsumption.sql</FullPath>
         </FileNode>
         <FileNode Name="AnáliseBatchRequest.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>AnáliseBatchRequest.sql</FullPath>
         </FileNode>
         <FileNode Name="AnáliseBloqueios.sql">
@@ -86,9 +110,9 @@
           <FullPath>AnáliseDeadLockFull.sql</FullPath>
         </FileNode>
         <FileNode Name="AnáliseEventosEspera.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>AnáliseEventosEspera.sql</FullPath>
         </FileNode>
         <FileNode Name="AnáliseLentidãoTraceDiário.sql">
@@ -116,9 +140,9 @@
           <FullPath>AuditoriaInLive.sql</FullPath>
         </FileNode>
         <FileNode Name="CadeiaBloqueios.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>CadeiaBloqueios.sql</FullPath>
         </FileNode>
         <FileNode Name="ColetaLockInfo.sql">
@@ -128,9 +152,9 @@
           <FullPath>ColetaLockInfo.sql</FullPath>
         </FileNode>
         <FileNode Name="ColetaScriptBloqueador.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>ColetaScriptBloqueador.sql</FullPath>
         </FileNode>
         <FileNode Name="DMVcoletaLockCursor.sql">
@@ -138,6 +162,18 @@
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
           <FullPath>DMVcoletaLockCursor.sql</FullPath>
+        </FileNode>
+        <FileNode Name="HmapWhoIsActive.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>HmapWhoIsActive.sql</FullPath>
+        </FileNode>
+        <FileNode Name="HmapWhoIsActiveLowConsuption.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>HmapWhoIsActiveLowConsuption.sql</FullPath>
         </FileNode>
         <FileNode Name="KillConexõesFantasma.sql">
           <AssociatedConnectionMoniker />
@@ -158,15 +194,15 @@
           <FullPath>KillSessõesBloqueadas.sql</FullPath>
         </FileNode>
         <FileNode Name="KillSessõesBloqueadasUsandoCursores.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>KillSessõesBloqueadasUsandoCursores.sql</FullPath>
         </FileNode>
         <FileNode Name="MonitoraBloqueios.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:182.160.25.149:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>182.160.25.149</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>MonitoraBloqueios.sql</FullPath>
         </FileNode>
         <FileNode Name="MonitoraFullScan.sql">
@@ -188,21 +224,21 @@
           <FullPath>MonitoraRequests.sql</FullPath>
         </FileNode>
         <FileNode Name="MonitoraRequestsPaulRandal.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>MonitoraRequestsPaulRandal.sql</FullPath>
         </FileNode>
         <FileNode Name="MonitoraSessõesDornel.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>MonitoraSessõesDornel.sql</FullPath>
         </FileNode>
         <FileNode Name="MonitoraTransaçõesAbertas.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>MonitoraTransaçõesAbertas.sql</FullPath>
         </FileNode>
         <FileNode Name="PercentCompleteEstimarQuandoProcessosSqlDeLongaDuraçãoTerminarão.sql">
@@ -212,15 +248,15 @@
           <FullPath>PercentCompleteEstimarQuandoProcessosSqlDeLongaDuraçãoTerminarão.sql</FullPath>
         </FileNode>
         <FileNode Name="QuerySQLhandle.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>QuerySQLhandle.sql</FullPath>
         </FileNode>
         <FileNode Name="SessõesAbertasDornel.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>SessõesAbertasDornel.sql</FullPath>
         </FileNode>
         <FileNode Name="Shutdown.sql">
@@ -258,18 +294,6 @@
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
           <FullPath>TeclógicaEventosDeCrescimentoDoArquivoLdf.sql</FullPath>
-        </FileNode>
-        <FileNode Name="WhoIsActiveHmap.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>WhoIsActiveHmap.sql</FullPath>
-        </FileNode>
-        <FileNode Name="WhoIsActiveLowConsuptionHmap.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
-          <FullPath>WhoIsActiveLowConsuptionHmap.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>
