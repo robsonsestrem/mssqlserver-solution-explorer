@@ -3,6 +3,20 @@
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
+        <ConnectionNode Name="110.238.65.144:dixhealth_adm">
+          <Created>2024-10-07T09:56:17.5563186-03:00</Created>
+          <Type>SQL</Type>
+          <Server>110.238.65.144</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB>MAINTENANCE_DIX</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
         <ConnectionNode Name="119.8.229.208:dixhealth_adm">
           <Created>2024-06-20T13:18:17.1963457-03:00</Created>
           <Type>SQL</Type>
@@ -11,6 +25,8 @@
           <Authentication>SQL</Authentication>
           <InitialDB>P_HEALTHMAP_CAREPLUS_TDE</InitialDB>
           <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
@@ -23,6 +39,8 @@
           <Authentication>SQL</Authentication>
           <InitialDB>Eletronicos</InitialDB>
           <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
@@ -38,9 +56,9 @@
           <FullPath>AlgoritmoIntervaloDiasUteis.sql</FullPath>
         </FileNode>
         <FileNode Name="AlgoritmoPartesString.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:110.238.65.144:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>110.238.65.144</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>AlgoritmoPartesString.sql</FullPath>
         </FileNode>
         <FileNode Name="AlgoritmoTrataCoordenadas.sql">
@@ -116,9 +134,9 @@
           <FullPath>ListaHorasDoDia.sql</FullPath>
         </FileNode>
         <FileNode Name="Pinheiro.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.229.208:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.229.208</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>Pinheiro.sql</FullPath>
         </FileNode>
         <FileNode Name="TotalizaPartesDatas.sql">

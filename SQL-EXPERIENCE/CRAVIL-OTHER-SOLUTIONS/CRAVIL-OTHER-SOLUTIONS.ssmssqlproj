@@ -15,6 +15,18 @@
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
         </ConnectionNode>
+        <ConnectionNode Name="159.138.118.3:dixhealth_adm">
+          <Created>2024-09-12T17:39:13.1505255-03:00</Created>
+          <Type>SQL</Type>
+          <Server>159.138.118.3</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB>MAINTENANCE_DIX</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
         <ConnectionNode Name="OPTIMUS-PRIME:sa">
           <Created>2024-06-16T17:36:57.6425388-03:00</Created>
           <Type>SQL</Type>
@@ -116,9 +128,9 @@
           <FullPath>CriarHistóricoLoginError.sql</FullPath>
         </FileNode>
         <FileNode Name="CriarHistóricoTamanhoTabelas.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:159.138.118.3:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>159.138.118.3</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>CriarHistóricoTamanhoTabelas.sql</FullPath>
         </FileNode>
         <FileNode Name="CriarKillBlockedProcesses.sql">

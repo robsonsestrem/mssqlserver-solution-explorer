@@ -3,6 +3,21 @@
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
+        <ConnectionNode Name="101.44.193.238:sa">
+          <Created>2024-12-13T17:47:01.5906055-03:00</Created>
+          <Type>SQL</Type>
+          <Server>101.44.193.238</Server>
+          <UserName>sa</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB />
+          <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <HostNameInServerCertificate />
+          <EncryptionOption>False</EncryptionOption>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
         <ConnectionNode Name="119.8.144.232:dixhealth_adm">
           <Created>2024-06-18T14:44:41.5841252-03:00</Created>
           <Type>SQL</Type>
@@ -11,6 +26,8 @@
           <Authentication>SQL</Authentication>
           <InitialDB />
           <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
@@ -23,6 +40,8 @@
           <Authentication>SQL</Authentication>
           <InitialDB />
           <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
@@ -35,6 +54,8 @@
           <Authentication>SQL</Authentication>
           <InitialDB>Eletronicos</InitialDB>
           <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
@@ -47,6 +68,8 @@
           <Authentication>SQL</Authentication>
           <InitialDB>H_HEALTHMAP_APP01</InitialDB>
           <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
@@ -416,15 +439,15 @@
           <FullPath>sp_ErrorLogin.sql</FullPath>
         </FileNode>
         <FileNode Name="sp_Escreve_Arquivo_FSO.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.144.232:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.144.232</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>sp_Escreve_Arquivo_FSO.sql</FullPath>
         </FileNode>
         <FileNode Name="sp_ExportTableHTMLOutput.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.144.232:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.144.232</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>sp_ExportTableHTMLOutput.sql</FullPath>
         </FileNode>
         <FileNode Name="sp_HistoryCMV.sql">
@@ -650,9 +673,9 @@
           <FullPath>sp_VisionDependencies.sql</FullPath>
         </FileNode>
         <FileNode Name="sp_WhoIsActive.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:101.44.193.238:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>101.44.193.238</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>sp_WhoIsActive.sql</FullPath>
         </FileNode>
         <FileNode Name="StatisticsDesnecessárias.sql">

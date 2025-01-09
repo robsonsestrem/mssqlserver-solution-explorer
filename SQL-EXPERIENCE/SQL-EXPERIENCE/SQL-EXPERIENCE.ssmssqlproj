@@ -3,6 +3,21 @@
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
+        <ConnectionNode Name="101.44.193.238:sa">
+          <Created>2024-12-17T09:27:43.671165-03:00</Created>
+          <Type>SQL</Type>
+          <Server>101.44.193.238</Server>
+          <UserName>sa</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB />
+          <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <HostNameInServerCertificate />
+          <EncryptionOption>False</EncryptionOption>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
         <ConnectionNode Name="119.8.229.208:dixhealth_adm">
           <Created>2024-08-08T11:47:41.067614-03:00</Created>
           <Type>SQL</Type>
@@ -11,6 +26,8 @@
           <Authentication>SQL</Authentication>
           <InitialDB />
           <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
@@ -23,6 +40,8 @@
           <Authentication>SQL</Authentication>
           <InitialDB>Eletronicos</InitialDB>
           <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
@@ -56,9 +75,9 @@
           <FullPath>CteRecursiva.sql</FullPath>
         </FileNode>
         <FileNode Name="HmapFuntionLeadIdentificaReaberturaAvals.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:101.44.193.238:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>101.44.193.238</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>HmapFuntionLeadIdentificaReaberturaAvals.sql</FullPath>
         </FileNode>
         <FileNode Name="HmapMonitoraDuplicidadeAgendamentoSelfJoinComRowNumber.sql">
@@ -102,6 +121,12 @@
           <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
           <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>RankOPGesCooper.sql</FullPath>
+        </FileNode>
+        <FileNode Name="SQLQuery1.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>SQLQuery1.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>

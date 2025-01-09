@@ -98,8 +98,6 @@ AND (A.[status] != 'sleeping' OR (A.[status] = 'sleeping' AND A.open_transaction
 
 
 
-
-
 --
 --ALTER TABLE PSSOA
 --ENABLE -- DISABLE | ENABLE
@@ -112,7 +110,5 @@ AND (A.[status] != 'sleeping' OR (A.[status] = 'sleeping' AND A.open_transaction
 --alter table ACSPA
 --ENABLE -- disable 
 --trigger [TG_AUDIT_ACSPA] 
-
-
 
 

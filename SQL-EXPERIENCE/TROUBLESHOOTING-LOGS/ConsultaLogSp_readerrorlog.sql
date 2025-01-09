@@ -10,15 +10,17 @@ EXEC sys.sp_readerrorlog @p1 = 0    -- É o valor inteiro (int) do log que você
                         ,@p4 = N''; -- segunda string para refinar a busca
 
 SELECT
-    *
+    l.data
+   ,l.ProcessInfo
+   ,l.Text
 FROM @logs AS l
-WHERE l.data >= '20240810 08:00:00.000' AND l.data <= '20240810 19:00:00.000'
+WHERE l.data >= '20250106 07:00:00.000' AND l.data <= '20250106 08:25:00.000'
 --AND l.data <= '20240507 23:59:59.997'
---AND l.[Text] NOT LIKE '%Login failed%' AND l.[Text] NOT LIKE '%Error: 18456, Severity: 14, State: 8.%' -- Login failed; Error: 18456, Severity: 14, State: 8.; Process ID 823 was killed by hostname HMNOT005, host process ID 15956;
+AND l.[Text] NOT LIKE '%Login failed%' AND l.[Text] NOT LIKE '%Error: 18456, Severity: 14, State: 8.%' -- Login failed; Error: 18456, Severity: 14, State: 8.; Process ID 823 was killed by hostname HMNOT005, host process ID 15956;
 --AND l.Text LIKE '%was killed%'
 --AND l.Text NOT LIKE '%Error: 18456%'
 -- 
-AND l.Text LIKE '%error%' -- Operating system error 31
+--AND l.Text LIKE '%was killed%' -- Operating system error 31
 ORDER BY l.data DESC
 
 
