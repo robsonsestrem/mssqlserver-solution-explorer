@@ -6,6 +6,7 @@ RIGHT('00' + CAST(DATEDIFF(SECOND, COALESCE(B.start_time, A.login_time), GETDATE
 RIGHT('000' + CAST(DATEDIFF(SECOND, COALESCE(B.start_time, A.login_time), GETDATE()) AS VARCHAR), 3) 
 AS Duration,
 A.session_id AS session_id,
+
 B.command,
 TRY_CAST('<?query --' + CHAR(10) + (
 SELECT TOP 1 SUBSTRING(X.[text], B.statement_start_offset / 2 + 1, ((CASE
@@ -16,7 +17,9 @@ END
 ) / 2 + 1
 )
 ) + CHAR(10) + '--?>' AS XML) AS sql_text,
+
 TRY_CAST('<?query --' + CHAR(10) + X.[text] + CHAR(10) + '--?>' AS XML) AS sql_command,
+
 A.login_name,
 '(' + CAST(COALESCE(E.wait_duration_ms, B.wait_time) AS VARCHAR(20)) + 'ms)' + COALESCE(E.wait_type, B.wait_type) + COALESCE((CASE 
 WHEN COALESCE(E.wait_type, B.wait_type) LIKE 'PAGEIOLATCH%' THEN ':' + DB_NAME(LEFT(E.resource_description, CHARINDEX(':', E.resource_description) - 1)) + ':' + SUBSTRING(E.resource_description, CHARINDEX(':', E.resource_description) + 1, 999)
@@ -55,6 +58,7 @@ A.[program_name],
 COALESCE(B.start_time, A.last_request_end_time) AS start_time,
 A.login_time,
 COALESCE(B.request_id, 0) AS request_id
+
 FROM
 sys.dm_exec_sessions AS A WITH (NOLOCK)
 LEFT JOIN sys.dm_exec_requests AS B WITH (NOLOCK) ON A.session_id = B.session_id
@@ -92,6 +96,8 @@ AND (A.[status] != 'sleeping' OR (A.[status] = 'sleeping' AND A.open_transaction
 
 
 
+
+
 --
 --ALTER TABLE PSSOA
 --ENABLE -- DISABLE | ENABLE
@@ -104,7 +110,5 @@ AND (A.[status] != 'sleeping' OR (A.[status] = 'sleeping' AND A.open_transaction
 --alter table ACSPA
 --ENABLE -- disable 
 --trigger [TG_AUDIT_ACSPA] 
-
-
 
 

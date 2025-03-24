@@ -73,6 +73,12 @@
           <AssociatedConnUserName />
           <FullPath>HistoricQuerySlow.sql</FullPath>
         </FileNode>
+        <FileNode Name="IdentificarColunasCustomizaveis.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <FullPath>IdentificarColunasCustomizaveis.sql</FullPath>
+        </FileNode>
         <FileNode Name="LongRunningQuery.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>

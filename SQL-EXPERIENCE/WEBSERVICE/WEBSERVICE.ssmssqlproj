@@ -3,6 +3,18 @@
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
+        <ConnectionNode Name="119.8.144.232:dixhealth_adm">
+          <Created>2024-07-05T15:01:45.0316233-03:00</Created>
+          <Type>SQL</Type>
+          <Server>119.8.144.232</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB>MAINTENANCE_DIX</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
         <ConnectionNode Name="OPTIMUS-PRIME:sa">
           <Created>2024-06-16T18:03:25.0835759-03:00</Created>
           <Type>SQL</Type>
@@ -56,9 +68,9 @@
           <FullPath>spSearchInformationsCepOleJson.sql</FullPath>
         </FileNode>
         <FileNode Name="WebServicesTests.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.144.232:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.144.232</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>WebServicesTests.sql</FullPath>
         </FileNode>
       </Items>

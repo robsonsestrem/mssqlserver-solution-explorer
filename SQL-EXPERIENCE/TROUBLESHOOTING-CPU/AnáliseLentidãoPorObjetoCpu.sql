@@ -53,6 +53,55 @@ group by DB_NAME(st.dbid),OBJECT_SCHEMA_NAME(objectid,st.dbid), OBJECT_NAME(obje
 --order by 4 desc	-- 4 - VERIFICA MAIOR CONSUMO DE CPU
 
 
+/*** SEM TRATAMENTOS DE NÚMEROS ***/
+USE master
+GO
+SELECT DB_NAME(st.dbid)																																				AS DBName
+
+      , OBJECT_SCHEMA_NAME(objectid,st.dbid)																														AS SchemaName
+
+	  , st.objectid																																					AS [Object_Id]
+
+      , OBJECT_NAME(objectid,st.dbid)																																AS [Object_Name]	
+
+	  ,  sum(qs.total_worker_time)																		AS Total_worker_time
+
+	  ,  sum(qs.total_worker_time) / sum(qs.execution_count)														AS Avg_worker_time
+
+      ,  max(cp.usecounts)																				AS UseCounts
+
+      ,  sum(qs.total_physical_reads + qs.total_logical_reads + qs.total_logical_writes)					AS Total_IO
+
+      ,  sum(qs.total_physical_reads + qs.total_logical_reads + qs.total_logical_writes) / (max(cp.usecounts))	AS Avg_total_IO
+
+      ,  sum(qs.total_physical_reads)																	AS Total_physical_reads
+
+      ,  sum(qs.total_physical_reads) / (max(cp.usecounts) * 1.0) 											    AS Avg_physical_read   
+
+      ,  sum(qs.total_logical_reads)																		AS Total_logical_reads
+
+      , sum(qs.total_logical_reads) / (max(cp.usecounts) * 1.0)												AS Avg_logical_read 
+
+      ,  sum(qs.total_logical_writes)																	AS Total_logical_writes
+
+      ,  sum(qs.total_logical_writes) / (max(cp.usecounts) * 1.0)												AS Avg_logical_writes 
+
+	  ,  sum(qs.total_elapsed_time)																		AS Total_elapsed_time
+
+      ,  sum(qs.total_elapsed_time) / max(cp.usecounts)														AS Avg_elapsed_time	  
+FROM sys.dm_exec_query_stats qs CROSS APPLY sys.dm_exec_sql_text(qs.plan_handle) st
+	 join sys.dm_exec_cached_plans cp on qs.plan_handle = cp.plan_handle
+where DB_NAME(st.dbid) is not null 
+AND DB_NAME(st.dbid) in ('GesCooper90')--, 'IntegraTICravil', 'TICRAVIL', 'Guru5', 'Guru6', 'rhcravil', 'CooperSystem')
+group by DB_NAME(st.dbid),OBJECT_SCHEMA_NAME(objectid,st.dbid), OBJECT_NAME(objectid,st.dbid), st.objectid
+
+--order by 8 desc		-- 8 - VERIFICA MAIOR CONSUMO DE I/O
+
+--OU
+
+--order by 4 desc	-- 4 - VERIFICA MAIOR CONSUMO DE CPU
+
+
 /*********************************************** TOP TEMPO DE CPU ACUMULADO ***************************************************************************************/
 -- O exemplo a seguir retorna informações sobre as cinco principais consultas classificadas pelo tempo médio de CPU. Este exemplo agrega as consultas de acordo com 
 -- seu hash de consulta para que as consultas logicamente equivalentes sejam agrupadas pelo consumo cumulativo de recursos.

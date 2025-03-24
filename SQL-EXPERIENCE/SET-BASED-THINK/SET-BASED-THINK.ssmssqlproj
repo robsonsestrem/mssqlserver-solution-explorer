@@ -3,6 +3,21 @@
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
+        <ConnectionNode Name="119.8.229.208:dixhealth_adm">
+          <Created>2024-11-26T14:27:24.3262256-03:00</Created>
+          <Type>SQL</Type>
+          <Server>119.8.229.208</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB />
+          <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <HostNameInServerCertificate />
+          <EncryptionOption>False</EncryptionOption>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
         <ConnectionNode Name="OPTIMUS-PRIME:sa">
           <Created>2024-06-16T18:21:52.6947292-03:00</Created>
           <Type>SQL</Type>
@@ -11,6 +26,8 @@
           <Authentication>SQL</Authentication>
           <InitialDB>Eletronicos</InitialDB>
           <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
@@ -62,15 +79,15 @@
           <FullPath>TableInsteadOfCursor.sql</FullPath>
         </FileNode>
         <FileNode Name="UpdateComSelect.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.229.208:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.229.208</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>UpdateComSelect.sql</FullPath>
         </FileNode>
         <FileNode Name="UpdateFromEmMassa.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.229.208:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.229.208</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>UpdateFromEmMassa.sql</FullPath>
         </FileNode>
         <FileNode Name="UpdateFromJoin.sql">
@@ -80,9 +97,9 @@
           <FullPath>UpdateFromJoin.sql</FullPath>
         </FileNode>
         <FileNode Name="UpdateFromSubquery.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.229.208:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.229.208</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>UpdateFromSubquery.sql</FullPath>
         </FileNode>
       </Items>

@@ -3,6 +3,34 @@
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
+        <ConnectionNode Name="119.8.229.208:dixhealth_adm">
+          <Created>2024-09-02T08:31:25.2643309-03:00</Created>
+          <Type>SQL</Type>
+          <Server>119.8.229.208</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB>P_HEALTHMAP_CAREPLUS_TDE</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
+        <ConnectionNode Name="159.138.118.3:dixhealth_adm">
+          <Created>2024-09-12T17:40:58.3457242-03:00</Created>
+          <Type>SQL</Type>
+          <Server>159.138.118.3</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB>MAINTENANCE_DIX</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
         <ConnectionNode Name="OPTIMUS-PRIME:sa">
           <Created>2024-06-22T17:55:19.8818356-03:00</Created>
           <Type>SQL</Type>
@@ -11,6 +39,23 @@
           <Authentication>SQL</Authentication>
           <InitialDB>Eletronicos</InitialDB>
           <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
+        <ConnectionNode Name="rds.hmg.healthmap.com.br:dixhealth_adm">
+          <Created>2024-11-26T12:04:02.7318441-03:00</Created>
+          <Type>SQL</Type>
+          <Server>rds.hmg.healthmap.com.br</Server>
+          <UserName>dixhealth_adm</UserName>
+          <Authentication>SQL</Authentication>
+          <InitialDB>D_HEALTHMAP_ADMHEALTHMAP</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>False</TrustServerCertificate>
+          <HostNameInServerCertificate />
+          <EncryptionOption>False</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
@@ -74,33 +119,45 @@
           <FullPath>DicionárioDeDados.sql</FullPath>
         </FileNode>
         <FileNode Name="ForeignKeys.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>ForeignKeys.sql</FullPath>
         </FileNode>
         <FileNode Name="ManutençãoForeignKeys.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:159.138.118.3:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>159.138.118.3</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>ManutençãoForeignKeys.sql</FullPath>
         </FileNode>
         <FileNode Name="PadrãoControleTransacional.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>PadrãoControleTransacional.sql</FullPath>
         </FileNode>
+        <FileNode Name="PadrãoThrowProcedure.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:rds.hmg.healthmap.com.br:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>rds.hmg.healthmap.com.br</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
+          <FullPath>PadrãoThrowProcedure.sql</FullPath>
+        </FileNode>
+        <FileNode Name="PadrãoThrowTrigger.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.229.208:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.229.208</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
+          <FullPath>PadrãoThrowTrigger.sql</FullPath>
+        </FileNode>
         <FileNode Name="PadrãoTryCatchProcedureComum.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>PadrãoTryCatchProcedureComum.sql</FullPath>
         </FileNode>
         <FileNode Name="PadrãoTryCatchProcedureControleTransacional.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>PadrãoTryCatchProcedureControleTransacional.sql</FullPath>
         </FileNode>
         <FileNode Name="PadrãoTryCatchTriggerAuditoria.sql">
@@ -110,15 +167,15 @@
           <FullPath>PadrãoTryCatchTriggerAuditoria.sql</FullPath>
         </FileNode>
         <FileNode Name="PadrãoTryCatchTriggerComum.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>PadrãoTryCatchTriggerComum.sql</FullPath>
         </FileNode>
         <FileNode Name="PesquisarObjetosDatabase.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>PesquisarObjetosDatabase.sql</FullPath>
         </FileNode>
         <FileNode Name="RenameDatabase.sql">
@@ -134,9 +191,9 @@
           <FullPath>SequencesReinícioIncrementos.sql</FullPath>
         </FileNode>
         <FileNode Name="TriggersObjectsExecuteSp_settriggerorder.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.229.208:False:dixhealth_adm</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>119.8.229.208</AssociatedConnSrvName>
+          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
           <FullPath>TriggersObjectsExecuteSp_settriggerorder.sql</FullPath>
         </FileNode>
         <FileNode Name="VerificaTamanhoÍndices.sql">
