@@ -12,6 +12,7 @@
 *.cachefile
 *.dbmdl
 *.dbproj.schemaview
+*.design
 *.dotCover
 *.gpState
 *.ilk
