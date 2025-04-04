@@ -14,9 +14,9 @@ SELECT
    ,l.ProcessInfo
    ,l.Text
 FROM @logs AS l
-WHERE l.data >= '20250106 07:00:00.000' AND l.data <= '20250106 08:25:00.000'
+WHERE l.data >= '20250401 06:00:00.000' AND l.data <= '20250401 10:00:00.000'
 --AND l.data <= '20240507 23:59:59.997'
-AND l.[Text] NOT LIKE '%Login failed%' AND l.[Text] NOT LIKE '%Error: 18456, Severity: 14, State: 8.%' -- Login failed; Error: 18456, Severity: 14, State: 8.; Process ID 823 was killed by hostname HMNOT005, host process ID 15956;
+--AND l.[Text] NOT LIKE '%Login failed%' AND l.[Text] NOT LIKE '%Error: 18456, Severity: 14, State: 8.%' -- Login failed; Error: 18456, Severity: 14, State: 8.; Process ID 823 was killed by hostname HMNOT005, host process ID 15956;
 --AND l.Text LIKE '%was killed%'
 --AND l.Text NOT LIKE '%Error: 18456%'
 -- 
