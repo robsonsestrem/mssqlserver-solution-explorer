@@ -1,6 +1,6 @@
 ﻿EXECUTE sp_WhoIsActive 
   @show_own_spid = 0				   
-, @show_system_spids = 0			
+, @show_system_spids = 0		
 , @show_sleeping_spids = 1	 		 
 , @get_outer_command = 1
 --, @filter = 'P_HEALTHMAP_CAREPLUS'
@@ -17,5 +17,6 @@
 -- KILL 399 WITH STATUSONLY 
 
 
- 
+
+
 

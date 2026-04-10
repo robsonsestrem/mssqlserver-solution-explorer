@@ -94,21 +94,3 @@ AND (A.[status] != 'sleeping' OR (A.[status] = 'sleeping' AND A.open_transaction
 
 
 
-
-
-
-
---
---ALTER TABLE PSSOA
---ENABLE -- DISABLE | ENABLE
---TRIGGER [TG_AUDIT_PSSOA] 
---
---alter table PLAAC
---ENABLE -- disable 
---trigger [TG_AUDIT_PLAAC] 
---
---alter table ACSPA
---ENABLE -- disable 
---trigger [TG_AUDIT_ACSPA] 
-
-
