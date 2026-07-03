@@ -1,75 +1,95 @@
---use GesCooper90
---go
---select filcod, FilNfeDatHorManDes from FILIAIS
---where FilCod = 1 
---filflag2 = 0
---and FilCod <> 90
-
--- ciclo de teste
--- @sexta02 para @quinta02
--- @sexta02 para @quarta
--- @sexta02 para @segunda
-
--- @segunda para @sexta01
--- @segunda para @quinta01
--- @segunda para @quarta01
---select DATEPART(WEEKDAY,GETDATE()), DATEPART(WEEKDAY,DATEADD(DAY,-1,GETDATE()))
-
--- CRIT�RIO DA DIFEREN�A DE 1 DIA SOMENTE DE SEGUNDA � SEXTA
-declare 
-		@quarta01 datetime = '20170607'
-	   ,@quinta01 datetime = '20170608'
-	   ,@sexta01 datetime = '20170609'
-		   ,@sabado datetime = '20170610'
-		   ,@domingo datetime = '20170611'
-	   ,@segunda datetime = '20170612'
-	   ,@terca datetime = '20170613'
-	   ,@quarta datetime = '20170614'
-	   ,@quinta02 datetime = '20170615'
-	   ,@sexta02 datetime = '20170616'	 
-	     	   
-
-	  -- if(DATEDIFF(DAY,@quinta01, @sexta02) <= 3 and datepart(WEEKDAY,@quinta01) = 6)
-		 --  begin
-			--print 'funcionando'
-		 --  end
-	   
-	  -- if(DATEDIFF(DAY,@quinta01, @sexta02) < 2 and datepart(WEEKDAY,@quinta01) <> 6)
-		 --  begin
-			--print 'funcionando'
-		 --  end
-
-	  -- if(DATEDIFF(DAY,@quinta01, @sexta02) >= 2 and datepart(WEEKDAY,@quinta01) <> 6)
-		 --  begin
-			--print 'falha'
-		 --  end
-	  
-	  -- if(DATEDIFF(DAY,@quinta01, @sexta02) > 3 and datepart(WEEKDAY,@quinta01) = 6)
-		 -- begin
-			--print 'falha'
-		 -- end
-
-/*
-SIMPLIFICANDO UM POUCO - SE FALHOU NUM DIA, NO OUTRO DIA VAI SER ALERTADO
+﻿/*
+================================================================================
+OBJETIVO : Algoritmo de validação de intervalo de dias úteis entre datas,
+           detectando falha quando o ciclo de comunicação ultrapassa o limite
+           tolerado de dias corridos de segunda a sexta-feira.
+PROJETO  : mssqlserver-solution-explorer
+================================================================================
 */
 
- if(	(DATEDIFF(DAY,@quinta02, @sexta02) <= 3 and datepart(WEEKDAY,@quinta02) = 6) OR (DATEDIFF(DAY,@quinta02, @sexta02) < 2 and datepart(WEEKDAY,@quinta02) <> 6)	)
-		   begin
-			print 'funcionando'
-		   end
-	   	 
- if(	(DATEDIFF(DAY,@quinta02, @sexta02) >= 2 and datepart(WEEKDAY,@quinta02) <> 6) OR (DATEDIFF(DAY,@quinta02, @sexta02) > 3 and datepart(WEEKDAY,@quinta02) = 6)	)
-		   begin
-			print 'falha'
-		   end
-	  
-	   
+-- =============================================================================
+-- CONTEXTO DE BANCO (desativado para execução isolada)
+-- =============================================================================
+-- USE GesCooper90;
+-- GO
+-- SELECT filcod, FilNfeDatHorManDes
+-- FROM FILIAIS
+-- WHERE FilCod = 1
+--   AND FilCod <> 90;
+-- -- filflag2 = 0
 
+-- =============================================================================
+-- CICLO DE TESTE (combinações de datas cobertas pelo algoritmo)
+-- @sexta02  -> @quinta02
+-- @sexta02  -> @quarta
+-- @sexta02  -> @segunda
+-- @segunda  -> @sexta01
+-- @segunda  -> @quinta01
+-- @segunda  -> @quarta01
+-- =============================================================================
+-- SELECT DATEPART(WEEKDAY, GETDATE()), DATEPART(WEEKDAY, DATEADD(DAY, -1, GETDATE()));
 
-		
+-- =============================================================================
+-- CRITERIO: DIFERENCA DE 1 DIA UTIL SOMENTE DE SEGUNDA A SEXTA
+-- =============================================================================
 
+-- Declaracao das variaveis de data representando os cenarios do ciclo de teste
+DECLARE
+	 @quarta01 DATETIME = '20170607'
+	,@quinta01 DATETIME = '20170608'
+	,@sexta01  DATETIME = '20170609'
+	,@sabado   DATETIME = '20170610'
+	,@domingo  DATETIME = '20170611'
+	,@segunda  DATETIME = '20170612'
+	,@terca    DATETIME = '20170613'
+	,@quarta   DATETIME = '20170614'
+	,@quinta02 DATETIME = '20170615'
+	,@sexta02  DATETIME = '20170616';
 
+-- =============================================================================
+-- TESTES INDIVIDUAIS (desativados -- consolidados na logica simplificada abaixo)
+-- =============================================================================
+-- IF (DATEDIFF(DAY, @quinta01, @sexta02) <= 3 AND DATEPART(WEEKDAY, @quinta01) = 6)
+-- BEGIN
+--     PRINT 'funcionando';
+-- END;
 
+-- IF (DATEDIFF(DAY, @quinta01, @sexta02) < 2 AND DATEPART(WEEKDAY, @quinta01) <> 6)
+-- BEGIN
+--     PRINT 'funcionando';
+-- END;
 
+-- IF (DATEDIFF(DAY, @quinta01, @sexta02) >= 2 AND DATEPART(WEEKDAY, @quinta01) <> 6)
+-- BEGIN
+--     PRINT 'falha';
+-- END;
 
+-- IF (DATEDIFF(DAY, @quinta01, @sexta02) > 3 AND DATEPART(WEEKDAY, @quinta01) = 6)
+-- BEGIN
+--     PRINT 'falha';
+-- END;
 
+-- =============================================================================
+-- LOGICA SIMPLIFICADA: SE FALHOU NUM DIA, NO OUTRO DIA VAI SER ALERTADO
+-- =============================================================================
+
+-- Verifica se o intervalo esta dentro do tolerado (status: funcionando)
+-- Regra: sexta-feira tolera ate 3 dias de diferenca (cobre o fim de semana)
+--        demais dias uteis aceitam somente 1 dia de diferenca
+IF (
+	(DATEDIFF(DAY, @quinta02, @sexta02) <= 3 AND DATEPART(WEEKDAY, @quinta02) = 6)
+	OR (DATEDIFF(DAY, @quinta02, @sexta02) < 2 AND DATEPART(WEEKDAY, @quinta02) <> 6)
+)
+BEGIN
+	PRINT 'funcionando';
+END;
+
+-- Verifica se o intervalo esta fora do tolerado (status: falha)
+-- Regra: sexta-feira com mais de 3 dias ou demais dias com 2+ dias de diferenca
+IF (
+	(DATEDIFF(DAY, @quinta02, @sexta02) >= 2 AND DATEPART(WEEKDAY, @quinta02) <> 6)
+	OR (DATEDIFF(DAY, @quinta02, @sexta02) > 3 AND DATEPART(WEEKDAY, @quinta02) = 6)
+)
+BEGIN
+	PRINT 'falha';
+END;
