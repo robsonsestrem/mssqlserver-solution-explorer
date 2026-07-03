@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------------------------------------------
 -- Análise de sessão realizada por Dornel
 -------------------------------------------------------------------------------------------------------------------
-    DECLARE @databaseId int = 25 --(SELECT database_id FROM sys.databases WHERE name = @database)
+   -- DECLARE @databaseId int = DB_ID(); --(SELECT database_id FROM sys.databases WHERE name = @database)
 
 	-- Executing Requests
     SELECT r1.session_id                                            AS SessionId,	
@@ -9,7 +9,7 @@
 		s1.host_name                                                    AS HostName, 
 		s1.program_name                                                 AS ProgramName, 
 		r1.command                                                      AS Command, 
-		OBJECT_NAME(object_id1, @databaseId)                            AS [Background task on...],
+		--OBJECT_NAME(object_id1, @databaseId)                            AS [Background task on...],
 		CASE 
 		  WHEN r1.transaction_isolation_level = 0 THEN 'Unspecified' 
 		  WHEN r1.transaction_isolation_level = 1 THEN 'ReadUncomitted'
@@ -61,7 +61,7 @@
 	LEFT OUTER JOIN sys.dm_exec_background_job_queue jq on jq.session_id = r1.session_id
 	--WHERE r1.sql_handle IS NOT NULL
 	WHERE 1 = 1 
-	AND r1.database_id = @databaseId
+	--AND r1.database_id = @databaseId
 	AND r1.command != 'DB MIRROR'
 	AND r1.command != 'WAITFOR'
 	--and s1.program_name like 'QComm%'
@@ -73,9 +73,10 @@
 
 	
 	-- Open transactions
-	SELECT tr.session_id AS SessionId,tr.elapsed_time_seconds AS [TotalElapsedTime (s)],sess.host_name,sess.program_name,sq.text
-	FROM sys.dm_tran_active_snapshot_database_transactions tr
-	inner join sys.dm_exec_sessions sess on sess.session_id = tr.session_id
-	inner join sys.sysprocesses pr on pr.spid = tr.session_id
-	cross apply sys.dm_exec_sql_text(pr.sql_handle) sq
-	ORDER BY elapsed_time_seconds DESC;
+--	SELECT tr.session_id AS SessionId,tr.elapsed_time_seconds AS [TotalElapsedTime (s)],sess.host_name,sess.program_name,sq.text
+--	FROM sys.dm_tran_active_snapshot_database_transactions tr
+--	inner join sys.dm_exec_sessions sess on sess.session_id = tr.session_id
+--	inner join sys.sysprocesses pr on pr.spid = tr.session_id
+--	cross apply sys.dm_exec_sql_text(pr.sql_handle) sq
+--	ORDER BY elapsed_time_seconds DESC;
+

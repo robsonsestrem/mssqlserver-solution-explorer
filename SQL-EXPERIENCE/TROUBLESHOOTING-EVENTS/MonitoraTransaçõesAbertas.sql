@@ -1,4 +1,5 @@
---Referências: https://www.dirceuresende.com/blog/como-identificar-sessoes-inativas-com-transacoes-abertas-no-sql-server/
+---------------------------------------------------------------------------------------------------------------------------------------
+-- Referências: https://www.dirceuresende.com/blog/como-identificar-sessoes-inativas-com-transacoes-abertas-no-sql-server/
 ---------------------------------------------------------------------------------------------------------------------------------------
 --  A query abaixo mostra as transações (requisição) que estão abertas:
 ---------------------------------------------------------------------------------------------------------------------------------------
@@ -34,31 +35,30 @@ FROM
 ---------------------------------------------------------------------------------------------------------------------------------------
 -- Todas as sessões(login) que possuem transações abertas
 ---------------------------------------------------------------------------------------------------------------------------------------
+SELECT 
+    A.session_id,
+    A.login_time,
+    A.host_name,
+    A.program_name,
+    A.login_name,
+    A.status,
+    A.cpu_time,
+    A.memory_usage,
+    A.last_request_start_time,
+    A.last_request_end_time,
+    A.transaction_isolation_level,
+    A.lock_timeout,
+    A.deadlock_priority,
+    A.row_count,
+    C.text
+FROM 
+    sys.dm_exec_sessions			A	WITH(NOLOCK)
+    JOIN sys.dm_exec_connections		B	WITH(NOLOCK)	ON	A.session_id = B.session_id
+    CROSS APPLY sys.dm_exec_sql_text(most_recent_sql_handle)	C
+WHERE 
+    EXISTS (SELECT * FROM sys.dm_tran_session_transactions AS t WITH(NOLOCK) WHERE t.session_id = A.session_id)
+    AND NOT EXISTS (SELECT * FROM sys.dm_exec_requests AS r WITH(NOLOCK) WHERE r.session_id = A.session_id)
 
---SELECT 
---    A.session_id,
---    A.login_time,
---    A.host_name,
---    A.program_name,
---    A.login_name,
---    A.status,
---    A.cpu_time,
---    A.memory_usage,
---    A.last_request_start_time,
---    A.last_request_end_time,
---    A.transaction_isolation_level,
---    A.lock_timeout,
---    A.deadlock_priority,
---    A.row_count,
---    C.text
---FROM 
---    sys.dm_exec_sessions			A	WITH(NOLOCK)
---    JOIN sys.dm_exec_connections		B	WITH(NOLOCK)	ON	A.session_id = B.session_id
---    CROSS APPLY sys.dm_exec_sql_text(most_recent_sql_handle)	C
---WHERE 
---  EXISTS (SELECT * FROM sys.dm_tran_session_transactions AS t WITH(NOLOCK) WHERE t.session_id = A.session_id)
---  AND NOT EXISTS (SELECT * FROM sys.dm_exec_requests AS r WITH(NOLOCK) WHERE r.session_id = A.session_id)
---ORDER BY A.session_id
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 -- coluna status -> Status do ID do processo. Os valores possíveis são:

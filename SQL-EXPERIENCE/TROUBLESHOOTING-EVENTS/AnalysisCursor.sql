@@ -1,25 +1,3 @@
-----------------------------------------------------------------------------
--- http://blog.sqlgrease.com/ever-wondered-sql-generated-fetch-statement/
-----------------------------------------------------------------------------
-SELECT er.sql_handle
-, ec.sql_handle
-
-, SUBSTRING(ers.text, (er.statement_start_offset/2)+1,(
-	(CASE er.statement_end_offset WHEN -1 THEN DATALENGTH(ers.text)
-		ELSE er.statement_end_offset
-     END - er.statement_start_offset)/2) + 1) AS statement_text_er
-
-, SUBSTRING(ecs.text, (ec.statement_start_offset/2)+1,(
-    (CASE ec.statement_end_offset WHEN -1 THEN DATALENGTH(ecs.text)
-	    ELSE ec.statement_end_offset
-     END - ec.statement_start_offset)/2) + 1) AS statement_text_ec
-FROM sys.dm_exec_requests er 
-CROSS APPLY sys.dm_exec_cursors(er.session_id) ec
-CROSS APPLY sys.dm_exec_sql_text(er.sql_handle) ers
-CROSS APPLY sys.dm_exec_sql_text(ec.sql_handle) ecs
-WHERE er.session_id = 434
-
-
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 -- https://viniciusfonsecadba.wordpress.com/2018/09/13/fetch-api_cursor-sql-server/
 --------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -55,3 +33,5 @@ FROM   sys.dm_exec_cursors(0) AS c
 JOIN sys.dm_exec_sessions AS s
 ON c.session_id = s.session_id
 CROSS apply sys.Dm_exec_sql_text(c.sql_handle) AS st
+
+
