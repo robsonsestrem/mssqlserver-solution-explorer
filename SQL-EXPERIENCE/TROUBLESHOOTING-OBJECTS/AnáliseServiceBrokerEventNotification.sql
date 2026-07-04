@@ -1,160 +1,191 @@
----------------------------------------------------------------------------------------------------------------------------------------------------------
--- Refer�ncias
--- https://msdn.microsoft.com/pt-br/library/ms189529(v=sql.110).aspx
--- https://mlucasg.wordpress.com/2013/02/28/monitorando-bloqueios-no-sql-server/	-- Exemplo de matar processos bloqueados automaticamente
--- https://leka.com.br/category/ti/sql/scripts/
----------------------------------------------------------------------------------------------------------------------------------------------------------
---################################################################################################
--- OBS.: PARA DESABILITAR ESSAS MONITORIAS OU DROPA EVENT NOTIFICATION OU ALTERA QUEUE PARA OFF
---################################################################################################
-/***************************************************************************************/
--- listar meus EVENT NOTIFICATION
-SELECT * FROM [sys].[server_event_notifications]
+﻿/*
+    OBJETIVO: Gerenciar e diagnosticar Event Notifications e Service Broker na instância,
+              incluindo manutenção de filas, correção de owner SID pós-restauração
+              e configuração de monitoramento de processos bloqueados.
+    PROJETO: mssqlserver-solution-explorer
+    REFERÊNCIAS:
+        https://msdn.microsoft.com/pt-br/library/ms189529(v=sql.110).aspx
+        https://mlucasg.wordpress.com/2013/02/28/monitorando-bloqueios-no-sql-server/
+        https://leka.com.br/category/ti/sql/scripts/
+*/
 
-/***************************************************************************************/
--- listar os tipos EVENT NOTIFICATION existentes para implementa��es futuras
-SELECT * FROM sys.event_notification_event_types
+-- ################################################################################################
+-- OBS.: PARA DESABILITAR ESSAS MONITORIAS: DROPA O EVENT NOTIFICATION OU ALTERA QUEUE PARA OFF
+-- ################################################################################################
 
-/***************************************************************************************/
--- mostra status das QUEUE
-select * from sys.service_queues
+-- ---------------------------------------------------------------------------
+-- Diagnóstico: lista Event Notifications registrados no servidor
+-- ---------------------------------------------------------------------------
+SELECT * FROM [sys].[server_event_notifications];
 
-/***************************************************************************************/
--- mostra as procedure vinculadas nas QUEUE
-select * from sys.dm_broker_activated_tasks
+-- ---------------------------------------------------------------------------
+-- Diagnóstico: tipos de Event Notification disponíveis para implementações futuras
+-- ---------------------------------------------------------------------------
+SELECT * FROM sys.event_notification_event_types;
 
-/***************************************************************************************/
--- Tornando uma QUEUE n�o dispon�vel, exemplo a seguir torna 
--- a fila ExpenseQueue n�o dispon�vel para receber mensagens.
+-- ---------------------------------------------------------------------------
+-- Diagnóstico: status das Service Queues
+-- ---------------------------------------------------------------------------
+SELECT * FROM sys.service_queues;
+
+-- ---------------------------------------------------------------------------
+-- Diagnóstico: stored procedures vinculadas às Queues (activated tasks)
+-- ---------------------------------------------------------------------------
+SELECT * FROM sys.dm_broker_activated_tasks;
+
+-- ---------------------------------------------------------------------------
+-- Desabilita uma Queue para parar de receber mensagens
+-- ---------------------------------------------------------------------------
 ALTER QUEUE [Audit_DBFileGrowth_Queue] WITH STATUS = OFF;
 
-/***************************************************************************************/
--- EVENT NOTIFICATION n�o pode ser apenas desabilitado, ou cria ou dropa, ex.:
-DROP EVENT NOTIFICATION nome_evento  
-ON SERVER; 
+-- ---------------------------------------------------------------------------
+-- Event Notifications não podem ser desabilitadas — apenas criadas ou removidas
+-- ---------------------------------------------------------------------------
+DROP EVENT NOTIFICATION nome_evento
+ON SERVER;
 
-/***************************************************************************************/
--- Outras valida��es para identificar
+-- ---------------------------------------------------------------------------
+-- Diagnóstico: monitores de fila e alocação de memória do broker
+-- ---------------------------------------------------------------------------
+SELECT * FROM sys.dm_broker_queue_monitors;
 
-select * from sys.dm_broker_queue_monitors
+SELECT * FROM sys.dm_os_memory_brokers;
 
-select * from sys.dm_os_memory_brokers
-
-
-
-/*************************************************************** Problema p�s Migra��o ********************************************************************************************************************/
-/**********************************************************************************************************************************************************************************************************/
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Problema ocorrido mostrado nos alertas
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------
+-- Problema pós-migração: corrige divergência de owner SID entre master e banco
+-- ---------------------------------------------------------------------------
 /*
-An exception occurred while enqueueing a message in the target queue. 
-Error: 33009, State: 2. The database owner SID recorded in the master database differs from the database owner SID recorded in database 'IntegraTICravil'. 
+An exception occurred while enqueueing a message in the target queue.
+Error: 33009, State: 2. The database owner SID recorded in the master database differs from the database owner SID recorded in database 'IntegraTICravil'.
 You should correct this situation by resetting the owner of database 'IntegraTICravil' using the ALTER AUTHORIZATION statement.
 */
-DECLARE @Command VARCHAR(MAX) = 'ALTER AUTHORIZATION ON DATABASE::[Maintenance] TO [admrobson]' 
-SELECT @Command = REPLACE(REPLACE(@Command 
-            , 'Maintenance', SD.Name)
-            , 'admrobson', SL.Name)
-FROM master..sysdatabases SD 
-JOIN master..syslogins SL ON  SD.SID = SL.SID
-WHERE  SD.Name = DB_NAME()
-PRINT @Command	-- result -> ALTER AUTHORIZATION ON DATABASE::[IntegraTICravil] TO [CRAVIL\rdornel]
-EXEC(@Command)
 
-ALTER AUTHORIZATION ON SCHEMA::Management TO admcravil;    
-GO 
- 
-ALTER AUTHORIZATION ON DATABASE::Maintenance TO [admrobson];
-go
+-- Gera e executa ALTER AUTHORIZATION dinamicamente para o banco corrente
+DECLARE @Command VARCHAR(MAX) = 'ALTER AUTHORIZATION ON DATABASE::[Maintenance] TO [admrobson]';
 
-SELECT CAST(owner_sid as uniqueidentifier) AS Owner_SID   
-FROM sys.databases   
-WHERE name = 'Maintenance';--EAB380AE-0DA8-46D7-BE69-EA434B4095E0
+SELECT @Command = REPLACE(REPLACE(@Command
+    , 'Maintenance', SD.Name)
+    , 'admrobson', SL.Name)
+FROM master..sysdatabases AS SD
+JOIN master..syslogins AS SL
+    ON SD.SID = SL.SID
+WHERE SD.Name = DB_NAME();
 
--- VER OWNER DE CADA DATABASE
-use master
-go
-SELECT d.name, d.owner_sid, sl.name   
-FROM sys.databases AS d  
-JOIN sys.sql_logins AS sl  
-ON d.owner_sid = sl.sid; 
+PRINT @Command;    -- result -> ALTER AUTHORIZATION ON DATABASE::[IntegraTICravil] TO [CRAVIL\rdornel]
+EXEC(@Command);
 
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-declare @user varchar(50)
-SELECT  @user = quotename(SL.Name)
-  FROM  master..sysdatabases SD inner join master..syslogins SL
-    on  SD.SID = SL.SID
- Where  SD.Name = DB_NAME()
-
-select @user -- deu como [CRAVIL\rdornel]
-exec('exec sp_changedbowner ' + @user)
-
--- Trocando o propriet�rio
-EXEC sp_changedbowner 'admrobson'
-
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Restore sid when db restored from backup... 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-DECLARE @Command NVARCHAR(MAX) 
-SET @Command = N'ALTER AUTHORIZATION ON DATABASE::<<DatabaseName>> TO <<LoginName>>' 
-SELECT @Command = REPLACE 
-                  ( 
-                      REPLACE(@Command, N'<<DatabaseName>>', QUOTENAME(SD.Name)) 
-                      , N'<<LoginName>>' 
-                      ,
-                      QUOTENAME
-                      (
-                          COALESCE
-                          (
-                               SL.name 
-                              ,(SELECT TOP 1 name FROM sys.server_principals WHERE type_desc = 'SQL_LOGIN' AND is_disabled = 'false' ORDER BY principal_id ASC )
-                          )
-                      )
-                  ) 
-FROM sys.databases AS SD
-LEFT JOIN sys.server_principals  AS SL 
-    ON SL.SID = SD.owner_sid 
-WHERE SD.Name = DB_NAME() 
-
-PRINT @command 
-EXECUTE(@command) 
+ALTER AUTHORIZATION ON SCHEMA::Management TO admcravil;
 GO
 
+ALTER AUTHORIZATION ON DATABASE::Maintenance TO [admrobson];
+GO
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-DECLARE @SQL nvarchar(max)
+-- Verifica o owner SID atual do banco Maintenance
+SELECT CAST(owner_sid AS UNIQUEIDENTIFIER) AS Owner_SID
+FROM sys.databases
+WHERE name = 'Maintenance';    -- EAB380AE-0DA8-46D7-BE69-EA434B4095E0
+
+-- ---------------------------------------------------------------------------
+-- Diagnóstico: owner de cada database na instância
+-- ---------------------------------------------------------------------------
+USE master;
+GO
+
+SELECT
+    d.name
+    ,d.owner_sid
+    ,sl.name
+FROM sys.databases AS d
+JOIN sys.sql_logins AS sl
+    ON d.owner_sid = sl.sid;
+
+-- ---------------------------------------------------------------------------
+-- Altera o proprietário do banco para o login atual do owner em master
+-- ---------------------------------------------------------------------------
+DECLARE @user VARCHAR(50);
+
+SELECT @user = QUOTENAME(SL.Name)
+FROM master..sysdatabases AS SD
+INNER JOIN master..syslogins AS SL
+    ON SD.SID = SL.SID
+WHERE SD.Name = DB_NAME();
+
+SELECT @user;    -- deu como [CRAVIL\rdornel]
+EXEC('EXEC sp_changedbowner ' + @user);
+
+-- Troca o proprietário diretamente
+EXEC sp_changedbowner 'admrobson';
+
+
+
+-- ---------------------------------------------------------------------------
+-- Restaura o owner SID após restore de backup (corrige owner divergente)
+-- ---------------------------------------------------------------------------
+DECLARE @Command NVARCHAR(MAX);
+
+SET @Command = N'ALTER AUTHORIZATION ON DATABASE::<<DatabaseName>> TO <<LoginName>>';
+
+SELECT @Command = REPLACE(
+    REPLACE(@Command, N'<<DatabaseName>>', QUOTENAME(SD.Name))
+    ,N'<<LoginName>>'
+    ,QUOTENAME(
+        COALESCE(
+            SL.name
+            ,(SELECT TOP 1 name FROM sys.server_principals WHERE type_desc = 'SQL_LOGIN' AND is_disabled = 'false' ORDER BY principal_id ASC)
+        )
+    )
+)
+FROM sys.databases AS SD
+LEFT JOIN sys.server_principals AS SL
+    ON SL.SID = SD.owner_sid
+WHERE SD.Name = DB_NAME();
+
+PRINT @Command;
+EXECUTE(@Command);
+GO
+
+-- ---------------------------------------------------------------------------
+-- Habilita o Service Broker — tenta ENABLE_BROKER; fallback para NEW_BROKER
+-- ---------------------------------------------------------------------------
+DECLARE @SQL NVARCHAR(MAX);
+
 BEGIN TRY
-    SET @SQL = 'ALTER DATABASE ' + db_name() + ' SET ENABLE_BROKER WITH ROLLBACK IMMEDIATE '
-    PRINT @SQL
-    EXEC sp_executesql @SQL
+    SET @SQL = 'ALTER DATABASE ' + DB_NAME() + ' SET ENABLE_BROKER WITH ROLLBACK IMMEDIATE';
+    PRINT @SQL;
+    EXEC sp_executesql @SQL;
 END TRY
 BEGIN CATCH
-    SET @SQL = 'ALTER DATABASE ' + db_name() + ' SET NEW_BROKER WITH ROLLBACK IMMEDIATE '
-    PRINT @SQL
-    EXEC sp_executesql @SQL
-END CATCH
+    SET @SQL = 'ALTER DATABASE ' + DB_NAME() + ' SET NEW_BROKER WITH ROLLBACK IMMEDIATE';
+    PRINT @SQL;
+    EXEC sp_executesql @SQL;
+END CATCH;
 GO
-
-
 
 ALTER DATABASE IntegraTICravil SET TRUSTWORTHY ON;
 GO
 
-
-
-EXEC sp_configure 'show advanced options', 1
+-- ---------------------------------------------------------------------------
+-- Configura o limiar para geração de relatórios de blocked processes (segundos)
+-- ---------------------------------------------------------------------------
+EXEC sp_configure 'show advanced options', 1;
 GO
-sp_configure 'blocked process threshold', 10 ;   
+
+sp_configure 'blocked process threshold', 10;
 GO
+
 RECONFIGURE WITH OVERRIDE;
 
 
+-- ===========================================================================
+-- TEMPLATES DE EVENT NOTIFICATION (comentados — desabilitados por padrão)
+-- ===========================================================================
+
+-- ---------------------------------------------------------------------------
+-- [TEMPLATE] Monitoramento de Blocked Process: Audit_Blocked_Process_Event
+-- ---------------------------------------------------------------------------
 --USE IntegraTICravil
 --GO
---CREATE EVENT NOTIFICATION [Audit_Blocked_Process_Event] 
+--CREATE EVENT NOTIFICATION [Audit_Blocked_Process_Event]
 --ON SERVER 
 --with fan_in
 --FOR BLOCKED_PROCESS_REPORT 
@@ -168,13 +199,15 @@ RECONFIGURE WITH OVERRIDE;
 --(
 --   Status = ON,   
 --   Procedure_Name = Management.sp_BlockedProcess,
---   Max_Queue_Readers = 3,	-- n�mero m�ximo de inst�ncias de procedimento armazenado que o Service Broker inicia para essa fila.
+--   Max_Queue_Readers = 3,	-- número máximo de instâncias de procedimento armazenado que o Service Broker inicia para essa fila.
 --   Execute as Owner   
 --);
 --GO
 
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------
+-- [TEMPLATE] Crescimento automático de arquivo: Audit_DBFileGrowth_Event
+-- ---------------------------------------------------------------------------
 --CREATE EVENT NOTIFICATION [Audit_DBFileGrowth_Event]
 --    ON SERVER WITH FAN_IN 
 --    FOR DATA_FILE_AUTO_GROW, 
@@ -193,8 +226,10 @@ RECONFIGURE WITH OVERRIDE;
 --GO
 
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---CREATE EVENT NOTIFICATION [Audit_ServerConfig_Event] 
+-- ---------------------------------------------------------------------------
+-- [TEMPLATE] Alterações de configuração: Audit_ServerConfig_Event
+-- ---------------------------------------------------------------------------
+--CREATE EVENT NOTIFICATION [Audit_ServerConfig_Event]
 --    ON SERVER WITH FAN_IN 
 --    FOR ALTER_INSTANCE 
 --    TO SERVICE 'Audit_ServerConfig_Service', 'current database';
@@ -211,8 +246,10 @@ RECONFIGURE WITH OVERRIDE;
 --GO
 
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---CREATE EVENT NOTIFICATION [Audit_AlterObjects_Event] 
+-- ---------------------------------------------------------------------------
+-- [TEMPLATE] Alterações de objetos DDL: Audit_AlterObjects_Event
+-- ---------------------------------------------------------------------------
+--CREATE EVENT NOTIFICATION [Audit_AlterObjects_Event]
 --    ON SERVER WITH FAN_IN
 --    FOR 
 --	   CREATE_TABLE,
@@ -262,7 +299,9 @@ RECONFIGURE WITH OVERRIDE;
 --GO
 
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------
+-- [TEMPLATE] Monitoramento de Deadlock: Audit_DeadLock_Event
+-- ---------------------------------------------------------------------------
 --USE IntegraTICravil
 --GO
 --CREATE EVENT NOTIFICATION Audit_DeadLock_Event ON SERVER
@@ -283,8 +322,10 @@ RECONFIGURE WITH OVERRIDE;
 --GO
 
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---CREATE EVENT NOTIFICATION [Audit_Erros_Login_Event] ON SERVER FOR AUDIT_LOGIN_FAILED TO SERVICE N'Audit_Erros_Login_Service', N'current database';
+-- ---------------------------------------------------------------------------
+-- [TEMPLATE] Falhas de login: Audit_Erros_Login_Event
+-- ---------------------------------------------------------------------------
+--CREATE EVENT NOTIFICATION [Audit_Erros_Login_Event] ON SERVER FOR AUDIT_LOGIN_FAILED
 --GO
 
 --ALTER QUEUE [Audit_Erros_Login_Queue]
@@ -298,7 +339,9 @@ RECONFIGURE WITH OVERRIDE;
 --GO
 
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------
+-- [TEMPLATE] Alterações de segurança: Audit_SecurityChange_Event
+-- ---------------------------------------------------------------------------
 --CREATE EVENT NOTIFICATION Audit_SecurityChange_Event
 --    ON SERVER WITH FAN_IN
 --    FOR CREATE_LOGIN,

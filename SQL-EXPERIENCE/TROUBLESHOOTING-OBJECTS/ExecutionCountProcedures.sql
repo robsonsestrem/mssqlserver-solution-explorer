@@ -1,14 +1,46 @@
-SELECT 
-    OBJECT_NAME(object_id) AS ProcedureName,
-    execution_count,
-    last_execution_time
+/*
+    OBJETIVO:   Monitorar o histórico de execuções de stored procedures específicas
+                por meio de sys.dm_exec_procedure_stats, exibindo contagem e último horário.
+    PROJETO:    mssqlserver-solution-explorer
+*/
+
+-- ---------------------------------------------------------------------------
+-- Contagem de execuções e último horário por stored procedure monitorada
+-- ---------------------------------------------------------------------------
+SELECT
+     OBJECT_NAME(object_id) AS ProcedureName
+    ,execution_count
+    ,last_execution_time
 FROM sys.dm_exec_procedure_stats
-WHERE OBJECT_NAME(object_id) IN 
+WHERE OBJECT_NAME(object_id) IN
 (
-  'realizar_merge_pessoa'
-, 'SP_ATUALIZA_PSSOA_ALERTA', 'SP_ATUALIZA_PSSOA_ALERTA', 'SP_ATUALIZA_PSSOA_DICA_SAUDE', 'SP_DISTRIBUICAOCARTEIRAAUTOMATICA', 'SP_DISTRIBUICAOCARTEIRAAUTOMATICA_BENEFICIARIO', 'SP_EXECUTARDISTRIBUICAOCARTEIRAAUTOMATICA'
-, 'SP_GERAR_RISCO_COMPOSTO', 'SP_GERAR_RISCO_POR_EMPRESA', 'SP_GERAR_RISCO_SIMPLES', 'SP_NOVA_MEDRS', 'SP_NOVA_MEDRS_COMPOSTA'
-, 'sp_PccAcoes', 'sp_PccParticipantes', 'sp_PccPremissas', 'sp_PccRestricoes', 'SP_PLANO_PARCIAL', 'SP_PROCESSAR_DADOS_CLINICOS', 'SP_PROCESSAR_IMPORTACAO_ANEXO', 'SP_PROCESSAR_IMPORTACAO_QUESTIONARIO'
-, 'SP_PROCESSAR_RISCOS_PCA', 'SP_PROCESSAR_RISCOS_POR_PESSOA', 'SP_REALIZAR_IMPORTACAO_ANEXO', 'SP_RESPOSTALOCALIZADOR', 'SP_VALIDAPREREQUISITODICADESAUDE', 'SP_VALIDAPREREQUISITORISCO', 'UNIFICAR_USUARIOS'
-, 'UPD_INS_EMPRESA', 'UPD_INS_PESSOA'
-)
+     'realizar_merge_pessoa'
+    ,'SP_ATUALIZA_PSSOA_ALERTA'
+    ,'SP_ATUALIZA_PSSOA_ALERTA'
+    ,'SP_ATUALIZA_PSSOA_DICA_SAUDE'
+    ,'SP_DISTRIBUICAOCARTEIRAAUTOMATICA'
+    ,'SP_DISTRIBUICAOCARTEIRAAUTOMATICA_BENEFICIARIO'
+    ,'SP_EXECUTARDISTRIBUICAOCARTEIRAAUTOMATICA'
+    ,'SP_GERAR_RISCO_COMPOSTO'
+    ,'SP_GERAR_RISCO_POR_EMPRESA'
+    ,'SP_GERAR_RISCO_SIMPLES'
+    ,'SP_NOVA_MEDRS'
+    ,'SP_NOVA_MEDRS_COMPOSTA'
+    ,'sp_PccAcoes'
+    ,'sp_PccParticipantes'
+    ,'sp_PccPremissas'
+    ,'sp_PccRestricoes'
+    ,'SP_PLANO_PARCIAL'
+    ,'SP_PROCESSAR_DADOS_CLINICOS'
+    ,'SP_PROCESSAR_IMPORTACAO_ANEXO'
+    ,'SP_PROCESSAR_IMPORTACAO_QUESTIONARIO'
+    ,'SP_PROCESSAR_RISCOS_PCA'
+    ,'SP_PROCESSAR_RISCOS_POR_PESSOA'
+    ,'SP_REALIZAR_IMPORTACAO_ANEXO'
+    ,'SP_RESPOSTALOCALIZADOR'
+    ,'SP_VALIDAPREREQUISITODICADESAUDE'
+    ,'SP_VALIDAPREREQUISITORISCO'
+    ,'UNIFICAR_USUARIOS'
+    ,'UPD_INS_EMPRESA'
+    ,'UPD_INS_PESSOA'
+);

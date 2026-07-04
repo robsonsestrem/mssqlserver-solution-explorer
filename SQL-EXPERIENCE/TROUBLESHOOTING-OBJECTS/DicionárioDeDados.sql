@@ -1,144 +1,163 @@
--------------------------------------------------------------------------------------------------------------------------------------------------
--- https://dataedo.com/blog/useful-sql-server-data-dictionary-queries-every-dba-should-have
--- https://dhiegopiroto.wordpress.com/2012/10/11/dicionario-de-dados-diretamente-pelo-sql-server/
--- Dicion�rio de dados
--------------------------------------------------------------------------------------------------------------------------------------------------
-use CooperSystem
-go
+﻿/*
+    OBJETIVO:    Gerar o dicionário de dados do banco, listando schema, tabela, coluna,
+                 tipo de dado (com precisão/escala), nullable, default, PK, FK, UK,
+                 check constraint, colunas computadas e comentários (extended properties).
+    PROJETO:     mssqlserver-solution-explorer
+    REFERÊNCIA:  https://dataedo.com/blog/useful-sql-server-data-dictionary-queries-every-dba-should-have
+                 https://dhiegopiroto.wordpress.com/2012/10/11/dicionario-de-dados-diretamente-pelo-sql-server/
+*/
 
-select schema_name(tab.schema_id) as schema_name,
-       tab.name as table_name, 
-       col.name as column_name, 
-       t.name as data_type,    
-       t.name + 
-       case when t.is_user_defined = 0 then 
-                 isnull('(' + 
-                 case when t.name in ('binary', 'char', 'nchar', 
-                           'varchar', 'nvarchar', 'varbinary') then
-                           case col.max_length 
-                                when -1 then 'MAX' 
-                                else 
-                                     case when t.name in ('nchar', 
-                                               'nvarchar') then
-                                               cast(col.max_length/2 
-                                               as varchar(4)) 
-                                          else cast(col.max_length 
-                                               as varchar(4)) 
-                                     end
-                           end
-                      when t.name in ('datetime2', 'datetimeoffset', 
-                           'time') then 
-                           cast(col.scale as varchar(4))
-                      when t.name in ('decimal', 'numeric') then
-                            cast(col.precision as varchar(4)) + ', ' +
-                            cast(col.scale as varchar(4))
-                 end + ')', '')        
-            else ':' + 
-                 (select c_t.name + 
-                         isnull('(' + 
-                         case when c_t.name in ('binary', 'char', 
-                                   'nchar', 'varchar', 'nvarchar', 
-                                   'varbinary') then 
-                                    case c.max_length 
-                                         when -1 then 'MAX' 
-                                         else   
-                                              case when t.name in 
-                                                        ('nchar', 
-                                                        'nvarchar') then 
-                                                        cast(c.max_length/2
-                                                        as varchar(4))
-                                                   else cast(c.max_length
-                                                        as varchar(4))
-                                              end
-                                    end
-                              when c_t.name in ('datetime2', 
-                                   'datetimeoffset', 'time') then 
-                                   cast(c.scale as varchar(4))
-                              when c_t.name in ('decimal', 'numeric') then
-                                   cast(c.precision as varchar(4)) + ', ' 
-                                   + cast(c.scale as varchar(4))
-                         end + ')', '') 
-                    from sys.columns as c
-                         inner join sys.types as c_t 
-                             on c.system_type_id = c_t.user_type_id
-                   where c.object_id = col.object_id
-                     and c.column_id = col.column_id
-                     and c.user_type_id = col.user_type_id
-                 )
-        end as data_type_ext,
-        case when col.is_nullable = 0 then 'N' 
-             else 'Y' end as nullable,
-        case when def.definition is not null then def.definition 
-             else '' end as default_value,
-        case when pk.column_id is not null then 'PK' 
-             else '' end as primary_key, 
-        case when fk.parent_column_id is not null then 'FK' 
-             else '' end as foreign_key, 
-        case when uk.column_id is not null then 'UK' 
-             else '' end as unique_key,
-        case when ch.check_const is not null then ch.check_const 
-             else '' end as check_contraint,
-        cc.definition as computed_column_definition,
-        ep.value as comments
-   from sys.tables as tab
-        left join sys.columns as col
-            on tab.object_id = col.object_id
-        left join sys.types as t
-            on col.user_type_id = t.user_type_id
-        left join sys.default_constraints as def
-            on def.object_id = col.default_object_id
-        left join (
-                  select index_columns.object_id, 
-                         index_columns.column_id
-                    from sys.index_columns
-                         inner join sys.indexes 
-                             on index_columns.object_id = indexes.object_id
-                            and index_columns.index_id = indexes.index_id
-                   where indexes.is_primary_key = 1
-                  ) as pk 
-            on col.object_id = pk.object_id 
-           and col.column_id = pk.column_id
-        left join (
-                  select fc.parent_column_id, 
-                         fc.parent_object_id
-                    from sys.foreign_keys as f 
-                         inner join sys.foreign_key_columns as fc 
-                             on f.object_id = fc.constraint_object_id
-                   group by fc.parent_column_id, fc.parent_object_id
-                  ) as fk
-            on fk.parent_object_id = col.object_id 
-           and fk.parent_column_id = col.column_id    
-        left join (
-                  select c.parent_column_id, 
-                         c.parent_object_id, 
-                         'Check' check_const
-                    from sys.check_constraints as c
-                   group by c.parent_column_id,
-                         c.parent_object_id
-                  ) as ch
-            on col.column_id = ch.parent_column_id
-           and col.object_id = ch.parent_object_id
-        left join (
-                  select index_columns.object_id, 
-                         index_columns.column_id
-                    from sys.index_columns
-                         inner join sys.indexes 
-                             on indexes.index_id = index_columns.index_id
-                            and indexes.object_id = index_columns.object_id
-                    where indexes.is_unique_constraint = 1
-                    group by index_columns.object_id, 
-                          index_columns.column_id
-                  ) as uk
-            on col.column_id = uk.column_id 
-           and col.object_id = uk.object_id
-        left join sys.extended_properties as ep 
-            on tab.object_id = ep.major_id
-           and col.column_id = ep.minor_id
-           and ep.name = 'MS_Description'
-           and ep.class_desc = 'OBJECT_OR_COLUMN'
-        left join sys.computed_columns as cc
-            on tab.object_id = cc.object_id
-           and col.column_id = cc.column_id
-  order by schema_name,
-        table_name, 
-        column_name; 
+USE DBA_PerformanceHub;
+GO
+
+-- ---------------------------------------------------------------------------
+-- Dicionário de dados: colunas, tipos, constraints e comentários por tabela
+-- ---------------------------------------------------------------------------
+SELECT
+     SCHEMA_NAME(tab.schema_id)  AS schema_name
+    ,tab.name                    AS table_name
+    ,col.name                    AS column_name
+    ,t.name                      AS data_type
+    ,t.name +
+     CASE WHEN t.is_user_defined = 0 THEN
+               ISNULL('(' +
+               CASE WHEN t.name IN ('binary', 'char', 'nchar',
+                         'varchar', 'nvarchar', 'varbinary') THEN
+                         CASE col.max_length
+                              WHEN -1 THEN 'MAX'
+                              ELSE
+                                   CASE WHEN t.name IN ('nchar',
+                                             'nvarchar') THEN
+                                             CAST(col.max_length / 2
+                                             AS VARCHAR(4))
+                                        ELSE CAST(col.max_length
+                                             AS VARCHAR(4))
+                                   END
+                         END
+                    WHEN t.name IN ('datetime2', 'datetimeoffset',
+                         'time') THEN
+                         CAST(col.scale AS VARCHAR(4))
+                    WHEN t.name IN ('decimal', 'numeric') THEN
+                          CAST(col.precision AS VARCHAR(4)) + ', ' +
+                          CAST(col.scale AS VARCHAR(4))
+               END + ')', '')
+          ELSE ':' +
+               (SELECT c_t.name +
+                       ISNULL('(' +
+                       CASE WHEN c_t.name IN ('binary', 'char',
+                                 'nchar', 'varchar', 'nvarchar',
+                                 'varbinary') THEN
+                                  CASE c.max_length
+                                       WHEN -1 THEN 'MAX'
+                                       ELSE
+                                            CASE WHEN t.name IN
+                                                      ('nchar',
+                                                      'nvarchar') THEN
+                                                      CAST(c.max_length / 2
+                                                      AS VARCHAR(4))
+                                                 ELSE CAST(c.max_length
+                                                      AS VARCHAR(4))
+                                            END
+                                  END
+                            WHEN c_t.name IN ('datetime2',
+                                 'datetimeoffset', 'time') THEN
+                                 CAST(c.scale AS VARCHAR(4))
+                            WHEN c_t.name IN ('decimal', 'numeric') THEN
+                                 CAST(c.precision AS VARCHAR(4)) + ', '
+                                 + CAST(c.scale AS VARCHAR(4))
+                       END + ')', '')
+                  FROM sys.columns AS c
+                       INNER JOIN sys.types AS c_t
+                           ON c.system_type_id = c_t.user_type_id
+                 WHERE c.object_id    = col.object_id
+                   AND c.column_id    = col.column_id
+                   AND c.user_type_id = col.user_type_id
+               )
+     END                         AS data_type_ext
+    ,CASE WHEN col.is_nullable = 0 THEN 'N'
+          ELSE 'Y'
+     END                         AS nullable
+    ,CASE WHEN def.definition IS NOT NULL THEN def.definition
+          ELSE ''
+     END                         AS default_value
+    ,CASE WHEN pk.column_id IS NOT NULL THEN 'PK'
+          ELSE ''
+     END                         AS primary_key
+    ,CASE WHEN fk.parent_column_id IS NOT NULL THEN 'FK'
+          ELSE ''
+     END                         AS foreign_key
+    ,CASE WHEN uk.column_id IS NOT NULL THEN 'UK'
+          ELSE ''
+     END                         AS unique_key
+    ,CASE WHEN ch.check_const IS NOT NULL THEN ch.check_const
+          ELSE ''
+     END                         AS check_contraint
+    ,cc.definition               AS computed_column_definition
+    ,ep.value                    AS comments
+FROM sys.tables AS tab
+     LEFT JOIN sys.columns AS col
+         ON tab.object_id = col.object_id
+     LEFT JOIN sys.types AS t
+         ON col.user_type_id = t.user_type_id
+     LEFT JOIN sys.default_constraints AS def
+         ON def.object_id = col.default_object_id
+     -- Subquery: identifica colunas que pertencem à chave primária
+     LEFT JOIN (
+               SELECT index_columns.object_id
+                     ,index_columns.column_id
+                 FROM sys.index_columns
+                      INNER JOIN sys.indexes
+                          ON index_columns.object_id = indexes.object_id
+                         AND index_columns.index_id  = indexes.index_id
+                WHERE indexes.is_primary_key = 1
+               ) AS pk
+         ON col.object_id = pk.object_id
+        AND col.column_id = pk.column_id
+     -- Subquery: identifica colunas que participam de chaves estrangeiras
+     LEFT JOIN (
+               SELECT fc.parent_column_id
+                     ,fc.parent_object_id
+                 FROM sys.foreign_keys AS f
+                      INNER JOIN sys.foreign_key_columns AS fc
+                          ON f.object_id = fc.constraint_object_id
+                GROUP BY fc.parent_column_id
+                        ,fc.parent_object_id
+               ) AS fk
+         ON fk.parent_object_id = col.object_id
+        AND fk.parent_column_id = col.column_id
+     -- Subquery: identifica colunas com check constraints
+     LEFT JOIN (
+               SELECT c.parent_column_id
+                     ,c.parent_object_id
+                     ,'Check' AS check_const
+                 FROM sys.check_constraints AS c
+                GROUP BY c.parent_column_id
+                        ,c.parent_object_id
+               ) AS ch
+         ON col.column_id = ch.parent_column_id
+        AND col.object_id = ch.parent_object_id
+     -- Subquery: identifica colunas que pertencem a unique constraints
+     LEFT JOIN (
+               SELECT index_columns.object_id
+                     ,index_columns.column_id
+                 FROM sys.index_columns
+                      INNER JOIN sys.indexes
+                          ON indexes.index_id  = index_columns.index_id
+                         AND indexes.object_id = index_columns.object_id
+                WHERE indexes.is_unique_constraint = 1
+                GROUP BY index_columns.object_id
+                        ,index_columns.column_id
+               ) AS uk
+         ON col.column_id = uk.column_id
+        AND col.object_id = uk.object_id
+     LEFT JOIN sys.extended_properties AS ep
+         ON tab.object_id = ep.major_id
+        AND col.column_id = ep.minor_id
+        AND ep.name       = 'MS_Description'
+        AND ep.class_desc = 'OBJECT_OR_COLUMN'
+     LEFT JOIN sys.computed_columns AS cc
+         ON tab.object_id = cc.object_id
+        AND col.column_id = cc.column_id
+ORDER BY schema_name
+        ,table_name
+        ,column_name;

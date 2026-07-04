@@ -1,36 +1,43 @@
---select top 20 t1.Latitude, t1.Longitude
---,cast(round((t1.Latitude * 1.000001),10) as decimal(18,8)), cast(round((t1.Longitude * 1.000001),10) as decimal(18,8))
--- from System.vw_MapsAssociados as t1 where t1.Latitude <> '' or t1.Longitude <> ''
+﻿/*
+================================================================================
+OBJETIVO: Tratar coordenadas geográficas duplicadas (Latitude/Longitude) usando
+		  CTE com ROW_NUMBER, aplicando concatenação ou STUFF para diferenciar
+		  registros com coordenadas idênticas.
+PROJETO: mssqlserver-solution-explorer
+================================================================================
+*/
 
-
---select (-27.1688554 * 1.000001), (-49.5355337 * 1.000001)
-
---,cast((-27.1688554 * 1.000001) as decimal(18,8)), cast((-49.5355337 * 1.000001) as decimal(18,8))
-
---, -27.1688554, -49.5355337
-
-
-;with coord
-as
+-- CTE: enumera registros por Latitude usando ROW_NUMBER para identificar duplicatas
+;WITH coord AS
 (
-select t1.Latitude
-, t1.Longitude
-, t1.NomeRazaoSocial
-, ROW_NUMBER() over (partition by t1.Latitude order by t1.Latitude) as Contador
-from System.vw_MapsAssociados as t1
-where t1.Latitude is not null
-and t1.Latitude <> ''
+	SELECT
+		t1.Latitude
+	   ,t1.Longitude
+	   ,t1.NomeRazaoSocial
+	   ,ROW_NUMBER() OVER (PARTITION BY t1.Latitude ORDER BY t1.Latitude) AS Contador
+	FROM System.vw_MapsAssociados AS t1
+	WHERE t1.Latitude IS NOT NULL
+		AND t1.Latitude <> ''
 )
-select 
-t2.NomeRazaoSocial
---
-, case when t2.Contador > 1 and len(t2.Latitude) < 10 then (t2.Latitude + cast(t2.Contador as varchar(5)))				-- concatenar Strings
-	   when t2.Contador > 1 and len(t2.Latitude) >= 10  then stuff(t2.Latitude, 10, 5, cast(t2.Contador as varchar(5))) -- substitui��o inteligente
-  else t2.Latitude
-  end as Latitude
---
-, case when t2.Contador > 1 and len(t2.Longitude) < 10 then (t2.Longitude + cast(t2.Contador as varchar(5)))				-- concatenar Strings
-       when t2.Contador > 1 and len(t2.Longitude) >= 10  then stuff(t2.Longitude, 10, 5, cast(t2.Contador as varchar(5)))   -- substitui��o inteligente
-  else t2.Longitude
-  end as Longitude
-from coord as t2
+-- Seleção final: aplica ajuste de coordenada duplicada conforme comprimento do campo
+SELECT
+	t2.NomeRazaoSocial
+   ,CASE
+		-- Concatenação simples quando o campo tem menos de 10 caracteres
+		WHEN t2.Contador > 1 AND LEN(t2.Latitude) < 10
+			THEN (t2.Latitude + CAST(t2.Contador AS VARCHAR(5)))
+		-- Substituição via STUFF quando o campo tem 10 ou mais caracteres
+		WHEN t2.Contador > 1 AND LEN(t2.Latitude) >= 10
+			THEN STUFF(t2.Latitude, 10, 5, CAST(t2.Contador AS VARCHAR(5)))
+		ELSE t2.Latitude
+	END                                                             AS Latitude
+   ,CASE
+		-- Concatenação simples quando o campo tem menos de 10 caracteres
+		WHEN t2.Contador > 1 AND LEN(t2.Longitude) < 10
+			THEN (t2.Longitude + CAST(t2.Contador AS VARCHAR(5)))
+		-- Substituição via STUFF quando o campo tem 10 ou mais caracteres
+		WHEN t2.Contador > 1 AND LEN(t2.Longitude) >= 10
+			THEN STUFF(t2.Longitude, 10, 5, CAST(t2.Contador AS VARCHAR(5)))
+		ELSE t2.Longitude
+	END                                                             AS Longitude
+FROM coord AS t2;
