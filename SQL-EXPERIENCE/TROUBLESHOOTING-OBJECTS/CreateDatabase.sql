@@ -1,96 +1,144 @@
-USE [master]
+/*
+    OBJETIVO: Provisionar o banco DBA_PerformanceHub com arquivos de dados e log dedicados,
+              e configurar todas as opções de banco conforme o padrão do ambiente DBA.
+    PROJETO:  mssqlserver-solution-explorer
+*/
+
+USE [master];
 GO
 
-/****** Object:  Database xxxxxxx   ******/
-CREATE DATABASE Maintenance ON  PRIMARY 
-( NAME = N'Maintenance', FILENAME = N'G:\Data\Maintenance.mdf' , SIZE = 10240MB , MAXSIZE = UNLIMITED, FILEGROWTH = 0)
- LOG ON 
-( NAME = N'Maintenance_log', FILENAME = N'F:\Log\Maintenance_log.ldf' , SIZE = 1024MB , MAXSIZE = 2048GB , FILEGROWTH = 0)
+-- ---------------------------------------------------------------------------
+-- Criação do banco: arquivo de dados (G:\Data) e log (F:\Log)
+-- ---------------------------------------------------------------------------
+CREATE DATABASE DBA_PerformanceHub
+ON PRIMARY
+(
+     NAME        = N'DBA_PerformanceHub'
+    ,FILENAME    = N'G:\Data\DBA_PerformanceHub.mdf'
+    ,SIZE        = 10240MB
+    ,MAXSIZE     = UNLIMITED
+    ,FILEGROWTH  = 0
+)
+LOG ON
+(
+     NAME        = N'DBA_PerformanceHub_log'
+    ,FILENAME    = N'F:\Log\DBA_PerformanceHub_log.ldf'
+    ,SIZE        = 1024MB
+    ,MAXSIZE     = 2048GB
+    ,FILEGROWTH  = 0
+);
 GO
 
-ALTER DATABASE Maintenance SET COMPATIBILITY_LEVEL = 100
+-- ---------------------------------------------------------------------------
+-- Nível de compatibilidade
+-- ---------------------------------------------------------------------------
+ALTER DATABASE DBA_PerformanceHub SET COMPATIBILITY_LEVEL = 100;
 GO
 
-ALTER DATABASE Maintenance SET ANSI_NULL_DEFAULT ON 
+-- ---------------------------------------------------------------------------
+-- Conformidade ANSI e comportamento aritmético
+-- ---------------------------------------------------------------------------
+ALTER DATABASE DBA_PerformanceHub SET ANSI_NULL_DEFAULT ON;
 GO
 
-ALTER DATABASE Maintenance SET ANSI_NULLS ON 
+ALTER DATABASE DBA_PerformanceHub SET ANSI_NULLS ON;
 GO
 
-ALTER DATABASE Maintenance SET ANSI_PADDING ON 
+ALTER DATABASE DBA_PerformanceHub SET ANSI_PADDING ON;
 GO
 
-ALTER DATABASE Maintenance SET ANSI_WARNINGS ON 
+ALTER DATABASE DBA_PerformanceHub SET ANSI_WARNINGS ON;
 GO
 
-ALTER DATABASE Maintenance SET ARITHABORT ON 
+ALTER DATABASE DBA_PerformanceHub SET ARITHABORT ON;
 GO
 
-ALTER DATABASE Maintenance SET AUTO_CLOSE OFF 
+-- ---------------------------------------------------------------------------
+-- Opções de estatísticas e comportamento de crescimento automático
+-- ---------------------------------------------------------------------------
+ALTER DATABASE DBA_PerformanceHub SET AUTO_CLOSE OFF;
 GO
 
-ALTER DATABASE Maintenance SET AUTO_CREATE_STATISTICS ON 
+ALTER DATABASE DBA_PerformanceHub SET AUTO_CREATE_STATISTICS ON;
 GO
 
-ALTER DATABASE Maintenance SET AUTO_SHRINK OFF 
+ALTER DATABASE DBA_PerformanceHub SET AUTO_SHRINK OFF;
 GO
 
-ALTER DATABASE Maintenance SET AUTO_UPDATE_STATISTICS ON 
+ALTER DATABASE DBA_PerformanceHub SET AUTO_UPDATE_STATISTICS ON;
 GO
 
-ALTER DATABASE Maintenance SET CURSOR_CLOSE_ON_COMMIT OFF 
+-- ---------------------------------------------------------------------------
+-- Comportamento de cursores
+-- ---------------------------------------------------------------------------
+ALTER DATABASE DBA_PerformanceHub SET CURSOR_CLOSE_ON_COMMIT OFF;
 GO
 
-ALTER DATABASE Maintenance SET CURSOR_DEFAULT  GLOBAL 
+ALTER DATABASE DBA_PerformanceHub SET CURSOR_DEFAULT GLOBAL;
 GO
 
-ALTER DATABASE Maintenance SET CONCAT_NULL_YIELDS_NULL ON 
+-- ---------------------------------------------------------------------------
+-- Comportamento de strings, identificadores e triggers
+-- ---------------------------------------------------------------------------
+ALTER DATABASE DBA_PerformanceHub SET CONCAT_NULL_YIELDS_NULL ON;
 GO
 
-ALTER DATABASE Maintenance SET NUMERIC_ROUNDABORT OFF 
+ALTER DATABASE DBA_PerformanceHub SET NUMERIC_ROUNDABORT OFF;
 GO
 
-ALTER DATABASE Maintenance SET QUOTED_IDENTIFIER ON 
+ALTER DATABASE DBA_PerformanceHub SET QUOTED_IDENTIFIER ON;
 GO
 
-ALTER DATABASE Maintenance SET RECURSIVE_TRIGGERS OFF 
+ALTER DATABASE DBA_PerformanceHub SET RECURSIVE_TRIGGERS OFF;
 GO
 
-ALTER DATABASE Maintenance SET  ENABLE_BROKER						-- DBA
+-- ---------------------------------------------------------------------------
+-- Service Broker e estatísticas assíncronas                           
+-- ---------------------------------------------------------------------------
+ALTER DATABASE DBA_PerformanceHub SET ENABLE_BROKER;                   -- DBA
 GO
 
-ALTER DATABASE Maintenance SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+ALTER DATABASE DBA_PerformanceHub SET AUTO_UPDATE_STATISTICS_ASYNC OFF;
 GO
 
-ALTER DATABASE Maintenance SET DATE_CORRELATION_OPTIMIZATION OFF 
+ALTER DATABASE DBA_PerformanceHub SET DATE_CORRELATION_OPTIMIZATION OFF;
 GO
 
-ALTER DATABASE Maintenance SET TRUSTWORTHY ON						-- DBA
+-- ---------------------------------------------------------------------------
+-- Segurança, isolamento e snapshot                                     
+-- ---------------------------------------------------------------------------
+ALTER DATABASE DBA_PerformanceHub SET TRUSTWORTHY ON;                   -- DBA
 GO
 
-ALTER DATABASE Maintenance SET ALLOW_SNAPSHOT_ISOLATION ON			-- DBA
+ALTER DATABASE DBA_PerformanceHub SET ALLOW_SNAPSHOT_ISOLATION ON;      -- DBA
 GO
 
-ALTER DATABASE Maintenance SET PARAMETERIZATION SIMPLE 
+-- ---------------------------------------------------------------------------
+-- Parametrização e controle de leitura comprometida
+-- ---------------------------------------------------------------------------
+ALTER DATABASE DBA_PerformanceHub SET PARAMETERIZATION SIMPLE;
 GO
 
-ALTER DATABASE Maintenance SET READ_COMMITTED_SNAPSHOT OFF 
+ALTER DATABASE DBA_PerformanceHub SET READ_COMMITTED_SNAPSHOT OFF;
 GO
 
-ALTER DATABASE Maintenance SET HONOR_BROKER_PRIORITY OFF 
+ALTER DATABASE DBA_PerformanceHub SET HONOR_BROKER_PRIORITY OFF;
 GO
 
-ALTER DATABASE Maintenance SET RECOVERY FULL						-- DBA 
+-- ---------------------------------------------------------------------------
+-- Recovery, acesso e integridade de páginas                          
+-- ---------------------------------------------------------------------------
+ALTER DATABASE DBA_PerformanceHub SET RECOVERY FULL;                  -- DBA
 GO
 
-ALTER DATABASE Maintenance SET  MULTI_USER 
+ALTER DATABASE DBA_PerformanceHub SET MULTI_USER;
 GO
 
-ALTER DATABASE Maintenance SET PAGE_VERIFY CHECKSUM  
+ALTER DATABASE DBA_PerformanceHub SET PAGE_VERIFY CHECKSUM;
 GO
 
-ALTER DATABASE Maintenance SET DB_CHAINING OFF 
+ALTER DATABASE DBA_PerformanceHub SET DB_CHAINING OFF;
 GO
 
-ALTER DATABASE Maintenance SET  READ_WRITE 
+ALTER DATABASE DBA_PerformanceHub SET READ_WRITE;
 GO

@@ -1,23 +1,26 @@
----------------------------------------------------------------------------------------------------------------------------
--- Purpose: This query will show messages that failed to send via DBMail.  Are there any alerts that should have gone out that didn't?
---          https://www.mssqltips.com/sqlservertip/1100/setting-up-database-mail-for-sql-server/
+/*
+    OBJETIVO: Identificar e-mails com falha de envio via Database Mail e consultar
+              a view de monitoramento de e-mails do banco Maintenance.
+    PROJETO: mssqlserver-solution-explorer
+    REFERÊNCIA: https://www.mssqltips.com/sqlservertip/1100/setting-up-database-mail-for-sql-server/
+*/
 
+-- ---------------------------------------------------------------------------
+-- Bloco 1: E-mails com falha de envio nos últimos N dias (sysmail_faileditems)
+-- ---------------------------------------------------------------------------
 DECLARE @DaysBack INT = 2;
 
-SELECT 
-  * 
-FROM 
-  msdb.dbo.sysmail_faileditems
-WHERE 
-  sent_date > DATEADD(dd, ABS(@DaysBack) * -1, SYSDATETIME());
+SELECT *
+FROM msdb.dbo.sysmail_faileditems
+WHERE sent_date > DATEADD(dd, ABS(@DaysBack) * -1, SYSDATETIME());
 
+-- ---------------------------------------------------------------------------
+-- Bloco 2: Consulta à view de monitoramento de e-mails enviados
+-- ---------------------------------------------------------------------------
+USE Maintenance;
+GO
 
----------------------------------------------------------------------------------------------------------------------------
--- View de monitoramento
----------------------------------------------------------------------------------------------------------------------------
-use Maintenance
-go
-
-select * from Management.vw_MonitoringEmail
-where DataEnvio between '20170623 00:00:00.000' and '20170623 23:59:59.997'
+SELECT *
+FROM Management.vw_MonitoringEmail
+WHERE DataEnvio BETWEEN '20170623 00:00:00.000' AND '20170623 23:59:59.997';
 
