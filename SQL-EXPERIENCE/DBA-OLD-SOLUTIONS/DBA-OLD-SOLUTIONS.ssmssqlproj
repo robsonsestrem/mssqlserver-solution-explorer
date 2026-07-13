@@ -264,17 +264,17 @@
           <AssociatedConnUserName />
           <FullPath>OLA_Job_Exemplo.sql</FullPath>
         </FileNode>
-        <FileNode Name="PlanoCompletoGesCooper90.sql">
+        <FileNode Name="PlanoCompletoYOUR_DATABASE.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>PlanoCompletoGesCooper90.sql</FullPath>
+          <FullPath>PlanoCompletoYOUR_DATABASE.sql</FullPath>
         </FileNode>
-        <FileNode Name="ReindexTesteGesCooper90.sql">
+        <FileNode Name="ReindexTesteYOUR_DATABASE.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>ReindexTesteGesCooper90.sql</FullPath>
+          <FullPath>ReindexTesteYOUR_DATABASE.sql</FullPath>
         </FileNode>
         <FileNode Name="ReindexTesteIntegraTICravil.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
@@ -756,11 +756,11 @@
           <AssociatedConnUserName />
           <FullPath>tr_Filiais_HoraVerao_U.sql</FullPath>
         </FileNode>
-        <FileNode Name="tr_GesCooper90DDLTransaction_BD.sql">
+        <FileNode Name="tr_YOUR_DATABASEDDLTransaction_BD.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>119.8.155.38</AssociatedConnSrvName>
           <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
-          <FullPath>tr_GesCooper90DDLTransaction_BD.sql</FullPath>
+          <FullPath>tr_YOUR_DATABASEDDLTransaction_BD.sql</FullPath>
         </FileNode>
         <FileNode Name="tr_NotDropDatabase.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.155.38:False:dixhealth_adm</AssociatedConnectionMoniker>

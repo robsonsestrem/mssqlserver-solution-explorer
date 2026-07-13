@@ -1,4 +1,4 @@
-USE GesCooper90
+USE YOUR_DATABASE
 GO
 
 ALTER TRIGGER tr_Produtos_LogUID 
@@ -32,7 +32,7 @@ SET NOCOUNT ON
                                         FROM   sys.triggers 
                                         WHERE  object_id = @@procid)) 
 	  	 
-      -- Coloca a tabela Deleted em uma variável XML, conforme campos otimizados
+      -- Coloca a tabela Deleted em uma variï¿½vel XML, conforme campos otimizados
 	   SET @Deleted = (SELECT [ProCod], [ProNom], [ProFamCod], [ProGrpCod], [ProSubCod], [ProSituacao], [ProTip], [ProTipPrc], [ProCodArea], [ProNomRed], [ProNomEmbCompra], [ProQtdEmbEstoque], 
 	   [ProNomEmbEstoque], [ProEmbConv], [ProVlrPeso], [ProVlrPLiq], [ProNomMarFab], [ProVlrIpi], [ProTipIcms], [ProVlrISS], [ProVlrMargen], [ProVasCod], [ProOpeCod], [ProTipFrt], [ProTipFun], 
 	   [ProTipDev], [ProTipDepFrt], [ProDiaVct], [ProTipOrigem], [ProTipTrb], [ProDatInc], [ProPerPis], [ProPerCofins], [ProTipNota], [ProClaTox], [ProDesPriAtivo], [ProBasPisCofins], 
@@ -50,7 +50,7 @@ SET NOCOUNT ON
 	   [ProCodUnificado], [ProFlag62], [ProFlag63], [ProConLeite], [ProCest], [ProFlag64]
 					   FROM deleted FOR xml raw, root('Deleted'))       
      
-	  -- Coloca a tabela Inserted em uma variável XML, conforme campos otimizados
+	  -- Coloca a tabela Inserted em uma variï¿½vel XML, conforme campos otimizados
          SET @Inserted = (SELECT [ProCod], [ProNom], [ProFamCod], [ProGrpCod], [ProSubCod], [ProSituacao], [ProTip], [ProTipPrc], [ProCodArea], [ProNomRed], [ProNomEmbCompra], [ProQtdEmbEstoque], 
 	   [ProNomEmbEstoque], [ProEmbConv], [ProVlrPeso], [ProVlrPLiq], [ProNomMarFab], [ProVlrIpi], [ProTipIcms], [ProVlrISS], [ProVlrMargen], [ProVasCod], [ProOpeCod], [ProTipFrt], [ProTipFun], 
 	   [ProTipDev], [ProTipDepFrt], [ProDiaVct], [ProTipOrigem], [ProTipTrb], [ProDatInc], [ProPerPis], [ProPerCofins], [ProTipNota], [ProClaTox], [ProDesPriAtivo], [ProBasPisCofins], 
@@ -85,7 +85,7 @@ SET NOCOUNT ON
 														   WHERE object_id = @@procid) 
 														   AND column_id = @Col)
 
-						-- Substitui a TAG no XML da DELETED e faz a extração dos dados
+						-- Substitui a TAG no XML da DELETED e faz a extraï¿½ï¿½o dos dados
 						SET @DeletedTMP = REPLACE(CAST(@Deleted As VARCHAR(MAX)),@NomeCol + '=','Col=')
 														
 						INSERT INTO IntegraTICravil.LogErp.ProdutosLogDML 
@@ -120,7 +120,7 @@ SET NOCOUNT ON
 									FROM deleted As Ins											
 					END -- WHILE		  
 
-		END -- condição delete
+		END -- condiï¿½ï¿½o delete
 		ELSE IF not exists(select top 1 null from deleted) --inserted
 			BEGIN
 				SELECT @action ='I'	FROM inserted
@@ -147,10 +147,10 @@ SET NOCOUNT ON
                                                       WHERE 
                                                      object_id = @@procid) 
                                               AND column_id = @Col) 
-                              -- Substitui a TAG no XML da DELETED e faz a extração dos dados
+                              -- Substitui a TAG no XML da DELETED e faz a extraï¿½ï¿½o dos dados
                               SET @DeletedTMP = Replace(Cast(@Deleted AS VARCHAR (max)),@NomeCol + '=','Col=') 
 
-                              -- Substitui a TAG no XML da INSERTED e faz a extração dos dados 
+                              -- Substitui a TAG no XML da INSERTED e faz a extraï¿½ï¿½o dos dados 
                               SET @InsertedTMP = Replace(Cast(@Inserted AS VARCHAR(max)),@NomeCol + '=','Col=') 
 
                               INSERT INTO IntegraTICravil.LogErp.ProdutosLogDML 
@@ -196,7 +196,7 @@ GO
 
 
 ---------------------------------------------------------------------------------------------------------------------------------
-----TABELA DE LOGS – Local onde a trigger acima registra os dados DML da tabela PRODUTOS
+----TABELA DE LOGS ï¿½ Local onde a trigger acima registra os dados DML da tabela PRODUTOS
 ---------------------------------------------------------------------------------------------------------------------------------
 
 --Use IntegraTICravil
@@ -212,7 +212,7 @@ GO
 --	TableName varchar(10) default 'PRODUTOS',
 --	TypeSQL char(1) ,
 --	Procod int not null,
---	ColumnUpdate sysname,  -- tipos de dados corresponde ao varchar(128) e já seta not null também
+--	ColumnUpdate sysname,  -- tipos de dados corresponde ao varchar(128) e jï¿½ seta not null tambï¿½m
 --	ValueOld varchar(100) default '',
 --	ValueNew varchar(100) default '',
 

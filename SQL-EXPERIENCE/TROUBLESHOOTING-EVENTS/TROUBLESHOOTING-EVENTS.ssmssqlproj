@@ -21,7 +21,7 @@
           <Server>182.160.25.149</Server>
           <UserName>dixhealth_adm</UserName>
           <Authentication>SQL</Authentication>
-          <InitialDB>MAINTENANCE_DIX</InitialDB>
+          <InitialDB>YOUR_DATABASE_DIX</InitialDB>
           <LoginTimeout>30</LoginTimeout>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>

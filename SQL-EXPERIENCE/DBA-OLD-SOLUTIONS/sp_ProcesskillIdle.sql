@@ -1,4 +1,4 @@
-use maintenance
+use YOUR_DATABASE
 go
 
 create or alter procedure Management.sp_ProcesskillIdle
@@ -54,9 +54,9 @@ begin
 		, @destination_table = 'tempdb..##whoisactive'
 		
 		---------------------------------------------------------------------------------------------------------------------------------------
-		-- salvando informações dos processos
+		-- salvando informaï¿½ï¿½es dos processos
 		---------------------------------------------------------------------------------------------------------------------------------------
-		insert into [Maintenance].[Management].[HistoryKillProcess]
+		insert into [YOUR_DATABASE].[Management].[HistoryKillProcess]
 		select 
 		x.[dd hh:mm:ss.mss], x.session_id, x.login_name, x.[host_name], x.[status], x.[database_name]
 		, x.open_tran_count, x.[program_name], x.collection_time, x.start_time, x.login_time, x.sql_text, x.sql_command
@@ -67,11 +67,11 @@ begin
 			from ##whoisactive as t1
 			where t1.login_name in 
 			('cravil\nfe', 'cravil\task', 'cravil\administrator', 'cravil\backupexec', 'cravil\sqlserver', 'cravil\vcenter'
-			 ,'nt service\mssqlserver','nt service\sqlserveragent', 'nt authority\system', 'gescooper', 'admadriana'
-			 ,'cravil\domo','cravil\infogen03', 'agrosystem', 'consulta', 'rhcravil', 'guru', 'cravil\infogen02', 'cravil\infogen01'
+			 ,'nt service\mssqlserver','nt service\sqlserveragent', 'nt authority\system', 'YOUR_DATABASE', 'admadriana'
+			 ,'cravil\domo','cravil\infogen03', 'agrosystem', 'consulta', 'YOUR_DATABASE', 'guru', 'cravil\infogen02', 'cravil\infogen01'
 			 , 'infadriano', 'infedivaldo', 'infedivan', 'infeliezer', 'infivan', 'infjehan'
 			 , 'infernando', 'infmarcelo', 'inftiago','infneimar', 'suptcadm', 'vpxuser', 'sqlmdsmon')  
-			and t1.[database_name] in ('gescooper90')
+			and t1.[database_name] in ('YOUR_DATABASE')
 		) as x
 		where x.horas > @idleTime
 		
@@ -88,16 +88,16 @@ begin
 			from ##whoisactive as t1
 			where t1.login_name in 
 			('cravil\nfe', 'cravil\task', 'cravil\administrator', 'cravil\backupexec', 'cravil\sqlserver', 'cravil\vcenter'
-			 ,'nt service\mssqlserver','nt service\sqlserveragent', 'nt authority\system', 'gescooper', 'admadriana'
-			 ,'cravil\domo','cravil\infogen03', 'agrosystem', 'consulta', 'rhcravil', 'guru', 'cravil\infogen02', 'cravil\infogen01'
+			 ,'nt service\mssqlserver','nt service\sqlserveragent', 'nt authority\system', 'YOUR_DATABASE', 'admadriana'
+			 ,'cravil\domo','cravil\infogen03', 'agrosystem', 'consulta', 'YOUR_DATABASE', 'guru', 'cravil\infogen02', 'cravil\infogen01'
 			 , 'infadriano', 'infedivaldo', 'infedivan', 'infeliezer', 'infivan', 'infjehan'
 			 , 'infernando', 'infmarcelo', 'inftiago','infneimar', 'suptcadm', 'vpxuser', 'sqlmdsmon')  
-			and t1.[database_name] in ('gescooper90')
+			and t1.[database_name] in ('YOUR_DATABASE')
 		) as x
 		where x.horas > @idleTime	
 
 		---------------------------------------------------------------------------------------------------------------------------------------
-		-- executa matança
+		-- executa matanï¿½a
 		---------------------------------------------------------------------------------------------------------------------------------------
 		if (len(@query) > 0 and @@ROWCOUNT <> 0)
 			exec(@query)		
@@ -109,8 +109,8 @@ begin
 			rollback transaction
 			declare @corpofalha varchar(max)
 				  , @subject varchar(100)			-- assunto
-				  , @recipients varchar(100);		-- destinatário				
-			set @subject = 'falha na execução de procedure: '+@@servername;
+				  , @recipients varchar(100);		-- destinatï¿½rio				
+			set @subject = 'falha na execuï¿½ï¿½o de procedure: '+@@servername;
 			set @recipients = 'suporte@cravil.com.br';
 			set @corpofalha = '	
 				<html>

@@ -1,4 +1,4 @@
-use Maintenance
+use YOUR_DATABASE
 go
 
 CREATE OR ALTER PROCEDURE Management.sp_MonitoringSizeFreeDatafiles
@@ -43,24 +43,24 @@ BEGIN
 			  FROM sys.database_files;'
 
 			  --delete from ##tempDatafileFree
-			  --where DatabaseName like '%gescooper%'	-- Tratado para quando houver uma base que não precisa monitorar
+			  --where DatabaseName like '%YOUR_DATABASE%'	-- Tratado para quando houver uma base que nï¿½o precisa monitorar
 
 
 			  ---------------------------------------------------------------------------------------------------------------------------------------------------
-			  -- Valida as condições para o envio de e-mail
+			  -- Valida as condiï¿½ï¿½es para o envio de e-mail
 			  ---------------------------------------------------------------------------------------------------------------------------------------------------
 			  IF((SELECT count(*) FROM ##tempDatafileFree AS t WHERE t.PercFreeFile <= @percentFree) > 0)
 				BEGIN
 					DECLARE 				
-						@Assunto VARCHAR(200) = @@SERVERNAME + ' - Monitoramento de Espaço Livre nos DataFiles',
+						@Assunto VARCHAR(200) = @@SERVERNAME + ' - Monitoramento de Espaï¿½o Livre nos DataFiles',
 						@Destinatario VARCHAR(MAX) = 'suporte@cravil.com.br',
 						@Mensagem VARCHAR(MAX)
             		      
 					SET @Mensagem = '
-					Atenção DBA,<br>
-					Espaço livre em algum(s) arquivos de dados (mdf, ndf e ldf) está reduzido (menor que 5%).
+					Atenï¿½ï¿½o DBA,<br>
+					Espaï¿½o livre em algum(s) arquivos de dados (mdf, ndf e ldf) estï¿½ reduzido (menor que 5%).
 					<br>Obs.: Em caso de bases muito grandes foi calibrado para alertar em 3%.
-					<br>Instância: ' + @@SERVICENAME + ' 
+					<br>Instï¿½ncia: ' + @@SERVICENAME + ' 
 					<br>Servidor: ' + @@SERVERNAME + '
 					<br><br> 
 
@@ -118,8 +118,8 @@ BEGIN
 
 			DECLARE @corpoFalha varchar(max)
 		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinatário				
-			SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		      , @recipients VARCHAR(100);		-- destinatï¿½rio				
+			SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 			SET @recipients = 'suporte@cravil.com.br';
 			SET @corpoFalha = '	
 				<html>

@@ -4,7 +4,7 @@
 -------------------------------------------------------------------------------------------------------------------------------
 -- identifique o objeto para capturar o hash
 select b.text, a.* from sys.dm_exec_procedure_stats a cross apply sys.dm_exec_sql_text(a.sql_handle) b 
-where a.database_id = db_id('GesCooper90') and object_id = object_id('CaixasIntTraProcessar')
+where a.database_id = db_id('YOUR_DATABASE') and object_id = object_id('CaixasIntTraProcessar')
 
 -- aplico esse hash na consulta abaixo
 select

@@ -9,7 +9,7 @@ create or alter procedure Erp.sp_ReportLayoutSecoop
 )
 as
 begin 
-	DECLARE @vSubject NVARCHAR(255) = 'Relação de dados RH CRAVIL'
+	DECLARE @vSubject NVARCHAR(255) = 'Relaï¿½ï¿½o de dados RH CRAVIL'
 	DECLARE @vBody AS NVARCHAR(MAX) = '';
 	DECLARE @Query NVARCHAR(max);
 	DECLARE @tab char(1) = CHAR(9);
@@ -129,21 +129,21 @@ begin
 	, coalesce(bairros.NomBai, '')																		
 	, coalesce(FicComplementar.endcep, '')																
 
-	from rhcravil.rhcravil.r034fun  as FicBasica
-	left join rhcravil.rhcravil.r034cpl as FicComplementar 
+	from YOUR_DATABASE.YOUR_DATABASE.r034fun  as FicBasica
+	left join YOUR_DATABASE.YOUR_DATABASE.r034cpl as FicComplementar 
 	  on FicComplementar.numemp = FicBasica.numemp 
 	  and FicComplementar.tipcol = FicBasica.tipcol 
 	  and FicComplementar.numcad = FicBasica.numcad 
-	left join rhcravil.rhcravil.R022GRA as GraInstr
+	left join YOUR_DATABASE.YOUR_DATABASE.R022GRA as GraInstr
 	  on FicBasica.grains = GraInstr.GraIns 
-	left join rhcravil.rhcravil.R022def deficiencia
+	left join YOUR_DATABASE.YOUR_DATABASE.R022def deficiencia
 	  on  FicBasica.coddef = deficiencia.CodDef   
-	inner join rhcravil.rhcravil.R074BAI as bairros 
+	inner join YOUR_DATABASE.YOUR_DATABASE.R074BAI as bairros 
 	  on FicComplementar.codcid = bairros.CodCid
 	  and FicComplementar.codbai = bairros.CodBai	
-	inner join rhcravil.rhcravil.R010SIT as situac
+	inner join YOUR_DATABASE.YOUR_DATABASE.R010SIT as situac
 	  on FicBasica.sitafa = situac.CodSit
-	inner join rhcravil.rhcravil.R074CID as cidades
+	inner join YOUR_DATABASE.YOUR_DATABASE.R074CID as cidades
 	  on cidades.CodCid = FicComplementar.codcid
 
 	WHERE FicBasica.sitafa <> 7  
@@ -156,8 +156,8 @@ begin
 
 	SET @vBody = '<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:12px>
 														<tr height=20  style=color:black;>
-															<td width=300 style=height:20.0pt>Anexo dados para exportação do cadastro de participantes SESCOOP.																																								
-																							<br>Data de Extração: '+CONVERT(VARCHAR(12),GETDATE(),103)+'																						
+															<td width=300 style=height:20.0pt>Anexo dados para exportaï¿½ï¿½o do cadastro de participantes SESCOOP.																																								
+																							<br>Data de Extraï¿½ï¿½o: '+CONVERT(VARCHAR(12),GETDATE(),103)+'																						
 															</td>
 														</tr>
 														</table>
@@ -190,7 +190,7 @@ begin
 												,@query_result_no_padding= 1	-- trim
 												,@query_result_width = 32767	-- stop wordwrap
 									    end
-									-- *** Exibe como HTML ao invés de enviar por e-mail
+									-- *** Exibe como HTML ao invï¿½s de enviar por e-mail
 									ELSE 
 									SELECT @vBody;
 end

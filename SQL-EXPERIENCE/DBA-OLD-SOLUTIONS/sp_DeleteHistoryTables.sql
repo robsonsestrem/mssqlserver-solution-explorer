@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 create or alter procedure Management.sp_DeleteHistoryTables
@@ -21,7 +21,7 @@ begin
 				from
 				(
 				select count(*) as [Registros]
-				from [Maintenance].[Management].[HistorySizeTables] as t1
+				from [YOUR_DATABASE].[Management].[HistorySizeTables] as t1
 				group by t1.DtReferencia
 				) as x
 			)
@@ -47,8 +47,8 @@ begin
 			ROLLBACK TRANSACTION
 			DECLARE @corpoFalha varchar(max)
 				  , @subject VARCHAR(100)			-- assunto
-				  , @recipients VARCHAR(100);		-- destinatário				
-			SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+				  , @recipients VARCHAR(100);		-- destinatï¿½rio				
+			SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 			SET @recipients = 'suporte@cravil.com.br';
 			SET @corpoFalha = '	
 				<html>

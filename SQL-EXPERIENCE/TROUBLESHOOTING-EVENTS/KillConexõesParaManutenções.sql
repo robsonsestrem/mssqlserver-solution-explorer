@@ -8,7 +8,7 @@ SELECT
 FROM
     master..sysprocesses
 WHERE
-    dbid = DB_ID('gescooper90') -- Nome do database
+    dbid = DB_ID('YOUR_DATABASE') -- Nome do database
     AND dbid > 4 -- Não eliminar sessões em databases de sistema
     AND spid <> @@SPID -- Não eliminar a sua própria sessão
 

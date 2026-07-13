@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
--- Linha de tendência mostrará aumento nos totais diários e semanal de processos bloqueados, indica e justifica baixa de performance.
+-- Linha de tendï¿½ncia mostrarï¿½ aumento nos totais diï¿½rios e semanal de processos bloqueados, indica e justifica baixa de performance.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 --SELECT
 --count(IdBlock) as total         
@@ -15,9 +15,9 @@ SELECT
 count(h.IdBlock) as TotalBlock         
 ,CONVERT(VARCHAR(10), h.DateBlock,103) as Date
 ,h.DatabaseName
-FROM Maintenance.Management.HistoryBlockedProcess as h
+FROM YOUR_DATABASE.Management.HistoryBlockedProcess as h
 WHERE h.DatabaseName is not null and h.DateBlock is not null
-and h.DateBlock between '2017-03-24' and GETDATE()  -- a data setada é a primerira registrada na rotina de coleta
+and h.DateBlock between '2017-03-24' and GETDATE()  -- a data setada ï¿½ a primerira registrada na rotina de coleta
 group by substring(CONVERT(VARCHAR(10), h.DateBlock, 103), 4, 2)
 		,CONVERT(VARCHAR(10), h.DateBlock,103), h.DatabaseName
 
@@ -41,10 +41,10 @@ group by substring(CONVERT(VARCHAR(10), h.DateBlock, 103), 4, 2)
 		--) as x
 		--group by x.DatabaseName
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
--- No script abaixo foi calculado para trazer a data, porém é escolhido a última data do agrupamento de count por base de dados,
+-- No script abaixo foi calculado para trazer a data, porï¿½m ï¿½ escolhido a ï¿½ltima data do agrupamento de count por base de dados,
 -- ou seja, tenho bloqueios numa base no dia 10 e no dia 11 ele me traz a data do dia 11 e o total desses bloqueios.
--- Obs.: na última semana talvez pode duplicar a data pois ele calcula a data máxima de uma semana pra frente 
--- e depois as anteriores na variável @decremento.
+-- Obs.: na ï¿½ltima semana talvez pode duplicar a data pois ele calcula a data mï¿½xima de uma semana pra frente 
+-- e depois as anteriores na variï¿½vel @decremento.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 declare  @decremento smallint
 		,@limite smallint		
@@ -60,7 +60,7 @@ DateBlock varchar(12),
 DatabaseName varchar(50)
 )
 
-set @limite = (select DATEDIFF(WEEK, '2017-03-24', GETDATE()) * -1)  -- a data setada é a primerira registrada na rotina de coleta
+set @limite = (select DATEDIFF(WEEK, '2017-03-24', GETDATE()) * -1)  -- a data setada ï¿½ a primerira registrada na rotina de coleta
 set @decremento = 1
 
 WHILE (@limite <= @decremento)
@@ -74,7 +74,7 @@ WHILE (@limite <= @decremento)
 			 count(h.IdBlock) as TotalBlock         
 			,CONVERT(VARCHAR(12), h.DateBlock,103) as DateBlock
 			,h.DatabaseName
-		FROM Maintenance.Management.HistoryBlockedProcess as h
+		FROM YOUR_DATABASE.Management.HistoryBlockedProcess as h
 		WHERE h.DatabaseName is not null and h.DateBlock is not null
 		and cast(h.DateBlock as date) 
 		between dateadd(WEEK,-1, cast(cast(floor(cast(@dia as float)) as datetime) as date)) 
@@ -102,10 +102,10 @@ IF(OBJECT_ID('temdb.dbo.##semanas') IS NOT NULL)
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
--- Nova visão para o PowerBI
+-- Nova visï¿½o para o PowerBI
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 select 
-x.DateBlock as [Data de Referência]
+x.DateBlock as [Data de Referï¿½ncia]
 , x.DatabaseName as [Nome Database]
 , count(x.IdBlock) as [Total Block]
 from
@@ -114,7 +114,7 @@ from
 			 h.IdBlock	         
 			, cast(h.DateBlock as date) as DateBlock
 			, h.DatabaseName
-		FROM Maintenance.Management.HistoryBlockedProcess as h
+		FROM YOUR_DATABASE.Management.HistoryBlockedProcess as h
 		WHERE h.DatabaseName is not null and h.DateBlock is not null
 ) as x			
 group by x.DateBlock, x.DatabaseName	
@@ -122,9 +122,9 @@ group by x.DateBlock, x.DatabaseName
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
--- Conta usários distintos por dia afetados por bloqueio
+-- Conta usï¿½rios distintos por dia afetados por bloqueio
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-USE Maintenance
+USE YOUR_DATABASE
 GO
 ;WITH cte_BlockedProcess
      AS (SELECT IdBlock,
@@ -177,6 +177,6 @@ GO
 			(
 				select distinct xml.Login_Blocked, cast(xml.Data_Inicio as date) as [data], xml.BD	
 				from ExtraiXML as xml
-				--where xml.BD = 'gescooper90'
+				--where xml.BD = 'YOUR_DATABASE'
 			) as x
 		) as y

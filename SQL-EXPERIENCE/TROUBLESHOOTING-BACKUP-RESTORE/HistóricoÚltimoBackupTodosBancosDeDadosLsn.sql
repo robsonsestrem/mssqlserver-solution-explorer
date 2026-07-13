@@ -2,7 +2,7 @@
 -- Aqui está o script sugerido por SQL Expert aasim abdullah , que escreveu excelente script que volta e recupera o histórico de qualquer banco de dados único.
 -- Encontrando o último tempo de backup para todos os bancos de dados, inclusive o LSN (Log sequence Number)
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-use GesCooper90
+use YOUR_DATABASE
 go
 SELECT TOP 100
 	s.database_name,

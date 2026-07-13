@@ -1,4 +1,4 @@
-use Maintenance
+use YOUR_DATABASE
 go
 
 CREATE OR ALTER PROCEDURE Management.sp_ReportCheckListDatabase
@@ -11,7 +11,7 @@ BEGIN
 		BEGIN TRY
 		BEGIN TRANSACTION
 			/**************************************************************************************************************/
-			/* Início do HTML                                                                                             */
+			/* Inï¿½cio do HTML                                                                                             */
 
 			DECLARE @des_MensagemHTML VARCHAR(MAX);
 
@@ -24,15 +24,15 @@ BEGIN
 			<body>
 			<div align=center>'
 
-			-- TÍTULO
+			-- Tï¿½TULO
                                                                                   
 			Set @des_MensagemHTML = @des_MensagemHTML + '
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:20px>
 			 <tr height=20 style=height:15.0pt>
-			  <td height=20 colspan=7 style=height:20.0pt;text-align:center><b>CheckList Diário SQL Server - ' + CONVERT(VARCHAR(50), GETDATE(), 103) + '<b></td>
+			  <td height=20 colspan=7 style=height:20.0pt;text-align:center><b>CheckList Diï¿½rio SQL Server - ' + CONVERT(VARCHAR(50), GETDATE(), 103) + '<b></td>
 			 </tr>
 			 <tr height=20 style=height:15.0pt>
-			  <td height=20 colspan=7 style=height:20.0pt;text-align:center><b>Informações do servidor: ' + @@SERVERNAME + '<b></td>
+			  <td height=20 colspan=7 style=height:20.0pt;text-align:center><b>Informaï¿½ï¿½es do servidor: ' + @@SERVERNAME + '<b></td>
 			 </tr>
 			 <tr height=20>
 			  <td height=20 colspan=7 style=height:20.0pt></td>
@@ -41,7 +41,7 @@ BEGIN
 
 
 			-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-			-- Versão, edição, etc... do SQL Server
+			-- Versï¿½o, ediï¿½ï¿½o, etc... do SQL Server
 			-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			Set @des_MensagemHTML = @des_MensagemHTML + '
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
@@ -64,8 +64,8 @@ BEGIN
 			<tr height=20  align = center style=color: #FFFFFF; background: #44546A;>
 			<td width=100 style=height:20.0pt>Servidor</td>
 			<td width=100 style=height:20.0pt>Cluster</td>
-			<td width=100 style=height:20.0pt>Versão</td>
-			<td width=150 style=height:20.0pt>Edição</td>
+			<td width=100 style=height:20.0pt>Versï¿½o</td>
+			<td width=150 style=height:20.0pt>Ediï¿½ï¿½o</td>
 			<td width=150 style=height:20.0pt>ProductVersion</td>
 			<td width=150 style=height:20.0pt>SP</td>
 			<td width=150 style=height:20.0pt>Collation</td>	
@@ -77,7 +77,7 @@ BEGIN
 				   '<td height=20 style=height:15.0pt>' + ISNULL(CAST(SERVERPROPERTY('ComputerNamePhysicalNetBIOS') as varchar(MAX)), '') + '</td>' +
 				   '<td height=20 style=height:15.0pt>' + ISNULL(CASE SERVERPROPERTY('IsClustered')
 					   WHEN 1 THEN 'Sim'
-					   ELSE 'Não'
+					   ELSE 'Nï¿½o'
 				   END, '') + '</td>' +
 				   '<td height=20 style=height:15.0pt>' + ISNULL(CASE PARSENAME(CAST(SERVERPROPERTY('ProductVersion') AS VARCHAR(max)), 4)
 					   WHEN 13 THEN '2016'
@@ -105,7 +105,7 @@ BEGIN
 			<td width=300 style=height:20.0pt>Online desde</td>
 			<td width=250 style=height:20.0pt>Total de Dias Online</td>
 			<td width=250 style=height:20.0pt>Cores/CPU</td>
-			<td width=200 style=height:20.0pt>Memória Gb</td>
+			<td width=200 style=height:20.0pt>Memï¿½ria Gb</td>
 			<td width=0 style=height:20.0pt></td>
 			<td width=0 style=height:20.0pt></td>
 			<td width=0 style=height:20.0pt></td>
@@ -140,12 +140,12 @@ BEGIN
 
 
 			-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-			-- Informãções da instância
+			-- Informï¿½ï¿½ï¿½es da instï¿½ncia
 			-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			Set @des_MensagemHTML = @des_MensagemHTML + '<br>
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 			<tr height=20  align = center style=color: #FFFFFF; background: #44546A;>
-			<td width=300 style=height:20.0pt>Serviço</td>
+			<td width=300 style=height:20.0pt>Serviï¿½o</td>
 			<td width=250 style=height:20.0pt>Startup</td>
 			<td width=250 style=height:20.0pt>Status</td>
 			<td width=200 style=height:20.0pt>Log On As</td>
@@ -174,15 +174,15 @@ BEGIN
 
 
 			-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-			-- Espaço no disco dos datafiles
+			-- Espaï¿½o no disco dos datafiles
 			-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			 Set @des_MensagemHTML = @des_MensagemHTML + '<br>
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 			<tr height=20  align = center style=color: #FFFFFF; background: #44546A;>
 			<td width=300 style=height:20.0pt>Discos Databases</td>
-			<td width=250 style=height:20.0pt;>Espaço Total Gb </td>
-			<td width=250 style=height:20.0pt;>Disponível Gb</td>
-			<td width=200 style=height:20.0pt;>Disponível %</td>
+			<td width=250 style=height:20.0pt;>Espaï¿½o Total Gb </td>
+			<td width=250 style=height:20.0pt;>Disponï¿½vel Gb</td>
+			<td width=200 style=height:20.0pt;>Disponï¿½vel %</td>
 			<td width=0 style=height:20.0pt;></td>
 			<td width=0 style=height:20.0pt;></td>
 			<td width=0 style=height:20.0pt;></td>
@@ -191,7 +191,7 @@ BEGIN
 			declare @discos table
 			(
 			volume_mount_point varchar(10),
-			EspaçoTotal_Gb decimal(19,2),
+			Espaï¿½oTotal_Gb decimal(19,2),
 			TotalDisponivel_Gb decimal(19,2),
 			DisponivelPercentual decimal(19,2)
 			)
@@ -199,7 +199,7 @@ BEGIN
 			SELECT DISTINCT
 							VS.volume_mount_point [Montagem] ,
 				
-							CAST(CAST(VS.total_bytes AS DECIMAL(19, 2)) / 1024 / 1024 / 1024 AS DECIMAL(10, 2)) AS [EspaçoTotal_Gb] ,
+							CAST(CAST(VS.total_bytes AS DECIMAL(19, 2)) / 1024 / 1024 / 1024 AS DECIMAL(10, 2)) AS [Espaï¿½oTotal_Gb] ,
 							CAST(CAST(VS.available_bytes AS DECIMAL(19, 2)) / 1024 / 1024 / 1024 AS DECIMAL(10, 2)) AS [TotalDisponivel_Gb],
 			
 							CAST(( CAST(VS.available_bytes AS DECIMAL(19, 2)) / CAST(VS.total_bytes AS DECIMAL(19, 2)) * 100 ) AS DECIMAL(10, 2)) AS [Disponivel_%]
@@ -217,7 +217,7 @@ BEGIN
 				   END +
 
 				   '<td height=20 style=height:15.0pt>' + d.volume_mount_point						+ '</td>' +
-				   '<td height=20 style=height:15.0pt>' + CAST(d.EspaçoTotal_Gb AS VARCHAR(20))		+ '</td>' + 
+				   '<td height=20 style=height:15.0pt>' + CAST(d.Espaï¿½oTotal_Gb AS VARCHAR(20))		+ '</td>' + 
 				   '<td height=20 style=height:15.0pt>' + CAST(d.TotalDisponivel_Gb AS VARCHAR(20))	+ '</td>' +
 				   '<td height=20 style=height:15.0pt>' + CAST(d.DisponivelPercentual AS VARCHAR(20))	+ '</td>' +
 				   '<td width=50 style=height:15.0pt;></td>
@@ -230,12 +230,12 @@ BEGIN
 
 
 			-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-			-- Últimas reinicializações do servidor                                                                               
+			-- ï¿½ltimas reinicializaï¿½ï¿½es do servidor                                                                               
 			-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			 Set @des_MensagemHTML = @des_MensagemHTML + '<br>
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 			  <tr height=20  align = center style=color: #FFFFFF; background: #44546A;>
-			  <td height=20 colspan=7 style=height:20.0pt;text-align:center>Últimas reinicializações do servidor.</td>
+			  <td height=20 colspan=7 style=height:20.0pt;text-align:center>ï¿½ltimas reinicializaï¿½ï¿½es do servidor.</td>
 			  </tr>
 			</table> '
 
@@ -263,7 +263,7 @@ BEGIN
 					<td width=70 style=height:15.0pt;></td>
 					<td width=70 style=height:15.0pt;></td>
 					<td width=0 style=height:15.0pt;></td></tr>'
-			 FROM Maintenance.Management.HistoryRestartServer as t1
+			 FROM YOUR_DATABASE.Management.HistoryRestartServer as t1
 			 Order by t1.DateShutdown DESC
 
 			SELECT @des_MensagemHTML = @des_MensagemHTML + 
@@ -271,7 +271,7 @@ BEGIN
 
 
 			/**************************************************************************************************************/
-			/* Informações dos Databases                                                                                ***/
+			/* Informaï¿½ï¿½es dos Databases                                                                                ***/
 			/**************************************************************************************************************/
 			Set @des_MensagemHTML = @des_MensagemHTML + '
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:20px>
@@ -279,7 +279,7 @@ BEGIN
 			  <td height=20 colspan=7 style=height:20.0pt>	</td>
 			 </tr>
 			 <tr height=20 align = center style=height:15.0pt>
-			  <td height=20 colspan=7 style=height:20.0pt><b>Informações dos Databases<b></td>
+			  <td height=20 colspan=7 style=height:20.0pt><b>Informaï¿½ï¿½es dos Databases<b></td>
 			 </tr>
 			 <tr height=20>
 			  <td height=20 colspan=7 style=height:20.0pt>	</td>
@@ -288,7 +288,7 @@ BEGIN
 
 
 			/**************************************************************************************************************/
-			/************* Visão sintetizada de espaço em disco dos databases ***************/
+			/************* Visï¿½o sintetizada de espaï¿½o em disco dos databases ***************/
 			/**************************************************************************************************************/
 			-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			-- Status dos Bancos de Dados
@@ -304,7 +304,7 @@ BEGIN
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 			<tr height=20  style=color: #FFFFFF; background: #44546A;>
 			<td width=200 style=height:20.0pt>Nome Banco</td>
-			<td width=100 style=height:20.0pt;>Data Criação</td>
+			<td width=100 style=height:20.0pt;>Data Criaï¿½ï¿½o</td>
 			<td width=100 style=height:20.0pt;>Tamanho Total Gb</td>
 			<td width=100 style=height:20.0pt;>Status</td>
 			<td width=100 style=height:20.0pt;>Acesso</td>
@@ -363,7 +363,7 @@ BEGIN
 						EspacoUsado_MB DECIMAL(15,2), 
 						EspacoLivre_MB DECIMAL(15,2)
 					);
-																										 -- inserção de dados em tabela temporária
+																										 -- inserï¿½ï¿½o de dados em tabela temporï¿½ria
 					EXEC sp_MSforeachdb 'USE ?
 					INSERT INTO #Tamanhos
 					(	
@@ -397,7 +397,7 @@ BEGIN
 					INSERT INTO @Tamanhos
 					SELECT
 						t.Banco
-						, t.EspacoReservadoEmDisco_MB									 -- inserção de dados na variável do tipo table
+						, t.EspacoReservadoEmDisco_MB									 -- inserï¿½ï¿½o de dados na variï¿½vel do tipo table
 						, t.EspacoUsado_MB
 						, t.EspacoLivre_MB
 						, l.EspacoReservadoEmDisco_MB AS ArquivoDeLog_EspacoReservadoEmDisco_MB
@@ -467,7 +467,7 @@ BEGIN
 			<td width=200 style=height:20.0pt;>Nome Arquivo</td>
 			<td width=650 style=height:20.0pt;>Arquivo</td>
 			<td width=100 style=height:20.0pt;>Tamanho Gb</td>
-			<td width=70 style=height:20.0pt;>Espaço Livre Gb</td>
+			<td width=70 style=height:20.0pt;>Espaï¿½o Livre Gb</td>
 			<td width=70 style=height:20.0pt;>% Livre</td>
 			<td width=0 style=height:20.0pt;></td>
 			</tr>'
@@ -522,7 +522,7 @@ BEGIN
 		    
 
 			-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-			-- Configurações de crescimento
+			-- Configuraï¿½ï¿½es de crescimento
 			-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
 			DECLARE @Monitor_Datafile_Size TABLE
 				(
@@ -625,7 +625,7 @@ BEGIN
 			Set @des_MensagemHTML = @des_MensagemHTML + '<br>
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:18px>
 			  <tr height=20  style=color: #FFFFFF; background: #44546A;>
-			  <td height=20 colspan=7 style=height:20.0pt;text-align:center>Configurações de Crescimentos/Limites em Cada Datafile
+			  <td height=20 colspan=7 style=height:20.0pt;text-align:center>Configuraï¿½ï¿½es de Crescimentos/Limites em Cada Datafile
 			  </td> </tr> </table> '
 
 			set @des_MensagemHTML = @des_MensagemHTML + 
@@ -633,7 +633,7 @@ BEGIN
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 			<tr height=20 align = left style=height:15.0pt; background: #FFFF00;>
 			<td height=20 colspan=7 style=height:15.0pt; text-align:left>
-				Alerta amarelo indica que o espaço usado do limite proposto no Datafile está maior ou igual a 90%.
+				Alerta amarelo indica que o espaï¿½o usado do limite proposto no Datafile estï¿½ maior ou igual a 90%.
 			</td> </tr> </table>
 			'
 
@@ -641,7 +641,7 @@ BEGIN
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 				<tr height=20 style=color: #FFFFFF; background: #44546A;>
 														<td width=120 style=height:20.0pt>Databases			</td>
-														<td width=100 style=height:20.0pt>Nome Lógico			</td>
+														<td width=100 style=height:20.0pt>Nome Lï¿½gico			</td>
 														<td width=40 style=height:20.0pt>Tipo					</td>
 														<td width=90 style=height:20.0pt>Tamanho Arquivo Gb	</td>
 														<td width=90 style=height:20.0pt>Tamanho Limitado Gb	</td>
@@ -689,7 +689,7 @@ BEGIN
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 			<tr height=20 align = left style=height:15.0pt; background: #FFFF00;>
 			<td height=20 colspan=7 style=height:15.0pt; text-align:left>
-				Alerta amarelo indica fragmentação interna dos arquivos de Log maior ou igual a 50, indicador para lentidões no ambiente.
+				Alerta amarelo indica fragmentaï¿½ï¿½o interna dos arquivos de Log maior ou igual a 50, indicador para lentidï¿½es no ambiente.
 			</td> </tr> </table>
 			'
 
@@ -726,7 +726,7 @@ BEGIN
 				BEGIN
 					SET NOCOUNT ON;
 					CREATE TABLE [#log_info]
-					([RecoveryUnitId] TINYINT,	-- esta coluna não existe no DBCC loginfo do sql server 2008 R2
+					([RecoveryUnitId] TINYINT,	-- esta coluna nï¿½o existe no DBCC loginfo do sql server 2008 R2
 					 [fileid]         TINYINT,
 					 [file_size]      BIGINT,
 					 [start_offset]   BIGINT,
@@ -785,7 +785,7 @@ BEGIN
 
 			DECLARE @subject VARCHAR(100), @recipients VARCHAR(100);
 
-			SET @subject = 'CheckList Diário - Databases: '+@@SERVERNAME;
+			SET @subject = 'CheckList Diï¿½rio - Databases: '+@@SERVERNAME;
 			SET @recipients = 'agenteti@cravil.com.br';
 
 			EXEC [msdb].[dbo].[sp_send_dbmail]
@@ -800,7 +800,7 @@ BEGIN
 		ROLLBACK TRANSACTION
 
 		DECLARE @corpoFalha varchar(max)		    			
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'agenteti@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

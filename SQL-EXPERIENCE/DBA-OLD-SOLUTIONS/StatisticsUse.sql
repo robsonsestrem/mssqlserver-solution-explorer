@@ -2,12 +2,12 @@ SET STATISTICS IO ON
 
 SET STATISTICS TIME ON
 /*
-para as tabelas com mais de 500 tuplas, o statistics update é realizado 
+para as tabelas com mais de 500 tuplas, o statistics update ï¿½ realizado 
 quando o valor na coluna rowmodctr da tabela sys.sysindexes passar de
 500 + 20% do total da tabela a ser atualizada.
 */
 --------------------------------------------------------------------------------------------------------
---Atualiza as statistics, porém da base toda.
+--Atualiza as statistics, porï¿½m da base toda.
 --------------------------------------------------------------------------------------------------------
 BEGIN TRAN
 EXEC sp_updatestats; 
@@ -30,23 +30,23 @@ update statistics MOVESTOQUE IMOVESTOQUE27
 
 --------------------------------------------------------------------------------------------------------
 -- Campos pertencentes de cada statistics
--- Busca todas statísticas criadas com o devido campo de uma tabela
+-- Busca todas statï¿½sticas criadas com o devido campo de uma tabela
 --------------------------------------------------------------------------------------------------------
 EXEC sp_helpstats 'MOVESTOQUE', 'all' 
 
 
 --------------------------------------------------------------------------------------------------------
---Lista objetos de estatísticas para as tabelas do banco
---O campo auto_created armazena o valor “1”, confirmando a criação automática
+--Lista objetos de estatï¿½sticas para as tabelas do banco
+--O campo auto_created armazena o valor ï¿½1ï¿½, confirmando a criaï¿½ï¿½o automï¿½tica
 --------------------------------------------------------------------------------------------------------
-USE GesCooper90
+USE YOUR_DATABASE
 GO
 SELECT * FROM sys.stats
 WHERE object_id = OBJECT_ID('CONTABIL')
 
 
 --------------------------------------------------------------------------------------------------------
---Identificar última atualização das statistics
+--Identificar ï¿½ltima atualizaï¿½ï¿½o das statistics
 --------------------------------------------------------------------------------------------------------
 SELECT 
 	deriva.column_id,
@@ -66,9 +66,9 @@ FROM
        , s.name as [Stat Name]
        , stats_id as [Stat Id]
        , stats_date(s.object_id, stats_id) as Last_Updated
-       , s.auto_created -- se for 1 foi automático
-       , s.user_created -- se for 1 foi criado pelo usuário
-       , s.has_filter   -- 1 é quando é criado um índice nonclustered com a cláusula where(filtrado)
+       , s.auto_created -- se for 1 foi automï¿½tico
+       , s.user_created -- se for 1 foi criado pelo usuï¿½rio
+       , s.has_filter   -- 1 ï¿½ quando ï¿½ criado um ï¿½ndice nonclustered com a clï¿½usula where(filtrado)
 FROM sys.stats as s
 inner join sys.tables as t 
 on s.object_id = t.object_id inner join sys.columns as c
@@ -82,8 +82,8 @@ ORDER BY deriva.Last_Updated
 
 
 --------------------------------------------------------------------------------------------------------
--- indica a quantidade de mudanças (insert, update, delete) desde
--- a última atualização.
+-- indica a quantidade de mudanï¿½as (insert, update, delete) desde
+-- a ï¿½ltima atualizaï¿½ï¿½o.
 -- A coluna rowmodctr da view de compatibilidade sysindexes
 --------------------------------------------------------------------------------------------------------
 select
@@ -91,8 +91,8 @@ select
  t.name as TableName,
  i.indid as Index_Stat_Id,    -- id de statistics na tabela sysindexes
  i.name as Index_Stat_Name,   -- nome de statistics para coluna da tabela 
- i.rowmodctr as Status_DML,	  -- número de alterações que sofreu desde última atualização
- i.rows as Total_Rows_Column, -- Nº de linhas que tem statistics por coluna
+ i.rowmodctr as Status_DML,	  -- nï¿½mero de alteraï¿½ï¿½es que sofreu desde ï¿½ltima atualizaï¿½ï¿½o
+ i.rows as Total_Rows_Column, -- Nï¿½ de linhas que tem statistics por coluna
  i.dpages
 from sysindexes i 
 join sys.tables t on i.id = t.object_id
@@ -100,21 +100,21 @@ where t.name = 'MOVESTOQUE'
 
 
 --------------------------------------------------------------------------------------------------------
---Outra forma de verificar última atualização de um campo da tabela, 
---Obs.: trazer nome da estatística no parâmetro
---Note que utilizamos a opção with stat_header para exibir apenas o cabeçalho do objeto
+--Outra forma de verificar ï¿½ltima atualizaï¿½ï¿½o de um campo da tabela, 
+--Obs.: trazer nome da estatï¿½stica no parï¿½metro
+--Note que utilizamos a opï¿½ï¿½o with stat_header para exibir apenas o cabeï¿½alho do objeto
 --------------------------------------------------------------------------------------------------------
 DBCC SHOW_STATISTICS ('MOVESTOQUE', _WA_Sys_0000000D_2A7633E7) with stat_header;
 GO    
--- Rows nesta consulta significa nº de tuplas que tinha na última update statistics
+-- Rows nesta consulta significa nï¿½ de tuplas que tinha na ï¿½ltima update statistics
 
--->>>3 formas de criação de estatísticas:
---<> Automática: quando criada automaticamente pelo query processor;
---<> Explícita: quando criada explicitamente pelo usuário (CREATE STATISTICS);
---<> Implícita: quando criada como decorrência da criação de índices.
+-->>>3 formas de criaï¿½ï¿½o de estatï¿½sticas:
+--<> Automï¿½tica: quando criada automaticamente pelo query processor;
+--<> Explï¿½cita: quando criada explicitamente pelo usuï¿½rio (CREATE STATISTICS);
+--<> Implï¿½cita: quando criada como decorrï¿½ncia da criaï¿½ï¿½o de ï¿½ndices.
 
 -- Quando o contador do rowmodctr atingir 20% do total de tuplas do campo + 500 de 
--- mudanças, o automático deve zerar o rowmodctr,  senão fazer manualmente.
+-- mudanï¿½as, o automï¿½tico deve zerar o rowmodctr,  senï¿½o fazer manualmente.
 
 
 

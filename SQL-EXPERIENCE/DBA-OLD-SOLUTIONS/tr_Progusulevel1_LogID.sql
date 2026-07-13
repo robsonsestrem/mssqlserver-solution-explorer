@@ -1,4 +1,4 @@
-USE GesCooper90
+USE YOUR_DATABASE
 GO
 
 ALTER TRIGGER [dbo].[tr_ProgUsulevel1_LogID]
@@ -79,7 +79,7 @@ GO
 
 -------------------------------------------------------------------------------------------------
 -- TABELA DE LOGS
--- Obs.: o que defini se tem acesso acesso ou não é o TypeSQL (I, D)
+-- Obs.: o que defini se tem acesso acesso ou nï¿½o ï¿½ o TypeSQL (I, D)
 -------------------------------------------------------------------------------------------------
 
 --USE IntegraTICravil

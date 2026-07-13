@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------------------------------------
--- Referência -> http://www.sqlservercentral.com/scripts/Converter+Inteiro+em+Horas/73984/
--- Foi necessário para campos da senior onde é um interio com minutos totais
+-- Referï¿½ncia -> http://www.sqlservercentral.com/scripts/Converter+Inteiro+em+Horas/73984/
+-- Foi necessï¿½rio para campos da senior onde ï¿½ um interio com minutos totais
 -------------------------------------------------------------------------------------------------------------
-use Maintenance
+use YOUR_DATABASE
 go
 
 create or alter FUNCTION Management.fn_IntToTime(@TEMPO INT)
@@ -48,6 +48,6 @@ END
 
 ----------------------------------------------------------------------------------------------------------------------
 --select 
----- cálculodo para valor inteiro, se fosse decimal o que vem depois da vírgula é percentula de 60, ou seja, 80% de 60
+---- cï¿½lculodo para valor inteiro, se fosse decimal o que vem depois da vï¿½rgula ï¿½ percentula de 60, ou seja, 80% de 60
 --528 / 60 horas			
---,  528 % 60 as minutos	-- o que sobra é o percentual de 60 (1 hora)
+--,  528 % 60 as minutos	-- o que sobra ï¿½ o percentual de 60 (1 hora)

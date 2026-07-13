@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 CREATE OR ALTER PROCEDURE Management.[sp_ReportDeadLock] @ExibirApenasHtml BIT = 0
@@ -6,10 +6,10 @@ WITH ENCRYPTION
 AS
 BEGIN
 		SET NOCOUNT ON;
-		SET LANGUAGE 'portuguese'; -- feito para formatação da data
+		SET LANGUAGE 'portuguese'; -- feito para formataï¿½ï¿½o da data
 		DECLARE @inicio datetime = dateadd(DAY,-1,cast(floor(cast(getdate()as float))as datetime))
 		DECLARE @fim datetime = dateadd(MILLISECOND,+997,dateadd(SECOND,+59,dateadd(MINUTE,+59,dateadd(HOUR,+23,dateadd(DAY,-1,cast(floor(cast(getdate()as float))as datetime))))))
-		DECLARE @vSubject NVARCHAR(255) = 'Relatório Diário - DeadLocks no Sistema'
+		DECLARE @vSubject NVARCHAR(255) = 'Relatï¿½rio Diï¿½rio - DeadLocks no Sistema'
 		DECLARE @vBody AS NVARCHAR(MAX) = '';
 		DECLARE	@contaInsert INT = 0
 		
@@ -49,7 +49,7 @@ BEGIN
 						[InputBuffer] varchar(MAX)
 					)
 
-					-- inserção dos dados extraídos dos gráficos de bloqueio		
+					-- inserï¿½ï¿½o dos dados extraï¿½dos dos grï¿½ficos de bloqueio		
 					;WITH cte_DeadLock
 					 AS (SELECT IdDeadLock, 
 								DateDeadLock,              
@@ -100,7 +100,7 @@ BEGIN
 								[ClientApp] = [Deadlock].[Process].value('@clientapp', 'varchar(100)'),
 								[HostName] = [Deadlock].[Process].value('@hostname', 'varchar(20)'),
 								[LoginName] = [Deadlock].[Process].value('@loginname', 'varchar(20)'),
-								[TransactionTime] = CAST([Deadlock].[Process].value('@lasttranstarted', 'datetime') AS DATETIME), -- necessário conversão explícita para não truncar na formatação de data
+								[TransactionTime] = CAST([Deadlock].[Process].value('@lasttranstarted', 'datetime') AS DATETIME), -- necessï¿½rio conversï¿½o explï¿½cita para nï¿½o truncar na formataï¿½ï¿½o de data
 								[BatchStarted] =	CAST([Deadlock].[Process].value('@lastbatchstarted', 'datetime') AS DATETIME),
 								[BatchCompleted] =	CAST([Deadlock].[Process].value('@lastbatchcompleted', 'datetime') AS DATETIME),
 								[InputBuffer] = [Input].[Buffer].[query]('.'),
@@ -157,14 +157,14 @@ BEGIN
 							<body>
 							<div align=left>
 						'	
-						SET @contaInsert = @@ROWCOUNT; -- captura do resultado de inserções
+						SET @contaInsert = @@ROWCOUNT; -- captura do resultado de inserï¿½ï¿½es
 						IF(@contaInsert = 0)
 							BEGIN 
 								set @vBody = @vBody + '<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:12px>
 												<tr height=20  style=color:black;>
-													<td width=300 style=height:20.0pt>Não houve registros de DeadLock.
+													<td width=300 style=height:20.0pt>Nï¿½o houve registros de DeadLock.
 														<br>Data dos eventos: '+CONVERT(VARCHAR(12),@inicio,105)+'
-														<br>Instância: '+@@SERVERNAME+'
+														<br>Instï¿½ncia: '+@@SERVERNAME+'
 													</td>
 												</tr>
 												
@@ -180,7 +180,7 @@ BEGIN
 											--@file_attachments = 'C:\DBACravil\DatabaseMail\robson.png'
 											
 											
-								-- *** Exibe como HTML ao invés de enviar por e-mail
+								-- *** Exibe como HTML ao invï¿½s de enviar por e-mail
 								ELSE 
 								SELECT @vBody;
 							END
@@ -188,9 +188,9 @@ BEGIN
 						BEGIN
 							SET @vBody = @vBody + '<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:12px>
 												   <tr height=20  style=color:black;>
-														<td width=300 style=height:20.0pt>Anexo dados de processos que sofreram DeadLock disponíveis para análise.
+														<td width=300 style=height:20.0pt>Anexo dados de processos que sofreram DeadLock disponï¿½veis para anï¿½lise.
 															<br>Data dos eventos: '+CONVERT(VARCHAR(12),@inicio,105)+'
-															<br>Instância: '+@@SERVERNAME+'
+															<br>Instï¿½ncia: '+@@SERVERNAME+'
 														</td>
 													</tr>											
 												   '
@@ -264,7 +264,7 @@ BEGIN
 									,@query_result_no_padding= 1	-- trim
 									,@query_result_width = 32767	-- stop wordwrap
 									--,@file_attachments = 'C:\DBACravil\DatabaseMail\robson.png'
-						-- *** Exibe como HTML ao invés de enviar por e-mail
+						-- *** Exibe como HTML ao invï¿½s de enviar por e-mail
 						ELSE 
 						SELECT @vBody;
 					

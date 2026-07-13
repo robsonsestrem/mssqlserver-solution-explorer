@@ -1,15 +1,15 @@
 --------------------------------------------------------------------------------------------------------------------------------
--- Referências -> https://www.dirceuresende.com/blog/mapeando-dependencias-entre-objetos-sql-server/
--- Procedure Cross-database e multi-nível
--- Com a procedure abaixo, que utiliza CTE e recursividade, é possível listar todos os 
--- objetos dependentes com vários níveis de hierarquia no banco de origem e as 
--- dependências diretas (1º nível) e cross-database.
+-- Referï¿½ncias -> https://www.dirceuresende.com/blog/mapeando-dependencias-entre-objetos-sql-server/
+-- Procedure Cross-database e multi-nï¿½vel
+-- Com a procedure abaixo, que utiliza CTE e recursividade, ï¿½ possï¿½vel listar todos os 
+-- objetos dependentes com vï¿½rios nï¿½veis de hierarquia no banco de origem e as 
+-- dependï¿½ncias diretas (1ï¿½ nï¿½vel) e cross-database.
 -- EXEMPLO DE USO
 -- EXEC Management.sp_VerifyDependenciesFull 'Testes.dbo.Clientes'
 
 
 --------------------------------------------------------------------------------------------------------------------------------
-USE Maintenance
+USE YOUR_DATABASE
 GO
 CREATE OR ALTER PROCEDURE Management.sp_VerifyDependenciesFull (
     @Ds_Objeto_Completo VARCHAR(255),

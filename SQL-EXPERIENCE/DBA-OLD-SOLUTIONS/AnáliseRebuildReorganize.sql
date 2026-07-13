@@ -1,16 +1,16 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- ##  REFERÊNCIAS  ##
+-- ##  REFERï¿½NCIAS  ##
 -- https://www.dirceuresende.com/blog/entendendo-o-funcionamento-dos-indices-no-sql-server/
 -- https://www.fabriciolima.net/blog/2011/02/16/monitorando-a-fragmentacao-dos-indices/
 -- http://www.dbinternals.com.br/?p=824
 -- https://thiagotimm.wordpress.com/2014/04/28/indices-fragmentacao-rebuild-ou-reorganize/
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
--- **************		Recomendação Microsoft:			******************************************************************************************
---Documentação Microsoft:
---“The workload performance increase realized in the small?scale environment ranged from 60 percent at the low level of fragmentation to more than
+-- **************		Recomendaï¿½ï¿½o Microsoft:			******************************************************************************************
+--Documentaï¿½ï¿½o Microsoft:
+--ï¿½The workload performance increase realized in the small?scale environment ranged from 60 percent at the low level of fragmentation to more than
 --460 percent at the highest level of fragmentation. The workload performance increased realized for the large?scale environment ranged from 13
---percent at the low fragmentation level to 40 percent at the medium fragmentation level”
+--percent at the low fragmentation level to 40 percent at the medium fragmentation levelï¿½
 -- avg_fragmentation_in_percent > 5% and 30% ALTER INDEX REBUILD WITH (ONLINE = ON)*
 -- ************************************************************************************************************************************************
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -49,16 +49,16 @@ Select t.name AS TableName,
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- FABRÍCIO LIMA
+-- FABRï¿½CIO LIMA
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-use Maintenance
+use YOUR_DATABASE
 go
 
 select * from Management.HistoryIndexFragmentation as h
-where h.PageCount > 1000  -- eliminar ínndices pequenos
+where h.PageCount > 1000  -- eliminar ï¿½nndices pequenos
 and h.DateReference >= cast(floor(cast(GETDATE() as float)) as datetime)
 and h.AvgFragmentationInPercent > 20
-and h.DatabaseName = 'Maintenance'
+and h.DatabaseName = 'YOUR_DATABASE'
 order by h.TableName, h.IndexId_id
 
 
@@ -84,7 +84,7 @@ ORDER BY
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --THIAGO TIMM
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-use Maintenance
+use YOUR_DATABASE
 go
 
 select 'alter index '+idx.name+' on '+object_name(dmv.object_id,dmv.database_id)
@@ -100,7 +100,7 @@ where index_type_desc <> 'HEAP'
 -- alter index PK_CMVTransf on HistoricoCMVTransf rebuild
 
 /*
-	*******************************************************	EXEMPLO PRÁTICO *******************************************************
+	*******************************************************	EXEMPLO PRï¿½TICO *******************************************************
 */
 select
 t1.DatabaseName, t1.SchemaName, t1.TableName, t1.IndexName, IndexTypeDesc, t1.AvgFragmentationInPercent
@@ -126,7 +126,7 @@ select
 + case when t1.AvgFragmentationInPercent < 30 then 'REORGANIZE'
 	   else 'REBUILD'
   end
-+ '; BACKUP LOG GesCooper90 TO DISK = ''G:\Backup\GesCooper90_log.TRN'' WITH INIT;' + ' --Frag. = '
++ '; BACKUP LOG YOUR_DATABASE TO DISK = ''G:\Backup\YOUR_DATABASE_log.TRN'' WITH INIT;' + ' --Frag. = '
 + cast(t1.AvgFragmentationInPercent as varchar(50)) + '%' + ' - PageCont = '+ cast(t1.PageCount as varchar(50))
 
 from Management.HistoryIndexFragmentation as t1
@@ -142,4 +142,4 @@ order by t1.PageCount desc --, t1.AvgFragmentationInPercent desc
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Exemplo de resultSet
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- ALTER INDEX PK__MOVESTOQUELEVEL1__2D52A092 ON GesCooper90.dbo.MOVESTOQUELEVEL1 REBUILD; BACKUP LOG GesCooper90 TO DISK = 'G:\Backup\GesCooper90_log.TRN' WITH INIT; --Frag. = 36.58% - PageCont = 21596144
+-- ALTER INDEX PK__MOVESTOQUELEVEL1__2D52A092 ON YOUR_DATABASE.dbo.MOVESTOQUELEVEL1 REBUILD; BACKUP LOG YOUR_DATABASE TO DISK = 'G:\Backup\YOUR_DATABASE_log.TRN' WITH INIT; --Frag. = 36.58% - PageCont = 21596144

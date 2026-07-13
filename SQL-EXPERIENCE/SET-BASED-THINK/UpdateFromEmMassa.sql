@@ -1,9 +1,9 @@
 -----------------------------------------------------------------------------------------------------------------------------------
--- Alteração em massa entre duas base de dados (UPDATE COM SELECT)
+-- Alteraï¿½ï¿½o em massa entre duas base de dados (UPDATE COM SELECT)
 -----------------------------------------------------------------------------------------------------------------------------------
 begin tran
 
-update GesCooper90.dbo.PRODUTOS set ProUndReferencial = deriva.ProUnidReferencial, ProFatConversao = deriva.ProFatConversao
+update YOUR_DATABASE.dbo.PRODUTOS set ProUndReferencial = deriva.ProUnidReferencial, ProFatConversao = deriva.ProFatConversao
 
 from (
 select pn.ProCod,pn.ProUnidReferencial, pn.ProFatConversao from TICRAVIL.dbo.ProdutosNew as pn

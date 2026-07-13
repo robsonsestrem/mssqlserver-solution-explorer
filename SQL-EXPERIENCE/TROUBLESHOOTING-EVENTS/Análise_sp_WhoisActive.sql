@@ -1,33 +1,33 @@
 -- https://www.dirceuresende.com/blog/sql-server-utilizando-a-sp-whoisactive-para-identificar-locks-blocks-queries-lentas-queries-em-execucao-e-muito-mais/
 
 -- DEFAULT
-USE Maintenance
+USE YOUR_DATABASE
 GO
 execute Management.sp_WhoIsActive 
 
-/**************************************	 OUTROS PARÂMETROS	**************************************************************************************************/
--- O parâmetro @show_own_spid (BIT) determina se a própria sessão que está executando a procedure fará parte do resultado final que será mostrado na tela. 
--- O valor padrão é 0 (zero), fazendo com que a própria sessão não seja mostrada por padrão.
+/**************************************	 OUTROS PARï¿½METROS	**************************************************************************************************/
+-- O parï¿½metro @show_own_spid (BIT) determina se a prï¿½pria sessï¿½o que estï¿½ executando a procedure farï¿½ parte do resultado final que serï¿½ mostrado na tela. 
+-- O valor padrï¿½o ï¿½ 0 (zero), fazendo com que a prï¿½pria sessï¿½o nï¿½o seja mostrada por padrï¿½o.
 execute Management.sp_WhoIsActive 
-@show_own_spid = 1 -- mostrar minha sessão
+@show_own_spid = 1 -- mostrar minha sessï¿½o
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- mostrar as sessões internas do sql server
+-- mostrar as sessï¿½es internas do sql server
 execute Management.sp_WhoIsActive
 @show_system_spids = 1 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- mostra todas as sessões inativas
+-- mostra todas as sessï¿½es inativas
 execute Management.sp_WhoIsActive
 @show_sleeping_spids = 1 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Consultando ajuda - traz Informações sobre o criador da SP; Descrição dos parâmetros da chamada da SP; Descrição das colunas retornadas pela SP
+-- Consultando ajuda - traz Informaï¿½ï¿½es sobre o criador da SP; Descriï¿½ï¿½o dos parï¿½metros da chamada da SP; Descriï¿½ï¿½o das colunas retornadas pela SP
 execute Management.sp_WhoIsActive 
 @help = 1
 
 
-/**************************************	EXECUÇÕES FILTRADAS	**************************************************************************************************/
+/**************************************	EXECUï¿½ï¿½ES FILTRADAS	**************************************************************************************************/
 execute Management.sp_WhoIsActive
   @filter = '57'
  ,@filter_type = 'session'
@@ -38,115 +38,115 @@ execute Management.sp_WhoIsActive
   @filter = 'net'
  ,@filter_type = 'program'
 execute Management.sp_WhoIsActive
-  @filter = 'gescooper90'
+  @filter = 'YOUR_DATABASE'
  ,@filter_type = 'database'
 execute Management.sp_WhoIsActive
   @filter = 'W-NFE'
  ,@filter_type = 'host'
 
 
-/*******************************  INFORMAÇÕES ADICIONAIS	**************************************************************************************************/
--- Por padrão, a instrução SQL que é retornada em forma de XML na coluna sql_text é apenas o trecho (batch) que está sendo processado no momento. 
--- Ao utilizar esse parâmetro, podemos observar todo o conteúdo do batch que foi enviado para o processamento do SQL Server.
+/*******************************  INFORMAï¿½ï¿½ES ADICIONAIS	**************************************************************************************************/
+-- Por padrï¿½o, a instruï¿½ï¿½o SQL que ï¿½ retornada em forma de XML na coluna sql_text ï¿½ apenas o trecho (batch) que estï¿½ sendo processado no momento. 
+-- Ao utilizar esse parï¿½metro, podemos observar todo o conteï¿½do do batch que foi enviado para o processamento do SQL Server.
 execute Management.sp_WhoIsActive
-@get_full_inner_text = 1  -- bem necessário pra pegar query inteira
+@get_full_inner_text = 1  -- bem necessï¿½rio pra pegar query inteira
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Ao utilizar esse parâmetro com o valor 1, será gerado uma demonstração do plano de execução da query atual de cada sessão retornada por essa SP. 
--- Utilizando o valor 2 nesse parâmetro, é gerado o plano de execução de toda a query das sessões. Ao clicar no XML do ResultSet,
--- o Management Studio já exibe o plano de execução dessa query.
+-- Ao utilizar esse parï¿½metro com o valor 1, serï¿½ gerado uma demonstraï¿½ï¿½o do plano de execuï¿½ï¿½o da query atual de cada sessï¿½o retornada por essa SP. 
+-- Utilizando o valor 2 nesse parï¿½metro, ï¿½ gerado o plano de execuï¿½ï¿½o de toda a query das sessï¿½es. Ao clicar no XML do ResultSet,
+-- o Management Studio jï¿½ exibe o plano de execuï¿½ï¿½o dessa query.
 execute Management.sp_WhoIsActive
-@get_plans = 2	-- bem necessário 1 OU 2
+@get_plans = 2	-- bem necessï¿½rio 1 OU 2
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Esse parâmetro é parecido com o @get_full_inner_text, mas ao invés de substituir o valor da coluna sql_text, ele mantém essa coluna com seu valor 
--- padrão (apenas o trecho em execução) e adiciona uma nova coluna chamada sql_command, que contém toda a query que a sessão está executando. 
--- Desta forma, temos as duas visões.
+-- Esse parï¿½metro ï¿½ parecido com o @get_full_inner_text, mas ao invï¿½s de substituir o valor da coluna sql_text, ele mantï¿½m essa coluna com seu valor 
+-- padrï¿½o (apenas o trecho em execuï¿½ï¿½o) e adiciona uma nova coluna chamada sql_command, que contï¿½m toda a query que a sessï¿½o estï¿½ executando. 
+-- Desta forma, temos as duas visï¿½es.
 execute Management.sp_WhoIsActive
-@get_outer_command = 1	 -- bem necessário
+@get_outer_command = 1	 -- bem necessï¿½rio
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Com a utilização desse parâmetro, podemos visualizar a quantidade e volume de dados escritos no log de transação de cada sessão.
+-- Com a utilizaï¿½ï¿½o desse parï¿½metro, podemos visualizar a quantidade e volume de dados escritos no log de transaï¿½ï¿½o de cada sessï¿½o.
 execute Management.sp_WhoIsActive
 @get_transaction_info = 1
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Parâmetro muito interessante para análise de performance, o @get_task_info permite visualizar mais informações sobre as sessões em execução. 
--- Ao utilizar o valor 1, podemos visualizar o maiores eventos de wait (que não sejam CXPACKET). Ao utilizar o parâmetro 2, vamos visualizar o modo completo, 
--- que incluí as colunas:
--- PHISICIAL_IO: Mostra o números de leituras/escritas (I/O) físicas no disco
--- CONTEXT_SWITCHES: Mostra o número de mudanças de contextos para a conexão ativa. 
--- Uma mudança de contexto é quando o kernel do SO troca o processador de uma thread por outra (ex: uma thread de maior prioridade). Esse indicador é muito 
--- importante para identificar se um processo está usando mais o CPU que os outros processos e impedindo que eles cheguem ao processador. Um índice muito alto, 
--- quer dizer que está ocorrendo muita concorrência no processador e ele pode estar sobrecarregado. Um número baixo, significa que algum processo está alocando
--- mais o CPU que deveria, gerando muito tempo de wait (e provavelmente sessões com status Pending e Runnable). Os valores esperados devem ser algo abaixo 
--- de 2.000 trocas por processador/segundo (alguns DBA’s consideram um valor abaixo de 5.000 como aceitável). Valores muito altos podem estar sendo causados
--- por falhas de alocação de memória física (RAM). Um outro possível agravante é a tecnologia Intel® Hyper-Threading, que em alguns casos pode causar muitas 
--- mudanças de contexto por conta da simulação de núcleos virtuais. Caso esteja passando por esse problema, um bom teste é desativar esse recurso na 
--- placa mãe do servidor e realizar testes de performance.
--- TASKS: Numero de tarefas sendo utilizadas pela execução atual.
+-- Parï¿½metro muito interessante para anï¿½lise de performance, o @get_task_info permite visualizar mais informaï¿½ï¿½es sobre as sessï¿½es em execuï¿½ï¿½o. 
+-- Ao utilizar o valor 1, podemos visualizar o maiores eventos de wait (que nï¿½o sejam CXPACKET). Ao utilizar o parï¿½metro 2, vamos visualizar o modo completo, 
+-- que incluï¿½ as colunas:
+-- PHISICIAL_IO: Mostra o nï¿½meros de leituras/escritas (I/O) fï¿½sicas no disco
+-- CONTEXT_SWITCHES: Mostra o nï¿½mero de mudanï¿½as de contextos para a conexï¿½o ativa. 
+-- Uma mudanï¿½a de contexto ï¿½ quando o kernel do SO troca o processador de uma thread por outra (ex: uma thread de maior prioridade). Esse indicador ï¿½ muito 
+-- importante para identificar se um processo estï¿½ usando mais o CPU que os outros processos e impedindo que eles cheguem ao processador. Um ï¿½ndice muito alto, 
+-- quer dizer que estï¿½ ocorrendo muita concorrï¿½ncia no processador e ele pode estar sobrecarregado. Um nï¿½mero baixo, significa que algum processo estï¿½ alocando
+-- mais o CPU que deveria, gerando muito tempo de wait (e provavelmente sessï¿½es com status Pending e Runnable). Os valores esperados devem ser algo abaixo 
+-- de 2.000 trocas por processador/segundo (alguns DBAï¿½s consideram um valor abaixo de 5.000 como aceitï¿½vel). Valores muito altos podem estar sendo causados
+-- por falhas de alocaï¿½ï¿½o de memï¿½ria fï¿½sica (RAM). Um outro possï¿½vel agravante ï¿½ a tecnologia Intelï¿½ Hyper-Threading, que em alguns casos pode causar muitas 
+-- mudanï¿½as de contexto por conta da simulaï¿½ï¿½o de nï¿½cleos virtuais. Caso esteja passando por esse problema, um bom teste ï¿½ desativar esse recurso na 
+-- placa mï¿½e do servidor e realizar testes de performance.
+-- TASKS: Numero de tarefas sendo utilizadas pela execuï¿½ï¿½o atual.
 execute Management.sp_WhoIsActive
 @get_task_info = 2 -- 1 OU 2(melhor)
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Parâmetro muito útil para manutenção e identificação de locks na instância. Quando ativado, mostra os objetos reservados de cada requisição, 
--- bem como o tipo de bloqueio solicitado pela sessão.
+-- Parï¿½metro muito ï¿½til para manutenï¿½ï¿½o e identificaï¿½ï¿½o de locks na instï¿½ncia. Quando ativado, mostra os objetos reservados de cada requisiï¿½ï¿½o, 
+-- bem como o tipo de bloqueio solicitado pela sessï¿½o.
 execute Management.sp_WhoIsActive
 @get_locks = 1
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Com a utilização desse parâmetro, surge uma nova coluna no resultado final (dd hh:mm:ss.mss (avg)). Essa coluna mostra o tempo médio de execução 
--- da query atual em execução por cada sessão. 
+-- Com a utilizaï¿½ï¿½o desse parï¿½metro, surge uma nova coluna no resultado final (dd hh:mm:ss.mss (avg)). Essa coluna mostra o tempo mï¿½dio de execuï¿½ï¿½o 
+-- da query atual em execuï¿½ï¿½o por cada sessï¿½o. 
 execute Management.sp_WhoIsActive
 @get_avg_time = 1
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Com a utilização desse parâmetro, será criada uma nova coluna no resultado final chamada “additional_info”, que é um XML com várias informações e 
--- definições de comandos SET de cada sessão.
--- Caso você utilize os parâmetros @get_task_info = 2 e @get_additional_info = 1 e houver um lock em alguma sessão, o XML da coluna “additional_info” 
--- dessa sessão que está em lock terá um nó chamado block_info com as informações do block:
+-- Com a utilizaï¿½ï¿½o desse parï¿½metro, serï¿½ criada uma nova coluna no resultado final chamada ï¿½additional_infoï¿½, que ï¿½ um XML com vï¿½rias informaï¿½ï¿½es e 
+-- definiï¿½ï¿½es de comandos SET de cada sessï¿½o.
+-- Caso vocï¿½ utilize os parï¿½metros @get_task_info = 2 e @get_additional_info = 1 e houver um lock em alguma sessï¿½o, o XML da coluna ï¿½additional_infoï¿½ 
+-- dessa sessï¿½o que estï¿½ em lock terï¿½ um nï¿½ chamado block_info com as informaï¿½ï¿½es do block:
 execute Management.sp_WhoIsActive
 @get_additional_info = 1
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- O @find_block_leaders quando ativado, permite analisar cada sessão e contar quantas outras sessões estão em lock 
--- aguardando a liberação de objetos por essa sessão.
+-- O @find_block_leaders quando ativado, permite analisar cada sessï¿½o e contar quantas outras sessï¿½es estï¿½o em lock 
+-- aguardando a liberaï¿½ï¿½o de objetos por essa sessï¿½o.
 execute Management.sp_WhoIsActive
 @find_block_leaders = 1
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Além de muito completa, essa SP nos permite personalizar de várias formas o resultado final e saída gerada. Vou demonstrar agora, como fazer isso.
+-- Alï¿½m de muito completa, essa SP nos permite personalizar de vï¿½rias formas o resultado final e saï¿½da gerada. Vou demonstrar agora, como fazer isso.
 execute Management.sp_WhoIsActive
 @output_column_list = '[session_id], [login_name], [program_name], [hostname], [sql_text]'
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- esse parâmetro serve para ordenar os resultados conforme a sua necessidade, onde você escolher quais colunas utilizar 
--- para a ordenação e qual o critério (asc ou desc).
+-- esse parï¿½metro serve para ordenar os resultados conforme a sua necessidade, onde vocï¿½ escolher quais colunas utilizar 
+-- para a ordenaï¿½ï¿½o e qual o critï¿½rio (asc ou desc).
 execute Management.sp_WhoIsActive
 @sort_order = '[session_id] asc'
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Esse parâmetro serve para alterar a forma de visualização de algumas colunas para um modo mais “humano” de leitura. Com o valor 1, o formato de 
--- saída utilizará fontes de comprimento variável. Com o valor 2, o formato de saída utilizará fontes de comprimento fixo.
+-- Esse parï¿½metro serve para alterar a forma de visualizaï¿½ï¿½o de algumas colunas para um modo mais ï¿½humanoï¿½ de leitura. Com o valor 1, o formato de 
+-- saï¿½da utilizarï¿½ fontes de comprimento variï¿½vel. Com o valor 2, o formato de saï¿½da utilizarï¿½ fontes de comprimento fixo.
 execute Management.sp_WhoIsActive
 @format_output = 0 -- 0 ou 1 ou 2, com o zero muda o xml para texto normal
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Esses parâmetros em conjunto servem para gerar o script de criação do resultado da SP. O parâmetro @return_schema quando setado para 1, 
--- ao invés de retornar o resultado da execução, gera o script de CREATE TABLE do resultado. Esse script deve ser lido utilizando uma variável de 
--- OUTPUT no parâmetro @schema, conforme demonstrado abaixo:
+-- Esses parï¿½metros em conjunto servem para gerar o script de criaï¿½ï¿½o do resultado da SP. O parï¿½metro @return_schema quando setado para 1, 
+-- ao invï¿½s de retornar o resultado da execuï¿½ï¿½o, gera o script de CREATE TABLE do resultado. Esse script deve ser lido utilizando uma variï¿½vel de 
+-- OUTPUT no parï¿½metro @schema, conforme demonstrado abaixo:
 declare @saida varchar(max)
 
 execute Management.sp_WhoIsActive
@@ -158,7 +158,7 @@ execute Management.sp_WhoIsActive
 select @saida
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Ele serve para inserir o resultado da execução da SP em uma tabela física, onde podemos armazenar de histórico e consultar quando quisermos.
+-- Ele serve para inserir o resultado da execuï¿½ï¿½o da SP em uma tabela fï¿½sica, onde podemos armazenar de histï¿½rico e consultar quando quisermos.
 IF (OBJECT_ID('tempdb.dbo.#whoisactive') IS NOT NULL) DROP TABLE #whoisactive
 CREATE TABLE tempdb.dbo.#whoisactive ( 
 [dd hh:mm:ss.mss] varchar(8000) NULL,[session_id] smallint NOT NULL,[sql_text] xml NULL,

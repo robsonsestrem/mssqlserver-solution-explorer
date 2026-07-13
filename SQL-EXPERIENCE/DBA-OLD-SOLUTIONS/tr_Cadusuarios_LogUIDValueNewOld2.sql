@@ -23,12 +23,12 @@ SET @Col = 0
 SET @qCols = (SELECT COUNT(*) FROM sys.columns WHERE object_id =
     (SELECT Parent_ID FROM sys.triggers WHERE object_id = @@procid))
 
--- Coloca a tabela Deleted em uma variável XML
+-- Coloca a tabela Deleted em uma variï¿½vel XML
 DECLARE @Deleted XML, 
 		@DeletedTMP XML
 SET @Deleted = (SELECT * FROM Deleted FOR XML RAW, ROOT('Deleted'))
 
--- Coloca a tabela Inserted em uma variável XML
+-- Coloca a tabela Inserted em uma variï¿½vel XML
 DECLARE @Inserted XML, 
 		@InsertedTMP XML
 SET @Inserted = (SELECT * FROM Inserted FOR XML RAW, ROOT('Inserted'))
@@ -57,7 +57,7 @@ SET @Inserted = (SELECT * FROM Inserted FOR XML RAW, ROOT('Inserted'))
 												(SELECT Parent_ID FROM sys.triggers
 												WHERE object_id = @@procid) AND column_id = @Col)
 
-									-- Substitui a TAG no XML da DELETED e faz a extração dos dados
+									-- Substitui a TAG no XML da DELETED e faz a extraï¿½ï¿½o dos dados
 									SET @DeletedTMP = REPLACE(CAST(@Deleted As VARCHAR(MAX)),@NomeCol + '=','Col=')
 														
 										INSERT INTO CadusuariosLogDML 
@@ -93,8 +93,8 @@ SET @Inserted = (SELECT * FROM Inserted FOR XML RAW, ROOT('Inserted'))
 		  END -- @action D
    ELSE 
       BEGIN 
-          IF (@Action = 'I' or @Action = 'U')   --condição para quando houver inserção 
-            BEGIN								--ou alteração					
+          IF (@Action = 'I' or @Action = 'U')   --condiï¿½ï¿½o para quando houver inserï¿½ï¿½o 
+            BEGIN								--ou alteraï¿½ï¿½o					
 					WHILE (@Col < @qCols)
 						BEGIN
 							SET @Col = @Col + 1
@@ -108,10 +108,10 @@ SET @Inserted = (SELECT * FROM Inserted FOR XML RAW, ROOT('Inserted'))
 										(SELECT Parent_ID FROM sys.triggers
 										WHERE object_id = @@procid) AND column_id = @Col)
 
-								-- Substitui a TAG no XML da DELETED e faz a extração dos dados
+								-- Substitui a TAG no XML da DELETED e faz a extraï¿½ï¿½o dos dados
 								SET @DeletedTMP = REPLACE(CAST(@Deleted As VARCHAR(MAX)),@NomeCol + '=','Col=')
 
-								-- Substitui a TAG no XML da INSERTED e faz a extração dos dados
+								-- Substitui a TAG no XML da INSERTED e faz a extraï¿½ï¿½o dos dados
 								SET @InsertedTMP = REPLACE(CAST(@Inserted As VARCHAR(MAX)),@NomeCol + '=','Col=')
 
 								INSERT INTO CadusuariosLogDML
@@ -158,7 +158,7 @@ GO
 -- TABELA DE LOGS
 ---------------------------------------------------------------------------------------------------------------------------------
 
-use GesCooper90
+use YOUR_DATABASE
 GO
 create table CadusuariosLogDML (
 	LogId int not null identity (1,1),
@@ -171,7 +171,7 @@ create table CadusuariosLogDML (
 	TableName varchar(30) default 'CADUSUARIOS',
 	TypeSQL char(1) ,
 	UsuCod char(25) not null default '',
-	ColumnUpdate sysname,  -- tipos de dados corresponde ao varchar(128) e já seta not null também
+	ColumnUpdate sysname,  -- tipos de dados corresponde ao varchar(128) e jï¿½ seta not null tambï¿½m
 	ValueOld varchar(100) default '',
 	ValueNew varchar(100) default '',
 

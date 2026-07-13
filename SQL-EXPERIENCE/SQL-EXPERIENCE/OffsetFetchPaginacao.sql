@@ -1,4 +1,4 @@
-USE GesCooper90
+USE YOUR_DATABASE
 GO
 
 declare @dataInicio datetime,
@@ -9,15 +9,15 @@ SET @dataFim    = '20171231'
 			as(
 	            select 									
 					 m.NfNumDoc														    as [NF-e]
-					, m.NfDatEmis														as [Data Emissão]
+					, m.NfDatEmis														as [Data Emissï¿½o]
 				
 					, case 
 						when m.NfeChNfe = '' then ''
 					  else isnull(m.NfeChNfe,'')			
 					  END																as [Chave]
 													
-					, m.NfOpeEstCod														as [Operação]
-					, op.OpeEstNom														as [Nome Operação]
+					, m.NfOpeEstCod														as [Operaï¿½ï¿½o]
+					, op.OpeEstNom														as [Nome Operaï¿½ï¿½o]
 					, ROW_NUMBER() over (partition by m.nfnumdoc order by m.nfnumdoc) as rn
 				 FROM MOVESTOQUE as m with (NoLock) inner Join  MOVESTOQUELEVEL1 as i with (NoLock) 				 
 						on m.NfFilCod = i.NfFilCod 
@@ -36,15 +36,15 @@ SET @dataFim    = '20171231'
 			  	  and i.ItemProCod in (42312, 39580, 39621, 42311)
 				)
 				select 
-				convert(varchar(30),t2.[Data Emissão], 103) as [Data]				
+				convert(varchar(30),t2.[Data Emissï¿½o], 103) as [Data]				
 				, t2.[NF-e]
-				, t2.Operação
-				, t2.[Nome Operação]
-				,  ROW_NUMBER() over (order by t2.[Data Emissão]) as Contagem
+				, t2.Operaï¿½ï¿½o
+				, t2.[Nome Operaï¿½ï¿½o]
+				,  ROW_NUMBER() over (order by t2.[Data Emissï¿½o]) as Contagem
 				, '' [Status]
 				from cte as t2
 				where t2.rn < 2	
-				order by t2.[Data Emissão]
+				order by t2.[Data Emissï¿½o]
 				offset 300 rows
 				fetch next 100 rows only
 			

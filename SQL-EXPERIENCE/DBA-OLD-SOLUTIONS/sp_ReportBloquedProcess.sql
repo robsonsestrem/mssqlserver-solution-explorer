@@ -1,9 +1,9 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 --	EXECUTE msdb.dbo.sysmail_configure_sp 'MaxFileSize', '50000000';
 
-CREATE OR ALTER PROCEDURE Management.[sp_ReportBloquedProcess] @ExibirApenasHtml BIT = 0	-- Caso parâmetro for 1, vai me trazer resultado com o script HTML.
+CREATE OR ALTER PROCEDURE Management.[sp_ReportBloquedProcess] @ExibirApenasHtml BIT = 0	-- Caso parï¿½metro for 1, vai me trazer resultado com o script HTML.
 WITH ENCRYPTION
 AS
 BEGIN
@@ -11,7 +11,7 @@ BEGIN
 
 		DECLARE @inicio datetime = dateadd(DAY,-1,cast(floor(cast(getdate()as float))as datetime))
 		DECLARE @fim datetime = dateadd(MILLISECOND,+997,dateadd(SECOND,+59,dateadd(MINUTE,+59,dateadd(HOUR,+23,dateadd(DAY,-1,cast(floor(cast(getdate()as float))as datetime))))))
-		DECLARE @vSubject NVARCHAR(255) = 'Relatório diário - Processos Bloqueados no Sistema'
+		DECLARE @vSubject NVARCHAR(255) = 'Relatï¿½rio diï¿½rio - Processos Bloqueados no Sistema'
 		DECLARE @vBody AS NVARCHAR(MAX) = '';
 		DECLARE	@contaInsert INT = 0
 		
@@ -43,7 +43,7 @@ BEGIN
 					IsolationLevel_Blocking varchar(100),
 					Script_Blocking varchar(max),
 				)
-				-- inserção dos dados extraídos dos gráficos de bloqueio		
+				-- inserï¿½ï¿½o dos dados extraï¿½dos dos grï¿½ficos de bloqueio		
 				;WITH cte_BlockedProcess
 				 AS   (SELECT IdBlock,
 							DateBlock,
@@ -95,15 +95,15 @@ BEGIN
 		-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		-- Tratando corpo do e-mail
 		-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------		
-					SET @contaInsert = @@ROWCOUNT; -- captura do resultado de inserções
+					SET @contaInsert = @@ROWCOUNT; -- captura do resultado de inserï¿½ï¿½es
 
 					IF(@contaInsert = 0)
 						BEGIN 
 							set @vBody = '<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:12px>
 											<tr height=20  style=color:black;>
-												<td width=300 style=height:20.0pt>Não houve processos bloqueados.
+												<td width=300 style=height:20.0pt>Nï¿½o houve processos bloqueados.
 													<br>Data dos eventos: '+CONVERT(VARCHAR(12),@inicio,105)+'
-													<br>Instância: '+@@SERVERNAME+'
+													<br>Instï¿½ncia: '+@@SERVERNAME+'
 													
 												</td>
 											</tr>
@@ -120,7 +120,7 @@ BEGIN
 									@body =				@vBody,
 									@body_format =		'HTML'					
 									--@file_attachments = 'C:\DBACravil\DatabaseMail\robson.png'
-									-- *** Exibe como HTML ao invés de enviar por e-mail
+									-- *** Exibe como HTML ao invï¿½s de enviar por e-mail
 								END
 							ELSE 
 							SELECT @vBody;
@@ -129,10 +129,10 @@ BEGIN
 							BEGIN	-- caso tenha registros monta numa tabela
 									SET @vBody = '<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:12px>
 													<tr height=20  style=color:black;>
-														<td width=300 style=height:20.0pt>Anexo dados de processos bloqueados disponíveis para análise.
-																						<br>Os dados coletados são apenas de bloqueios que duraram mais de 10 segundos.																		
+														<td width=300 style=height:20.0pt>Anexo dados de processos bloqueados disponï¿½veis para anï¿½lise.
+																						<br>Os dados coletados sï¿½o apenas de bloqueios que duraram mais de 10 segundos.																		
 																						<br>Data dos eventos: '+CONVERT(VARCHAR(12),@inicio,105)+'
-																						<br>Instância: '+@@SERVERNAME+'
+																						<br>Instï¿½ncia: '+@@SERVERNAME+'
 														</td>
 													</tr>
 													</table>
@@ -177,7 +177,7 @@ BEGIN
 											,@query_result_no_padding= 1	-- trim
 											,@query_result_width = 32767	-- stop wordwrap
 											--,@file_attachments = 'C:\DBACravil\DatabaseMail\robson.png'
-								-- *** Exibe como HTML ao invés de enviar por e-mail
+								-- *** Exibe como HTML ao invï¿½s de enviar por e-mail
 								ELSE 
 								SELECT @vBody;
 		

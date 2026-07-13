@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 create or alter procedure Management.sp_RequestsFull
@@ -117,8 +117,8 @@ begin
 			ROLLBACK TRANSACTION
 			DECLARE @corpoFalha varchar(max)
 				  , @subject VARCHAR(100)			-- assunto
-				  , @recipients VARCHAR(100);		-- destinatário				
-			SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+				  , @recipients VARCHAR(100);		-- destinatï¿½rio				
+			SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 			SET @recipients = 'suporte@cravil.com.br';
 			SET @corpoFalha = '	
 				<html>

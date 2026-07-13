@@ -10,11 +10,11 @@
 -- Bloco 1: Exemplos de uso — sp_VerifyDirectDependencies
 -- Lista todas as dependências diretas de um objeto (cross-database, 1 nível)
 -- ---------------------------------------------------------------------------
-USE Maintenance;
+USE YOUR_DATABASE;
 GO
 
-EXEC Management.sp_VerifyDirectDependencies 'GesCooper90.dbo.TRANSACIONADORES';
-EXEC Management.sp_VerifyDirectDependencies 'GesCooper90.dbo.tr_Transacionadores_LogUD';
+EXEC Management.sp_VerifyDirectDependencies 'YOUR_DATABASE.dbo.TRANSACIONADORES';
+EXEC Management.sp_VerifyDirectDependencies 'YOUR_DATABASE.dbo.tr_Transacionadores_LogUD';
 EXEC Management.sp_VerifyDirectDependencies 'IntegraTICravil.Management.DDLTransaction';
 
 
@@ -22,19 +22,19 @@ EXEC Management.sp_VerifyDirectDependencies 'IntegraTICravil.Management.DDLTrans
 -- Bloco 2: Exemplos de uso — sp_VerifyDependenciesFull
 -- Procedure cross-database e multi-nível via CTE recursiva
 -- ---------------------------------------------------------------------------
-USE Maintenance;
+USE YOUR_DATABASE;
 GO
 
 EXEC Management.sp_VerifyDependenciesFull 'IntegraTICravil.LogErp.TransacionadorLogDML';    -- mostra a trigger que alimenta
-EXEC Management.sp_VerifyDependenciesFull 'GesCooper90.dbo.TRANSACIONADORES';
-EXEC Management.sp_VerifyDependenciesFull 'GesCooper90.dbo.FILIAIS';                        -- mostra a trigger e outros
+EXEC Management.sp_VerifyDependenciesFull 'YOUR_DATABASE.dbo.TRANSACIONADORES';
+EXEC Management.sp_VerifyDependenciesFull 'YOUR_DATABASE.dbo.FILIAIS';                      -- mostra a trigger e outros
 EXEC Management.sp_VerifyDependenciesFull 'IntegraTICravil.Management.DDLTransaction';
 
 -- ---------------------------------------------------------------------------
 -- Bloco 3: Relatório completo de dependências
 -- Uma linha por objeto com lista de dependentes separados por vírgula (STUFF/FOR XML)
 -- ---------------------------------------------------------------------------
-USE GesCooper90;
+USE YOUR_DATABASE;
 GO
 
 SELECT
@@ -65,7 +65,7 @@ ORDER BY
 -- ---------------------------------------------------------------------------
 -- Bloco 4: Dependências schema-bound (views indexadas, colunas calculadas, check constraints)
 -- ---------------------------------------------------------------------------
-USE GesCooper90;
+USE YOUR_DATABASE;
 GO
 
 SELECT
@@ -92,7 +92,7 @@ WHERE d.is_schema_bound_reference = 1
 -- ---------------------------------------------------------------------------
 -- Bloco 5: Dependências em vários níveis hierárquicos via CTE recursiva
 -- ---------------------------------------------------------------------------
-USE GesCooper90;
+USE YOUR_DATABASE;
 GO
 
 WITH Arvore_Dependencias (referenced_id, referenced_name, referencing_id, referencing_name, NestLevel)
@@ -136,7 +136,7 @@ ORDER BY
 -- ---------------------------------------------------------------------------
 -- Bloco 6: Dependências por tipo de dado legado (TEXT, NTEXT, IMAGE) via CTE recursiva
 -- ---------------------------------------------------------------------------
-USE rhcravil;
+USE YOUR_DATABASE;
 GO
 
 WITH Arvore_Dependencias
@@ -187,7 +187,7 @@ ORDER BY
 -- Bloco 7: Análise de tabelas, relacionamentos, objetos e constraints por tabela
 -- REFERÊNCIA: http://www.linhadecodigo.com.br/artigo/3018/como-encontrar-objetos-no-sql-server.aspx
 -- ---------------------------------------------------------------------------
-USE CooperSystem;
+USE YOUR_DATABASE;
 GO
 
 SET NOCOUNT ON;

@@ -1,10 +1,10 @@
 ----------------------------------------------------------------------------------------------------------------------------------------
--- Ajusta/converte o time de campos de views de sistema de jobs - TESTADA NO BASELINE DIÁRIO
+-- Ajusta/converte o time de campos de views de sistema de jobs - TESTADA NO BASELINE DIï¿½RIO
 ----------------------------------------------------------------------------------------------------------------------------------------
 http://www.sqlservercentral.com/blogs/briankmcdonald/2010/10/29/sqlbigeek_1920_s-function-friday-_1320_-convert-job-duration-to-seconds/print/
 https://glutenfreesql.wordpress.com/2012/08/03/view-summary-of-sql-server-agent-jobs/
 
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 /****** Object:  UserDefinedFunction [dbo].[ufn_JobIntToSeconds]    Script Date: 19/04/2017 11:14:09 ******/

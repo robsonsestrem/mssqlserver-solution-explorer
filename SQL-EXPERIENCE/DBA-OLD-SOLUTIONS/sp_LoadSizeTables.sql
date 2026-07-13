@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 if object_id('Management.sp_LoadTableSize') is not null
@@ -47,7 +47,7 @@ BEGIN
 			begin
 
 				IF EXISTS (SELECT NULL from @Databases  where Id_Database = @i) -- caso a database foi deletada da 
-																				-- tabela @databases, não faz nada.
+																				-- tabela @databases, nï¿½o faz nada.
 				BEGIN 
 		
 					select @Database = Nm_Database
@@ -96,7 +96,7 @@ BEGIN
 		
 				set @i = @i + 1
 			end 
-			------------------------------ foi necessário trabalhar com collation neste script medonho ------------------------
+			------------------------------ foi necessï¿½rio trabalhar com collation neste script medonho ------------------------
 			INSERT INTO Management.InstanceServer(NmServidor)
 			SELECT DISTINCT A.Nm_Servidor 
 			FROM ##Tamanho_Tabelas A				
@@ -142,8 +142,8 @@ BEGIN
 
 		DECLARE @corpoFalha varchar(max)
 		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinatário				
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		      , @recipients VARCHAR(100);		-- destinatï¿½rio				
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'suporte@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

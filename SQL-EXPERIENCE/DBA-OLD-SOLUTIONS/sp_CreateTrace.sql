@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 CREATE OR ALTER PROCEDURE Management.[sp_CreateTrace]
@@ -15,7 +15,7 @@ BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
 			select @on = 1, @maxfilesize = 1000000
-			-- Criação do trace
+			-- Criaï¿½ï¿½o do trace
 			exec @rc = sp_trace_create @TraceID output, 0, N'C:\DBACravil\Trace\Querys_Demoradas', @maxfilesize, NULL
 			if (@rc != 0) goto error
 			exec sp_trace_setevent @TraceID, 10, 1, @on 
@@ -53,7 +53,7 @@ BEGIN
 			exec sp_trace_setevent @TraceID, 12, 48, @on
 			exec sp_trace_setevent @TraceID, 12, 64, @on
 
-			set @bigintfilter = 30000000								-- valor de microssegundos que dá 30 segundos
+			set @bigintfilter = 30000000								-- valor de microssegundos que dï¿½ 30 segundos
 			exec sp_trace_setfilter @TraceID, 13, 0, 4, @bigintfilter
 
 			-- Set the trace status to start
@@ -69,8 +69,8 @@ BEGIN
 
 		DECLARE @corpoFalha varchar(max)
 		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinatário				
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		      , @recipients VARCHAR(100);		-- destinatï¿½rio				
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'suporte@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

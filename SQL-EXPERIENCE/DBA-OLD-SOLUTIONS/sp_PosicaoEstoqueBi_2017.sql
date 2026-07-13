@@ -10,15 +10,15 @@ GO
 		declare @datalimite datetime
 		DECLARE @limite smallint
 				
-		-- Coleta última data processada
-		-- Seta a próxima data pra ser calculada
+		-- Coleta ï¿½ltima data processada
+		-- Seta a prï¿½xima data pra ser calculada
 		set @execucao = (select max(t1.[DataRotina] + 1) from IntegraTICravil.Bi.Execucao as t1
 						 where t1.Descricao like '%HistoricoPosicaoEstoque_2017%')
 
-		-- controle para inserir o mês fechado
+		-- controle para inserir o mï¿½s fechado
 		SET @limite = day(eomonth(@execucao))		
 		
-		-- seta um limite para o laço while
+		-- seta um limite para o laï¿½o while
 		set @datalimite = dateadd(day, @limite, @execucao)
 	
 		while(@execucao < @datalimite)
@@ -61,18 +61,18 @@ GO
 			   , t1.Estoque
 			   , t1.CustoTotal
 			 from IntegraTICravil.Bi.HistoricoCMV as t1 with(nolock) 
-			 inner join GesCooper90.dbo.PRODUTOS as t2 with(nolock)
+			 inner join YOUR_DATABASE.dbo.PRODUTOS as t2 with(nolock)
 			 on t2.ProCod = t1.CodigoProduto
-			 inner join GesCooper90.dbo.FAMILIAS as t3 with(nolock)
+			 inner join YOUR_DATABASE.dbo.FAMILIAS as t3 with(nolock)
 			 on t3.FamCod = t2.ProFamCod
-			 inner join GesCooper90.dbo.GRUPOS as t4 with(nolock)
+			 inner join YOUR_DATABASE.dbo.GRUPOS as t4 with(nolock)
 			 on t4.GrpCod = t2.ProGrpCod
 			 and t4.FamCod = t2.ProFamCod
-			 inner join GesCooper90.dbo.SUBGRUPOS as t5 with(nolock)
+			 inner join YOUR_DATABASE.dbo.SUBGRUPOS as t5 with(nolock)
 			 on t5.FamCod = t2.ProFamCod
 			 and t5.GrpCod = t2.ProGrpCod
 			 and t5.SubCod = t2.ProSubCod
-			 inner join GesCooper90.dbo.FILIAIS as t6 with(nolock)
+			 inner join YOUR_DATABASE.dbo.FILIAIS as t6 with(nolock)
 			 on t6.FilCod = t1.CodigoFilial
 			 where t1.DataEmissao = @execucao
 
@@ -82,8 +82,8 @@ GO
 					   , t4.FamCod, t4.FamNom, t5.GrpCod, t5.GrpNom, t6.SubCod, t6.SubNom
 					   , t2.CustoMedioUnitario, t2.Estoque, t2.CustoTotal
 				from(
-					select t2.FilCod , t1.ProCod from GesCooper90.dbo.PRODUTOS as t1 with(nolock)
-					cross apply GesCooper90.dbo.FILIAIS as t2 with(nolock)
+					select t2.FilCod , t1.ProCod from YOUR_DATABASE.dbo.PRODUTOS as t1 with(nolock)
+					cross apply YOUR_DATABASE.dbo.FILIAIS as t2 with(nolock)
 					where t1.ProSituacao not like 'n'
 					and t2.filflag2 = 0 -- filiais ativas
 					and t2.FilCod not in (61,90)
@@ -91,20 +91,20 @@ GO
 					select distinct t1.CodigoFilial, t1.CodigoProduto from IntegraTICravil.Bi.HistoricoCMV as t1 with(nolock)
 					where t1.DataEmissao = @execucao
 
-				) as x cross apply GesCooper90.dbo.GetCustoMercadoria(x.FilCod, x.ProCod, @execucao) as t2
+				) as x cross apply YOUR_DATABASE.dbo.GetCustoMercadoria(x.FilCod, x.ProCod, @execucao) as t2
 				--
-				 inner join GesCooper90.dbo.PRODUTOS as t3 with(nolock)
+				 inner join YOUR_DATABASE.dbo.PRODUTOS as t3 with(nolock)
 				 on t3.ProCod = x.ProCod
-				 inner join GesCooper90.dbo.FAMILIAS as t4 with(nolock)
+				 inner join YOUR_DATABASE.dbo.FAMILIAS as t4 with(nolock)
 				 on t4.FamCod = t3.ProFamCod
-				 inner join GesCooper90.dbo.GRUPOS as t5 with(nolock)
+				 inner join YOUR_DATABASE.dbo.GRUPOS as t5 with(nolock)
 				 on t5.GrpCod = t3.ProGrpCod
 				 and t5.FamCod = t3.ProFamCod
-				 inner join GesCooper90.dbo.SUBGRUPOS as t6 with(nolock)
+				 inner join YOUR_DATABASE.dbo.SUBGRUPOS as t6 with(nolock)
 				 on t6.FamCod = t3.ProFamCod
 				 and t6.GrpCod = t3.ProGrpCod
 				 and t6.SubCod = t3.ProSubCod
-				 inner join GesCooper90.dbo.FILIAIS as t7 with(nolock)
+				 inner join YOUR_DATABASE.dbo.FILIAIS as t7 with(nolock)
 				 on t7.FilCod = x.FilCod
 		
 			set @execucao = dateadd(day, 1, @execucao)

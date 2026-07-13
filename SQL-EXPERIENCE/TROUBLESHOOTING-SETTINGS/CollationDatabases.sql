@@ -15,13 +15,13 @@
 --   WHERE COLLATION <> 'SQL_Latin1_General_CP1_CI_AS';
 
 -- ---------------------------------------------------------------------------
--- Consulta pontual: divergências de collation no banco H_HEALTHMAP_QAS
+-- Consulta pontual: divergências de collation no banco H_YOUR_DATABASE_QAS
 -- ---------------------------------------------------------------------------
 SELECT
     TABLE_NAME
     ,COLUMN_NAME
     ,COLLATION_NAME
-FROM H_HEALTHMAP_QAS.INFORMATION_SCHEMA.COLUMNS
+FROM H_YOUR_DATABASE_QAS.INFORMATION_SCHEMA.COLUMNS
 WHERE COLLATION_NAME <> 'SQL_Latin1_General_CP1_CI_AS'
 ORDER BY TABLE_NAME ASC;
 

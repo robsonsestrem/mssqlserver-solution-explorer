@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 CREATE PROCEDURE Management.[sp_InsertExcel](
@@ -54,9 +54,9 @@ insert into #temp
 values('debora', 'debora@gmail.com')
 
 exec Management.sp_InsertExcel
-@Caminho = 'C:\SQLImportExport\Teste.xlsx', -- Diretório
-@Aba = 'pla01',								-- Guia do excel (sifrão já está na procedure)
+@Caminho = 'C:\SQLImportExport\Teste.xlsx', -- Diretï¿½rio
+@Aba = 'pla01',								-- Guia do excel (sifrï¿½o jï¿½ estï¿½ na procedure)
 @Tabela = '#temp',							-- Tabela de origen dos dados para inserir
-@Colunas = '*'								-- Tentado colunas da tabela de origem ou da planilha e não foi... 
+@Colunas = '*'								-- Tentado colunas da tabela de origem ou da planilha e nï¿½o foi... 
 
 drop table #temp

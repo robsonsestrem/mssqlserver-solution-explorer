@@ -1,4 +1,4 @@
-use Maintenance
+use YOUR_DATABASE
 go
 
 create or alter procedure Management.sp_loadRestartServer
@@ -59,12 +59,12 @@ begin
 				END;
 	begin transaction	
 
-	insert into Maintenance.Management.HistoryRestartServer(ServerName, DateInsert, DateShutdown, DateStart, [Minutes])
+	insert into YOUR_DATABASE.Management.HistoryRestartServer(ServerName, DateInsert, DateShutdown, DateStart, [Minutes])
 	select @@SERVERNAME, getdate(),t1.dth_Shutdown, t1.dth_Start, t1.num_Minutos from @tb_Downtime as t1
 	where t1.num_Minutos <> 0
 	and t1.dth_Shutdown not in (
 								select t2.DateShutdown
-								from Maintenance.Management.HistoryRestartServer as t2
+								from YOUR_DATABASE.Management.HistoryRestartServer as t2
 								)
 	commit transaction
 	end try
@@ -73,8 +73,8 @@ begin
 
 		DECLARE @corpoFalha varchar(max)
 		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinatário				
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		      , @recipients VARCHAR(100);		-- destinatï¿½rio				
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'suporte@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>
@@ -119,7 +119,7 @@ end
 
 
 ---------------------------------------------------------------------------------------------------------------------------
--- Criação da Tabela que é alimentada para Complementar Checklist
+-- Criaï¿½ï¿½o da Tabela que ï¿½ alimentada para Complementar Checklist
 ---------------------------------------------------------------------------------------------------------------------------
 --create table management.HistoryRestartServer
 --	(

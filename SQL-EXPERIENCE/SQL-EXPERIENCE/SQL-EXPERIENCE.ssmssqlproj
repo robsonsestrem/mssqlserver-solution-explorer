@@ -3,44 +3,15 @@
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
-        <ConnectionNode Name="101.44.193.238:sa">
-          <Created>2024-12-17T09:27:43.671165-03:00</Created>
+        <ConnectionNode Name="localhost:sa">
+          <Created>2026-07-13T09:16:38.4314765-03:00</Created>
           <Type>SQL</Type>
-          <Server>101.44.193.238</Server>
+          <Server>localhost</Server>
           <UserName>sa</UserName>
           <Authentication>SQL</Authentication>
           <InitialDB />
-          <LoginTimeout>30</LoginTimeout>
-          <TrustServerCertificate>False</TrustServerCertificate>
-          <HostNameInServerCertificate />
-          <EncryptionOption>False</EncryptionOption>
-          <ExecutionTimeout>0</ExecutionTimeout>
-          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
-          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
-        </ConnectionNode>
-        <ConnectionNode Name="119.8.229.208:dixhealth_adm">
-          <Created>2024-08-08T11:47:41.067614-03:00</Created>
-          <Type>SQL</Type>
-          <Server>119.8.229.208</Server>
-          <UserName>dixhealth_adm</UserName>
-          <Authentication>SQL</Authentication>
-          <InitialDB />
-          <LoginTimeout>30</LoginTimeout>
-          <TrustServerCertificate>False</TrustServerCertificate>
-          <EncryptionOption>True</EncryptionOption>
-          <ExecutionTimeout>0</ExecutionTimeout>
-          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
-          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
-        </ConnectionNode>
-        <ConnectionNode Name="OPTIMUS-PRIME:sa">
-          <Created>2022-04-10T15:11:00.4148942-03:00</Created>
-          <Type>SQL</Type>
-          <Server>OPTIMUS-PRIME</Server>
-          <UserName>sa</UserName>
-          <Authentication>SQL</Authentication>
-          <InitialDB>Eletronicos</InitialDB>
-          <LoginTimeout>30</LoginTimeout>
-          <TrustServerCertificate>False</TrustServerCertificate>
+          <LoginTimeout>15</LoginTimeout>
+          <TrustServerCertificate>True</TrustServerCertificate>
           <EncryptionOption>True</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
@@ -51,57 +22,57 @@
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
         <FileNode Name="ColetaInfoDiversasBasesExemploFlyway.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
-          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
           <FullPath>ColetaInfoDiversasBasesExemploFlyway.sql</FullPath>
         </FileNode>
         <FileNode Name="ComoIdentificarESubstituir“CoisasEstranhas”(CaracteresOcultos)EmStringsEtabelas.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
-          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
           <FullPath>ComoIdentificarESubstituir“CoisasEstranhas”(CaracteresOcultos)EmStringsEtabelas.sql</FullPath>
         </FileNode>
         <FileNode Name="ConjuntosOuterCroosAplly.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
-          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
           <FullPath>ConjuntosOuterCroosAplly.sql</FullPath>
         </FileNode>
         <FileNode Name="CteRecursiva.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
-          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
           <FullPath>CteRecursiva.sql</FullPath>
         </FileNode>
         <FileNode Name="HmapFuntionLeadIdentificaReaberturaAvals.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:101.44.193.238:False:sa</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>101.44.193.238</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
           <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>HmapFuntionLeadIdentificaReaberturaAvals.sql</FullPath>
         </FileNode>
         <FileNode Name="HmapMonitoraDuplicidadeAgendamentoSelfJoinComRowNumber.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:119.8.229.208:False:dixhealth_adm</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>119.8.229.208</AssociatedConnSrvName>
-          <AssociatedConnUserName>dixhealth_adm</AssociatedConnUserName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>HmapMonitoraDuplicidadeAgendamentoSelfJoinComRowNumber.sql</FullPath>
         </FileNode>
         <FileNode Name="IdentificaRemoveDadosDuplicados.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
-          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
           <FullPath>IdentificaRemoveDadosDuplicados.sql</FullPath>
         </FileNode>
         <FileNode Name="LagLeadEquivalent.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
-          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
           <FullPath>LagLeadEquivalent.sql</FullPath>
         </FileNode>
         <FileNode Name="NúmerosOuListaRandômica.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
-          <AssociatedConnUserName>sa</AssociatedConnUserName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
           <FullPath>NúmerosOuListaRandômica.sql</FullPath>
         </FileNode>
         <FileNode Name="OffsetFetchPaginacao.sql">
@@ -111,22 +82,16 @@
           <FullPath>OffsetFetchPaginacao.sql</FullPath>
         </FileNode>
         <FileNode Name="OuterApplyValorAnterior.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
-          <AssociatedConnUserName>sa</AssociatedConnUserName>
-          <FullPath>OuterApplyValorAnterior.sql</FullPath>
-        </FileNode>
-        <FileNode Name="RankOPGesCooper.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:OPTIMUS-PRIME:False:sa</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>OPTIMUS-PRIME</AssociatedConnSrvName>
-          <AssociatedConnUserName>sa</AssociatedConnUserName>
-          <FullPath>RankOPGesCooper.sql</FullPath>
-        </FileNode>
-        <FileNode Name="SQLQuery1.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
-          <FullPath>SQLQuery1.sql</FullPath>
+          <FullPath>OuterApplyValorAnterior.sql</FullPath>
+        </FileNode>
+        <FileNode Name="RankOPYOUR_DATABASE.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>RankOPYOUR_DATABASE.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>

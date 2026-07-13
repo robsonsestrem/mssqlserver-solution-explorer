@@ -1,14 +1,14 @@
-use Maintenance
+use YOUR_DATABASE
 go
 
-select y.Data, y.HostName, y.[Numero de Ocorrências]
-, DENSE_RANK() over (order by y.[Numero de Ocorrências] desc) as [Rank]
-, cast(100. * y.[Numero de Ocorrências] / LAST_VALUE(y.Somatoria) over (order by y.Somatoria rows between unbounded preceding and unbounded following) as decimal(18,2)) AS PercentualDoTotal
+select y.Data, y.HostName, y.[Numero de Ocorrï¿½ncias]
+, DENSE_RANK() over (order by y.[Numero de Ocorrï¿½ncias] desc) as [Rank]
+, cast(100. * y.[Numero de Ocorrï¿½ncias] / LAST_VALUE(y.Somatoria) over (order by y.Somatoria rows between unbounded preceding and unbounded following) as decimal(18,2)) AS PercentualDoTotal
 from
 (
 select 
 x.DataEvent as [Data]
-, count(x.DataEvent) as [Numero de Ocorrências]
+, count(x.DataEvent) as [Numero de Ocorrï¿½ncias]
 , HostName
 , SUM(count(x.DataEvent)) OVER (ORDER BY count(x.DataEvent) ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) as Somatoria
 from
@@ -18,6 +18,6 @@ where t1.TextData like '%network error code%'
 ) as x
 group by x.DataEvent, x.HostName
 ) as y
-group by y.Data, y.HostName, y.[Numero de Ocorrências], y.Somatoria
+group by y.Data, y.HostName, y.[Numero de Ocorrï¿½ncias], y.Somatoria
 
-order by y.[Numero de Ocorrências] desc
+order by y.[Numero de Ocorrï¿½ncias] desc

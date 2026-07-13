@@ -1,4 +1,4 @@
-------------------------------------------------------------------------------
+ï»¿------------------------------------------------------------------------------
 -- Caso simples
 ------------------------------------------------------------------------------
 CREATE OR ALTER TRIGGER [dbo].[TG_PROFREF_CNSUL]
@@ -59,7 +59,7 @@ AS
         
         IF (@CD_AVALS > 0)
         BEGIN
-            DECLARE @MSG_USER NVARCHAR(2048) = N' - Restrição acionada para impedir inconstências nas respostas de avaliações.' 
+            DECLARE @MSG_USER NVARCHAR(2048) = N' - RestriÃ§Ã£o acionada para impedir inconstÃªncias nas respostas de avaliaÃ§Ãµes.' 
             + N' - CD_AVALS: ' + CAST(@CD_AVALS AS VARCHAR(20)) 
             + N' - CD_PSSOA_CLENT: ' + CAST(@CD_PSSOA_CLENT AS VARCHAR(20)) 
             + N' - CD_PSSOA_REG: ' + CAST(@CD_PSSOA_REG AS VARCHAR(20)) 
@@ -80,7 +80,7 @@ AS
              WHERE Q.CD_AVALS = @CD_AVALS
             );               
                                    
-            -- Não pode inserir respostas após uma avaliação concluída
+            -- NÃ£o pode inserir respostas apÃ³s uma avaliaÃ§Ã£o concluÃ­da
             IF EXISTS (
                        SELECT 1
                        FROM RESPC AS R
@@ -90,7 +90,7 @@ AS
                        AND A.DataAudit <= @DATA_REGISTRO
                       )
                OR
-               -- Pelo menos 1 profissional (ou o próprio paciente em alguns casos) da RESPC deve existir na QTNAV
+               -- Pelo menos 1 profissional (ou o prÃ³prio paciente em alguns casos) da RESPC deve existir na QTNAV
                (NOT EXISTS (
                             SELECT 1
                             FROM QTNAV AS QAV
@@ -105,7 +105,7 @@ AS
                            )
                )
                OR
-               -- A quantidade de profissionais por avaliação na QTNAV não pode ser maior que na RESPC
+               -- A quantidade de profissionais por avaliaÃ§Ã£o na QTNAV nÃ£o pode ser maior que na RESPC
                (@QTD_PROFS_POR_AVALS_IN_QTNAV > @QTD_PROFS_POR_AVALS_IN_RESPC)
             BEGIN
                 ;THROW 50000, @MSG_USER, 1;

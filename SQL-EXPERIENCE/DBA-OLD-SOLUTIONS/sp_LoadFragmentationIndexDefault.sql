@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 CREATE OR ALTER PROCEDURE Management.sp_LoadFragmentationIndexDefault
 WITH ENCRYPTION
@@ -15,7 +15,7 @@ AS
 	  INSERT INTO #ListaDatabases  ( NAME )
 		 SELECT NAME
 		 FROM master.sys.sysdatabases s
-		 WHERE dbid IN (5, 7, 9, 11, 12, 14, 16, 18) -- bases de produção menos o gescooper que é 6 no server novo
+		 WHERE dbid IN (5, 7, 9, 11, 12, 14, 16, 18) -- bases de produï¿½ï¿½o menos o YOUR_DATABASE que ï¿½ 6 no server novo
 		 AND DATABASEPROPERTYEX(NAME, 'Status') = 'ONLINE'
 		 ORDER  BY 1 
  
@@ -28,15 +28,15 @@ AS
 	  SET @id = 1
 	  SET @cnt = (SELECT MAX(id) FROM #ListaDatabases)
 
-	  -- VALIDAÇÃO PARA NÃO FAZER MAIS DE UMA INSERÇÃO DIÁRIA
-	  SELECT COUNT(*) FROM Maintenance.Management.HistoryIndexFragmentation as h
+	  -- VALIDAï¿½ï¿½O PARA Nï¿½O FAZER MAIS DE UMA INSERï¿½ï¿½O DIï¿½RIA
+	  SELECT COUNT(*) FROM YOUR_DATABASE.Management.HistoryIndexFragmentation as h
 	  WHERE h.DateReference >= cast(floor(cast(GETDATE() as float)) as datetime)
-	  and h.DatabaseName <> 'gescooper90'
+	  and h.DatabaseName <> 'YOUR_DATABASE'
 	  IF(@@ROWCOUNT > 0)
 		BEGIN 
-			delete from Maintenance.Management.HistoryIndexFragmentation
+			delete from YOUR_DATABASE.Management.HistoryIndexFragmentation
 			where DateReference >= cast(floor(cast(GETDATE() as float)) as datetime)
-			and DatabaseName <> 'gescooper90'
+			and DatabaseName <> 'YOUR_DATABASE'
 		END
 	  --
 	  BEGIN TRY
@@ -130,8 +130,8 @@ AS
 
 			DECLARE @corpoFalha varchar(max)
 		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinatário				
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		      , @recipients VARCHAR(100);		-- destinatï¿½rio				
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'suporte@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

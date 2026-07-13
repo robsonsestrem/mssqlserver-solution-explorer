@@ -1,11 +1,11 @@
 --------------------------------------------------------------------------------------------------------------
---Lista os campos correspondentes aos índices criados
+--Lista os campos correspondentes aos ï¿½ndices criados
 --------------------------------------------------------------------------------------------------------------
-USE GesCooper90;
+USE YOUR_DATABASE;
 GO
 SELECT i.name AS index_name
     ,COL_NAME(ic.object_id,ic.column_id) AS column_name
-    ,ic.index_column_id  --ID da coluna de índice. index_column_id é exclusivo somente dentro de index_id.
+    ,ic.index_column_id  --ID da coluna de ï¿½ndice. index_column_id ï¿½ exclusivo somente dentro de index_id.
     ,ic.key_ordinal
 ,ic.is_included_column
 FROM sys.indexes AS i
@@ -15,9 +15,9 @@ WHERE i.object_id = OBJECT_ID('movestoque')
 ORDER BY i.name
 
 ---------------------------------------------------------------------------------------------------------------
---ver quantos índices tem na tabela
+--ver quantos ï¿½ndices tem na tabela
 ---------------------------------------------------------------------------------------------------------------
-USE GesCooper90
+USE YOUR_DATABASE
 GO
 select 
 i.index_id as Id, 
@@ -45,9 +45,9 @@ SELECT t.name as [Table Name]
        , s.name as [Stat Name]
        , stats_id as [Stat Id]
        , stats_date(s.object_id, stats_id) as Last_Updated
-       , s.auto_created -- se for 1 foi automático
-       , s.user_created -- se for 1 foi criado pelo usuário
-       , s.has_filter   -- 1 é quando é criado um índice nonclustered com a cláusula where(filtrado)
+       , s.auto_created -- se for 1 foi automï¿½tico
+       , s.user_created -- se for 1 foi criado pelo usuï¿½rio
+       , s.has_filter   -- 1 ï¿½ quando ï¿½ criado um ï¿½ndice nonclustered com a clï¿½usula where(filtrado)
 FROM sys.stats as s
 inner join sys.tables as t 
 on s.object_id = t.object_id inner join sys.columns as c
@@ -70,31 +70,31 @@ SELECT t.name as [Table Name]
        , s.name as [Stat Name]
        , stats_id as [Stat Id]
        , stats_date(s.object_id, stats_id) as [Last Updated]
-       , s.auto_created -- se for 1 foi automático
-       , s.user_created -- se for 1 foi criado pelo usuário
-       , s.has_filter   -- 1 é quando é criado um índice nonclustered com a cláusula where(filtrado)
+       , s.auto_created -- se for 1 foi automï¿½tico
+       , s.user_created -- se for 1 foi criado pelo usuï¿½rio
+       , s.has_filter   -- 1 ï¿½ quando ï¿½ criado um ï¿½ndice nonclustered com a clï¿½usula where(filtrado)
 FROM sys.stats s
 join sys.tables t on s.object_id = t.object_id
 where t.name = 'MOVESTOQUE'
 
 ---------------------------------------------------------------------------------------------------------
-use GesCooper_TI
+use YOUR_DATABASE_TI
 select
  i.id as ObjectId, 
  t.name as TableName,
  i.indid as Index_Stat_Id,      -- id de statistics na tabela sysindexes
  i.name as Nome_statistics,		-- nome de statistics para coluna da tabela 
  i.rowmodctr as Status_DML, 
- i.rows as Total_Rows_Column,   -- Nº de linhas que tem statistics por coluna
+ i.rows as Total_Rows_Column,   -- Nï¿½ de linhas que tem statistics por coluna
  i.dpages
 from sysindexes i 
 inner join sys.tables t on i.id = t.object_id
 where t.name = 'MOVESTOQUE'
-and i.rowmodctr > 3543341 -- número para que isto tenha que ficar zerado
+and i.rowmodctr > 3543341 -- nï¿½mero para que isto tenha que ficar zerado
 order by i.rowmodctr
 
 --------------------------------------------------------------------------------------------------------------
---1º - Verificar qual Fill Factor atual das tabelas (Informar apenas o valor da coluna fill factor):
+--1ï¿½ - Verificar qual Fill Factor atual das tabelas (Informar apenas o valor da coluna fill factor):
 --------------------------------------------------------------------------------------------------------------
 select sys.tables.name as tabela, sys.indexes.name as indice, 
         sys.indexes.type_desc as tipo , sys.indexes.fill_factor, sys.indexes.is_padded as padded
@@ -105,7 +105,7 @@ where sys.indexes.is_disabled =0 and sys.indexes.type <> 0
 order by tabela, tipo
 
 --------------------------------------------------------------------------------------------------------------
---2º - Verificar a alocação de espaço da sua base
+--2ï¿½ - Verificar a alocaï¿½ï¿½o de espaï¿½o da sua base
 --------------------------------------------------------------------------------------------------------------
 use IntegraTICravil
 exec sp_spaceused

@@ -1,71 +1,94 @@
-*.*~
-*.Cache
-*.DotSettings.user
-*.VisualState.xml
-*.[Pp]ublish.xml
-*.[Rr]e[Ss]harper
-*.aps
-*.azurePubxml
-*.bim.layout
-*.bim_*.settings
-*.build.csdef
-*.cachefile
+# -----------------------------------------------------------------------------
+# Arquivos de projeto e solução do SSMS
+# -----------------------------------------------------------------------------
+*.ssmssqlproj
+*.ssmssln
+
+# -----------------------------------------------------------------------------
+# Arquivos de projeto SSDT / SQL Server Database Project (compatibilidade)
+# -----------------------------------------------------------------------------
+*.sqlproj.user
+*.suo
+*.user
+
+# -----------------------------------------------------------------------------
+# Pastas de cache e configurações locais do SSMS / Visual Studio
+# -----------------------------------------------------------------------------
+.vs/
+*.vs/
+.vs/sln/
+.vs/VSWorkspaceState.json
+.vs/*.suo
+.vs/*.cache
+
+# -----------------------------------------------------------------------------
+# Saídas de build e artefatos temporários
+# -----------------------------------------------------------------------------
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# -----------------------------------------------------------------------------
+# Arquivos de modelo e cache do SQL Server / SSDT
+# -----------------------------------------------------------------------------
 *.dbmdl
 *.dbproj.schemaview
-*.design
-*.dotCover
-*.gpState
-*.ilk
-*.ldf
-*.log
 *.mdf
-*.meta
-*.mm.*
-*.ncb
-*.ncrunch*
-*.ncrunchproject
-*.ncrunchsolution
-*.nupkg
-*.obj
-*.opensdf
-*.orig
-*.pch
-*.pdb
-*.pfx
-*.pgc
-*.pgd
-*.pidb
-*.psess
-*.publishsettings
-*.rdl.data
-*.rsp
-*.sbr
-*.scc
-*.sdf
-*.sln.docstates
-*.suo
-*.svclog
-*.swp
-*.tlb
-*.tlh
-*.tli
+*.ldf
+*.ndf
+*.publish.xml
+*.publishstats
+Local*.config
+*.dacpac
+*.bacpac
+
+# -----------------------------------------------------------------------------
+# Extensões de SQL Server para VS Code (mssql / SQLTools)
+# -----------------------------------------------------------------------------
+# Configurações locais de conexão e workspace do VS Code
+.vscode/settings.json
+.vscode/launch.json
+.vscode/*.code-workspace
+.mssqlconfig
+.sqltoolsconfig
+*.mssql
+
+# -----------------------------------------------------------------------------
+# Logs, temporários e arquivos de editor
+# -----------------------------------------------------------------------------
+*.log
 *.tmp
-*.tmp_proj
-*.user
-*.userprefs
-*.vsp
-*.vspscc
-*.vspx
-*.vssscc
-*.zip
-*_i.c
-*_i.h
-*_p.c
+*.temp
 *~
-.*crunch*.local.xml
-.DS_Store
-.JustCode
-.builds
-.sass-cache/
+*.bak
+*.swp
+*.swo
 Thumbs.db
-.vs/
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# -----------------------------------------------------------------------------
+# Arquivos de relatório e execução
+# -----------------------------------------------------------------------------
+*.rpt
+*.plan
+*.xml
+
+# -----------------------------------------------------------------------------
+# Pacotes e dependências
+# -----------------------------------------------------------------------------
+packages/
+node_modules/
+*.nupkg
+*.snupkg

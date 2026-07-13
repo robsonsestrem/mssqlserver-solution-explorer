@@ -1,20 +1,20 @@
-DECLARE   @diasRetroagir INT = -15	-- Informar dias retroativos para ver diferença de fragmentação
+DECLARE   @diasRetroagir INT = -15	-- Informar dias retroativos para ver diferenï¿½a de fragmentaï¿½ï¿½o
 	    , @dataFiltro DATETIME
 SET @dataFiltro = (DATEADD(DAY, @diasRetroagir, (select max(cast(floor(cast(DateReference as float))as datetime)) 
-												 from Maintenance.Management.HistoryIndexFragmentation)))
+												 from YOUR_DATABASE.Management.HistoryIndexFragmentation)))
 ;WITH details
 AS (
 	select 
 	  cast(floor(cast(i.DateReference as float))as datetime)			AS DateReference
 	, (select max(cast(floor(cast(DateReference as float))as datetime)) 
-	   from Maintenance.Management.HistoryIndexFragmentation)		AS Lastdate
+	   from YOUR_DATABASE.Management.HistoryIndexFragmentation)		AS Lastdate
 	, i.DatabaseName, i.SchemaName, i.TableName, i.IndexName
 	, i.IndexLevel, i.IndexDepth, i.AllocUnitTypeDesc
 	, i.AvgFragmentationInPercent	
-	from Maintenance.Management.HistoryIndexFragmentation as i
+	from YOUR_DATABASE.Management.HistoryIndexFragmentation as i
 	where i.IndexLevel = 0
 	and i.AllocUnitTypeDesc = 'IN_ROW_DATA'
-	and i.DatabaseName = 'gescooper90'
+	and i.DatabaseName = 'YOUR_DATABASE'
 	and i.AvgFragmentationInPercent > 10
 	and i.[PageCount] > 1000
 	and i.DateReference >= @dataFiltro		
@@ -67,7 +67,7 @@ AS (
 	, CONVERT(VARCHAR(30),c.LastDate, 105)																			AS LastDate 
 	from calculate as c
 	where c.DateReference >= @dataFiltro
-	order by 1, 2, 3, 4, 9	-- assim vai juntar melhor os índices conforme fragmentação por data
+	order by 1, 2, 3, 4, 9	-- assim vai juntar melhor os ï¿½ndices conforme fragmentaï¿½ï¿½o por data
 
 
 

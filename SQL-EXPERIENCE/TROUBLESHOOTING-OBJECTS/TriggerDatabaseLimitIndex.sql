@@ -1,6 +1,6 @@
-/*
+﻿/*
     OBJETIVO: DDL trigger de banco de dados que bloqueia operações de criação,
-              alteração e exclusão de índices para o login 'healthmap',
+              alteração e exclusão de índices para o login 'YOUR_OBJECT',
               lançando um erro controlado via THROW.
     PROJETO: mssqlserver-solution-explorer
 */
@@ -20,7 +20,7 @@ BEGIN
     DECLARE @UserName NVARCHAR(100) = ORIGINAL_LOGIN();
 
     -- Verifica se o usuário restrito está tentando manipular índices
-    IF @UserName = 'healthmap'
+    IF @UserName = 'YOUR_OBJECT'
     BEGIN
 
         -- Lança erro controlado e aborta a operação DDL

@@ -1,14 +1,14 @@
 ----------------------------------------------------------------------------------------------------------------------------------------
---Além de estatísticas não utilizados, você pode encontrar estatísticas que se sobrepõem, 
---que são abrangidos por outras estatísticas. O script a seguir a partir de
---Kendal Van Dyke irá identificar todas as estatísticas de coluna única que são cobertos 
---por uma estatística índice existente (compartilham a mesma coluna à
---esquerda) em um banco de dados e gera os comandos TSQL para soltá­-los.
+--Alï¿½m de estatï¿½sticas nï¿½o utilizados, vocï¿½ pode encontrar estatï¿½sticas que se sobrepï¿½em, 
+--que sï¿½o abrangidos por outras estatï¿½sticas. O script a seguir a partir de
+--Kendal Van Dyke irï¿½ identificar todas as estatï¿½sticas de coluna ï¿½nica que sï¿½o cobertos 
+--por uma estatï¿½stica ï¿½ndice existente (compartilham a mesma coluna ï¿½
+--esquerda) em um banco de dados e gera os comandos TSQL para soltï¿½-los.
 -- FONTES
 -- http://www.kendalvandyke.com/2010/09/tuning-tip-identifying-overlapping.html
--- https://www.pythian.com/blog/sql-server-statistics-maintenance-and-best-practices/
+-- https://www.pythian.com/blog/sql-server-statistics-YOUR_DATABASE-and-best-practices/
 ----------------------------------------------------------------------------------------------------------------------------------------
-use P_HEALTHMAP_CAREPLUS_TDE
+use P_YOUR_DATABASE_TDE
 go
 
 ;WITH autostats ( object_id, stats_id, name, column_id )

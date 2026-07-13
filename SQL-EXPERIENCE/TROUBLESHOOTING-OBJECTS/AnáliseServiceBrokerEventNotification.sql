@@ -61,10 +61,10 @@ You should correct this situation by resetting the owner of database 'IntegraTIC
 */
 
 -- Gera e executa ALTER AUTHORIZATION dinamicamente para o banco corrente
-DECLARE @Command VARCHAR(MAX) = 'ALTER AUTHORIZATION ON DATABASE::[Maintenance] TO [admrobson]';
+DECLARE @Command VARCHAR(MAX) = 'ALTER AUTHORIZATION ON DATABASE::[YOUR_DATABASE] TO [admrobson]';
 
 SELECT @Command = REPLACE(REPLACE(@Command
-    , 'Maintenance', SD.Name)
+    , 'YOUR_DATABASE', SD.Name)
     , 'admrobson', SL.Name)
 FROM master..sysdatabases AS SD
 JOIN master..syslogins AS SL
@@ -77,13 +77,13 @@ EXEC(@Command);
 ALTER AUTHORIZATION ON SCHEMA::Management TO admcravil;
 GO
 
-ALTER AUTHORIZATION ON DATABASE::Maintenance TO [admrobson];
+ALTER AUTHORIZATION ON DATABASE::YOUR_DATABASE TO [admrobson];
 GO
 
--- Verifica o owner SID atual do banco Maintenance
+-- Verifica o owner SID atual do banco YOUR_DATABASE
 SELECT CAST(owner_sid AS UNIQUEIDENTIFIER) AS Owner_SID
 FROM sys.databases
-WHERE name = 'Maintenance';    -- EAB380AE-0DA8-46D7-BE69-EA434B4095E0
+WHERE name = 'YOUR_DATABASE';    -- EAB380AE-0DA8-46D7-BE69-EA434B4095E0
 
 -- ---------------------------------------------------------------------------
 -- Diagnóstico: owner de cada database na instância

@@ -9,10 +9,10 @@ GO
 USE [master]
 GO
 -- Restoring the certificate and the private key on destination server
-CREATE CERTIFICATE TDE_Careplus_HMG_Certicate  
-  FROM FILE = N'/home/remote/TDE_Careplus_HMG_Certicate.cer'
+CREATE CERTIFICATE TDE_YOUR_OBJECT_HMG_Certicate  
+  FROM FILE = N'/home/remote/TDE_YOUR_OBJECT_HMG_Certicate.cer'
   WITH PRIVATE KEY ( 
-    FILE = N'/home/remote/TDE_Careplus_HMG_Key.pvk',
+    FILE = N'/home/remote/TDE_YOUR_OBJECT_HMG_Key.pvk',
   DECRYPTION BY PASSWORD = '06TZMSXFcfFnX%8Q'
   );
 GO
@@ -21,10 +21,10 @@ GO
 --USE [master]
 --GO
 ---- Restoring the certificate and the private key on destination server
---CREATE CERTIFICATE TDE_Careplus_Certicate_Old  
---  FROM FILE = N'/home/remote/TDE_Careplus_Certicate_Old.cer'
+--CREATE CERTIFICATE TDE_YOUR_OBJECT_Certicate_Old  
+--  FROM FILE = N'/home/remote/TDE_YOUR_OBJECT_Certicate_Old.cer'
 --  WITH PRIVATE KEY ( 
---    FILE = N'/home/remote/TDE_Careplus_Key_Old.pvk',
+--    FILE = N'/home/remote/TDE_YOUR_OBJECT_Key_Old.pvk',
 --  DECRYPTION BY PASSWORD = '06TZMSXFcfFnX%8Q'
 --  );
 --GO
@@ -35,11 +35,11 @@ select * from sys.certificates
 
 
 -- restore -> script coletado
-RESTORE DATABASE [H_HEALTHMAP_CAREPLUS_TDE] 
-FROM  DISK = N'/home/remote/H_HEALTHMAP_CAREPLUS_TDE.bak' 
+RESTORE DATABASE [H_YOUR_DATABASE_TDE] 
+FROM  DISK = N'/home/remote/H_YOUR_DATABASE_TDE.bak' 
 WITH  FILE = 1,  
-MOVE N'P_HEALTHMAP' TO N'/var/opt/mssql/data/H_HEALTHMAP_CAREPLUS_TDE.mdf',  
-MOVE N'P_HEALTHMAP_log' TO N'/var/opt/mssql/data/H_HEALTHMAP_CAREPLUS_TDE_log.ldf',  
+MOVE N'P_YOUR_DATABASE' TO N'/var/opt/mssql/data/H_YOUR_DATABASE_TDE.mdf',  
+MOVE N'P_YOUR_DATABASE_log' TO N'/var/opt/mssql/data/H_YOUR_DATABASE_TDE_log.ldf',  
 NOUNLOAD,  STATS = 5
 
 

@@ -1,22 +1,22 @@
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
--- Se você quer entender os resultados da query abaixo, basicamente são apresentados 
--- contadores de média e total para uso de CPU, duração da execução,
--- logical reads (leituras de cache) e physical reads, que é leitura direta de valores no disco.
--- Como os indicadores do SQL são inexatos é melhor tomálos como medidas relativas. 
--- O execution count apresenta o número de execuções, txt o corpo da consulta e query_plan
--- acaba por apresentar o plano de execução.
+-- Se vocï¿½ quer entender os resultados da query abaixo, basicamente sï¿½o apresentados 
+-- contadores de mï¿½dia e total para uso de CPU, duraï¿½ï¿½o da execuï¿½ï¿½o,
+-- logical reads (leituras de cache) e physical reads, que ï¿½ leitura direta de valores no disco.
+-- Como os indicadores do SQL sï¿½o inexatos ï¿½ melhor tomï¿½los como medidas relativas. 
+-- O execution count apresenta o nï¿½mero de execuï¿½ï¿½es, txt o corpo da consulta e query_plan
+-- acaba por apresentar o plano de execuï¿½ï¿½o.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 --Fonte https://pedrogalvaojunior.wordpress.com/2016/04/27/dica-do-mes-identificando-as-top-10-querys-mais-pesadas-e-seus-respectivos-planos-de-execucao/
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 -- https://www.mssqltips.com/sqlservertip/2602/collecting-and-storing-poor-performing-sql-server-queries-for-analysis/
 -- http://www.scarydba.com/2013/09/18/finding-ad-hoc-queries-with-query-hash/
 -- https://jerfesonsantos.wordpress.com/
-/*############ ATENÇÃO ##########################################
-> Queries com a opção RECOMPILE não são capturadas;
-> Queries estruturalmente similares não podem ser agrupadas;
-> Algumas informações de execução da procedure não são 
-consideradas. Alguns recursos de temporização como o WAITFOR 
-não são considerados nas DMV e aparecem no Profiler.
+/*############ ATENï¿½ï¿½O ##########################################
+> Queries com a opï¿½ï¿½o RECOMPILE nï¿½o sï¿½o capturadas;
+> Queries estruturalmente similares nï¿½o podem ser agrupadas;
+> Algumas informaï¿½ï¿½es de execuï¿½ï¿½o da procedure nï¿½o sï¿½o 
+consideradas. Alguns recursos de temporizaï¿½ï¿½o como o WAITFOR 
+nï¿½o sï¿½o considerados nas DMV e aparecem no Profiler.
 #################################################################*/
 -------------------------------------------------------------------------------------------------------------
 -- Focado em objetos do banco
@@ -50,7 +50,7 @@ SELECT TOP 50
 FROM sys.dm_exec_query_stats qs
 CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle) qt
 CROSS APPLY sys.dm_exec_query_plan(qs.plan_handle) qp
-WHERE DB_NAME(qt.dbid) <> 'MAINTENANCE_DIX'
+WHERE DB_NAME(qt.dbid) <> 'YOUR_DATABASE_DIX'
 AND (
 qs.execution_count > 100000
 OR qs.total_logical_reads / qs.execution_count > 100000
@@ -69,7 +69,7 @@ qs.total_logical_writes / qs.execution_count DESC
 
 -------------------------------------------------------------------------------------------------------------
 -- Focado em querys SELECT do banco
--- Identifica as "Recent Expensive Queries" (últimos X minutos)
+-- Identifica as "Recent Expensive Queries" (ï¿½ltimos X minutos)
 -------------------------------------------------------------------------------------------------------------
 DECLARE @Minutos INT = 30;
 
@@ -97,9 +97,9 @@ SELECT TOP 100
 FROM sys.dm_exec_query_stats eqs
 CROSS APPLY sys.dm_exec_sql_text(eqs.sql_handle) est
 CROSS APPLY sys.dm_exec_query_plan(eqs.plan_handle) qp
-WHERE est.text LIKE 'SELECT%'       -- Filtra só SELECTs, se quiser
+WHERE est.text LIKE 'SELECT%'       -- Filtra sï¿½ SELECTs, se quiser
     AND NOT est.text LIKE '%sys.%'  -- Remove system queries
-    AND eqs.last_execution_time >= DATEADD(MINUTE, -@Minutos, GETDATE())  -- Apenas últimas X minutos
+    AND eqs.last_execution_time >= DATEADD(MINUTE, -@Minutos, GETDATE())  -- Apenas ï¿½ltimas X minutos
 ORDER BY eqs.execution_count DESC                                         -- eqs.execution_count DESC; eqs.total_worker_time DESC; -- Pode mudar pra total_logical_reads, total_elapsed_time, etc.
 
 

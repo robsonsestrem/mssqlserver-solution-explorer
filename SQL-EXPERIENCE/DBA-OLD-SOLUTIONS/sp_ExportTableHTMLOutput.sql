@@ -1,6 +1,6 @@
-use Maintenance
+use YOUR_DATABASE
 go
--- Referências
+-- Referï¿½ncias
 
 ALTER PROCEDURE Management.sp_ExportTableHTMLOutput
     @Ds_Tabela [varchar](max),
@@ -66,7 +66,7 @@ BEGIN
         <tr>'
 
 
-    -- Cabeçalho da tabela
+    -- Cabeï¿½alho da tabela
     DECLARE 
         @contadorColuna INT = 1, 
         @totalColunas INT = (SELECT COUNT(*) FROM #Colunas), 
@@ -92,7 +92,7 @@ BEGIN
     </thead>
     <tbody>'
     
-    -- Conteúdo da tabela
+    -- Conteï¿½do da tabela
 
     DECLARE @saida VARCHAR(MAX)
 
@@ -142,7 +142,7 @@ FOR XML RAW(''tr''), Elements
         @saida OUTPUT
 
 
-    -- Identação
+    -- Identaï¿½ï¿½o
     SET @saida = REPLACE(@saida, '<tr>', '
         <tr>')
 

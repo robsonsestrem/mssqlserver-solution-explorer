@@ -1,4 +1,4 @@
-use CooperSystem
+use YOUR_DATABASE
 go
 
 CREATE OR ALTER FUNCTION System.fn_Isdigit (@string varchar(max))  
@@ -19,7 +19,7 @@ GO
 /*
 Exemplo: 
  
-SELECT dbo.sp_isdigit('ISSO É UM VALOR NÚMERICO?'); -- 0 
+SELECT dbo.sp_isdigit('ISSO ï¿½ UM VALOR Nï¿½MERICO?'); -- 0 
 SELECT dbo.sp_isdigit('3000'); --retorno 1
 SELECT dbo.sp_isdigit('2700.00'); --retorno 0 
 */

@@ -1,12 +1,12 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Veremos como converter as colunas run_date e run_time da tabela de catálogo do banco msdb.dbo.sysjobhistory para datetime. 
--- Atualmente, a coluna run_date é um varchar no formato yyyymmdd (Ex: 07/05/2015 = 20150507), 
--- e a coluna run_time é uma hora no formato hmmss (Ex: 08:27:00 = 82700). 
--- Até dá pra entender visualmente o que significam esses valores, mas o cálculo com essas datas e horas ficam bem mais complicado.
+-- Veremos como converter as colunas run_date e run_time da tabela de catï¿½logo do banco msdb.dbo.sysjobhistory para datetime. 
+-- Atualmente, a coluna run_date ï¿½ um varchar no formato yyyymmdd (Ex: 07/05/2015 = 20150507), 
+-- e a coluna run_time ï¿½ uma hora no formato hmmss (Ex: 08:27:00 = 82700). 
+-- Atï¿½ dï¿½ pra entender visualmente o que significam esses valores, mas o cï¿½lculo com essas datas e horas ficam bem mais complicado.
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Usada no BaseLine diário
+-- Usada no BaseLine diï¿½rio
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 /****** Object:  UserDefinedFunction [dbo].[fn_ConverteDatetimeJobs]    Script Date: 19/04/2017 11:07:41 ******/
@@ -42,7 +42,7 @@ END
 GO
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
--- Colocando a função personalizada em uso
+-- Colocando a funï¿½ï¿½o personalizada em uso
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 SELECT
     j.name,
@@ -60,7 +60,7 @@ WHERE
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
--- ABAIXO OPÇÃO JÁ EXISTENTE TAMBÉM NO SQL SERVER (A DE CIMA É PERSONALIZADA)
+-- ABAIXO OPï¿½ï¿½O Jï¿½ EXISTENTE TAMBï¿½M NO SQL SERVER (A DE CIMA ï¿½ PERSONALIZADA)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 SELECT
     j.name,
@@ -68,7 +68,7 @@ SELECT
     h.step_name,
     h.run_status,
     h.message,
-    [RunDateTime] = msdb.dbo.agent_datetime(h.run_date, h.run_time), -- FUNÇÃO INTERNA
+    [RunDateTime] = msdb.dbo.agent_datetime(h.run_date, h.run_time), -- FUNï¿½ï¿½O INTERNA
     h.run_date,
     h.run_time
 FROM

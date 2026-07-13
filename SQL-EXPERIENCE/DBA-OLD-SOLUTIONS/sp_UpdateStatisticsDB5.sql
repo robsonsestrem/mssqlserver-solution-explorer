@@ -1,7 +1,7 @@
 ----------------------------------------------------------------------------------------------------------------------------------
 -- Fonte -> http://www.fabriciolima.net/blog/2011/06/29/rotina-para-atualizar-as-estatisticas-do-seu-banco-de-dados/
 ----------------------------------------------------------------------------------------------------------------------------------
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 CREATE OR ALTER PROCEDURE Management.[sp_UpdateStatisticsDB5]
@@ -33,13 +33,13 @@ BEGIN
 					GROUP BY sc.name, obj.name, prt.rows)
 
 				insert into #Atualiza_Estatisticas(Ds_Comando,Nr_Linha)
-				SELECT 'UPDATE STATISTICS ' +D.[schema]+ '.'  + B.name+ ' ' + A.name+ ' WITH FULLSCAN', D.rows -- geração do script e contagem das linhas
+				SELECT 'UPDATE STATISTICS ' +D.[schema]+ '.'  + B.name+ ' ' + A.name+ ' WITH FULLSCAN', D.rows -- geraï¿½ï¿½o do script e contagem das linhas
 					FROM sys.stats A
 					join sys.sysobjects B on A.object_id = B.id
 					join sys.sysindexes C on C.id = B.id and A.name= C.Name					
 					JOIN Tamanho_Tabelas D on  B.name= D.Name
 					WHERE  C.rowmodctr > 100
-					and C.rowmodctr > D.rows *.005											 -- condição calculada para ver necessidade de atualizar
+					and C.rowmodctr > D.rows *.005											 -- condiï¿½ï¿½o calculada para ver necessidade de atualizar
 					and substring( B.name,1,3) not in ('sys','dtp')							 -- nega tabelas internas
 					ORDER BY D.rows
 
@@ -66,8 +66,8 @@ BEGIN
 
 		DECLARE @corpoFalha varchar(max)
 		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinatário				
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		      , @recipients VARCHAR(100);		-- destinatï¿½rio				
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'suporte@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

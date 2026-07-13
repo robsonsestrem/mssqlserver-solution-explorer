@@ -1,5 +1,5 @@
 ﻿---------------------------------------------------------------------------------------------------------------
--- https://healthmap.atlassian.net/browse/HMAP-1075
+-- https://YOUR_OBJECT.atlassian.net/browse/YOUR_OBJECT-1075
 -- PROF DE EXEMPLO
 -- INTERVALO DE EXEMPLO: C.DT_CNSUL_INI_PREV BETWEEN '2023-02-14 14:00:00' AND '2023-02-14 14:20:00'
 -- SELECT * FROM PSSOA p WHERE P.NM_PSSOA LIKE '%RONNE HEDILI%' -- 609852

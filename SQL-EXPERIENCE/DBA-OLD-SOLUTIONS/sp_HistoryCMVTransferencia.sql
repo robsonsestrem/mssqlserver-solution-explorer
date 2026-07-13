@@ -7,7 +7,7 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
-	SET LANGUAGE 'portuguese'; -- feito para formatação da data
+	SET LANGUAGE 'portuguese'; -- feito para formataï¿½ï¿½o da data
 	DECLARE @datainicio datetime = dateadd(DAY,-1,cast(floor(cast(getdate()as float))as datetime))
 	DECLARE @datafinal datetime = dateadd(MILLISECOND,+997,dateadd(SECOND,+59,dateadd(MINUTE,+59,dateadd(HOUR,+23,dateadd(DAY,-1,cast(floor(cast(getdate()as float))as datetime))))))			 
 
@@ -24,11 +24,11 @@ BEGIN
 				set @resultSetHistory = (select COUNT(*) from IntegraTICravil.Bi.HistoricoCMVTransf as t1
 											 where t1.DataEmissao >= @datainicio) -- data de movimento		
 				--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-				-- Condicional para não enviar e-mail, pois a carga foi realizada com sucesso
+				-- Condicional para nï¿½o enviar e-mail, pois a carga foi realizada com sucesso
 				--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 				IF(@resultSetHistory > 0)			
 				BEGIN
-					print 'INTEGRAÇÃO JÁ FOI REALIZADA COM SUCESSO!'
+					print 'INTEGRAï¿½ï¿½O Jï¿½ FOI REALIZADA COM SUCESSO!'
 				END
 				ELSE
 					BEGIN
@@ -42,20 +42,20 @@ BEGIN
 												, x.SequenciaItem, x.CodFamilia, x.CodGrupo, x.CodSubgrupo
 												, cmv.CustoMedioUnitario, x.Setor, x.Secao, x.CentroCusto
 												, x.Qtdade, x.Margem, x.Peso, cmv.Estoque, cmv.CustoTotal
-											FROM GesCooper90.dbo.vw_MovimentacaoTransferencia AS x WITH(NOLOCK)
+											FROM YOUR_DATABASE.dbo.vw_MovimentacaoTransferencia AS x WITH(NOLOCK)
 											CROSS APPLY
-											GesCooper90.dbo.GetCustoMercadoria(x.Filial, x.Item, x.Emissao) AS cmv 
+											YOUR_DATABASE.dbo.GetCustoMercadoria(x.Filial, x.Item, x.Emissao) AS cmv 
 											WHERE x.Emissao between @datainicio and @datafinal
 										)						
 								SET @totalCusto = (SELECT CAST(ISNULL(IntegraTICravil.Erp.fn_FormatIntToMoney( IntegraTICravil.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 5) ), 0) AS VARCHAR(20)))
 				      				             			                        	   	   	 											
 								SET @CorpoEmail = '<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:12px>
 																<tr height=20  style=color:black;>
-																	<td width=300 style=height:20.0pt>Integração de hoje para Histórico das Transferências com CMV realizada com sucesso.
+																	<td width=300 style=height:20.0pt>Integraï¿½ï¿½o de hoje para Histï¿½rico das Transferï¿½ncias com CMV realizada com sucesso.
 																		<br>
 																		<br>Data de Movimento: '+convert(varchar(12),@datainicio,105)+'
 																		<br>
-																		<br>Total das Operações: R$ '+@totalOperacoes+'
+																		<br>Total das Operaï¿½ï¿½es: R$ '+@totalOperacoes+'
 																		<br>
 																		<br>Total de CMV: R$ '+@totalCusto+'								
 																	</td>
@@ -67,7 +67,7 @@ BEGIN
 						--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 						-- envia e-mail
 						--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-						SET @assuntoEmail = 'Carga para Guru Sistemas - Histórico de CMV'
+						SET @assuntoEmail = 'Carga para Guru Sistemas - Histï¿½rico de CMV'
 						EXEC msdb.dbo.sp_send_dbmail
 												@profile_name =		'CRAVIL',
 												@recipients =		'suporte@cravil.com.br;andrey@cravil.com.br', 						
@@ -83,8 +83,8 @@ BEGIN
 			ROLLBACK TRANSACTION
 			DECLARE @corpoFalha varchar(max)
 				  , @subject VARCHAR(100)			-- assunto
-				  , @recipients VARCHAR(100);		-- destinatário				
-			SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+				  , @recipients VARCHAR(100);		-- destinatï¿½rio				
+			SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 			SET @recipients = 'suporte@cravil.com.br;andrey@cravil.com.br';
 			SET @corpoFalha = '	
 				<html>

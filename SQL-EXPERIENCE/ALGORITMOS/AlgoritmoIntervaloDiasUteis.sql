@@ -10,7 +10,7 @@ PROJETO  : mssqlserver-solution-explorer
 -- =============================================================================
 -- CONTEXTO DE BANCO (desativado para execução isolada)
 -- =============================================================================
--- USE GesCooper90;
+-- USE YOUR_DATABASE;
 -- GO
 -- SELECT filcod, FilNfeDatHorManDes
 -- FROM FILIAIS

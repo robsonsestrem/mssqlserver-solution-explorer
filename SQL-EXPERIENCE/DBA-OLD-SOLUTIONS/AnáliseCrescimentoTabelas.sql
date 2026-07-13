@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------------------------------------------------------------------------
--- Crescimento do dia à dia das tabelas (top 100)
+-- Crescimento do dia ï¿½ dia das tabelas (top 100)
 ---------------------------------------------------------------------------------------------------------------------------------------------
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 select top 100			
@@ -29,19 +29,19 @@ convert(varchar(20), A.DtReferencia,3) as DataAnterior
 									on A2.IdTabela = D2.IdTabela
 where A2.DtReferencia = CAST(GETDATE() as date)	-- DADOS ATUAIS
   and A.DtReferencia =  CAST(GETDATE()-1 as date)  -- DADOS ANTERIORES
-  and C2.NmDatabase = 'gescooper90'
-  and C.NmDatabase = 'gescooper90'
+  and C2.NmDatabase = 'YOUR_DATABASE'
+  and C.NmDatabase = 'YOUR_DATABASE'
 order by A2.NrTamanhoDados desc
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
--- Este é o Espaço usado em disco, ou seja, sem contar os Logs e sem o espaço alocado nos datafiles.	
+-- Este ï¿½ o Espaï¿½o usado em disco, ou seja, sem contar os Logs e sem o espaï¿½o alocado nos datafiles.	
 -----------------------------------------------------------------------------------------------------------------------------------------------------
-USE Maintenance
+USE YOUR_DATABASE
 GO
 DECLARE @dateOld date = '2018-03-28',
-		@dateCurrent date = (CAST(GETDATE() AS DATE)), -- último dia rodado pela Job
-		@database varchar(20) = 'gescooper90'
+		@dateCurrent date = (CAST(GETDATE() AS DATE)), -- ï¿½ltimo dia rodado pela Job
+		@database varchar(20) = 'YOUR_DATABASE'
 
 SELECT
 CONVERT(varchar, x.DATE_OLD, 103)														AS DATE_OLD,
@@ -90,7 +90,7 @@ DataReferencia date,
 TotalSize_Gb varchar(20)
 )
 
-set @limite = (select DATEDIFF(WEEK, '2016-05-02', GETDATE()) * -1)  -- a data setada é a primerira registrada na rotina de coleta
+set @limite = (select DATEDIFF(WEEK, '2016-05-02', GETDATE()) * -1)  -- a data setada ï¿½ a primerira registrada na rotina de coleta
 set @decremento = -1
 
 WHILE (@limite <= @decremento)
@@ -122,7 +122,7 @@ IF(OBJECT_ID('temdb.dbo.##semanas') IS NOT NULL)
 		drop table ##semanas
 	END
 
-/**************************************************************** Referência de Vitor Fava - Baseado nos Backups ******************************************************************/
+/**************************************************************** Referï¿½ncia de Vitor Fava - Baseado nos Backups ******************************************************************/
 
 
 DECLARE @endDate datetime, @months smallint;

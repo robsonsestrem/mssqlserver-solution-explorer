@@ -1,12 +1,12 @@
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- https://blogfabiano.com/2010/05/25/plano-de-manutencao-reindex-vs-estatisticas/
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Se você usar o ALTER INDEX REBUILD passando um índice ele só atualiza as estatisticas deste índice
+-- Se vocï¿½ usar o ALTER INDEX REBUILD passando um ï¿½ndice ele sï¿½ atualiza as estatisticas deste ï¿½ndice
 -- ALTER INDEX XPKTabela ON <tabela> REBUILD
 /*
 name                          DataAtualizacao
 
-XPKTabela                      2010-05-25 14:26:07.607 — ATUALIZAOU O INDICE
+XPKTabela                      2010-05-25 14:26:07.607 ï¿½ ATUALIZAOU O INDICE
 
 ix_Coluna                      2010-05-25 14:25:17.070
 
@@ -16,7 +16,7 @@ _WA_Sys_ID_Endereco_0DFC52CF  2010-05-25 14:25:15.140
 */
 
 -- alter index PK_CMVTransf on HistoricoCMVTransf rebuild
-use Maintenance
+use YOUR_DATABASE
 go
 
 select
@@ -43,7 +43,7 @@ select
 + case when t1.AvgFragmentationInPercent < 30 then 'REORGANIZE'
 	   else 'REBUILD'
   end
-+ '; BACKUP LOG GesCooper90 TO DISK = ''G:\Backup\GesCooper90_log.TRN'' WITH INIT;' + ' --Frag. = '+cast(t1.AvgFragmentationInPercent as varchar(50)) + '%' + ' - PageCont = '+ cast(t1.PageCount as varchar(50))
++ '; BACKUP LOG YOUR_DATABASE TO DISK = ''G:\Backup\YOUR_DATABASE_log.TRN'' WITH INIT;' + ' --Frag. = '+cast(t1.AvgFragmentationInPercent as varchar(50)) + '%' + ' - PageCont = '+ cast(t1.PageCount as varchar(50))
 AS SCRIPTS
 from Management.HistoryIndexFragmentation as t1
 where t1.DateReference >= '20180301' and t1.DateReference < '20180302'
@@ -52,10 +52,10 @@ and t1.AvgFragmentationInPercent > 5
 and t1.PageCount > 1000
 and t1.AllocUnitTypeDesc = 'IN_ROW_DATA'
 and t1.IndexLevel = 0
-order by t1.PageCount desc -- buscando os maiores índices por 1º
+order by t1.PageCount desc -- buscando os maiores ï¿½ndices por 1ï¿½
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Exemplo de resultSet
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
-ALTER INDEX PK__MOVESTOQUELEVEL1__2D52A092 ON GesCooper90.dbo.MOVESTOQUELEVEL1 REBUILD; BACKUP LOG GesCooper90 TO DISK = 'G:\Backup\GesCooper90_log.TRN' WITH INIT; --Frag. = 36.58% - PageCont = 21596144
+ALTER INDEX PK__MOVESTOQUELEVEL1__2D52A092 ON YOUR_DATABASE.dbo.MOVESTOQUELEVEL1 REBUILD; BACKUP LOG YOUR_DATABASE TO DISK = 'G:\Backup\YOUR_DATABASE_log.TRN' WITH INIT; --Frag. = 36.58% - PageCont = 21596144

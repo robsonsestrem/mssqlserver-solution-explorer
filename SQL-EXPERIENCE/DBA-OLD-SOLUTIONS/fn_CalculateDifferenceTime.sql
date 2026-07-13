@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 CREATE OR ALTER FUNCTION Management.fn_CalculateDifferenceTime 
@@ -29,7 +29,7 @@ END
 -------------------------------------------------------------------------------------------------------------------------------------------
 -- Teste para calcular tempo
 -------------------------------------------------------------------------------------------------------------------------------------------
---USE Maintenance
+--USE YOUR_DATABASE
 --GO
 --DECLARE @antes DATETIME = '2013-11-29 11:30:40.157';
 --DECLARE @depois DATETIME = '2014-05-27 14:10:50.637';

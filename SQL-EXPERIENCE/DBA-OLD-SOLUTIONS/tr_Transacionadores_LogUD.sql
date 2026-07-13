@@ -1,4 +1,4 @@
-USE [GesCooper90]
+USE [YOUR_DATABASE]
 GO
 
 ALTER TRIGGER [dbo].[tr_Transacionadores_LogUD] 
@@ -31,7 +31,7 @@ AS
                                         FROM   sys.triggers 
                                         WHERE  object_id = @@procid)) 
 
-      -- Coloca a tabela Deleted em uma variável XML       
+      -- Coloca a tabela Deleted em uma variï¿½vel XML       
       SET @Deleted = (SELECT 
 						  TraCod
 						, TraNom
@@ -421,7 +421,7 @@ AS
 						, TraCrmv
 					  FROM deleted FOR xml raw, root('Deleted'))       
      
-	  -- Coloca a tabela Inserted em uma variável XML 
+	  -- Coloca a tabela Inserted em uma variï¿½vel XML 
       SET @Inserted = (SELECT 
 						  TraCod
 						, TraNom
@@ -827,7 +827,7 @@ AS
 														   WHERE object_id = @@procid) 
 														   AND column_id = @Col)
 
-						-- Substitui a TAG no XML da DELETED e faz a extração dos dados
+						-- Substitui a TAG no XML da DELETED e faz a extraï¿½ï¿½o dos dados
 						SET @DeletedTMP = REPLACE(CAST(@Deleted As VARCHAR(MAX)),@NomeCol + '=','Col=')
 														
 						INSERT INTO IntegraTICravil.LogErp.TransacionadorLogDML
@@ -862,7 +862,7 @@ AS
 									FROM deleted As Ins											
 					END -- WHILE		  
 
-		END -- condição delete		
+		END -- condiï¿½ï¿½o delete		
 			ELSE
 				BEGIN 
 					SELECT @action ='U' FROM deleted	   --update
@@ -885,10 +885,10 @@ AS
                                                       WHERE 
                                                      object_id = @@procid) 
                                               AND column_id = @Col) 
-                              -- Substitui a TAG no XML da DELETED e faz a extração dos dados
+                              -- Substitui a TAG no XML da DELETED e faz a extraï¿½ï¿½o dos dados
                               SET @DeletedTMP = Replace(Cast(@Deleted AS VARCHAR (max)),@NomeCol + '=','Col=') 
 
-                              -- Substitui a TAG no XML da INSERTED e faz a extração dos dados 
+                              -- Substitui a TAG no XML da INSERTED e faz a extraï¿½ï¿½o dos dados 
                               SET @InsertedTMP = Replace(Cast(@Inserted AS VARCHAR(max)),@NomeCol + '=','Col=') 
 
                               INSERT INTO IntegraTICravil.LogErp.TransacionadorLogDML 
@@ -934,7 +934,7 @@ GO
 
 
 ------------------------------------------------------------------------------------------------------------------------------
--- Tabela dos logs de alteração ou exclusão da tabela transacionadores
+-- Tabela dos logs de alteraï¿½ï¿½o ou exclusï¿½o da tabela transacionadores
 ------------------------------------------------------------------------------------------------------------------------------
 
 --USE IntegraTICravil

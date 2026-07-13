@@ -3,15 +3,15 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 USE [master]
 GO
-ALTER DATABASE P_HEALTHMAP_CAREPLUS_TDE
+ALTER DATABASE P_YOUR_DATABASE_TDE
 SET ENCRYPTION OFF -- ON|OFF
 GO
 
 -- suspende o processo de criptografia
-ALTER DATABASE H_HEALTHMAP_CAREPLUS_TDE SET ENCRYPTION SUSPEND;
+ALTER DATABASE H_YOUR_DATABASE_TDE SET ENCRYPTION SUSPEND;
 
 -- retoma o processo de criptografia
-ALTER DATABASE H_HEALTHMAP_CAREPLUS_TDE SET ENCRYPTION RESUME;
+ALTER DATABASE H_YOUR_DATABASE_TDE SET ENCRYPTION RESUME;
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -128,11 +128,11 @@ ORDER BY A.[name];
 --
 -- Como associar um certificado a uma base de dados criptografada:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USE H_HEALTHMAP_CAREPLUS_TDE
+USE H_YOUR_DATABASE_TDE
 GO
 
 ALTER DATABASE ENCRYPTION KEY
-ENCRYPTION BY SERVER CERTIFICATE TDE_Careplus_HMG_Certicate;
+ENCRYPTION BY SERVER CERTIFICATE TDE_YOUR_OBJECT_HMG_Certicate;
 GO
 
 

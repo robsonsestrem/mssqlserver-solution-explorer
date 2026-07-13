@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 /****** Object:  StoredProcedure [dbo].[sp_ReportEventsSGBD]    Script Date: 19/04/2017 10:32:24 ******/
@@ -15,11 +15,11 @@ AS
 
 		SET NOCOUNT ON;
 
-		-- *** Variáveis
-		DECLARE @vSubject NVARCHAR(255) = 'Relatório Diário do SQL Server: '+@@SERVERNAME;
+		-- *** Variï¿½veis
+		DECLARE @vSubject NVARCHAR(255) = 'Relatï¿½rio Diï¿½rio do SQL Server: '+@@SERVERNAME;
 		DECLARE @vBody AS NVARCHAR(MAX) = '';
 
-		-- *** Parte 1: Informações de configuração da instância
+		-- *** Parte 1: Informaï¿½ï¿½es de configuraï¿½ï¿½o da instï¿½ncia
 		IF OBJECT_ID('tempdb.dbo.#Tabela') IS NOT NULL
 			DROP TABLE #Tabela;
 
@@ -40,17 +40,17 @@ AS
 			,SERVERPROPERTY ('ProductLevel') AS [level]
 			,@vOnline_Since AS online_since
 			,@vUptime_Days AS uptime_days
-			INTO #Tabela;																	-- inserção de dados em tabela temporária
-																							-- Abre 1ª tabela (HTML)
-																							-- colunas da primeira linha - títulos (HTML)
+			INTO #Tabela;																	-- inserï¿½ï¿½o de dados em tabela temporï¿½ria
+																							-- Abre 1ï¿½ tabela (HTML)
+																							-- colunas da primeira linha - tï¿½tulos (HTML)
 		SET @vBody =
-		'	<h3>Informações da Instância</h3>
+		'	<h3>Informaï¿½ï¿½es da Instï¿½ncia</h3>
 					<table border=1 cellpadding=2>										
 						<tr>
 							<th>Nome NetBIOS</th>
-							<th>Nome da Instância</th>
-							<th>Edição</th>
-							<th>Versão</th>													
+							<th>Nome da Instï¿½ncia</th>
+							<th>Ediï¿½ï¿½o</th>
+							<th>Versï¿½o</th>													
 							<th>Level</th>
 							<th>Online desde</th>
 							<th>Qtde de dias online</th>
@@ -70,7 +70,7 @@ AS
 				'</tr>'
 			from dbo.#Tabela t
 		)
-		SET @vBody = @vBody + '</table>';													-- Fecha 1ª tabela (HTML)
+		SET @vBody = @vBody + '</table>';													-- Fecha 1ï¿½ tabela (HTML)
 
 		-- *** Parte 2: Log de error do SQL
 		DECLARE
@@ -83,7 +83,7 @@ AS
 			ProcessInfo VARCHAR(50),
 			Text VARCHAR(4000)
 		);
-		INSERT INTO @LogSql1 exec sp_readerrorlog;											 -- inserção de dados na variável tipo table
+		INSERT INTO @LogSql1 exec sp_readerrorlog;											 -- inserï¿½ï¿½o de dados na variï¿½vel tipo table
 
 		-- Tabela para somente erros
 		DECLARE @LogSQL2 TABLE
@@ -94,15 +94,15 @@ AS
 		);
 		INSERT INTO @LogSQL2
 			SELECT TOP 30
-				LogDate, ProcessInfo, Text													 -- inserção de dados em outra variável do tipo table
+				LogDate, ProcessInfo, Text													 -- inserï¿½ï¿½o de dados em outra variï¿½vel do tipo table
 			FROM @LogSQL1 l
 			WHERE l.Text LIKE '%erro%'										
 			ORDER BY 1 DESC;
 
 		SET @Qt = @@ROWCOUNT;
-		SET @vBody = @vBody +																 -- Abre 2ª tabela - títulos (HTML)
+		SET @vBody = @vBody +																 -- Abre 2ï¿½ tabela - tï¿½tulos (HTML)
 			'<br><br>
-				<h3>Últimos 30 registros contendo a palavra erro no Log de Erros do SQL Server</h3>
+				<h3>ï¿½ltimos 30 registros contendo a palavra erro no Log de Erros do SQL Server</h3>
 					<table border=1 cellpadding=2>
 						<tr>
 							<th>Data do Log</th>										     
@@ -117,7 +117,7 @@ AS
 					SELECT
 						'<tr>'+
 						'<td>'+CONVERT(VARCHAR,LogDate)+'</td>'+
-						'<td>'+CONVERT(VARCHAR,ProcessInfo)+'</td>'+						 -- inserção de dados a partir da 2ª linha (HTML)
+						'<td>'+CONVERT(VARCHAR,ProcessInfo)+'</td>'+						 -- inserï¿½ï¿½o de dados a partir da 2ï¿½ linha (HTML)
 						'<td>'+CONVERT(NVARCHAR(4000),Text)+'</td>'+
 						'</tr>'
 					FROM @LogSQL2 t
@@ -126,9 +126,9 @@ AS
 				SET @Loop = @Loop +1;	
 			END;
 
-		SET @vBody = @vBody + '</table>';													 -- Fecha 2ª tabela (HTML)
+		SET @vBody = @vBody + '</table>';													 -- Fecha 2ï¿½ tabela (HTML)
 
-		-- últimos 30 registros
+		-- ï¿½ltimos 30 registros
 		DECLARE @LogSQL3 TABLE
 		(	Seq INT IDENTITY(1,1),
 			LogDate DATETIME,
@@ -138,14 +138,14 @@ AS
 		INSERT INTO @LogSQL3
 			SELECT TOP 30
 				LogDate, ProcessInfo, Text
-			FROM @LogSQL1 l																	 -- inserção de dados em variável do tipo table
+			FROM @LogSQL1 l																	 -- inserï¿½ï¿½o de dados em variï¿½vel do tipo table
 			ORDER BY 1 DESC;
 
 		SET @Qt = @@ROWCOUNT;
 		SET @Loop = 1;	
-		SET @vBody = @vBody +																 -- Abre 3ª tabela - títulos (HTML)
+		SET @vBody = @vBody +																 -- Abre 3ï¿½ tabela - tï¿½tulos (HTML)
 			'<br><br>
-				<h3>Últimos 30 registros do Log de Erros do SQL Server</h3>
+				<h3>ï¿½ltimos 30 registros do Log de Erros do SQL Server</h3>
 					<table border=1 cellpadding=2>
 						<tr>																 
 							<th>Data do Log</th>
@@ -160,7 +160,7 @@ AS
 					SELECT
 						'<tr>'+
 						'<td>'+CONVERT(VARCHAR,LogDate)+'</td>'+
-						'<td>'+CONVERT(VARCHAR,ProcessInfo)+'</td>'+						 -- inserção de dados a partir da 2ª linha (HTML)
+						'<td>'+CONVERT(VARCHAR,ProcessInfo)+'</td>'+						 -- inserï¿½ï¿½o de dados a partir da 2ï¿½ linha (HTML)
 						'<td>'+CONVERT(VARCHAR(4000),Text)+'</td>'+
 						'</tr>'
 					FROM @LogSQL3 t
@@ -169,7 +169,7 @@ AS
 				SET @Loop = @Loop + 1;	
 			END;
 
-		SET @vBody = @vBody + '</table>';													 -- Fecha 3ª tabela (HTML)
+		SET @vBody = @vBody + '</table>';													 -- Fecha 3ï¿½ tabela (HTML)
 
 		-- *** Parte 3: Tamanho dos discos
 		DECLARE @vFixed_Drives_Free_Space_Table AS TABLE 
@@ -181,18 +181,18 @@ AS
 			drive_letter
 			,free_space_mb
 		)
-		EXEC master.dbo.xp_fixeddrives;														 -- inserção de dados em varável table
+		EXEC master.dbo.xp_fixeddrives;														 -- inserï¿½ï¿½o de dados em varï¿½vel table
 
 		SET @Qt = @@ROWCOUNT;
 		SET @Loop = 1;
 
-		SET @vBody = @vBody +																 -- Abre 4ª tabela - títulos (HTML)
+		SET @vBody = @vBody +																 -- Abre 4ï¿½ tabela - tï¿½tulos (HTML)
 			'<br><br>
-				<h3>Espaço livre nas unidades de disco</h3>									 
+				<h3>Espaï¿½o livre nas unidades de disco</h3>									 
 					<table border=1 cellpadding=2>
 						<tr>
 							<th>Unidade</th>
-							<th>Espaço Livre</th>
+							<th>Espaï¿½o Livre</th>
 						</tr>';
 
 		WHILE @Loop <= @Qt
@@ -201,7 +201,7 @@ AS
 				(
 					SELECT
 						'<tr>'+
-						'<td>'+CONVERT(VARCHAR,t.drive_letter)+'</td>'+						-- inserção de dados a partir da 2ª linha (HTML)
+						'<td>'+CONVERT(VARCHAR,t.drive_letter)+'</td>'+						-- inserï¿½ï¿½o de dados a partir da 2ï¿½ linha (HTML)
 						'<td>'+	CONVERT(VARCHAR, t.free_space_mb) + ' Mb' + ' -> '
 					 + CONVERT(VARCHAR, cast(t.free_space_mb /1024 as decimal(15,2))) + ' Gb'	 
 					 +'</td>'+
@@ -212,7 +212,7 @@ AS
 				SET @Loop = @Loop + 1;	
 			END;
 
-		SET @vBody = @vBody + '</table>';													 -- Fecha 4ª tabela (HTML)
+		SET @vBody = @vBody + '</table>';													 -- Fecha 4ï¿½ tabela (HTML)
 
 
 		-- *** Parte 4: tamanho das databases
@@ -224,7 +224,7 @@ AS
 			ArquivoDeDados_EspacoUsado_MB DECIMAL(15,2), 
 			ArquivoDeDados_EspacoLivre_MB DECIMAL(15,2)
 		);
-																							 -- inserção de dados em tabela temporária
+																							 -- inserï¿½ï¿½o de dados em tabela temporï¿½ria
 		EXEC sp_MSforeachdb 'USE ?
 		INSERT INTO #Tamanhos
 		(	
@@ -260,7 +260,7 @@ AS
 		INSERT INTO @Tamanhos
 		SELECT
 			t.Banco
-			, t.ArquivoDeDados_EspacoReservadoEmDisco_MB									 -- inserção de dados na variável do tipo table
+			, t.ArquivoDeDados_EspacoReservadoEmDisco_MB									 -- inserï¿½ï¿½o de dados na variï¿½vel do tipo table
 			, t.ArquivoDeDados_EspacoUsado_MB
 			, t.ArquivoDeDados_EspacoLivre_MB
 			, l.EspacoReservadoEmDisco_MB AS ArquivoDeLog_EspacoReservadoEmDisco_MB
@@ -284,18 +284,18 @@ AS
 
 		DROP TABLE #Tamanhos;
 
-		SET @vBody = @vBody +																  -- Abre 5ª tabela - títulos (HTML)
+		SET @vBody = @vBody +																  -- Abre 5ï¿½ tabela - tï¿½tulos (HTML)
 			'<br><br>
-				<h3>Tamanho dos Bancos de Dados de Usuário</h3>
+				<h3>Tamanho dos Bancos de Dados de Usuï¿½rio</h3>
 					<table border=1 cellpadding=2>											
 						<tr>
 							<th>Banco</th>
-							<th>Arquivo de Dados - Espaço Reservado em Disco</th>
-							<th>Espaço Usado (dados)</th>
-							<th>Espaço Livre (dados)</th>
-							<th>Arquivo de Log - Espaço Reservado em Disco</th>
-							<th>Espaço Usado (log)</th>
-							<th>Espaço Livre (log)</th>
+							<th>Arquivo de Dados - Espaï¿½o Reservado em Disco</th>
+							<th>Espaï¿½o Usado (dados)</th>
+							<th>Espaï¿½o Livre (dados)</th>
+							<th>Arquivo de Log - Espaï¿½o Reservado em Disco</th>
+							<th>Espaï¿½o Usado (log)</th>
+							<th>Espaï¿½o Livre (log)</th>
 						</tr>';
 		
 		SELECT @Qt = COUNT(*) FROM @Tamanhos t;
@@ -306,7 +306,7 @@ AS
 				SET @vBody = @vBody +
 				(
 					SELECT
-						'<tr>'+																 -- inserção de dados a partir da 2ª linha (HTML)
+						'<tr>'+																 -- inserï¿½ï¿½o de dados a partir da 2ï¿½ linha (HTML)
 						'<td>'+ Banco +'</td>'+
 						'<td>'+CONVERT(VARCHAR(60),t.ArquivoDeDados_EspacoReservadoEmDisco_MB) + ' Mb' + ' -> '
 								+ CONVERT( VARCHAR(60),cast((t.ArquivoDeDados_EspacoReservadoEmDisco_MB / 1024) as decimal(15,2)) ) 
@@ -338,40 +338,40 @@ AS
 				SET @Loop = @Loop + 1;	
 			END;
 
-		SET @vBody = @vBody + '</table>';													 -- Fecha 5ª tabela (HTML)
+		SET @vBody = @vBody + '</table>';													 -- Fecha 5ï¿½ tabela (HTML)
 
 		-- *** Parte 5: TempDB Size
-		SET @vBody = @vBody +																 -- Abre 6ª tabela (HTML)
+		SET @vBody = @vBody +																 -- Abre 6ï¿½ tabela (HTML)
 			'<br><br>
-				<h3>Espaço no banco de dados interno TempDB</h3>
+				<h3>Espaï¿½o no banco de dados interno TempDB</h3>
 					<table border=1 cellpadding=2>											 							
 						<tr>
-							<th>Páginas Livres (tamanho por página é 8Kb sendo 128 Pág./Mb)</th>
-							<th>Espaço Livre</th>
+							<th>Pï¿½ginas Livres (tamanho por pï¿½gina ï¿½ 8Kb sendo 128 Pï¿½g./Mb)</th>
+							<th>Espaï¿½o Livre</th>
 						</tr>';
 
 			SET @vBody = @vBody +
 			(
 				SELECT
-					'<tr>'+																	 -- inserção de dados na segunda linha (HTML)
+					'<tr>'+																	 -- inserï¿½ï¿½o de dados na segunda linha (HTML)
 					'<td>'+CONVERT(VARCHAR(20),SUM(unallocated_extent_page_count))+'</td>'+
 					'<td>'+CONVERT(VARCHAR(20),CAST(SUM(unallocated_extent_page_count)/128.0 AS decimal(15,2))) + ' Mb' + ' -> '
 						  +CONVERT(VARCHAR(20),CAST(SUM((unallocated_extent_page_count)/128.0)/1024 AS decimal(15,2))) + ' Gb' + '</td>'+
 					'</tr>'
 				FROM sys.dm_db_file_space_usage			
 			);
-		SET @vBody = @vBody + '</table>';													 -- Fecha 6ª tabela (HTML)
+		SET @vBody = @vBody + '</table>';													 -- Fecha 6ï¿½ tabela (HTML)
 
 		--- *** Parte 6: Last backup with success
-		SET @vBody = @vBody +																 -- Abre 7ª tabela - títulos (HTML)
+		SET @vBody = @vBody +																 -- Abre 7ï¿½ tabela - tï¿½tulos (HTML)
 			'<br><br>
-				<h3>Últimos Backups Realizados</h3>
+				<h3>ï¿½ltimos Backups Realizados</h3>
 					<table border=1 cellpadding=2>											 
 						<tr>
 							<th>Banco</th>
-							<th>Descrição Opcional do Backup</th>
+							<th>Descriï¿½ï¿½o Opcional do Backup</th>
 							<th>Modelo de Recovery</th>
-							<th>Data e Hora de Início</th>
+							<th>Data e Hora de Inï¿½cio</th>
 							<th>Idade em dias</th>
 							<th>Tamanho do Backup em MB</th>
 							<th>Tipo</th>
@@ -392,7 +392,7 @@ AS
 			physical_device_name nvarchar(260)
 		);
 
-		INSERT INTO @Backups																 -- inserção de dados na variável do tipo table
+		INSERT INTO @Backups																 -- inserï¿½ï¿½o de dados na variï¿½vel do tipo table
 			select
 				s.database_name
 				, s.server_name
@@ -430,7 +430,7 @@ AS
 				SET @vBody = @vBody +
 				(
 				select
-					'<tr>'+																	-- inserção de dados a partir da 2ª linha (HTML)
+					'<tr>'+																	-- inserï¿½ï¿½o de dados a partir da 2ï¿½ linha (HTML)
 					'<td>'+CONVERT(VARCHAR(128),database_name)+'</td>'+
 					'<td>'+CONVERT(VARCHAR(128),name)+'</td>'+
 					'<td>'+CONVERT(VARCHAR(60),recovery_model)+'</td>'+
@@ -445,18 +445,18 @@ AS
 				);
 				SET @Loop = @Loop +1;
 			END;
-		SET @vBody = @vBody + '</table>';													-- Fecha 7ª tabela (HTML)
+		SET @vBody = @vBody + '</table>';													-- Fecha 7ï¿½ tabela (HTML)
 
 		-- *** Parte 7: status execution jobs
-		SET @vBody = @vBody +																-- Abre 8ª tabela (HTML)
+		SET @vBody = @vBody +																-- Abre 8ï¿½ tabela (HTML)
 			'<br><br>
-				<h3>Status da Última Execução dos Jobs</h3>
+				<h3>Status da ï¿½ltima Execuï¿½ï¿½o dos Jobs</h3>
 					<table border=1 cellpadding=2>											
 						<tr>
 							<th>Nome</th>
 							<th>Status</th>
 							<th>Mensagem</th>						
-							<th>Data e Hora da Execução</th>
+							<th>Data e Hora da Execuï¿½ï¿½o</th>
 						</tr>';
 		DECLARE @Jobs TABLE
 		(
@@ -466,7 +466,7 @@ AS
 			message NVARCHAR(4000),		
 			data_hora datetime	
 		);
-		INSERT INTO @Jobs																    -- inserção de dados numa variável do tipo table
+		INSERT INTO @Jobs																    -- inserï¿½ï¿½o de dados numa variï¿½vel do tipo table
 		SELECT
 			j.name
 			, (CASE h.run_status
@@ -501,7 +501,7 @@ AS
 				select
 					'<tr>'+
 					'<td>'+CONVERT(VARCHAR(128),j.name)+'</td>'+
-					'<td>'+CONVERT(VARCHAR(50),j.status)+'</td>'+							-- inserção de dados a partir da 2ª linha (HTML)
+					'<td>'+CONVERT(VARCHAR(50),j.status)+'</td>'+							-- inserï¿½ï¿½o de dados a partir da 2ï¿½ linha (HTML)
 					'<td>'+CONVERT(NVARCHAR(4000),message)+'</td>'+				
 					'<td>'+CONVERT(VARCHAR(30),j.data_hora,113)+'</td>'+
 					'</tr>'
@@ -510,7 +510,7 @@ AS
 				);
 				SET @Loop = @Loop + 1;
 			END;
-		SET @vBody = @vBody + '</table>';													-- Fecha 8ª tabela (HTML)
+		SET @vBody = @vBody + '</table>';													-- Fecha 8ï¿½ tabela (HTML)
 
 
 		-- *** Envia
@@ -521,11 +521,11 @@ AS
 				@subject =			@vSubject,
 				@body =				@vBody,
 				@body_format =		'HTML';
-		-- *** Exibe como HTML ao invés de enviar por e-mail
+		-- *** Exibe como HTML ao invï¿½s de enviar por e-mail
 		else 
 		SELECT @vBody;
 
-		-- *** Final: elimina tabelas temporárias
+		-- *** Final: elimina tabelas temporï¿½rias
 		IF OBJECT_ID('tempdb.dbo.#Tamanhos') IS NOT NULL
 			DROP TABLE #Tamanhos;
 		IF OBJECT_ID('tempdb.dbo.#Tabela') IS NOT NULL
