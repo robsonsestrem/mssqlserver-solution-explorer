@@ -1,8 +1,8 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 /*
-Obs.: sp_WhoIsActive não traz conexões fantasmas -> ###open_tran = 0 E status = sleeping###
+Obs.: sp_WhoIsActive nï¿½o traz conexï¿½es fantasmas -> ###open_tran = 0 E status = sleeping###
 */
 --declare @saida varchar(max)
 
@@ -11,22 +11,22 @@ execute Management.sp_WhoIsActive
 --@filter = '35'
 --, @filter_type = 'session'				-- filtrar apenas por: database, program, login, session e host.
 
- @show_own_spid = 0				    -- 0 = não mostrar minha sessão, 1 mostra
-, @show_system_spids = 1				-- 0 = não mostrar as sessões internas do sql server, 1 mostra
-, @show_sleeping_spids = 1	 			-- 0 = não mostrar todas as sessões inativas, 1 mostra     
+ @show_own_spid = 0				    -- 0 = nï¿½o mostrar minha sessï¿½o, 1 mostra
+, @show_system_spids = 1				-- 0 = nï¿½o mostrar as sessï¿½es internas do sql server, 1 mostra
+, @show_sleeping_spids = 1	 			-- 0 = nï¿½o mostrar todas as sessï¿½es inativas, 1 mostra     
 , @get_outer_command = 1				-- 1 = pra pegar query inteira sql_command, 0 desativa
---, @get_transaction_info = 1			-- 1 = dados escritos no log de transação de cada sessão tran_log_writes (DEIXA A CONSULTA DEMORADA)
-, @get_task_info = 2					-- 1 = métricas de CPU, ou 2 = métricas de disco context_switches
-, @get_locks = 1						-- 0 = não mostra nº de locks na coluna Locks, 1 mostra
---, @get_avg_time = 1					-- 0 = não mostra o tempo médio de execução por cada sessão	dd hh:mm:ss.mss (avg), 1 mostra		
-, @get_additional_info = 1				-- 1 = ativa definições de comandos SET additional_info, 0 desativa
-, @find_block_leaders = 1				-- 0 = não mostra sessão em espera por causa de bloqueio bloqued_session_count, 1 mostra
-, @sort_order = '[cpu] desc'		    -- ordenação por qualquer campo
-, @get_plans = 1						-- plano de execução, existe opções 1 ou 2, mais garantido com 1
---, @format_output = 0					-- muda formatos, tipo texto pra xml e tira colunas também
+--, @get_transaction_info = 1			-- 1 = dados escritos no log de transaï¿½ï¿½o de cada sessï¿½o tran_log_writes (DEIXA A CONSULTA DEMORADA)
+, @get_task_info = 2					-- 1 = mï¿½tricas de CPU, ou 2 = mï¿½tricas de disco context_switches
+, @get_locks = 1						-- 0 = nï¿½o mostra nï¿½ de locks na coluna Locks, 1 mostra
+--, @get_avg_time = 1					-- 0 = nï¿½o mostra o tempo mï¿½dio de execuï¿½ï¿½o por cada sessï¿½o	dd hh:mm:ss.mss (avg), 1 mostra		
+, @get_additional_info = 1				-- 1 = ativa definiï¿½ï¿½es de comandos SET additional_info, 0 desativa
+, @find_block_leaders = 1				-- 0 = nï¿½o mostra sessï¿½o em espera por causa de bloqueio bloqued_session_count, 1 mostra
+, @sort_order = '[cpu] desc'		    -- ordenaï¿½ï¿½o por qualquer campo
+, @get_plans = 1						-- plano de execuï¿½ï¿½o, existe opï¿½ï¿½es 1 ou 2, mais garantido com 1
+--, @format_output = 0					-- muda formatos, tipo texto pra xml e tira colunas tambï¿½m
 
 --, @return_schema = 1 -- bit		    -- criador de tabela
---, @schema = @saida output				-- insert na variável @saida
+--, @schema = @saida output				-- insert na variï¿½vel @saida
 --
 , @output_column_list = 
 '
@@ -62,25 +62,25 @@ execute Management.sp_WhoIsActive
 , [additional_info]
 , [query_plan]
 '
---,@destination_table = 'Maintenance.Management.WhoIsActiveAnalysis'	-- insert na tabela de análise
+--,@destination_table = 'YOUR_DATABASE.Management.WhoIsActiveAnalysis'	-- insert na tabela de anï¿½lise
 
 --SELECT @saida		-- CAPTURA DO SCRIPT DE CREATE
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
--- coluna status -> Status do ID do processo. Os valores possíveis são:
+-- coluna status -> Status do ID do processo. Os valores possï¿½veis sï¿½o:
 -----------------------------------------------------------------------------------------------------------------------------------------------------
- --dormant  (inativo) = SQL Server está redefinindo a sessão.
+ --dormant  (inativo) = SQL Server estï¿½ redefinindo a sessï¿½o.
 
- --running (executando) = a sessão está executando um ou mais lotes. Quando são habilitados MARS (Vários Conjuntos de Resultados Ativos), uma sessão pode executar vários lotes. Para obter mais informações, consulte usando vários conjuntos de resultados ativos (. MARS &41;.
+ --running (executando) = a sessï¿½o estï¿½ executando um ou mais lotes. Quando sï¿½o habilitados MARS (Vï¿½rios Conjuntos de Resultados Ativos), uma sessï¿½o pode executar vï¿½rios lotes. Para obter mais informaï¿½ï¿½es, consulte usando vï¿½rios conjuntos de resultados ativos (. MARS &41;.
 
- --Background (plano de fundo) = a sessão está executando uma tarefa em segundo plano, como detecção de deadlock.
+ --Background (plano de fundo) = a sessï¿½o estï¿½ executando uma tarefa em segundo plano, como detecï¿½ï¿½o de deadlock.
 
- --rollback (reversão) = a sessão tem uma reversão de transação em processo.
+ --rollback (reversï¿½o) = a sessï¿½o tem uma reversï¿½o de transaï¿½ï¿½o em processo.
 
- --pending (pendente) = a sessão está aguardando um thread de trabalho se torne disponível.
+ --pending (pendente) = a sessï¿½o estï¿½ aguardando um thread de trabalho se torne disponï¿½vel.
 
- --runnable (executável) = a tarefa na sessão está na fila executável de um agendador enquanto aguarda para obter um quantum de tempo.
+ --runnable (executï¿½vel) = a tarefa na sessï¿½o estï¿½ na fila executï¿½vel de um agendador enquanto aguarda para obter um quantum de tempo.
 
- --spinloop/sleeping = a tarefa na sessão está esperando um spinlock fique livre.
+ --spinloop/sleeping = a tarefa na sessï¿½o estï¿½ esperando um spinlock fique livre.
 
- --suspended (suspenso) = a sessão está aguardando um evento, como e/s, para concluir, em processo de retorno.
+ --suspended (suspenso) = a sessï¿½o estï¿½ aguardando um evento, como e/s, para concluir, em processo de retorno.

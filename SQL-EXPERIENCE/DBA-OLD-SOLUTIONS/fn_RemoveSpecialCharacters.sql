@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------------------------------------------------------------
 -- https://www.dirceuresende.com/blog/como-remover-acentuacao-e-caracteres-especiais-de-uma-string-no-sql-server/
 ---------------------------------------------------------------------------------------------------------------------------------
-use CooperSystem
+use YOUR_DATABASE
 go
 CREATE FUNCTION System.fn_RemoveSpecialCharacters(
     @String VARCHAR(MAX)

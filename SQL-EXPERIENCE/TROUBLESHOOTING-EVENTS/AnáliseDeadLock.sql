@@ -1,4 +1,4 @@
-use Maintenance
+use YOUR_DATABASE
 go
 ;WITH cte_DeadLock
      AS (SELECT IdDeadLock,
@@ -91,7 +91,7 @@ go
             --REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(CAST([p].[InputBuffer] AS VARCHAR(MAX)),'<inputbuf/>',''),'<inputbuf>',''),CHAR(9),''),CHAR(10),''),CHAR(13),'') AS [InputBuffer]
        FROM [Locks] AS [l]
             INNER JOIN [Process] AS [p] ON [p].[ProcessID] = [l].[LockProcessID]
-			--where l.DatabaseName in ('rhcravil', 'Edocs')
+			--where l.DatabaseName in ('YOUR_DATABASE', 'Edocs')
 
       ORDER BY [p].[IdDeadLock] ASC,
                [p].[Victim] DESC,

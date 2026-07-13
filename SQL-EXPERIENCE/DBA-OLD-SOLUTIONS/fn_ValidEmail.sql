@@ -1,4 +1,4 @@
-use Maintenance
+use YOUR_DATABASE
 go
 
 CREATE FUNCTION Management.fn_ValidEmail(@Ds_Email varchar(max))

@@ -14,9 +14,9 @@ BEGIN
 				from
 				(SELECT 
 				t1.RatFilCod as Filial, t1.RatEngCod as Engenhheiro, t1.RatNumRec-1 as Gap, t1.RatDatEmis as Data
-				FROM GesCooper90.dbo.RATMOVESTOQELEVEL3 t1 WITH(NOLOCK)
+				FROM YOUR_DATABASE.dbo.RATMOVESTOQELEVEL3 t1 WITH(NOLOCK)
 				WHERE t1.RatDatEmis >= @dataValidacao
-				AND NOT EXISTS (SELECT RATNUMREC  FROM GesCooper90.dbo.RATMOVESTOQELEVEL3 ANT WITH(NOLOCK)
+				AND NOT EXISTS (SELECT RATNUMREC  FROM YOUR_DATABASE.dbo.RATMOVESTOQELEVEL3 ANT WITH(NOLOCK)
 								 WHERE t1.RatNumRec-1 = ANT.RatNumRec
 								 AND t1.RatFilCod = ANT.RatFilCod
 								 AND t1.RatEngCod = ANT.RatEngCod)             
@@ -25,13 +25,13 @@ BEGIN
 		    ) > 0)
 			BEGIN
 				   DECLARE 				
-					@Assunto VARCHAR(200) = 'Inconsistência Sistêmica - Problemas Com ART',
+					@Assunto VARCHAR(200) = 'Inconsistï¿½ncia Sistï¿½mica - Problemas Com ART',
 					@Destinatario VARCHAR(MAX) = 'suporte@cravil.com.br;adriana@cravil.com.br',
 					@Mensagem VARCHAR(MAX)
             		      
 					SET @Mensagem = '
-					Atenção,
-					erro na sequência de ART foi identificado, dados abaixo:				
+					Atenï¿½ï¿½o,
+					erro na sequï¿½ncia de ART foi identificado, dados abaixo:				
 					<br><br> 
 
 					<TABLE border=1 cellpadding=2 cellspacing=0 style=border-collapse: collapse;table-layout:fixed;width:1200t;font-family:Arial;font-size:14px>															
@@ -52,9 +52,9 @@ BEGIN
 								   '<td height=20 style=height:15.0pt>' + cast(t1.RatNumRec-1 as varchar(20))		 + '</td>' +								   
 								   '<td height=20 style=height:15.0pt>' + CONVERT(varchar(20), t1.RatDatEmis, 103) + '</td>' + 								   								  								   
 								   '</tr>'				      
-				 FROM GesCooper90.dbo.RATMOVESTOQELEVEL3 t1 WITH(NOLOCK)
+				 FROM YOUR_DATABASE.dbo.RATMOVESTOQELEVEL3 t1 WITH(NOLOCK)
 					WHERE t1.RatDatEmis >= @dataValidacao
-					AND NOT EXISTS (SELECT RATNUMREC  FROM GesCooper90.dbo.RATMOVESTOQELEVEL3 ANT WITH(NOLOCK)
+					AND NOT EXISTS (SELECT RATNUMREC  FROM YOUR_DATABASE.dbo.RATMOVESTOQELEVEL3 ANT WITH(NOLOCK)
 									 WHERE t1.RatNumRec-1 = ANT.RatNumRec
 									 AND t1.RatFilCod = ANT.RatFilCod
 									 AND t1.RatEngCod = ANT.RatEngCod)             
@@ -80,8 +80,8 @@ BEGIN
 
 		DECLARE @corpoFalha varchar(max)
 		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinatário				
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		      , @recipients VARCHAR(100);		-- destinatï¿½rio				
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'suporte@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

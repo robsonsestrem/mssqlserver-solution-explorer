@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
--- Linha de tendência mostrará aumento semanal das base de dados
+-- Linha de tendï¿½ncia mostrarï¿½ aumento semanal das base de dados
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 declare  @decremento smallint
 		,@limite smallint		
@@ -14,7 +14,7 @@ DatabaseName varchar(80),
 DataReferencia date,
 TotalSize_Gb varchar(30)
 )
-set @limite = (select DATEDIFF(WEEK, '2017-01-02', GETDATE()) * -1)  -- a data setada é a primerira registrada na rotina de coleta
+set @limite = (select DATEDIFF(WEEK, '2017-01-02', GETDATE()) * -1)  -- a data setada ï¿½ a primerira registrada na rotina de coleta
 set @decremento = 1
 
 WHILE (@limite <= @decremento)
@@ -26,7 +26,7 @@ WHILE (@limite <= @decremento)
 		v.NmDatabase
 		, v.DtReferencia
 		, REPLACE(CAST(CAST(sum(v.NrTamanhoTotal /1024) AS MONEY) AS VARCHAR(20)),'.',',') as Tamanho
-	    FROM Maintenance.Management.vw_SizeTables as v 
+	    FROM YOUR_DATABASE.Management.vw_SizeTables as v 
 	    WHERE v.DtReferencia = @dia	
 		group by v.NmDatabase, v.DtReferencia		
 
@@ -46,12 +46,12 @@ IF(OBJECT_ID('temdb.dbo.##semanas') IS NOT NULL)
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
--- Para o PowerBI não será necessário colocar limites de data já que terá controle de massa de dados em uma Job
--- no caso dessas coletas serão preservados os dados de no máximo um ano.
+-- Para o PowerBI nï¿½o serï¿½ necessï¿½rio colocar limites de data jï¿½ que terï¿½ controle de massa de dados em uma Job
+-- no caso dessas coletas serï¿½o preservados os dados de no mï¿½ximo um ano.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 SELECT 
 v.NmDatabase as [Nome Database]
-,v.DtReferencia [Data de Referência]
+,v.DtReferencia [Data de Referï¿½ncia]
 , cast(sum(v.NrTamanhoTotal / 1024) as decimal(9,2)) as Tamanho_Gb
-FROM Maintenance.Management.vw_SizeTables as v 
+FROM YOUR_DATABASE.Management.vw_SizeTables as v 
 group by v.NmDatabase, v.DtReferencia

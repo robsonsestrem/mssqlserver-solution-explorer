@@ -2,32 +2,32 @@
 /*
     https://www.ibm.com/developerworks/community/blogs/fd26864d-cb41-49cf-b719-d89c6b072893/entry/consultando_o_log_de_erro_do_sql_server_usando_t_sql2?lang=en
 	Autor: Adeilson Rocha Brito
-	Atualizações desta SP podem ser obtidas em:
+	Atualizaï¿½ï¿½es desta SP podem ser obtidas em:
 		http://adeilsonrbrito.wordpress.com
 
-	Descrição
+	Descriï¿½ï¿½o
 	=========
 	SP para consulta personalizada do log de erro do SQL Server
 
-	Orientações
+	Orientaï¿½ï¿½es
 	===========
-	Recomendo que você crie essa SP na system database MASTER ou em um banco de dados com fins administrativos.
+	Recomendo que vocï¿½ crie essa SP na system database MASTER ou em um banco de dados com fins administrativos.
 
 	Notas
 	===========
-	a) Todos os parâmetros desta SP são opcionais.
+	a) Todos os parï¿½metros desta SP sï¿½o opcionais.
 	b) Esta SP pesquisa apenas o log de erro corrente (arquivo 0).
 
 	Exemplos
 	========
-	-- Pesquisando no log a ocorrência da palavra 'database' nos últimos 60 minutos
+	-- Pesquisando no log a ocorrï¿½ncia da palavra 'database' nos ï¿½ltimos 60 minutos
 	exec dbo.sp_ErrorLog 60, null, null, null, 'database'
 
-	-- Listando os registros do log dos últimos 5 minutos, do servidor NOTEWIN7\SQL2012
+	-- Listando os registros do log dos ï¿½ltimos 5 minutos, do servidor NOTEWIN7\SQL2012
 	exec dbo.sp_ErrorLog 5, null, null, null, null, 'NOTEWIN7\SQL2012'
 */
 --------------------------------------------------------------------------------------------------------------------------------------------------
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 IF OBJECT_ID('Management.sp_ErrorLog') IS NOT NULL
@@ -37,40 +37,40 @@ GO
 CREATE OR ALTER PROCEDURE Management.sp_ErrorLog
 (
 	-- Quantidade de minutos a retroagir na pesquisa.
-	-- O Default são 30 minutos
-	-- Informe NULL para desconsiderar e não usar este parâmetro
+	-- O Default sï¿½o 30 minutos
+	-- Informe NULL para desconsiderar e nï¿½o usar este parï¿½metro
 	@MinutosRetroagir INT = 30,
 
 	-- Data inicial para a pesquisa no log.
-	-- Registros com datas menores serão desconsiderados
-	-- O Default é NULL
-	-- Informe NULL para desconsiderar e não usar este parâmetro
+	-- Registros com datas menores serï¿½o desconsiderados
+	-- O Default ï¿½ NULL
+	-- Informe NULL para desconsiderar e nï¿½o usar este parï¿½metro
 	@DataInicial DATETIME = NULL,
 
 	-- Data final para a pesquisa no log.
-	-- Registros com datas maiores serão desconsiderados
-	-- O Default é NULL
-	-- Informe NULL para desconsiderar e não usar este parâmetro
+	-- Registros com datas maiores serï¿½o desconsiderados
+	-- O Default ï¿½ NULL
+	-- Informe NULL para desconsiderar e nï¿½o usar este parï¿½metro
 	@DataFinal DATETIME = NULL,
 
 	-- Texto a ser pesquisado dentro da coluna ProcessInfo do log
 	-- Exemplo: Server, Backup, SPID, etc.
-	-- A pesquisa pelo texto é parcial (em qualquer parte)
-	-- O Default é NULL
-	-- Informe NULL para desconsiderar e não usar este parâmetro
+	-- A pesquisa pelo texto ï¿½ parcial (em qualquer parte)
+	-- O Default ï¿½ NULL
+	-- Informe NULL para desconsiderar e nï¿½o usar este parï¿½metro
 	@Processo VARCHAR(50) = NULL,
 
 	-- Texto a ser pesquisado dentro da coluna Text do log
 	-- Exemplo: error, starting, etc.
-	-- A pesquisa pelo texto é parcial (em qualquer parte)
-	-- O Default é NULL
-	-- Informe NULL para desconsiderar e não usar este parâmetro
+	-- A pesquisa pelo texto ï¿½ parcial (em qualquer parte)
+	-- O Default ï¿½ NULL
+	-- Informe NULL para desconsiderar e nï¿½o usar este parï¿½metro
 	@Texto VARCHAR(100) = NULL,
 
 	-- Filtra a pesquisa para exibir apenas o log do nome do servidor informado
-	-- Use este parâmetro quando estiver pesquisando o log de vários servidores ao mesmo tempo
-	-- O Default é NULL
-	-- Informe NULL para desconsiderar e não usar este parâmetro
+	-- Use este parï¿½metro quando estiver pesquisando o log de vï¿½rios servidores ao mesmo tempo
+	-- O Default ï¿½ NULL
+	-- Informe NULL para desconsiderar e nï¿½o usar este parï¿½metro
 	@NomeServidor VARCHAR(128) = NULL
 )
 WITH ENCRYPTION

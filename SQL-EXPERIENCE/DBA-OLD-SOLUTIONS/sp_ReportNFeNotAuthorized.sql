@@ -33,7 +33,7 @@ BEGIN
 			DECLARE @inicio datetime = dateadd(DAY,-1,cast(floor(cast(getdate()as float))as datetime))
 			DECLARE @fim datetime = dateadd(MILLISECOND,+997,dateadd(SECOND,+59,dateadd(MINUTE,+59,dateadd(HOUR,+23,dateadd(DAY,-1,cast(floor(cast(getdate()as float))as datetime))))))
 
-			DECLARE @vSubject NVARCHAR(255) = 'RELATÓRIO DE NF-e NÃO AUTORIZADAS PELO SEFAZ'
+			DECLARE @vSubject NVARCHAR(255) = 'RELATï¿½RIO DE NF-e Nï¿½O AUTORIZADAS PELO SEFAZ'
 
 			DECLARE @vBody AS NVARCHAR(MAX) = '';
 			DECLARE
@@ -45,7 +45,7 @@ BEGIN
 						m.NfFilCod as Filial,
 						convert(varchar,m.NfDatEmis, 105) + ' - ' + m.NfHorEntSaid as DataHora,			
 						m.NfNumDoc as NFe,
-						m.NfNumero as Número,
+						m.NfNumero as Nï¿½mero,
 						m.NfOpeEstCod as OP,
 						case m.NfSituacao
 							when 1 then 'Digitada'
@@ -55,35 +55,35 @@ BEGIN
 							when 5 then 'O.C.Listada'
 							when 6 then 'Ordem Atendida'
 							when 7 then 'Ordem Atualizada'
-							when 8 then 'NF-e à Cancelar'
-							when 9 then 'Ag. Conferência'
+							when 8 then 'NF-e ï¿½ Cancelar'
+							when 9 then 'Ag. Conferï¿½ncia'
 							when 10 then 'Aguardando Armazenagem'
-							when 11 then 'Aguardando Autorização'
-							when 12 then 'Aguardando Liberação'
+							when 11 then 'Aguardando Autorizaï¿½ï¿½o'
+							when 12 then 'Aguardando Liberaï¿½ï¿½o'
 							when 13 then 'Aguardando Processamento'
 						else 'Indefinida'
-						end as Situação,		
+						end as Situaï¿½ï¿½o,		
 						case 
-							when m.NfeChNfe = '' then 'Não Gerada'
-							else isnull(m.NfeChNfe,'Não Gerada')			
+							when m.NfeChNfe = '' then 'Nï¿½o Gerada'
+							else isnull(m.NfeChNfe,'Nï¿½o Gerada')			
 						END AS Chave,
 						ISNULL(cast(m.NfeCStat as varchar(10)), 'Sem Status') as Status,
 						m.NfTipDoc as Tipo
 									
-				from GesCooper90.dbo.MOVESTOQUE AS m with(nolock) 
-				inner join GesCooper90.dbo.OPERACAO as p
+				from YOUR_DATABASE.dbo.MOVESTOQUE AS m with(nolock) 
+				inner join YOUR_DATABASE.dbo.OPERACAO as p
 				on p.OpeEstCod = m.NfOpeEstCod
 
 				where  m.NfDatEmis between @inicio and @fim	
 				-- nega as canceladas/inutilizadas, usu denegado ou autorizadas 					
 				and m.NfeCStat not in (100, 101, 102, 302)	
-				-- traz só aquelas que contém nº de NFE	conforme a situação.
+				-- traz sï¿½ aquelas que contï¿½m nï¿½ de NFE	conforme a situaï¿½ï¿½o.
 				and 
 				( (m.NfTipDoc = 'nfe' and m.NfSituacao not in(10,11,12,13)) or (m.NfTipDoc <> 'nfe' and m.NfSituacao in (10,11,12,13)) )
 												   
-				and p.OpeDocCod = 1		-- só operações de nota eletrônica que precisa autorização	
+				and p.OpeDocCod = 1		-- sï¿½ operaï¿½ï¿½es de nota eletrï¿½nica que precisa autorizaï¿½ï¿½o	
 			-------------------------------------------------------------------------------------------------------------------------------------------------------------	
-				SET @contaInsert = @@ROWCOUNT; -- captura do resultado de inserções
+				SET @contaInsert = @@ROWCOUNT; -- captura do resultado de inserï¿½ï¿½es
 
 				IF(@contaInsert = 0)
 					BEGIN 
@@ -93,7 +93,7 @@ BEGIN
 				ELSE	-- caso tenha registros monta numa tabela
 					SET @vBody = 																 -- Abre tabela - Nome das colunas (HTML)
 						'
-							<h3><font color=black bold=true size= 4> Relação de NF-e não autorizadas </font><td align=center> </h3>
+							<h3><font color=black bold=true size= 4> Relaï¿½ï¿½o de NF-e nï¿½o autorizadas </font><td align=center> </h3>
 								<table cellpadding=2 cellspacing=1 border=3 align=center>
 									<tr>
 										<th bgcolor=#0B0B61 width=200> <font color=white> Filial </font></th>										     
@@ -101,7 +101,7 @@ BEGIN
 										<th bgcolor=#0B0B61 width=200> <font color=white> NF-e </font></th>
 										<th bgcolor=#0B0B61 width=200> <font color=white> Numero </font></th>
 										<th bgcolor=#0B0B61 width=200> <font color=white> OP </font></th>
-										<th bgcolor=#0B0B61 width=200> <font color=white> Situação </font></th>
+										<th bgcolor=#0B0B61 width=200> <font color=white> Situaï¿½ï¿½o </font></th>
 										<th bgcolor=#0B0B61 width=200> <font color=white> Chave </font></th>
 										<th bgcolor=#0B0B61 width=200> <font color=white> Status </font></th>
 										<th bgcolor=#0B0B61 width=200> <font color=white> Tipo </font></th>
@@ -114,7 +114,7 @@ BEGIN
 								SELECT
 									'<tr>'+
 									'<td>'+CONVERT(VARCHAR(3),n.Filial)+'</td>'+
-									'<td>'+n.DataHora+'</td>'+						 -- inserção de dados a partir da 2ª linha (HTML)
+									'<td>'+n.DataHora+'</td>'+						 -- inserï¿½ï¿½o de dados a partir da 2ï¿½ linha (HTML)
 									'<td>'+CONVERT(VARCHAR(10),n.NFe)+'</td>'+
 									'<td>'+CONVERT(VARCHAR(10),n.NumeroNfe)+'</td>'+
 									'<td>'+CONVERT(VARCHAR(3),n.Operacao)+'</td>'+
@@ -129,7 +129,7 @@ BEGIN
 							SET @Loop = @Loop +1;	
 						END;
 
-					SET @vBody = @vBody + '</table><br>';													 -- Fecha 2ª tabela (HTML)			
+					SET @vBody = @vBody + '</table><br>';													 -- Fecha 2ï¿½ tabela (HTML)			
 
 			-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -142,11 +142,11 @@ BEGIN
 							@body =				@vBody,
 							@body_format =		'HTML'
 							--@file_attachments = 'C:\DBACravil\DatabaseMail\robson.png';
-				-- *** Exibe como HTML ao invés de enviar por e-mail
+				-- *** Exibe como HTML ao invï¿½s de enviar por e-mail
 				else 
 				SELECT @vBody;
 
-				-- limpa dados temporários
+				-- limpa dados temporï¿½rios
 			IF OBJECT_ID('tempdb..#naoAutorizadas') IS NOT NULL
 					DROP TABLE #naoAutorizadas;
 
@@ -157,8 +157,8 @@ BEGIN
 
 		DECLARE @corpoFalha varchar(max)
 		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinatário				
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		      , @recipients VARCHAR(100);		-- destinatï¿½rio				
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'suporte@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

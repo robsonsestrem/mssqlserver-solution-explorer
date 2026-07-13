@@ -1,9 +1,10 @@
-------------------------------------------------------------------------------------------------------------------------------------------
--- Referências:
+ï»¿------------------------------------------------------------------------------------------------------------------------------------------
+-- ReferÃªncias:
 -- https://www.dirceuresende.com/blog/consumindo-a-api-do-google-maps-para-obter-informacoes-de-um-endereco-ou-cep-no-sql-server/
 ------------------------------------------------------------------------------------------------------------------------------------------
-use IntegraTICravil
-go
+use YOUR_DATABASE
+GO
+
 alter PROCEDURE Management.sp_SearchInformationsCEP (
     @Ds_Endereco VARCHAR(500) = NULL,
     @Nr_Cep VARCHAR(9) = NULL
@@ -21,7 +22,7 @@ AS BEGIN
 
 
     ------------------------------------------------------------------------
-    -- RECUPERAÇÃO DAS INFORMAÇÕES
+    -- RECUPERAÃ‡ÃƒO DAS INFORMAÃ‡Ã•ES
     ------------------------------------------------------------------------
 
     DECLARE 

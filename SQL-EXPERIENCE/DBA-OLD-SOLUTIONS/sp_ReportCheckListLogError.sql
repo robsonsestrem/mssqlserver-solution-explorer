@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 CREATE OR ALTER PROCEDURE Management.sp_ReportCheckListLogError
@@ -12,7 +12,7 @@ BEGIN
 		BEGIN TRANSACTION
 			DECLARE @des_MensagemHTML VARCHAR(MAX);
 			/**************************************************************************************************************/
-			/* Início do HTML                                                                                             */
+			/* Inï¿½cio do HTML                                                                                             */
 			
 			Set @des_MensagemHTML = '	
 			<html>
@@ -45,7 +45,7 @@ BEGIN
 			Set @des_MensagemHTML = @des_MensagemHTML + '
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:16px>
 			  <tr height=20  style=color: #FFFFFF; background: #44546A;>
-			  <td height=20 colspan=7 style=height:20.0pt;text-align:center>Resumo das Informações</td>
+			  <td height=20 colspan=7 style=height:20.0pt;text-align:center>Resumo das Informaï¿½ï¿½es</td>
 			  </tr>
 			</table> '
 			Set @des_MensagemHTML = @des_MensagemHTML + '
@@ -53,7 +53,7 @@ BEGIN
 			<tr height=20  style=color: #FFFFFF; background: #44546A;>
 			<td width=200 style=height:20.0pt>Data</td>
 			<td width=200 style=height:20.0pt;>Origem</td>
-			<td width=650 style=height:20.0pt;>Descrição</td>
+			<td width=650 style=height:20.0pt;>Descriï¿½ï¿½o</td>
 			<td width=0 style=height:20.0pt;></td>
 			<td width=0 style=height:20.0pt;></td>
 			<td width=0 style=height:20.0pt;></td>
@@ -131,7 +131,7 @@ BEGIN
 
 			DECLARE @subject VARCHAR(100), @recipients VARCHAR(100);
 
-			SET @subject = 'CheckList Diário - Log de erros SQL Server';
+			SET @subject = 'CheckList Diï¿½rio - Log de erros SQL Server';
 			SET @recipients = 'agenteti@cravil.com.br';
 
 			EXEC [msdb].[dbo].[sp_send_dbmail]
@@ -146,7 +146,7 @@ BEGIN
 		ROLLBACK TRANSACTION
 
 		DECLARE @corpoFalha varchar(max)		     			
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'agenteti@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

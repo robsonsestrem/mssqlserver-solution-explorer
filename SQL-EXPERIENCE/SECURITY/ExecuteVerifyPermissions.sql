@@ -1,46 +1,46 @@
--- Verifica todas as permissões do usuário 'healthmap' na instância
+ï»¿-- Verifica todas as permissï¿½es do usuï¿½rio 'YOUR_OBJECT' na instÃ¢ncia
 EXEC [sp_verify_permissions]
-    @Ds_Usuario = 'healthmap'
+    @Ds_Usuario = 'YOUR_OBJECT'
     
     
--- Verifica todas as permissões da tabela 'xxxx' no database 'Protheus_Producao'
+-- Verifica todas as permissï¿½es da tabela 'xxxx' no database 'Protheus_Producao'
 EXEC [sp_verify_permissions]
-    @Ds_Database = 'P_HEALTHMAP_UNIMEDPA',
+    @Ds_Database = 'P_YOUR_DATABASE',
     @Ds_Objeto = 'ACSPA'
     
 
--- Verifica as roles de database do usuário 'healthmap' em todos os bancos
+-- Verifica as roles de database do usuï¿½rio 'YOUR_OBJECT' em todos os bancos
 EXEC [sp_verify_permissions]
-    @Ds_Usuario = 'healthmap', -- varchar(100)
+    @Ds_Usuario = 'YOUR_OBJECT', -- varchar(100)
     @Ds_Database = NULL, -- varchar(100)
     @Ds_Objeto = NULL,
     @Nr_Tipo_Permissao = 1,
-    @Fl_Permissoes_Servidor = 0 -- Não
+    @Fl_Permissoes_Servidor = 0 -- Nï¿½o
     
     
--- Verifica as permissões a nível de Database do usuário 'healthmap'
+-- Verifica as permissï¿½es a nï¿½vel de Database do usuï¿½rio 'YOUR_OBJECT'
 EXEC [sp_verify_permissions]
-    @Ds_Usuario = 'healthmap', -- varchar(100)
+    @Ds_Usuario = 'YOUR_OBJECT', -- varchar(100)
     @Ds_Database = NULL, -- varchar(100)
     @Ds_Objeto = NULL,
     @Nr_Tipo_Permissao = 2,
-    @Fl_Permissoes_Servidor = 0 -- Não
+    @Fl_Permissoes_Servidor = 0 -- Nï¿½o
     
     
--- Verifica as permissões do database 'P_HEALTHMAP_UNIMEDPA' para todos os usuários
+-- Verifica as permissÃµes do database 'P_YOUR_DATABASE' para todos os usuÃ¡rios
 EXEC [sp_verify_permissions]
     @Ds_Usuario = NULL, -- varchar(100)
-    @Ds_Database = 'P_HEALTHMAP_UNIMEDPA', -- varchar(100)
+    @Ds_Database = 'P_YOUR_DATABASE', -- varchar(100)
     @Ds_Objeto = NULL,
     @Nr_Tipo_Permissao = 2,
-    @Fl_Permissoes_Servidor = 0 -- Não
+    @Fl_Permissoes_Servidor = 0 -- Nï¿½o
     
     
--- Verifica as permissões a nível de sistema da instância
+-- Verifica as permissï¿½es a nï¿½vel de sistema da instï¿½ncia
 EXEC [sp_verify_permissions]
     @Nr_Tipo_Permissao = 4
     
    
--- Verifica os membros de roles de sistema da instância
+-- Verifica os membros de roles de sistema da instï¿½ncia
 EXEC [sp_verify_permissions]
     @Nr_Tipo_Permissao = 3

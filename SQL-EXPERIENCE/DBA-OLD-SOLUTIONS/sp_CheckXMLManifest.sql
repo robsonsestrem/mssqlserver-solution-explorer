@@ -12,7 +12,7 @@ BEGIN
 
 		BEGIN TRY
 			BEGIN TRANSACTION
-			SET @dataManifesto = (SELECT f.FilNfeDatHorManDes FROM GesCooper90.dbo.FILIAIS as f WHERE f.FilCod = 1)
+			SET @dataManifesto = (SELECT f.FilNfeDatHorManDes FROM YOUR_DATABASE.dbo.FILIAIS as f WHERE f.FilCod = 1)
 
 			IF(	(DATEDIFF(DAY,@dataManifesto, GETDATE()) <= 3 and datepart(WEEKDAY,@dataManifesto) = 6) OR	(DATEDIFF(DAY,@dataManifesto, GETDATE()) < 2 and datepart(WEEKDAY,@dataManifesto) <> 6))
 				   BEGIN
@@ -25,8 +25,8 @@ BEGIN
 					SET @CorpoEmail = '
 											<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 											<tr height=20  style=color:black;>
-												<td width=300 style=height:20.0pt>Faz dois dias ou mais que não foi realizado download automaticamente de alguma(s) filial(ais).
-												<br>Abaixo data de último xml baixado do sefaz por filial: </td>
+												<td width=300 style=height:20.0pt>Faz dois dias ou mais que nï¿½o foi realizado download automaticamente de alguma(s) filial(ais).
+												<br>Abaixo data de ï¿½ltimo xml baixado do sefaz por filial: </td>
 											</tr>
 											</table>
 											<br><br>
@@ -34,7 +34,7 @@ BEGIN
 											<TABLE border=0 cellpadding=2 cellspacing=0 style=border-collapse: collapse;table-layout:fixed;width:900pt;font-family:Arial;font-size:14px>															
 											<tr height=20  style=height:20.0pt align = center>
 												<td bgcolor=#0B0B61 width=200> <font color=white>Filial</td>
-												<td bgcolor=#0B0B61 width=200> <font color=white>Último download XML</td>										
+												<td bgcolor=#0B0B61 width=200> <font color=white>ï¿½ltimo download XML</td>										
 											</tr>
 										  ';
 
@@ -47,7 +47,7 @@ BEGIN
 						'<td height=20 style=height:15.0pt>'+ CAST(f.FilCod AS VARCHAR(10))					+ '</td>'+				
 						'<td height=20 style=height:15.0pt>'+ convert(varchar(12),f.FilNfeDatHorManDes,105)	+ '</td>'
 
-					FROM GesCooper90.dbo.FILIAIS as f
+					FROM YOUR_DATABASE.dbo.FILIAIS as f
 					WHERE f.FilCod = 1
 
 					SELECT @CorpoEmail = @CorpoEmail +
@@ -55,7 +55,7 @@ BEGIN
 					--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 					-- envia e-mail
 					--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-					SET @assuntoEmail = 'Possível falha na rotina de download de xml - Manifesto Destinatário'
+					SET @assuntoEmail = 'Possï¿½vel falha na rotina de download de xml - Manifesto Destinatï¿½rio'
 					EXEC msdb.dbo.sp_send_dbmail
 											@profile_name =		'CRAVIL',
 											@recipients =		'suporte@cravil.com.br;adriana@cravil.com.br;adami@cravil.com.br', 						
@@ -70,8 +70,8 @@ BEGIN
 				ROLLBACK TRANSACTION
 				DECLARE @corpoFalha varchar(max)
 						, @subject VARCHAR(100)			-- assunto
-						, @recipients VARCHAR(100);		-- destinatário				
-				SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+						, @recipients VARCHAR(100);		-- destinatï¿½rio				
+				SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 				SET @recipients = 'suporte@cravil.com.br';
 				SET @corpoFalha = '	
 					<html>

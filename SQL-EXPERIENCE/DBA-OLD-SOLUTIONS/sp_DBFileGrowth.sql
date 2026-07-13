@@ -1,4 +1,4 @@
-use Maintenance
+use YOUR_DATABASE
 go
 ALTER PROCEDURE Management.[sp_DBFileGrowth]
 WITH EXECUTE AS OWNER, ENCRYPTION
@@ -62,14 +62,14 @@ AS
 
 				 	-- enviar e-mail
 				    DECLARE 				
-					@Assunto VARCHAR(200) = @@SERVERNAME + ' - Atenção Foi Acionado Autogrowth em Datafile(s)',
+					@Assunto VARCHAR(200) = @@SERVERNAME + ' - Atenï¿½ï¿½o Foi Acionado Autogrowth em Datafile(s)',
 					@Destinatario VARCHAR(50) = 'suporte@cravil.com.br',
 					@Mensagem VARCHAR(MAX)
             		      
 					SET @Mensagem = '
 					Prezado DBA,<br>
 					Verifique os logs, ocorreu autocrescimento em algun(s) datafiles, detalhes abaixo:
-					<br>Instância: ' + @@SERVICENAME + ' 
+					<br>Instï¿½ncia: ' + @@SERVICENAME + ' 
 					<br>Servidor: ' + @@SERVERNAME + '
 					<br><br> 
 					<TABLE border=1 cellpadding=2 cellspacing=0 font-family:Arial;font-size:14px>															

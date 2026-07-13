@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
--- Linha de tendência mostrará aumento nos totais diários e semanal de DeadLock, indica e justifica baixa de performance.
+-- Linha de tendï¿½ncia mostrarï¿½ aumento nos totais diï¿½rios e semanal de DeadLock, indica e justifica baixa de performance.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 /****************************************TOTALIZADO POR DIA*************************************************************************************************/
@@ -7,9 +7,9 @@ SELECT
 count(d.IdDeadLock) as total         
 ,CONVERT(VARCHAR(10), d.DateDeadLock,103) as date
 ,d.DatabaseName
-FROM Maintenance.Management.HistoryDeadLock as d
+FROM YOUR_DATABASE.Management.HistoryDeadLock as d
 WHERE d.DatabaseName is not null and d.DateDeadLock is not null
-and d.DateDeadLock between '2017-03-28' and GETDATE()  -- a data setada é a primerira registrada na rotina de coleta
+and d.DateDeadLock between '2017-03-28' and GETDATE()  -- a data setada ï¿½ a primerira registrada na rotina de coleta
 group by substring(CONVERT(VARCHAR(10), d.DateDeadLock, 103), 4, 2)
 		,CONVERT(VARCHAR(10), d.DateDeadLock,103), d.DatabaseName
 
@@ -29,7 +29,7 @@ DateDeadLock varchar(12),
 DatabaseName varchar(50)
 )
 
-set @limite = (select DATEDIFF(WEEK, '2017-03-28', GETDATE()) * -1)  -- a data setada é a primerira registrada na rotina de coleta
+set @limite = (select DATEDIFF(WEEK, '2017-03-28', GETDATE()) * -1)  -- a data setada ï¿½ a primerira registrada na rotina de coleta
 set @decremento = 1
 
 WHILE (@limite <= @decremento)
@@ -43,7 +43,7 @@ WHILE (@limite <= @decremento)
 			 count(h.IdDeadLock) as TotalBlock         
 			,CONVERT(VARCHAR(12), h.DateDeadLock,103) as DateDeadLock
 			,h.DatabaseName
-		FROM Maintenance.Management.HistoryDeadLock as h
+		FROM YOUR_DATABASE.Management.HistoryDeadLock as h
 		WHERE h.DatabaseName is not null and h.DateDeadLock is not null
 		and cast(h.DateDeadLock as date) 
 		between dateadd(WEEK,-1, cast(cast(floor(cast(@dia as float)) as datetime) as date)) 
@@ -71,17 +71,17 @@ IF(OBJECT_ID('temdb.dbo.##semanas') IS NOT NULL)
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
--- Nova visão para o PowerBI
+-- Nova visï¿½o para o PowerBI
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 select 
-x.DateDeadLock as [Data de Referência]
+x.DateDeadLock as [Data de Referï¿½ncia]
 ,  Case When DatePart(WeekDay, x.DateDeadLock) = 1 Then 'Domingo' 
 		When DatePart(WeekDay, x.DateDeadLock) = 2 Then 'Segunda'
-		When DatePart(WeekDay, x.DateDeadLock) = 3 Then 'Terça'
+		When DatePart(WeekDay, x.DateDeadLock) = 3 Then 'Terï¿½a'
 		When DatePart(WeekDay, x.DateDeadLock) = 4 Then 'Quarta'
 		When DatePart(WeekDay, x.DateDeadLock) = 5 Then 'Quinta'
 		When DatePart(WeekDay, x.DateDeadLock) = 6 Then 'Sexta'
-		When DatePart(WeekDay, x.DateDeadLock) = 7 Then 'Sábado'
+		When DatePart(WeekDay, x.DateDeadLock) = 7 Then 'Sï¿½bado'
 	end as [Dia da Semana]
 , x.DatabaseName as [Nome Database]
 , count(x.IdDeadLock) as [Total DeadLock]
@@ -91,16 +91,16 @@ from
 			 h.IdDeadLock	         
 			, cast(h.DateDeadLock as date) as DateDeadLock
 			, h.DatabaseName
-		FROM Maintenance.Management.HistoryDeadLock as h
+		FROM YOUR_DATABASE.Management.HistoryDeadLock as h
 		WHERE h.DatabaseName is not null and h.DateDeadLock is not null
 ) as x			
 group by x.DateDeadLock, x.DatabaseName	
 		
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
--- Conta usários distintos por dia afetados por deadLock
+-- Conta usï¿½rios distintos por dia afetados por deadLock
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-use Maintenance
+use YOUR_DATABASE
 go
 
 ;WITH cte_DeadLock

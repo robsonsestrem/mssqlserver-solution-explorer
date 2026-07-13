@@ -1,10 +1,10 @@
--- 1 = vírgula
+-- 1 = vï¿½rgula
 -- 2 = ponto
--- 15 caracteres é o limite para o bigint, assim o reverse ficou 
+-- 15 caracteres ï¿½ o limite para o bigint, assim o reverse ficou 
 -- arredondado para 20, pois no total com os pontos fica 19 caracteres
--- mesmo não entrando na condição do ELSE dava problema de erro de conversão bigint para varchar
+-- mesmo nï¿½o entrando na condiï¿½ï¿½o do ELSE dava problema de erro de conversï¿½o bigint para varchar
 
-USE Maintenance
+USE YOUR_DATABASE
 GO
 create or alter Function Management.fn_FormatIntToThousands(@Valor bigint, @separador tinyint) 
 Returns varchar(30) 

@@ -1,46 +1,46 @@
--- Verifica todas as permissões do usuário 'Usuario_Teste' na instância
+-- Verifica todas as permissï¿½es do usuï¿½rio 'Usuario_Teste' na instï¿½ncia
 EXEC Management.[sp_VerifyPermissions]
     @Ds_Usuario = 'infjoabel'
     
     
--- Verifica todas as permissões da tabela 'xxxx' no database 'Protheus_Producao'
+-- Verifica todas as permissï¿½es da tabela 'xxxx' no database 'Protheus_Producao'
 EXEC Management.[sp_VerifyPermissions]
     @Ds_Database = 'INTEGRATICRAVIL',
     @Ds_Objeto = 'CadusuariosLogDML'
     
 
--- Verifica as roles de database do usuário 'Usuario_Teste' em todos os bancos
+-- Verifica as roles de database do usuï¿½rio 'Usuario_Teste' em todos os bancos
 EXEC Management.[sp_VerifyPermissions]
     @Ds_Usuario = 'infjoabel', -- varchar(100)
     @Ds_Database = NULL, -- varchar(100)
     @Ds_Objeto = NULL,
     @Nr_Tipo_Permissao = 1,
-    @Fl_Permissoes_Servidor = 0 -- Não
+    @Fl_Permissoes_Servidor = 0 -- Nï¿½o
     
     
--- Verifica as permissões a nível de Database do usuário 'Usuario_Teste'
+-- Verifica as permissï¿½es a nï¿½vel de Database do usuï¿½rio 'Usuario_Teste'
 EXEC Management.[sp_VerifyPermissions]
     @Ds_Usuario = 'infjoabel', -- varchar(100)
     @Ds_Database = NULL, -- varchar(100)
     @Ds_Objeto = NULL,
     @Nr_Tipo_Permissao = 2,
-    @Fl_Permissoes_Servidor = 0 -- Não
+    @Fl_Permissoes_Servidor = 0 -- Nï¿½o
     
     
--- Verifica as permissões do database 'Protheus_Producao' para todos os usuários
+-- Verifica as permissï¿½es do database 'Protheus_Producao' para todos os usuï¿½rios
 EXEC Management.[sp_VerifyPermissions]
     @Ds_Usuario = NULL, -- varchar(100)
-    @Ds_Database = 'gescooper90', -- varchar(100)
+    @Ds_Database = 'YOUR_DATABASE', -- varchar(100)
     @Ds_Objeto = NULL,
     @Nr_Tipo_Permissao = 2,
-    @Fl_Permissoes_Servidor = 0 -- Não
+    @Fl_Permissoes_Servidor = 0 -- Nï¿½o
     
     
--- Verifica as permissões a nível de sistema da instância
+-- Verifica as permissï¿½es a nï¿½vel de sistema da instï¿½ncia
 EXEC Management.[sp_VerifyPermissions]
     @Nr_Tipo_Permissao = 4
     
    
--- Verifica os membros de roles de sistema da instância
+-- Verifica os membros de roles de sistema da instï¿½ncia
 EXEC Management.[sp_VerifyPermissions]
     @Nr_Tipo_Permissao = 3

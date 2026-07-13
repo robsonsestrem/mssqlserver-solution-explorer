@@ -1,10 +1,10 @@
 
-/*******************************  INFORMAÇÕES ADICIONAIS	**************************************************************************************************/
--- Esse recurso interessante serve para que você consiga realizar duas coletas de dados em um determinado período de tempo (esse período é o valor do parâmetro, 
--- em segundos) e analisar a diferença de alocação de tempdb, leituras, escritas, etc.. entre as duas coletas realizadas. Ao final dos segundos, serão 
--- criadas colunas com o sufixo _delta, demonstrando a diferença entre a primeira e a segunda execução.
+/*******************************  INFORMAï¿½ï¿½ES ADICIONAIS	**************************************************************************************************/
+-- Esse recurso interessante serve para que vocï¿½ consiga realizar duas coletas de dados em um determinado perï¿½odo de tempo (esse perï¿½odo ï¿½ o valor do parï¿½metro, 
+-- em segundos) e analisar a diferenï¿½a de alocaï¿½ï¿½o de tempdb, leituras, escritas, etc.. entre as duas coletas realizadas. Ao final dos segundos, serï¿½o 
+-- criadas colunas com o sufixo _delta, demonstrando a diferenï¿½a entre a primeira e a segunda execuï¿½ï¿½o.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
-USE Maintenance
+USE YOUR_DATABASE
 GO
 --
 declare @saida varchar(max)
@@ -13,24 +13,24 @@ execute Management.sp_WhoIsActive
   @filter = 'cravil\cd-05'
 , @filter_type = 'login'				--filtrar por: database, program, login, session e host
 
-, @show_own_spid = 0					-- não mostrar minha sessão, 1 mostra
-, @show_system_spids = 1				-- 1 = mostrar as sessões internas do sql server
-, @show_sleeping_spids = 1				-- 1 = mostra todas as sessões inativas     
+, @show_own_spid = 0					-- nï¿½o mostrar minha sessï¿½o, 1 mostra
+, @show_system_spids = 1				-- 1 = mostrar as sessï¿½es internas do sql server
+, @show_sleeping_spids = 1				-- 1 = mostra todas as sessï¿½es inativas     
 , @get_outer_command = 1				-- pra pegar query inteira sql_command
---, @get_transaction_info = 1			-- dados escritos no log de transação de cada sessão tran_log_writes (DEIXA A CONSULTA DEMORADA)
-, @get_task_info = 2					-- métricas de CPU, ou 1 métricas de disco context_switches
-, @get_locks = 1						-- mostra nº de locks na coluna Locks
---, @get_avg_time = 1						-- mostra o tempo médio de execução por cada sessão	dd hh:mm:ss.mss (avg)		
-, @get_additional_info = 1				-- definições de comandos SET additional_info
-, @find_block_leaders = 1				-- mostra sessão em espera por causa de bloqueio bloqued_session_count
-, @sort_order = '[physical_reads] desc'	-- ordenação por qualquer campo
-, @get_plans = 2						-- plano de execução, testar com 1 também
---, @format_output = 0					-- muda formatos, tipo texto pra xml e tira colunas também
+--, @get_transaction_info = 1			-- dados escritos no log de transaï¿½ï¿½o de cada sessï¿½o tran_log_writes (DEIXA A CONSULTA DEMORADA)
+, @get_task_info = 2					-- mï¿½tricas de CPU, ou 1 mï¿½tricas de disco context_switches
+, @get_locks = 1						-- mostra nï¿½ de locks na coluna Locks
+--, @get_avg_time = 1						-- mostra o tempo mï¿½dio de execuï¿½ï¿½o por cada sessï¿½o	dd hh:mm:ss.mss (avg)		
+, @get_additional_info = 1				-- definiï¿½ï¿½es de comandos SET additional_info
+, @find_block_leaders = 1				-- mostra sessï¿½o em espera por causa de bloqueio bloqued_session_count
+, @sort_order = '[physical_reads] desc'	-- ordenaï¿½ï¿½o por qualquer campo
+, @get_plans = 2						-- plano de execuï¿½ï¿½o, testar com 1 tambï¿½m
+--, @format_output = 0					-- muda formatos, tipo texto pra xml e tira colunas tambï¿½m
 
 , @delta_interval = 200				    -- EM SEGUNDOS
 
 --, @return_schema = 1 -- bit		    -- criador de tabela
-, @schema = @saida output				-- insert na variável @saida
+, @schema = @saida output				-- insert na variï¿½vel @saida
 --
 , @output_column_list = 
 '
@@ -75,7 +75,7 @@ execute Management.sp_WhoIsActive
 , [additional_info]
 , [query_plan]
 '
-,@destination_table = 'Maintenance.Management.WhoIsActiveAnalysisDelta'	-- insert na tabela de análise
+,@destination_table = 'YOUR_DATABASE.Management.WhoIsActiveAnalysisDelta'	-- insert na tabela de anï¿½lise
 
 --SELECT @saida		-- CAPTURA DO SCRIPT DE CREATE
 

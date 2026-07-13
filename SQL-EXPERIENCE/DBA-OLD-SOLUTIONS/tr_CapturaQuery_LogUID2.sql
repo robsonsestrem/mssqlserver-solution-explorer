@@ -64,7 +64,7 @@ END
 -- TABELA DE LOGS
 -------------------------------------------------------------------------------------------------
 
---use GesCooper90
+--use YOUR_DATABASE
 --GO
 --create table CadusuariosLogDML (
 --	LogId int not null identity (1,1),

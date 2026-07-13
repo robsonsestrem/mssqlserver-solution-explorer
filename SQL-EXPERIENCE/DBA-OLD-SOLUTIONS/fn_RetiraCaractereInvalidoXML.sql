@@ -1,10 +1,10 @@
-USE [Maintenance]
+USE [YOUR_DATABASE]
 GO
 
 /*
-OBJETIVO: Procedure responsável por retirar os caracteres inválidos para o XML.
+OBJETIVO: Procedure responsï¿½vel por retirar os caracteres invï¿½lidos para o XML.
 
--- EXEMPLO EXECUÇÃO
+-- EXEMPLO EXECUï¿½ï¿½O
 SELECT dbo.fncRetira_Caractere_Invalido_XML('teste')
 */
 

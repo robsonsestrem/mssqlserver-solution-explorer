@@ -1,4 +1,4 @@
-use Maintenance
+use YOUR_DATABASE
 go
 
 create or alter view Management.vw_MonioringLogRecords
@@ -16,13 +16,13 @@ SELECT
         WHEN 3 THEN 'System transaction'
     END) AS database_transaction_type,
     (CASE B.database_transaction_state
-        WHEN 1 THEN 'A transação não foi inicializada.'								--The transaction has not been initialized.
-        WHEN 3 THEN 'A transação foi inicializada, mas não gerou log de registro.'	--The transaction has been initialized but has not generated any log records.
-        WHEN 4 THEN 'A transação gerou registros.'									--The transaction has generated log records.
-        WHEN 5 THEN 'A transação foi preparada.'									--The transaction has been prepared.
-        WHEN 10 THEN 'A transação foi cometida.'									--The transaction has been committed.
-        WHEN 11 THEN 'A transação foi revertida.'									--The transaction has been rolled back.
-        WHEN 12 THEN 'A transação está sendo cometida. Nesse estado, o registro está sendo gerado, mas não foi materializado ou persistiu.'
+        WHEN 1 THEN 'A transaï¿½ï¿½o nï¿½o foi inicializada.'								--The transaction has not been initialized.
+        WHEN 3 THEN 'A transaï¿½ï¿½o foi inicializada, mas nï¿½o gerou log de registro.'	--The transaction has been initialized but has not generated any log records.
+        WHEN 4 THEN 'A transaï¿½ï¿½o gerou registros.'									--The transaction has generated log records.
+        WHEN 5 THEN 'A transaï¿½ï¿½o foi preparada.'									--The transaction has been prepared.
+        WHEN 10 THEN 'A transaï¿½ï¿½o foi cometida.'									--The transaction has been committed.
+        WHEN 11 THEN 'A transaï¿½ï¿½o foi revertida.'									--The transaction has been rolled back.
+        WHEN 12 THEN 'A transaï¿½ï¿½o estï¿½ sendo cometida. Nesse estado, o registro estï¿½ sendo gerado, mas nï¿½o foi materializado ou persistiu.'
 																					--The transaction is being committed. In this state the log 
 																					--record is being generated, but it has not been materialized or persisted.
     END) AS database_transaction_state,

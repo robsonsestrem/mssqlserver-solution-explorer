@@ -1,12 +1,12 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------
--- Referências -> https://www.dirceuresende.com/blog/mapeando-dependencias-entre-objetos-sql-server/
--- Essa procedure lista todas as dependências diretas de um objeto, de modo cross-database
+-- Referï¿½ncias -> https://www.dirceuresende.com/blog/mapeando-dependencias-entre-objetos-sql-server/
+-- Essa procedure lista todas as dependï¿½ncias diretas de um objeto, de modo cross-database
 -- EXEMPLO DE USO
 -- EXEC Management.sp_VerifyDirectDependencies 'Testes.dbo.Clientes'
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
-USE Maintenance
+USE YOUR_DATABASE
 GO
 CREATE OR ALTER PROCEDURE Management.sp_VerifyDirectDependencies (
     @Ds_Objeto_Completo VARCHAR(255),

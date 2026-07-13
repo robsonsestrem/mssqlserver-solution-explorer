@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 /*
 Exemplo de uso:
@@ -24,7 +24,7 @@ BEGIN
 			IdEfeitoZebrado int identity(1,1),
 			[Montagem] NVARCHAR(10),
 			[Volume] NVARCHAR(50),
-			[EspaçoTotal_Gb] DECIMAL(19,2),
+			[Espaï¿½oTotal_Gb] DECIMAL(19,2),
 			[TotalDisponivel_Gb] DECIMAL(19,2),
 			[TotalUsado_Gb] DECIMAL(19,2),
 			[Disponivel_%] DECIMAL(10,2),
@@ -35,7 +35,7 @@ BEGIN
 			SELECT DISTINCT
 					VS.volume_mount_point [Montagem] ,
 					VS.logical_volume_name AS [Volume] ,
-					CAST(CAST(VS.total_bytes AS DECIMAL(19, 2)) / 1024 / 1024 / 1024 AS DECIMAL(10, 2)) AS [EspaçoTotal_Gb] ,
+					CAST(CAST(VS.total_bytes AS DECIMAL(19, 2)) / 1024 / 1024 / 1024 AS DECIMAL(10, 2)) AS [Espaï¿½oTotal_Gb] ,
 					CAST(CAST(VS.available_bytes AS DECIMAL(19, 2)) / 1024 / 1024 / 1024 AS DECIMAL(10, 2)) AS [TotalDisponivel_Gb],
 					CAST(CAST((VS.total_bytes - VS.available_bytes) AS DECIMAL(19,2)) / 1024 / 1024 / 1024 AS DECIMAL(19,2)) AS [TotalUsado_Gb],
 					CAST(( CAST(VS.available_bytes AS DECIMAL(19, 2)) / CAST(VS.total_bytes AS DECIMAL(19, 2)) * 100 ) AS DECIMAL(10, 2)) AS [Disponivel_%] ,
@@ -47,20 +47,20 @@ BEGIN
 					CAST(VS.available_bytes AS DECIMAL(19, 2)) / CAST(VS.total_bytes AS DECIMAL(19, 2)) * 100 < 100
 				
 			------------------------------------------------------------
-			-- ENVIA NOTIFICAÇÃO
+			-- ENVIA NOTIFICAï¿½ï¿½O
 			------------------------------------------------------------
 			IF ((SELECT COUNT(IdEfeitoZebrado) FROM ##Monitoramento_Espaco_Disco as m 
 				 WHERE m.[Utilizado_%] >= @percentualUsado ) > 0)
 			BEGIN        
 				DECLARE 				
-					@Assunto VARCHAR(200) = @@SERVERNAME + ' - Monitoramento de Espaço no Disco dos DataFiles',
+					@Assunto VARCHAR(200) = @@SERVERNAME + ' - Monitoramento de Espaï¿½o no Disco dos DataFiles',
 					@Destinatario VARCHAR(MAX) = 'suporte@cravil.com.br',
 					@Mensagem VARCHAR(MAX)
             		      
 				SET @Mensagem = '
 				Prezado DBA,<br>
-				Espaço utilizado em disco aumentou consideravelmente (maior que 80% usado), detalhes abaixo:
-				<br>Instância: ' + @@SERVICENAME + ' 
+				Espaï¿½o utilizado em disco aumentou consideravelmente (maior que 80% usado), detalhes abaixo:
+				<br>Instï¿½ncia: ' + @@SERVICENAME + ' 
 				<br>Servidor: ' + @@SERVERNAME + '
 				<br><br> 
 
@@ -68,7 +68,7 @@ BEGIN
 										<tr height=20  style=height:20.0pt align = left>
 											<td bgcolor=#0B0B61 width=120> <font color=white>Montagem				</td>
 											<td bgcolor=#0B0B61 width=120> <font color=white>Volume				</td>
-											<td bgcolor=#0B0B61 width=120> <font color=white>EspaçoTotal_Gb		</td>
+											<td bgcolor=#0B0B61 width=120> <font color=white>Espaï¿½oTotal_Gb		</td>
 											<td bgcolor=#0B0B61 width=120> <font color=white>TotalDisponivel_Gb	</td>
 											<td bgcolor=#0B0B61 width=120> <font color=white>TotalUsado_Gb		</td>
 											<td bgcolor=#0B0B61 width=120> <font color=white>Disponivel_%			</td>
@@ -82,7 +82,7 @@ BEGIN
 							   END +
 							   '<td height=20 style=height:15.0pt>' + m.Montagem									+ '</td>' +
 							   '<td height=20 style=height:15.0pt>' + m.Volume									+ '</td>' +
-							   '<td height=20 style=height:15.0pt>' + CAST(m.EspaçoTotal_Gb		AS VARCHAR(20))	+ '</td>' +
+							   '<td height=20 style=height:15.0pt>' + CAST(m.Espaï¿½oTotal_Gb		AS VARCHAR(20))	+ '</td>' +
 							   '<td height=20 style=height:15.0pt>' + CAST(m.TotalDisponivel_Gb	AS VARCHAR(20))	+ '</td>' + 
 							   '<td height=20 style=height:15.0pt>' +	CAST(m.TotalUsado_Gb		AS VARCHAR(20))	+ '</td>' +			
 							   '<td height=20 style=height:15.0pt>' +	CAST(m.[Disponivel_%]		AS VARCHAR(20))	+ '</td>' +			
@@ -114,8 +114,8 @@ BEGIN
 
 		DECLARE @corpoFalha varchar(max)
 		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinatário				
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		      , @recipients VARCHAR(100);		-- destinatï¿½rio				
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'suporte@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

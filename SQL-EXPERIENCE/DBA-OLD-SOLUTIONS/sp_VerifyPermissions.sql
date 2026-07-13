@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 CREATE OR ALTER PROCEDURE Management.[sp_VerifyPermissions] (
@@ -19,7 +19,7 @@ AS BEGIN
 
 
     ----------------------------------------------------------------------------------------
-    -- ASSOCIAÇÃO USUÁRIO X LOGIN
+    -- ASSOCIAï¿½ï¿½O USUï¿½RIO X LOGIN
     ----------------------------------------------------------------------------------------    
     IF (OBJECT_ID('tempdb..#Users_Logins') IS NOT NULL) DROP TABLE #Users_Logins
     CREATE TABLE #Users_Logins (
@@ -57,7 +57,7 @@ AS BEGIN
     END
 
     ----------------------------------------------------------------------------------------
-    -- PERMISSÕES EM ROLES DE BANCO DE DADOS
+    -- PERMISSï¿½ES EM ROLES DE BANCO DE DADOS
     ----------------------------------------------------------------------------------------
 
     IF (OBJECT_ID('tempdb..#Database_Roles') IS NOT NULL) DROP TABLE #Database_Roles
@@ -98,7 +98,7 @@ AS BEGIN
 
 
     ----------------------------------------------------------------------------------------
-    -- PERMISSÕES A NÍVEL DE BANCO DE DADOS
+    -- PERMISSï¿½ES A Nï¿½VEL DE BANCO DE DADOS
     ----------------------------------------------------------------------------------------    
     IF (OBJECT_ID('tempdb..#Database_Permissions') IS NOT NULL) DROP TABLE #Database_Permissions
     CREATE TABLE #Database_Permissions (
@@ -144,7 +144,7 @@ AS BEGIN
 
 
     ----------------------------------------------------------------------------------------
-    -- PERMISSÕES EM ROLES DE SISTEMA
+    -- PERMISSï¿½ES EM ROLES DE SISTEMA
     ----------------------------------------------------------------------------------------
     IF (OBJECT_ID('tempdb..#Server_Roles') IS NOT NULL) DROP TABLE #Server_Roles
     CREATE TABLE #Server_Roles (
@@ -171,7 +171,7 @@ AS BEGIN
 
 
     ----------------------------------------------------------------------------------------
-    -- PERMISSÕES A NÍVEL DE SERVIDOR
+    -- PERMISSï¿½ES A Nï¿½VEL DE SERVIDOR
     ----------------------------------------------------------------------------------------
     IF (OBJECT_ID('tempdb..#Server_Permissions') IS NOT NULL) DROP TABLE #Server_Permissions
     CREATE TABLE #Server_Permissions (
@@ -204,7 +204,7 @@ AS BEGIN
 
 
     ----------------------------------------------------------------------------------------
-    -- DEFINE AS SAÍDAS
+    -- DEFINE AS SAï¿½DAS
     ----------------------------------------------------------------------------------------
     SELECT 
         0 AS Id_Nivel_Permissao,

@@ -1,83 +1,83 @@
--- PASSO 1: Verificar/Criar o LOGIN 'healthmap' no servidor (se ainda n„o existir)
+Ôªø-- PASSO 1: Verificar/Criar o LOGIN 'YOUR_OBJECT' no servidor (se ainda n√£o existir)
 -- Execute no contexto do banco de dados master
 USE [master];
 GO
 
-IF NOT EXISTS (SELECT name FROM sys.server_principals WHERE name = N'healthmap')
+IF NOT EXISTS (SELECT name FROM sys.server_principals WHERE name = N'YOUR_OBJECT')
 BEGIN
-    CREATE LOGIN [healthmap] WITH PASSWORD = N'SuaSenhaForteAqui', DEFAULT_DATABASE = [master], CHECK_EXPIRATION = ON, CHECK_POLICY = ON;
-    PRINT 'Login [healthmap] criado com sucesso.';
+    CREATE LOGIN [YOUR_OBJECT] WITH PASSWORD = N'SuaSenhaForteAqui', DEFAULT_DATABASE = [master], CHECK_EXPIRATION = ON, CHECK_POLICY = ON;
+    PRINT 'Login [YOUR_OBJECT] criado com sucesso.';
 END
 ELSE
 BEGIN
-    PRINT 'Login [healthmap] j· existe.';
+    PRINT 'Login [YOUR_OBJECT] j√° existe.';
 END
 GO
 
--- PASSO 2: Criar o USER 'healthmap' no banco de dados msdb e mape·-lo ao LOGIN (se ainda n„o existir)
+-- PASSO 2: Criar o USER 'YOUR_OBJECT' no banco de dados msdb e mape√°-lo ao LOGIN (se ainda n√£o existir)
 -- Execute no contexto do banco de dados msdb
 USE [msdb];
 GO
 
-IF NOT EXISTS (SELECT name FROM sys.database_principals WHERE name = N'healthmap' AND type = 'S') -- 'S' para SQL User
+IF NOT EXISTS (SELECT name FROM sys.database_principals WHERE name = N'YOUR_OBJECT' AND type = 'S') -- 'S' para SQL User
 BEGIN
-    CREATE USER [healthmap] FOR LOGIN [healthmap];
-    PRINT 'Usu·rio [healthmap] criado no msdb.';
+    CREATE USER [YOUR_OBJECT] FOR LOGIN [YOUR_OBJECT];
+    PRINT 'Usu√°rio [YOUR_OBJECT] criado no msdb.';
 END
 ELSE
 BEGIN
-    PRINT 'Usu·rio [healthmap] j· existe no msdb.';
+    PRINT 'Usu√°rio [YOUR_OBJECT] j√° existe no msdb.';
 END
 GO
 
--- PASSO 3: Atribuir a role apropriada ao usu·rio 'healthmap' no msdb
--- … crucial que o usu·rio seja membro de SQLAgentUserRole para gerenciar Jobs.
-IF NOT EXISTS (SELECT 1 FROM sys.database_role_members r JOIN sys.database_principals p ON r.member_principal_id = p.principal_id WHERE p.name = N'healthmap' AND r.role_principal_id = DATABASE_PRINCIPAL_ID('SQLAgentUserRole'))
+-- PASSO 3: Atribuir a role apropriada ao usu√°rio 'YOUR_OBJECT' no msdb
+-- √â crucial que o usu√°rio seja membro de SQLAgentUserRole para gerenciar Jobs.
+IF NOT EXISTS (SELECT 1 FROM sys.database_role_members r JOIN sys.database_principals p ON r.member_principal_id = p.principal_id WHERE p.name = N'YOUR_OBJECT' AND r.role_principal_id = DATABASE_PRINCIPAL_ID('SQLAgentUserRole'))
 BEGIN
-    PRINT 'Atribuindo SQLAgentUserRole ao healthmap...';
-    EXEC msdb.dbo.sp_addrolemember @rolename = N'SQLAgentUserRole', @membername = N'healthmap';
-    PRINT 'SQLAgentUserRole atribuÌda.';
+    PRINT 'Atribuindo SQLAgentUserRole ao YOUR_OBJECT...';
+    EXEC msdb.dbo.sp_addrolemember @rolename = N'SQLAgentUserRole', @membername = N'YOUR_OBJECT';
+    PRINT 'SQLAgentUserRole atribu√≠da.';
 END
 ELSE
 BEGIN
-    PRINT 'SQLAgentUserRole j· atribuÌda ao healthmap.';
+    PRINT 'SQLAgentUserRole j√° atribu√≠da ao YOUR_OBJECT.';
 END
 GO
 
--- PASSO 4: Conceder a permiss„o EXECUTE especÌfica para sp_help_targetserver
--- Isso È necess·rio para que o SSMS funcione corretamente ao criar ou gerenciar Jobs.
-GRANT EXECUTE ON OBJECT::dbo.sp_help_targetserver TO [healthmap];
+-- PASSO 4: Conceder a permiss√£o EXECUTE espec√≠fica para sp_help_targetserver
+-- Isso √© necess√°rio para que o SSMS funcione corretamente ao criar ou gerenciar Jobs.
+GRANT EXECUTE ON OBJECT::dbo.sp_help_targetserver TO [YOUR_OBJECT];
 GO
 
-PRINT 'Permiss„o EXECUTE em sp_help_targetserver concedida para o usu·rio [healthmap].';
+PRINT 'Permiss√£o EXECUTE em sp_help_targetserver concedida para o usu√°rio [YOUR_OBJECT].';
 GO
 
 
-/******************************** UTILIZADO EM PRODU«√O ********************************/
+/******************************** UTILIZADO EM PRODU√á√ÉO ********************************/
 ------------------------------------------------------------------------------------------------------
--- Concedido permiss„o a nÌvel de usu·rio
--- Acesso b·sico para gerenciar e executar APENAS SEUS PR”PRIOS JOBS.
--- … a role mais comum para usu·rios que precisam de autonomia sobre seus Jobs.
+-- Concedido permiss√£o a n√≠vel de usu√°rio
+-- Acesso b√°sico para gerenciar e executar APENAS SEUS PR√ìPRIOS JOBS.
+-- √â a role mais comum para usu√°rios que precisam de autonomia sobre seus Jobs.
 ------------------------------------------------------------------------------------------------------
 USE [msdb];
 GO
 
--- Concede a permiss„o EXECUTE na stored procedure sp_help_targetserver para o usu·rio 'healthmap'
-GRANT EXECUTE ON OBJECT::dbo.sp_help_targetserver TO [healthmap];
+-- Concede a permiss√£o EXECUTE na stored procedure sp_help_targetserver para o usu√°rio 'YOUR_OBJECT'
+GRANT EXECUTE ON OBJECT::dbo.sp_help_targetserver TO [YOUR_OBJECT];
 GO
 
-PRINT 'Permiss„o EXECUTE concedida na sp_help_targetserver para o usu·rio [healthmap].';
+PRINT 'Permiss√£o EXECUTE concedida na sp_help_targetserver para o usu√°rio [YOUR_OBJECT].';
 GO
 
-PRINT 'Atribuindo SQLAgentUserRole ao healthmap...';
-EXEC msdb.dbo.sp_addrolemember @rolename = N'SQLAgentUserRole', @membername = N'healthmap';
-PRINT 'SQLAgentUserRole atribuÌda.';
+PRINT 'Atribuindo SQLAgentUserRole ao YOUR_OBJECT...';
+EXEC msdb.dbo.sp_addrolemember @rolename = N'SQLAgentUserRole', @membername = N'YOUR_OBJECT';
+PRINT 'SQLAgentUserRole atribu√≠da.';
 GO
 
--- Para remover uma role (se necess·rio no futuro):
+-- Para remover uma role (se necess√°rio no futuro):
 -- USE [msdb];
 -- GO
--- EXEC msdb.dbo.sp_droprolemember @rolename = N'SQLAgentUserRole', @membername = N'healthmap';
+-- EXEC msdb.dbo.sp_droprolemember @rolename = N'SQLAgentUserRole', @membername = N'YOUR_OBJECT';
 -- GO
 
 

@@ -4,7 +4,7 @@
 -- DELETE schema_version_v2 WHERE version_rank > 1 AND type <> 'BASELINE'
 /* Execução DINÂMICA para ajuste do Flyway */
 -- A variável @TOTAL_DATABASES_NECESSARIO deve ser atualizada com o valor da seguinte consulta
--- executada na base d_healthmap_admhealthmap, server rds.hmg.healthmap.com.br:
+-- executada na base d_YOUR_OBJECT_admYOUR_OBJECT, server rds.hmg.YOUR_OBJECT.com.br:
 -- SELECT COUNT(*) AS TOTAL FROM schema_version_v2
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 DECLARE @DATABASES_VALIDOS TABLE(

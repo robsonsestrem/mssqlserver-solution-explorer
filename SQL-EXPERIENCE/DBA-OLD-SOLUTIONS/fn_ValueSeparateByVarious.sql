@@ -1,19 +1,19 @@
 ----------------------------------------------------------------------------------------------------------------------------------
--- Referências -> https://www.dirceuresende.com/blog/quebrando-strings-em-sub-strings-utilizando-separador-no-sql-server/
+-- Referï¿½ncias -> https://www.dirceuresende.com/blog/quebrando-strings-em-sub-strings-utilizando-separador-no-sql-server/
 -- permite quebrar uma string delimitada por algum (ou alguns) caracter em sub-strings. 
--- Para quem é desenvolvedor Web, é o que faz a função explode do PHP ou a Split do Java, Javascript, C#, etc..
--- Basicamente, você tem uma string como o exemplo abaixo:
+-- Para quem ï¿½ desenvolvedor Web, ï¿½ o que faz a funï¿½ï¿½o explode do PHP ou a Split do Java, Javascript, C#, etc..
+-- Basicamente, vocï¿½ tem uma string como o exemplo abaixo:
 
 --nome;nascimento;email
 --Nome 1;1994-05-29;email@gmail.com
 --Nome 2;1981-07-10;email@yahoo.com.br
 --Nome 3;2001-02-27;email@hotmail.com
 
--- Imagine que você queira recuperar apenas o nome e o e-mail dos registros acima. Dividindo 
--- cada linha utilizando o caracter “;” como separador, temos uma 3 sub-strings. 
--- É exatamente isso que a função abaixo faz:
+-- Imagine que vocï¿½ queira recuperar apenas o nome e o e-mail dos registros acima. Dividindo 
+-- cada linha utilizando o caracter ï¿½;ï¿½ como separador, temos uma 3 sub-strings. 
+-- ï¿½ exatamente isso que a funï¿½ï¿½o abaixo faz:
 ----------------------------------------------------------------------------------------------------------------------------------
-USE Maintenance
+USE YOUR_DATABASE
 GO
 CREATE FUNCTION Management.[fn_ValueSeparateByVarious] ( @String varchar(8000), @Separador varchar(8000), @PosBusca int )
 RETURNS varchar(8000)

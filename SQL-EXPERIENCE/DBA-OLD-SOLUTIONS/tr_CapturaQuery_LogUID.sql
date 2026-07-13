@@ -1,4 +1,4 @@
-USE [GesCooper90]
+USE [YOUR_DATABASE]
 GO
 
 
@@ -58,8 +58,8 @@ END
 
     ELSE 
       BEGIN 
-          IF (@Action = 'I' or @Action = 'U')   --condição para quando houver inserção 
-            BEGIN								--ou alteração
+          IF (@Action = 'I' or @Action = 'U')   --condiï¿½ï¿½o para quando houver inserï¿½ï¿½o 
+            BEGIN								--ou alteraï¿½ï¿½o
                 INSERT INTO dbo.CadusuariosLogDML
                       (DateDML, 
                        DatabaseUser, 
@@ -92,7 +92,7 @@ GO
 -------------------------------------------------------------------------------------------------
 -- TABELA DE LOGS
 -------------------------------------------------------------------------------------------------
---use GesCooper90
+--use YOUR_DATABASE
 --GO
 --create table CadusuariosLogDML (
 --	LogId int not null identity (1,1),

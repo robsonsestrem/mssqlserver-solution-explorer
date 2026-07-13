@@ -1,4 +1,4 @@
-USE H_HEALTHMAP_UNIMEDPA
+﻿USE H_YOUR_DATABASE
 GO
 
 -- procedure original

@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 CREATE OR ALTER PROCEDURE Management.sp_ReportCheckListTaskSQL
@@ -11,10 +11,10 @@ BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
 			DECLARE @subject VARCHAR(100)			-- assunto
-			, @recipients VARCHAR(100);				-- destinatário
+			, @recipients VARCHAR(100);				-- destinatï¿½rio
 			DECLARE @des_MensagemHTML VARCHAR(max);	-- corpo e-mail
 			/**************************************************************************************************************/
-			/* Início do HTML                                                                                             */
+			/* Inï¿½cio do HTML                                                                                             */
 
 			Set @des_MensagemHTML = '	
 			<html>
@@ -25,15 +25,15 @@ BEGIN
 			<body>
 			<div align=center>'
 
-			-- TÍTULO
+			-- Tï¿½TULO
                                                                                   
 			Set @des_MensagemHTML = @des_MensagemHTML + '
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:20px>
 			 <tr height=20 style=height:15.0pt>
-			  <td height=20 colspan=7 style=height:20.0pt;text-align:center><b>CheckList Diário Task SQL Server - ' + CONVERT(VARCHAR(50), GETDATE(), 103) + '<b></td>
+			  <td height=20 colspan=7 style=height:20.0pt;text-align:center><b>CheckList Diï¿½rio Task SQL Server - ' + CONVERT(VARCHAR(50), GETDATE(), 103) + '<b></td>
 			 </tr>
 			 <tr height=20 style=height:15.0pt>
-			  <td height=20 colspan=7 style=height:20.0pt;text-align:center><b>Informações de Rotinas e Segurança: ' + @@SERVERNAME + '<b></td>
+			  <td height=20 colspan=7 style=height:20.0pt;text-align:center><b>Informaï¿½ï¿½es de Rotinas e Seguranï¿½a: ' + @@SERVERNAME + '<b></td>
 			 </tr>
 			 <tr height=20>
 			  <td height=20 colspan=7 style=height:20.0pt></td>
@@ -56,7 +56,7 @@ BEGIN
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 			<tr height=20 align = left style=height:15.0pt; background: #FFFF00;>
 			<td height=20 colspan=7 style=height:15.0pt; text-align:left>
-				Alerta amarelo indica ausência de Backup(s) conforme definbido em Jobs.
+				Alerta amarelo indica ausï¿½ncia de Backup(s) conforme definbido em Jobs.
 			</td> </tr> </table>
 			'
 
@@ -128,7 +128,7 @@ BEGIN
 					 SELECT					
 							IsNull(Cast(CASE
 								WHEN [A].[type] = 'D' AND CAST(DATEDIFF(day, isnull([A].[backup_finish_date],''), GETDATE()) AS VARCHAR(10)) > 1 AND A.database_name NOT LIKE '%homolog%' THEN 'WARNING'
-								WHEN [A].[type] = 'D' AND CAST(DATEDIFF(day, isnull([A].[backup_finish_date],''), GETDATE()) AS VARCHAR(10)) > 1 AND A.database_name LIKE '%homolog%'	  THEN 'DESNECESSÁRIO'
+								WHEN [A].[type] = 'D' AND CAST(DATEDIFF(day, isnull([A].[backup_finish_date],''), GETDATE()) AS VARCHAR(10)) > 1 AND A.database_name LIKE '%homolog%'	  THEN 'DESNECESSï¿½RIO'
 								--
 								WHEN ([A].[type] = 'I') 
 								AND 
@@ -144,16 +144,16 @@ BEGIN
 									(DATEDIFF(DAY,ISNULL([A].[backup_finish_date],''), GETDATE()) >= 2 and datepart(WEEKDAY,ISNULL([A].[backup_finish_date],'')) <> 6) 
 									 OR (DATEDIFF(DAY,ISNULL([A].[backup_finish_date],''), GETDATE()) > 3 and datepart(WEEKDAY,ISNULL([A].[backup_finish_date],'')) = 6)	
 								) AND A.database_name LIKE '%homolog%' 
-								THEN 'DESNECESSÁRIO'
+								THEN 'DESNECESSï¿½RIO'
 								--						
-								WHEN [A].[type] = 'L' AND CAST(DATEDIFF(hour, isnull([A].[backup_finish_date],''), GETDATE()) AS VARCHAR(10)) > 1 and A.database_name LIKE '%homolog%' THEN 'DESNECESSÁRIO'
+								WHEN [A].[type] = 'L' AND CAST(DATEDIFF(hour, isnull([A].[backup_finish_date],''), GETDATE()) AS VARCHAR(10)) > 1 and A.database_name LIKE '%homolog%' THEN 'DESNECESSï¿½RIO'
 								WHEN [A].[type] = 'L' AND CAST(DATEDIFF(hour, isnull([A].[backup_finish_date],''), GETDATE()) AS VARCHAR(10)) > 1 AND A.database_name NOT LIKE '%homolog%' 
 													  and A.recovery_model <> 'SIMPLE' THEN 'WARNING'
 								WHEN [A].[type] = 'L' AND CAST(DATEDIFF(hour, isnull([A].[backup_finish_date],''), GETDATE()) AS VARCHAR(10)) > 1 AND A.database_name NOT LIKE '%homolog%' 
-													  and A.recovery_model = 'SIMPLE' THEN 'DESNECESSÁRIO'
+													  and A.recovery_model = 'SIMPLE' THEN 'DESNECESSï¿½RIO'
 								--
-								WHEN ([A].[type] IS NULL OR A.type = '') AND A.recovery_model = 'SIMPLE' THEN 'DESNECESSÁRIO'
-								WHEN ([A].[type] IS NULL OR A.type = '') AND A.recovery_model <> 'SIMPLE' AND A.database_name LIKE '%homolog%' THEN 'DESNECESSÁRIO'
+								WHEN ([A].[type] IS NULL OR A.type = '') AND A.recovery_model = 'SIMPLE' THEN 'DESNECESSï¿½RIO'
+								WHEN ([A].[type] IS NULL OR A.type = '') AND A.recovery_model <> 'SIMPLE' AND A.database_name LIKE '%homolog%' THEN 'DESNECESSï¿½RIO'
 								WHEN ([A].[type] IS NULL OR A.type = '') AND A.recovery_model <> 'SIMPLE' AND A.database_name NOT LIKE '%homolog%' THEN 'WARNING'
 								ELSE 'Ok'
 							END as varchar(max)), '')	as Status,																											
@@ -224,17 +224,17 @@ BEGIN
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 			<tr height=20 align = left style=height:15.0pt; background: #37C1F8;>
 			<td height=20 colspan=7 style=height:15.0pt; text-align:left>
-				Alerta Azul indica Job desabilitada sem identificação de falha na última execução.
+				Alerta Azul indica Job desabilitada sem identificaï¿½ï¿½o de falha na ï¿½ltima execuï¿½ï¿½o.
 			</td> </tr> 
 			
 			<tr height=20 align = left style=height:15.0pt; background: #FFFF00;>
 			<td height=20 colspan=7 style=height:15.0pt; text-align:left>
-				Alerta Amarelo indica Job habilitada com status cancelada, tente novamente ou desconhecida (histórico ausente na Job).
+				Alerta Amarelo indica Job habilitada com status cancelada, tente novamente ou desconhecida (histï¿½rico ausente na Job).
 			</td> </tr> 
 
 			<tr height=20 align = left style=height:15.0pt; background: #FF0000;>
 			<td height=20 colspan=7 style=height:15.0pt; text-align:left>
-				Alerta Vermelho indica falha na execução da Job.
+				Alerta Vermelho indica falha na execuï¿½ï¿½o da Job.
 			</td> </tr> 
 			</table>
 			'
@@ -244,10 +244,10 @@ BEGIN
 			<tr height=20  style=color: #FFFFFF; background: #44546A;>
 			<td width=350 style=height:20.0pt>Nome Job</td>
 			<td width=150 style=height:20.0pt;>Status</td>
-			<td width=150 style=height:20.0pt;>Última Execução</td>
+			<td width=150 style=height:20.0pt;>ï¿½ltima Execuï¿½ï¿½o</td>
 			<td width=200 style=height:20.0pt;>Data Inicio</td>
 			<td width=200 style=height:20.0pt;>Data Final</td>
-			<td width=150 style=height:20.0pt;>Duração [dd hh:mm:ss]</td>
+			<td width=150 style=height:20.0pt;>Duraï¿½ï¿½o [dd hh:mm:ss]</td>
 			<td width=0 style=height:20.0pt;></td>
 			</tr>'
 
@@ -300,9 +300,9 @@ BEGIN
 						END as varchar(50)), '')						as dataInicio,
 						-- 
 						 IsNull(Cast(CASE
-							WHEN [h].[run_duration] is null	-- duração pode ser zero
+							WHEN [h].[run_duration] is null	-- duraï¿½ï¿½o pode ser zero
 								THEN ''
-							ELSE CONVERT( VARCHAR, DATEADD(second, Maintenance.[Management].[fn_JobIntToSeconds](isnull([h].[run_duration],'')), [msdb].[dbo].[agent_datetime](case when isnull([h].[run_date],0) = 0 then 17530101 else [h].[run_date] end, isnull([h].[run_time],0))), 113)
+							ELSE CONVERT( VARCHAR, DATEADD(second, YOUR_DATABASE.[Management].[fn_JobIntToSeconds](isnull([h].[run_duration],'')), [msdb].[dbo].[agent_datetime](case when isnull([h].[run_date],0) = 0 then 17530101 else [h].[run_date] end, isnull([h].[run_time],0))), 113)
 						END as varchar(50)), '')												as dataFim,		 
 						--
 						isnull(h.run_status,0)													as run_status,
@@ -368,7 +368,7 @@ BEGIN
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 			<tr height=20  style=color: #FFFFFF; background: #44546A;>
 			<td width=300 style=height:20.0pt>Nome Job</td>			
-			<td width=100 style=height:20.0pt;>Última Execução</td>
+			<td width=100 style=height:20.0pt;>ï¿½ltima Execuï¿½ï¿½o</td>
 			<td width=600 style=height:20.0pt;>Mensagem</td>
 			<td width=20 style=height:20.0pt;></td>
 			<td width=200 style=height:20.0pt;>Data</td>									
@@ -407,7 +407,7 @@ BEGIN
 					WHEN 4 THEN 'Em Progresso'
 				END) [status]
 				, h.message			
-				, Maintenance.Management.fn_ConverteDatetimeJobs(h.run_date, h.run_time) as Data_Hora
+				, YOUR_DATABASE.Management.fn_ConverteDatetimeJobs(h.run_date, h.run_time) as Data_Hora
 				, h.step_id
 			FROM msdb.dbo.sysjobs j					
 			CROSS APPLY
@@ -434,7 +434,7 @@ BEGIN
 					WHEN 4 THEN 'Em Progresso'
 				END) [status]
 				, h.message			
-				, Maintenance.Management.fn_ConverteDatetimeJobs(h.run_date, h.run_time) as Data_Hora
+				, YOUR_DATABASE.Management.fn_ConverteDatetimeJobs(h.run_date, h.run_time) as Data_Hora
 				, h.step_id
 			FROM msdb.dbo.sysjobs j					
 			CROSS APPLY
@@ -459,7 +459,7 @@ BEGIN
 			END +			 
 							'<td height=20 style=height:15.0pt>' + t1.name								 + '</td>' +
 							'<td height=20 style=height:15.0pt>' + t1.status								 + '</td>' +
-							'<td height=20 style=height:15.0pt>' + t1.message + ' EXECUÇÃO DA ETAPA [ '+ cast(t2.step_Id as varchar(2)) +' ] -> ' + t2.message + '</td>' +
+							'<td height=20 style=height:15.0pt>' + t1.message + ' EXECUï¿½ï¿½O DA ETAPA [ '+ cast(t2.step_Id as varchar(2)) +' ] -> ' + t2.message + '</td>' +
 							'<td width=0 style=height:15.0pt;></td>' +
 							'<td height=20 style=height:15.0pt>' + convert(varchar(30), t1.data_hora, 113) + '</td>' +							
 							'<td width=0 style=height:15.0pt;></td>' +
@@ -480,7 +480,7 @@ BEGIN
 			  <td height=20 colspan=7 style=height:20.0pt></td>
 			 </tr>
 			 <tr height=20 style=height:15.0pt>
-			  <td height=20 colspan=7 style=height:20.0pt;text-align:center><b>Informações de Logins/Users<b></td>
+			  <td height=20 colspan=7 style=height:20.0pt;text-align:center><b>Informaï¿½ï¿½es de Logins/Users<b></td>
 			 </tr>
 			 <tr height=20>
 			  <td height=20 colspan=7 style=height:20.0pt></td>
@@ -497,8 +497,8 @@ BEGIN
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 			<tr height=20  style=color: #FFFFFF; background: #44546A;>
 			<td width=200 style=height:20.0pt>Login</td>
-			<td width=200 style=height:20.0pt;>Última Alteração</td>
-			<td width=200 style=height:20.0pt;>Data Expiração</td>
+			<td width=200 style=height:20.0pt;>ï¿½ltima Alteraï¿½ï¿½o</td>
+			<td width=200 style=height:20.0pt;>Data Expiraï¿½ï¿½o</td>
 			<td width=100 style=height:20.0pt;>Policy</td>
 			<td width=100 style=height:20.0pt;>Espirada</td>
 			<td width=100 style=height:20.0pt;>Must Change</td>
@@ -529,19 +529,19 @@ BEGIN
 
 
 			------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-			-- usuários órfãos
+			-- usuï¿½rios ï¿½rfï¿½os
 			------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			Set @des_MensagemHTML = @des_MensagemHTML + '<br><br>
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:18px>
 			  <tr height=20  style=color: #FFFFFF; background: #44546A;>
-			  <td height=20 colspan=7 style=height:20.0pt;text-align:center>Usuários Orfãos</td>
+			  <td height=20 colspan=7 style=height:20.0pt;text-align:center>Usuï¿½rios Orfï¿½os</td>
 			  </tr>
 			</table> '
 			Set @des_MensagemHTML = @des_MensagemHTML + '
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 			<tr height=20  style=color: #FFFFFF; background: #44546A;>
 			<td width=300 style=height:20.0pt>Banco de Dados</td>
-			<td width=300 style=height:20.0pt;>Usuário</td>
+			<td width=300 style=height:20.0pt;>Usuï¿½rio</td>
 			<td width=0 style=height:20.0pt;></td>
 			<td width=0 style=height:20.0pt;></td>
 			<td width=0 style=height:20.0pt;></td>
@@ -592,14 +592,14 @@ BEGIN
 			Set @des_MensagemHTML = @des_MensagemHTML + '<br>
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:18px>
 			  <tr height=20  style=color: #FFFFFF; background: #44546A;>
-			  <td height=20 colspan=7 style=height:20.0pt;text-align:center>Usuários com SID diferentes do Login</td>
+			  <td height=20 colspan=7 style=height:20.0pt;text-align:center>Usuï¿½rios com SID diferentes do Login</td>
 			  </tr>
 			</table> '
 			Set @des_MensagemHTML = @des_MensagemHTML + '
 			<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
 			<tr height=20  style=color: #FFFFFF; background: #44546A;>
 			<td width=300 style=height:20.0pt>Banco de Dados</td>
-			<td width=300 style=height:20.0pt;>Usuário</td>
+			<td width=300 style=height:20.0pt;>Usuï¿½rio</td>
 			<td width=0 style=height:20.0pt;></td>
 			<td width=0 style=height:20.0pt;></td>
 			<td width=0 style=height:20.0pt;></td>
@@ -651,7 +651,7 @@ BEGIN
 			</body>
 			</html>'
 	
-			SET @subject = 'CheckList Diário - Task SQL Server: '+@@SERVERNAME;
+			SET @subject = 'CheckList Diï¿½rio - Task SQL Server: '+@@SERVERNAME;
 			SET @recipients = 'agenteti@cravil.com.br';
 
 			EXEC [msdb].[dbo].[sp_send_dbmail]
@@ -666,7 +666,7 @@ BEGIN
 		ROLLBACK TRANSACTION
 		DECLARE @corpoFalha varchar(max)
 		  			
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'agenteti@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

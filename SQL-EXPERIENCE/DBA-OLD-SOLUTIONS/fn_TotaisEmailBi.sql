@@ -1,8 +1,8 @@
 -- tipo 1 = calculo de faturamento
 -- tipo 2 = calculo de cmv do faturamento
--- tipo 3 = calculo de cupons não integrados
--- tipo 4 = calculo de transferências
--- tipo 5 = calculo de cmv das transferências
+-- tipo 3 = calculo de cupons nï¿½o integrados
+-- tipo 4 = calculo de transferï¿½ncias
+-- tipo 5 = calculo de cmv das transferï¿½ncias
 
 USE IntegraTICravil
 GO
@@ -21,15 +21,15 @@ AS
 
 	IF(@tipoCalc = 1) -- total de faturamento (receita)
 		BEGIN 
-			declare @ultimaFilial int = (select Max(f.FilCod) from GesCooper90.dbo.FILIAIS as f WITH (nolock) where f.FilFlag2 = 0) 
+			declare @ultimaFilial int = (select Max(f.FilCod) from YOUR_DATABASE.dbo.FILIAIS as f WITH (nolock) where f.FilFlag2 = 0) 
 			declare @incrementa int = 1
 			DECLARE @valor money = 0
 
 			WHILE (@incrementa <= @ultimaFilial)
 			BEGIN
 				SET @valor = ((SELECT ISNULL(SUM((m2.ItemTotInf - m2.ItemVlrDesc + m2.ItemVlrAcres)), 0)
-								FROM GesCooper90.dbo.MOVESTOQUE AS m WITH (nolock)
-								INNER JOIN GesCooper90.dbo.MOVESTOQUELEVEL1 AS m2 WITH (nolock) 
+								FROM YOUR_DATABASE.dbo.MOVESTOQUE AS m WITH (nolock)
+								INNER JOIN YOUR_DATABASE.dbo.MOVESTOQUELEVEL1 AS m2 WITH (nolock) 
 												ON m2.NfFilCod = m.NfFilCod
 												   AND m2.NfDatEmis = m.NfDatEmis
 												   AND m2.NfNumero = m.NfNumero
@@ -56,7 +56,7 @@ AS
 								  )
 			END
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-			ELSE IF(@tipoCalc = 3) -- Total de cupons não integrados
+			ELSE IF(@tipoCalc = 3) -- Total de cupons nï¿½o integrados
 				BEGIN
 					SET @totalCalc =
 					(
@@ -76,34 +76,34 @@ AS
 										   Sum(cupons.valor) AS totais 
 									FROM   (SELECT CASE Isnull(cupgnf, 0) 
 													 WHEN 0 THEN 'Fiscal' 
-													 ELSE 'Não Fiscal' 
+													 ELSE 'Nï¿½o Fiscal' 
 												   END            AS tipo_cupom, 
 												   CASE cuptottiprec 
 													 WHEN 1 THEN 'Dinheiro' 
 													 WHEN 2 THEN 'Cheque' 
-													 WHEN 3 THEN 'Crediário' 
+													 WHEN 3 THEN 'Crediï¿½rio' 
 													 WHEN 4 THEN 'Vasilhame' 
 													 WHEN 5 THEN 'Desconto' 
 													 WHEN 6 THEN 'Ticket' 
 													 WHEN 7 THEN 'Milho' 
 													 WHEN 8 THEN 'leite' 
 													 WHEN 9 THEN 'Arroz' 
-													 WHEN 10 THEN 'Cartão Crédito' 
-													 WHEN 11 THEN 'Cartão Débito' 
+													 WHEN 10 THEN 'Cartï¿½o Crï¿½dito' 
+													 WHEN 11 THEN 'Cartï¿½o Dï¿½bito' 
 													 WHEN 12 THEN 'Troco' 
 												   END            AS tipo_pagamento, 
 												   Sum(cuptotvlr) AS valor 
-											FROM   GesCooper90.dbo.vendasecflevel2 v2 WITH (nolock) 
-												   INNER JOIN GesCooper90.dbo.vendasecf v WITH (nolock) 
+											FROM   YOUR_DATABASE.dbo.vendasecflevel2 v2 WITH (nolock) 
+												   INNER JOIN YOUR_DATABASE.dbo.vendasecf v WITH (nolock) 
 														   ON v.filcod = v2.filcod 
 															  AND v.caicod = v2.caicod 
 															  AND v.caiopecod = v2.caiopecod 
 															  AND v.cupcodigo = v2.cupcodigo 
 															  AND v.cupdatmov = v2.cupdatmov 
 											WHERE  v2.cupdatmov between @dataInicio and @datafinal
-												   AND (v.CupGNF is null or v.CupGNF = 0)	-- Trazer apenas tipo fiscal, não fiscal sempre traz um valor válido
-												   AND v.CupSitIntegracao = 0				-- trazer os não integrados
-												   AND v.cupsituac = 1						-- trazer os não cancelados									   																		  				  				  					  
+												   AND (v.CupGNF is null or v.CupGNF = 0)	-- Trazer apenas tipo fiscal, nï¿½o fiscal sempre traz um valor vï¿½lido
+												   AND v.CupSitIntegracao = 0				-- trazer os nï¿½o integrados
+												   AND v.cupsituac = 1						-- trazer os nï¿½o cancelados									   																		  				  				  					  
 											GROUP  BY cuptottiprec, 
 													  cupgnf) AS cupons 
 									GROUP  BY tipo_cupom, 
@@ -111,19 +111,19 @@ AS
 							GROUP  BY liquido.tipo_cupom, 
 									  liquido.tipo_pagamento) AS totLiq 
 					)
-				END	-- fim da opção 3
+				END	-- fim da opï¿½ï¿½o 3
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 				ELSE IF(@tipoCalc = 4) -- total de faturamento (receita)
 					BEGIN 
-						declare @ultimaFilialTransf int = (select Max(f.FilCod) from GesCooper90.dbo.FILIAIS as f WITH (nolock) where f.FilFlag2 = 0) 
+						declare @ultimaFilialTransf int = (select Max(f.FilCod) from YOUR_DATABASE.dbo.FILIAIS as f WITH (nolock) where f.FilFlag2 = 0) 
 						declare @incrementaTransf int = 1
 						DECLARE @valorTransf money = 0
 
 						WHILE (@incrementaTransf <= @ultimaFilialTransf)
 						BEGIN
 							SET @valorTransf = ((SELECT ISNULL(SUM((m2.ItemTotInf - m2.ItemVlrDesc + m2.ItemVlrAcres)), 0)
-											FROM GesCooper90.dbo.MOVESTOQUE AS m WITH (nolock)
-											INNER JOIN GesCooper90.dbo.MOVESTOQUELEVEL1 AS m2 WITH (nolock) 
+											FROM YOUR_DATABASE.dbo.MOVESTOQUE AS m WITH (nolock)
+											INNER JOIN YOUR_DATABASE.dbo.MOVESTOQUELEVEL1 AS m2 WITH (nolock) 
 															ON m2.NfFilCod = m.NfFilCod
 															   AND m2.NfDatEmis = m.NfDatEmis
 															   AND m2.NfNumero = m.NfNumero
@@ -137,7 +137,7 @@ AS
 						END
 						SET @totalCalc = @valorTransf						
 					END
-					ELSE IF(@tipoCalc = 5) -- Total de custo de mercadoria vendida nas transferências
+					ELSE IF(@tipoCalc = 5) -- Total de custo de mercadoria vendida nas transferï¿½ncias
 						BEGIN
 							SET @totalCalc = (select SUM(x.TotalCusto)
 											  from(

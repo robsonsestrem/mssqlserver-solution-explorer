@@ -11,35 +11,35 @@ BEGIN
 		BEGIN TRANSACTION
 		IF(
 			(SELECT  COUNT(*)			
-			  FROM  GesCooper90.dbo.VENDASECF        CUP WITH(NOLOCK)
-			 INNER JOIN GesCooper90.dbo.TRANSACIONADORES TRA WITH(NOLOCK) ON CUP.CupCliCod   = TRA.TraCod
-			 INNER JOIN GesCooper90.dbo.VENDASECFLEVEL2  PAG WITH(NOLOCK) ON CUP.FilCod      = PAG.FilCod
+			  FROM  YOUR_DATABASE.dbo.VENDASECF        CUP WITH(NOLOCK)
+			 INNER JOIN YOUR_DATABASE.dbo.TRANSACIONADORES TRA WITH(NOLOCK) ON CUP.CupCliCod   = TRA.TraCod
+			 INNER JOIN YOUR_DATABASE.dbo.VENDASECFLEVEL2  PAG WITH(NOLOCK) ON CUP.FilCod      = PAG.FilCod
 														 AND CUP.CupDatMov   = PAG.CupDatMov
 														 AND CUP.CaiCod      = PAG.CaiCod 
 														 AND CUP.CaiOpeCod   = PAG.CaiOpeCod 
 														 AND CUP.CupCodigo   = PAG.CupCodigo
-			WHERE TRA.TraNatJuridica  = 1 -- pessoa física
-			  AND TRA.TraNatSocial    = 3 -- funcionário
-			  AND TRA.TraNatComercial = 2 -- funcionário  
+			WHERE TRA.TraNatJuridica  = 1 -- pessoa fï¿½sica
+			  AND TRA.TraNatSocial    = 3 -- funcionï¿½rio
+			  AND TRA.TraNatComercial = 2 -- funcionï¿½rio  
 			  AND (PAG.cuptottiprec =3 or PAG.cuptotfincod = 4)
-			  AND CUP.CupSitIntegracao = 1	-- Trazer só cupons integrados 
+			  AND CUP.CupSitIntegracao = 1	-- Trazer sï¿½ cupons integrados 
 			  AND CUP.FilCod = 60 
 			  AND CUP.CupDatMov BETWEEN @datainicio AND @datafinal  			
 		    ) > 0)
 			BEGIN
 				   DECLARE 				
-					@Assunto VARCHAR(200) = 'Atenção - Ocorreram Possíveis Vendas Indevidas',
+					@Assunto VARCHAR(200) = 'Atenï¿½ï¿½o - Ocorreram Possï¿½veis Vendas Indevidas',
 					@Destinatario VARCHAR(MAX) = 'suporte@cravil.com.br;denise@cravil.com.br',
 					@Mensagem VARCHAR(MAX)
             		      
 					SET @Mensagem = '
 					Para conhecimento da controladoria,<br>
-					segue informações sobre vendas nos caixa(s) para funcionário(s) no crediário, detalhes abaixo:					
+					segue informaï¿½ï¿½es sobre vendas nos caixa(s) para funcionï¿½rio(s) no crediï¿½rio, detalhes abaixo:					
 					<br><br> 
 
 					<TABLE border=1 cellpadding=2 cellspacing=0 style=border-collapse: collapse;table-layout:fixed;width:1200t;font-family:Arial;font-size:14px>															
 											<tr height=20  style=height:20.0pt align = left>
-												<td bgcolor=#0B0B61 width=90> <font color=white>Matrícula	</td>
+												<td bgcolor=#0B0B61 width=90> <font color=white>Matrï¿½cula	</td>
 												<td bgcolor=#0B0B61 width=450> <font color=white>Nome			</td>
 												<td bgcolor=#0B0B61 width=70> <font color=white>Filial		</td>
 												<td bgcolor=#0B0B61 width=70> <font color=white>Caixa			</td>
@@ -48,7 +48,7 @@ BEGIN
 												<td bgcolor=#0B0B61 width=70> <font color=white>Cupom			</td>										
 												<td bgcolor=#0B0B61 width=70> <font color=white>Valor			</td>
 												<td bgcolor=#0B0B61 width=100> <font color=white>Vencimento	</td>
-												<td bgcolor=#0B0B61 width=90> <font color=white>Situação		</td>
+												<td bgcolor=#0B0B61 width=90> <font color=white>Situaï¿½ï¿½o		</td>
 											</tr>
 										 '	
 				   SELECT @Mensagem = @Mensagem + 
@@ -72,16 +72,16 @@ BEGIN
 																		    END																		+ '</td>' +
 								   --
 								   '</tr>'				      
-				  FROM GesCooper90.dbo.VENDASECF CUP WITH(NOLOCK)
-					 INNER JOIN GesCooper90.dbo.TRANSACIONADORES TRA WITH(NOLOCK) ON CUP.CupCliCod   = TRA.TraCod
-					 INNER JOIN GesCooper90.dbo.VENDASECFLEVEL2  PAG WITH(NOLOCK) ON CUP.FilCod      = PAG.FilCod
+				  FROM YOUR_DATABASE.dbo.VENDASECF CUP WITH(NOLOCK)
+					 INNER JOIN YOUR_DATABASE.dbo.TRANSACIONADORES TRA WITH(NOLOCK) ON CUP.CupCliCod   = TRA.TraCod
+					 INNER JOIN YOUR_DATABASE.dbo.VENDASECFLEVEL2  PAG WITH(NOLOCK) ON CUP.FilCod      = PAG.FilCod
 																 AND CUP.CupDatMov   = PAG.CupDatMov
 																 AND CUP.CaiCod      = PAG.CaiCod 
 																 AND CUP.CaiOpeCod   = PAG.CaiOpeCod 
 																 AND CUP.CupCodigo   = PAG.CupCodigo
-				  WHERE TRA.TraNatJuridica  = 1 -- pessoa física
-					  AND TRA.TraNatSocial    = 3 -- funcionário
-					  AND TRA.TraNatComercial = 2 -- funcionário  
+				  WHERE TRA.TraNatJuridica  = 1 -- pessoa fï¿½sica
+					  AND TRA.TraNatSocial    = 3 -- funcionï¿½rio
+					  AND TRA.TraNatComercial = 2 -- funcionï¿½rio  
 					  AND (PAG.cuptottiprec =3 or PAG.cuptotfincod = 4)					   
 					  AND CUP.CupDatMov BETWEEN @datainicio AND @datafinal  
 					  AND CUP.FilCod = 60			
@@ -105,8 +105,8 @@ BEGIN
 
 		DECLARE @corpoFalha varchar(max)
 		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinatário				
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		      , @recipients VARCHAR(100);		-- destinatï¿½rio				
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'suporte@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

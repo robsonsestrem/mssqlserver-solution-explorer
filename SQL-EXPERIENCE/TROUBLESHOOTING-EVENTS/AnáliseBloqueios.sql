@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 ;WITH cte_BlockedProcess
      AS (SELECT IdBlock,
@@ -58,19 +58,19 @@ GO
 		--order by 1 desc
 	
 	 
-	   --No banco de dados SQL Server máximo por instâncias podem ser criados são 32.767 
-	   --Este último número foi reservado pelo próprio Banco de Dados de Recursos.
-	   --Ele é localizado em -> C:\Program Files\Microsoft SQL Server\MSSQL10_50.MSSQLSERVER\MSSQL\Binn
-	   --Nome dele é mssqlsystemresource
+	   --No banco de dados SQL Server mï¿½ximo por instï¿½ncias podem ser criados sï¿½o 32.767 
+	   --Este ï¿½ltimo nï¿½mero foi reservado pelo prï¿½prio Banco de Dados de Recursos.
+	   --Ele ï¿½ localizado em -> C:\Program Files\Microsoft SQL Server\MSSQL10_50.MSSQLSERVER\MSSQL\Binn
+	   --Nome dele ï¿½ mssqlsystemresource
 	   --SELECT	SERVERPROPERTY('ResourceVersion') ResourceVersion,
 				--SERVERPROPERTY('ResourceLastUpdateDateTime') ResourceLastUpdateDateTime
 	   --GO
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
--- Conta usários distintos por dia afetados por bloqueio
+-- Conta usï¿½rios distintos por dia afetados por bloqueio
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-USE Maintenance
+USE YOUR_DATABASE
 GO
 ;WITH cte_BlockedProcess
      AS (SELECT IdBlock,
@@ -124,7 +124,7 @@ GO
 		(
 		select distinct xml.Login_Blocked, cast(xml.Data_Inicio as date) as [data]	
 		from ExtraiXML as xml
-		where xml.BD = 'gescooper90'
+		where xml.BD = 'YOUR_DATABASE'
 		) as x
 		) as y
 

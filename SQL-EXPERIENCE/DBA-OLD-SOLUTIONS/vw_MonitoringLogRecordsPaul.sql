@@ -1,4 +1,4 @@
-use Maintenance
+use YOUR_DATABASE
 go
 
 create or alter view Management.vw_MonitoringLogRecordsPaul

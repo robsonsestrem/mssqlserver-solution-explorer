@@ -1,4 +1,4 @@
-USE [GesCooper90]
+USE [YOUR_DATABASE]
 GO
 
 ALTER TRIGGER [dbo].[tr_Cadusuarios_LogUID] 
@@ -31,8 +31,8 @@ AS
                                         FROM   sys.triggers 
                                         WHERE  object_id = @@procid)) 
 
-      -- Coloca a tabela Deleted em uma variável XML 
-	  -- Otimizado para não trazer a coluna 'UsuUltEntrada' (27-07-2016)      
+      -- Coloca a tabela Deleted em uma variï¿½vel XML 
+	  -- Otimizado para nï¿½o trazer a coluna 'UsuUltEntrada' (27-07-2016)      
       SET @Deleted = (SELECT 
 							UsuCod
 							,EmpCod
@@ -136,8 +136,8 @@ AS
 							,UsuFlag62
 					  FROM deleted FOR xml raw, root('Deleted'))       
      
-	  -- Coloca a tabela Inserted em uma variável XML 
-	  -- Otimizado para não trazer a coluna 'UsuUltEntrada' (27-07-2016)  
+	  -- Coloca a tabela Inserted em uma variï¿½vel XML 
+	  -- Otimizado para nï¿½o trazer a coluna 'UsuUltEntrada' (27-07-2016)  
       SET @Inserted = (SELECT 
 							UsuCod
 							,EmpCod
@@ -257,7 +257,7 @@ AS
 														   WHERE object_id = @@procid) 
 														   AND column_id = @Col)
 
-						-- Substitui a TAG no XML da DELETED e faz a extração dos dados
+						-- Substitui a TAG no XML da DELETED e faz a extraï¿½ï¿½o dos dados
 						SET @DeletedTMP = REPLACE(CAST(@Deleted As VARCHAR(MAX)),@NomeCol + '=','Col=')
 														
 						INSERT INTO IntegraTICravil.LogErp.CadusuariosLogDML 
@@ -292,7 +292,7 @@ AS
 									FROM deleted As Ins											
 					END -- WHILE		  
 
-		END -- condição delete
+		END -- condiï¿½ï¿½o delete
 		ELSE IF not exists(select top 1 null from deleted) --inserted
 			BEGIN
 				SELECT @action ='I'	FROM inserted
@@ -319,10 +319,10 @@ AS
                                                       WHERE 
                                                      object_id = @@procid) 
                                               AND column_id = @Col) 
-                              -- Substitui a TAG no XML da DELETED e faz a extração dos dados
+                              -- Substitui a TAG no XML da DELETED e faz a extraï¿½ï¿½o dos dados
                               SET @DeletedTMP = Replace(Cast(@Deleted AS VARCHAR (max)),@NomeCol + '=','Col=') 
 
-                              -- Substitui a TAG no XML da INSERTED e faz a extração dos dados 
+                              -- Substitui a TAG no XML da INSERTED e faz a extraï¿½ï¿½o dos dados 
                               SET @InsertedTMP = Replace(Cast(@Inserted AS VARCHAR(max)),@NomeCol + '=','Col=') 
 
                               INSERT INTO IntegraTICravil.LogErp.CadusuariosLogDML 
@@ -367,7 +367,7 @@ END
 GO
 
 ---------------------------------------------------------------------------------------------------------------------------------
--- TABELA DE LOGS – Local onde a trigger acima registra os dados DML da tabela CADUSUARIOS
+-- TABELA DE LOGS ï¿½ Local onde a trigger acima registra os dados DML da tabela CADUSUARIOS
 ---------------------------------------------------------------------------------------------------------------------------------
 
 --Use IntegraTICravil
@@ -383,7 +383,7 @@ GO
 --	TableName varchar(30) default 'CADUSUARIOS',
 --	TypeSQL char(1) ,
 --	UsuCod char(25) not null default '',
---	ColumnUpdate sysname,  -- tipos de dados corresponde ao varchar(128) e já seta not null também
+--	ColumnUpdate sysname,  -- tipos de dados corresponde ao varchar(128) e jï¿½ seta not null tambï¿½m
 --	ValueOld varchar(100) default '',
 --	ValueNew varchar(100) default '',
 

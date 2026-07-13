@@ -5,8 +5,8 @@ SELECT i.id        AS ObjectId,
        t.NAME      AS TableName,     
        i.indid     AS Index_Stat_Id,     -- id de statistics na tabela sysindexes 
        i.NAME      AS Index_Stat_Name,   -- nome de statistics para coluna da tabela  
-       i.rowmodctr AS Status_DML,        -- número de alterações que sofreu desde última atualização
-       i.rows      AS Total_Rows_Column, -- Nº de linhas que tem statistics por coluna 
+       i.rowmodctr AS Status_DML,        -- nï¿½mero de alteraï¿½ï¿½es que sofreu desde ï¿½ltima atualizaï¿½ï¿½o
+       i.rows      AS Total_Rows_Column, -- Nï¿½ de linhas que tem statistics por coluna 
        i.dpages 
 FROM   sysindexes i 
        JOIN sys.tables t 
@@ -21,6 +21,6 @@ ORDER  BY i.rowmodctr
 
 
 -----------------------------------------------------------------------------------
-USE GesCooper90
+USE YOUR_DATABASE
 GO
 EXEC sp_helpstats 'contabil', 'all'

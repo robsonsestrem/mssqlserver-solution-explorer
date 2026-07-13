@@ -1,8 +1,8 @@
 ------------------------------------------------------------------------------------------------------------------------------------
--- SOLUÇÃO PARA EXPORTAÇÃO DE XML CONTIDO EM CAMPOS DO SISTEMA, SEJA VARBINARY OU XML
+-- SOLUï¿½ï¿½O PARA EXPORTAï¿½ï¿½O DE XML CONTIDO EM CAMPOS DO SISTEMA, SEJA VARBINARY OU XML
 -- Ticket 19107.
 ------------------------------------------------------------------------------------------------------------------------------------
-USE GesCooper90
+USE YOUR_DATABASE
 GO
 
 SELECT 
@@ -10,7 +10,7 @@ t2.NfArqXMLFileName
 , cast(cast(t2.NFArqXML AS xml) AS varchar(max)) AS [xml]
 , ROW_NUMBER() Over(ORDER BY t1.NF) AS contador
 INTO ##tempxml
-FROM gescooper90.dbo.vw_MovimentacaoReceita as t1
+FROM YOUR_DATABASE.dbo.vw_MovimentacaoReceita as t1
 INNER JOIN MOVESTOQUEARQUIVOS AS t2 with(nolock)
 ON t1.filial = t2.NfFilCod
 AND t1.emissao = t2.NfDatEmis
@@ -47,7 +47,7 @@ SELECT * FROM ##xmldistinto x
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-/***********************************OBS.: DEVE-SE GERAR DE 255 EM 255 ARQUIVOS POR QUESTÕES DE LIMITAÇÃO DA SOLUÇÃO******************************/
+/***********************************OBS.: DEVE-SE GERAR DE 255 EM 255 ARQUIVOS POR QUESTï¿½ES DE LIMITAï¿½ï¿½O DA SOLUï¿½ï¿½O******************************/
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DECLARE @nomeArquivo varchar(max)
 	  , @stringValor varchar(max)
@@ -64,7 +64,7 @@ BEGIN
 
 	+'.xml'
 
-	EXEC Maintenance.Management.[sp_Escreve_Arquivo_FSO] 
+	EXEC YOUR_DATABASE.Management.[sp_Escreve_Arquivo_FSO] 
 		  @String = @stringValor
 		, @Ds_Arquivo = @nomeArquivo
 
@@ -84,6 +84,6 @@ end
 
 --SET @nomeArquivo = 'C:\Temp\'+ (SELECT cast(t.NF AS varchar(20)) FROM ##tempxml t WHERE t.NF = 61893) +'.xml'
 
---EXEC Maintenance.Management.[sp_Escreve_Arquivo_FSO] 
+--EXEC YOUR_DATABASE.Management.[sp_Escreve_Arquivo_FSO] 
 --		  @String = @stringValor
 --		, @Ds_Arquivo = @nomeArquivo

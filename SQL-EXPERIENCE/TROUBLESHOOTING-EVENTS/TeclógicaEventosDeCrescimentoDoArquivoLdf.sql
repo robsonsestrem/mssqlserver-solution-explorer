@@ -2,7 +2,7 @@
 -- Concedido pela TECLÓGICA, este vai mostrar os eventos de crescimento do arquivo de log, assim poderá ter noção se o espaço inicial configurado é suficiente, 
 -- pois se tiver muitos eventos, é sinal que precisa aumentar o Initial size.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-use GesCooper90
+use YOUR_DATABASE
 go
 DECLARE @filename NVARCHAR(1000);
 DECLARE @bc INT;

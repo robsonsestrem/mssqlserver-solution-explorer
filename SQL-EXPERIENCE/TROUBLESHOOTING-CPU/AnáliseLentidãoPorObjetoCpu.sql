@@ -1,9 +1,9 @@
--- Reseta as estatísticas
+-- Reseta as estatï¿½sticas
 -- DBCC SQLPERF(sys.dm_os_wait_stats,CLEAR); 
 
 -- http://www.davewentzel.com/content/useful-queries
 -- https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-query-stats-transact-sql
--- Como os planos estão fora do cache, as estatísticas ficam obsoletas. Isso é realmente apenas para planos ativos.
+-- Como os planos estï¿½o fora do cache, as estatï¿½sticas ficam obsoletas. Isso ï¿½ realmente apenas para planos ativos.
 /****************** MEDIA DE CONSUMO POR OBJETO *****************************/
 USE master
 GO
@@ -15,35 +15,35 @@ SELECT DB_NAME(st.dbid)																																				AS DBName
 
       , OBJECT_NAME(objectid,st.dbid)																																AS [Object_Name]	
 
-	  , (select Maintenance.Management.fn_FormatIntToThousands( sum(qs.total_worker_time),2))																		AS Total_worker_time
+	  , (select YOUR_DATABASE.Management.fn_FormatIntToThousands( sum(qs.total_worker_time),2))																		AS Total_worker_time
 
-	  , (select Maintenance.Management.fn_FormatIntToMoney( sum(qs.total_worker_time) / sum(qs.execution_count)	))													AS Avg_worker_time
+	  , (select YOUR_DATABASE.Management.fn_FormatIntToMoney( sum(qs.total_worker_time) / sum(qs.execution_count)	))													AS Avg_worker_time
 
-      , (select Maintenance.Management.fn_FormatIntToThousands( max(cp.usecounts),2))																				AS UseCounts
+      , (select YOUR_DATABASE.Management.fn_FormatIntToThousands( max(cp.usecounts),2))																				AS UseCounts
 
-      , (select Maintenance.Management.fn_FormatIntToThousands( sum(qs.total_physical_reads + qs.total_logical_reads + qs.total_logical_writes),2))					AS Total_IO
+      , (select YOUR_DATABASE.Management.fn_FormatIntToThousands( sum(qs.total_physical_reads + qs.total_logical_reads + qs.total_logical_writes),2))					AS Total_IO
 
-      , (select Maintenance.Management.fn_FormatIntToMoney( sum(qs.total_physical_reads + qs.total_logical_reads + qs.total_logical_writes) / (max(cp.usecounts))))	AS Avg_total_IO
+      , (select YOUR_DATABASE.Management.fn_FormatIntToMoney( sum(qs.total_physical_reads + qs.total_logical_reads + qs.total_logical_writes) / (max(cp.usecounts))))	AS Avg_total_IO
 
-      , (select Maintenance.Management.fn_FormatIntToThousands( sum(qs.total_physical_reads),2))																	AS Total_physical_reads
+      , (select YOUR_DATABASE.Management.fn_FormatIntToThousands( sum(qs.total_physical_reads),2))																	AS Total_physical_reads
 
-      , (select Maintenance.Management.fn_FormatIntToMoney( sum(qs.total_physical_reads) / (max(cp.usecounts) * 1.0))) 											    AS Avg_physical_read   
+      , (select YOUR_DATABASE.Management.fn_FormatIntToMoney( sum(qs.total_physical_reads) / (max(cp.usecounts) * 1.0))) 											    AS Avg_physical_read   
 
-      , (select Maintenance.Management.fn_FormatIntToThousands( sum(qs.total_logical_reads),2))																		AS Total_logical_reads
+      , (select YOUR_DATABASE.Management.fn_FormatIntToThousands( sum(qs.total_logical_reads),2))																		AS Total_logical_reads
 
-      , (select Maintenance.Management.fn_FormatIntToMoney(sum(qs.total_logical_reads) / (max(cp.usecounts) * 1.0)))												AS Avg_logical_read 
+      , (select YOUR_DATABASE.Management.fn_FormatIntToMoney(sum(qs.total_logical_reads) / (max(cp.usecounts) * 1.0)))												AS Avg_logical_read 
 
-      , (select Maintenance.Management.fn_FormatIntToThousands( sum(qs.total_logical_writes),2))																	AS Total_logical_writes
+      , (select YOUR_DATABASE.Management.fn_FormatIntToThousands( sum(qs.total_logical_writes),2))																	AS Total_logical_writes
 
-      , (select Maintenance.Management.fn_FormatIntToMoney( sum(qs.total_logical_writes) / (max(cp.usecounts) * 1.0)))												AS Avg_logical_writes 
+      , (select YOUR_DATABASE.Management.fn_FormatIntToMoney( sum(qs.total_logical_writes) / (max(cp.usecounts) * 1.0)))												AS Avg_logical_writes 
 
-	  , (select Maintenance.Management.fn_FormatIntToThousands( sum(qs.total_elapsed_time),2))																		AS Total_elapsed_time
+	  , (select YOUR_DATABASE.Management.fn_FormatIntToThousands( sum(qs.total_elapsed_time),2))																		AS Total_elapsed_time
 
-      , (select Maintenance.Management.fn_FormatIntToMoney( sum(qs.total_elapsed_time) / max(cp.usecounts)) )														AS Avg_elapsed_time	  
+      , (select YOUR_DATABASE.Management.fn_FormatIntToMoney( sum(qs.total_elapsed_time) / max(cp.usecounts)) )														AS Avg_elapsed_time	  
 FROM sys.dm_exec_query_stats qs CROSS APPLY sys.dm_exec_sql_text(qs.plan_handle) st
 	 join sys.dm_exec_cached_plans cp on qs.plan_handle = cp.plan_handle
 where DB_NAME(st.dbid) is not null 
-AND DB_NAME(st.dbid) in ('GesCooper90')--, 'IntegraTICravil', 'TICRAVIL', 'Guru5', 'Guru6', 'rhcravil', 'CooperSystem')
+AND DB_NAME(st.dbid) in ('YOUR_DATABASE')--, 'IntegraTICravil', 'TICRAVIL', 'Guru5', 'Guru6', 'YOUR_DATABASE', 'YOUR_DATABASE')
 group by DB_NAME(st.dbid),OBJECT_SCHEMA_NAME(objectid,st.dbid), OBJECT_NAME(objectid,st.dbid), st.objectid
 
 --order by 8 desc		-- 8 - VERIFICA MAIOR CONSUMO DE I/O
@@ -53,7 +53,7 @@ group by DB_NAME(st.dbid),OBJECT_SCHEMA_NAME(objectid,st.dbid), OBJECT_NAME(obje
 --order by 4 desc	-- 4 - VERIFICA MAIOR CONSUMO DE CPU
 
 
-/*** SEM TRATAMENTOS DE NÚMEROS ***/
+/*** SEM TRATAMENTOS DE Nï¿½MEROS ***/
 USE master
 GO
 SELECT DB_NAME(st.dbid)																																				AS DBName
@@ -92,7 +92,7 @@ SELECT DB_NAME(st.dbid)																																				AS DBName
 FROM sys.dm_exec_query_stats qs CROSS APPLY sys.dm_exec_sql_text(qs.plan_handle) st
 	 join sys.dm_exec_cached_plans cp on qs.plan_handle = cp.plan_handle
 where DB_NAME(st.dbid) is not null 
-AND DB_NAME(st.dbid) in ('GesCooper90')--, 'IntegraTICravil', 'TICRAVIL', 'Guru5', 'Guru6', 'rhcravil', 'CooperSystem')
+AND DB_NAME(st.dbid) in ('YOUR_DATABASE')--, 'IntegraTICravil', 'TICRAVIL', 'Guru5', 'Guru6', 'YOUR_DATABASE', 'YOUR_DATABASE')
 group by DB_NAME(st.dbid),OBJECT_SCHEMA_NAME(objectid,st.dbid), OBJECT_NAME(objectid,st.dbid), st.objectid
 
 --order by 8 desc		-- 8 - VERIFICA MAIOR CONSUMO DE I/O
@@ -103,7 +103,7 @@ group by DB_NAME(st.dbid),OBJECT_SCHEMA_NAME(objectid,st.dbid), OBJECT_NAME(obje
 
 
 /*********************************************** TOP TEMPO DE CPU ACUMULADO ***************************************************************************************/
--- O exemplo a seguir retorna informações sobre as cinco principais consultas classificadas pelo tempo médio de CPU. Este exemplo agrega as consultas de acordo com 
+-- O exemplo a seguir retorna informaï¿½ï¿½es sobre as cinco principais consultas classificadas pelo tempo mï¿½dio de CPU. Este exemplo agrega as consultas de acordo com 
 -- seu hash de consulta para que as consultas logicamente equivalentes sejam agrupadas pelo consumo cumulativo de recursos.
 USE MASTER
 GO  
@@ -124,7 +124,7 @@ ORDER BY 2 DESC;
 
 
 /*********************************************** Retornando agregados de contagem de linhas para uma consulta ******************************************************/
--- O exemplo a seguir retorna informações agregadas de contagem de linhas (linhas totais, linhas mínimas, linhas máximas e últimas linhas) para consultas.
+-- O exemplo a seguir retorna informaï¿½ï¿½es agregadas de contagem de linhas (linhas totais, linhas mï¿½nimas, linhas mï¿½ximas e ï¿½ltimas linhas) para consultas.
 SELECT qs.execution_count,  
     SUBSTRING(qt.text,qs.statement_start_offset/2 +1,   
                  (CASE WHEN qs.statement_end_offset = -1   
@@ -145,5 +145,5 @@ SELECT qs.execution_count,
 FROM sys.dm_exec_query_stats AS qs   
 CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle) AS qt   
 WHERE qt.text like '%SELECT%'   
-AND qt.dbid = 6 -- GESCOOPER90
+AND qt.dbid = 6 -- YOUR_DATABASE
 ORDER BY qs.execution_count DESC; 

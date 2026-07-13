@@ -9,7 +9,7 @@
           <Server>110.238.65.144</Server>
           <UserName>dixhealth_adm</UserName>
           <Authentication>SQL</Authentication>
-          <InitialDB>MAINTENANCE_DIX</InitialDB>
+          <InitialDB>YOUR_DATABASE_DIX</InitialDB>
           <LoginTimeout>30</LoginTimeout>
           <TrustServerCertificate>False</TrustServerCertificate>
           <EncryptionOption>True</EncryptionOption>

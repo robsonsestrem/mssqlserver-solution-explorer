@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------------
--- padroniza horário de verão para todas filiais quando alterado na filial 1.
+-- padroniza horï¿½rio de verï¿½o para todas filiais quando alterado na filial 1.
 ---------------------------------------------------------------------------------
-USE GesCooper90
+USE YOUR_DATABASE
 GO
 
 CREATE TRIGGER tr_Filiais_HoraVerao_U
@@ -18,7 +18,7 @@ AS
         BEGIN 
             (SELECT @horaVerao = filflag69 
              FROM   filiais 
-             WHERE  filcod = 1) --padrão da matriz 
+             WHERE  filcod = 1) --padrï¿½o da matriz 
 
             UPDATE filiais 
             SET    filflag69 = @horaVerao 

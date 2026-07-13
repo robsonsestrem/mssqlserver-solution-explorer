@@ -1,8 +1,8 @@
 --------------------------------------------------------------------------------------------------------------
--- Tratado só para trazer campos com alteração no UPDATE E INSERT.
+-- Tratado sï¿½ para trazer campos com alteraï¿½ï¿½o no UPDATE E INSERT.
 --------------------------------------------------------------------------------------------------------------
 
-USE [GesCooper90]
+USE [YOUR_DATABASE]
 GO
 
 /****** Object:  Trigger [dbo].[TR_cadusuarios_LogUID]    Script Date: 04/04/2016 17:03:12 ******/
@@ -36,13 +36,13 @@ AS
                                         FROM   sys.triggers 
                                         WHERE  object_id = @@procid)) 
 
-      -- Coloca a tabela Deleted em uma variável XML 
+      -- Coloca a tabela Deleted em uma variï¿½vel XML 
       DECLARE @Deleted    XML, 
               @DeletedTMP XML 
 
       SET @Deleted = (SELECT * FROM deleted FOR xml raw, root('Deleted')) 
 
-      -- Coloca a tabela Inserted em uma variável XML 
+      -- Coloca a tabela Inserted em uma variï¿½vel XML 
       DECLARE @Inserted    XML, 
               @InsertedTMP XML 
 
@@ -89,7 +89,7 @@ AS
         END -- @action D 
       ELSE 
         BEGIN 
-            IF ( @Action = 'I' OR @Action = 'U' ) -- condição para quando houver inserção ou alteração 
+            IF ( @Action = 'I' OR @Action = 'U' ) -- condiï¿½ï¿½o para quando houver inserï¿½ï¿½o ou alteraï¿½ï¿½o 
               BEGIN          
                   WHILE ( @Col < @qCols ) 
                     BEGIN 
@@ -108,10 +108,10 @@ AS
                                                       WHERE 
                                                      object_id = @@procid) 
                                               AND column_id = @Col) 
-                              -- Substitui a TAG no XML da DELETED e faz a extração dos dados
+                              -- Substitui a TAG no XML da DELETED e faz a extraï¿½ï¿½o dos dados
                               SET @DeletedTMP = Replace(Cast(@Deleted AS VARCHAR (max)),@NomeCol + '=','Col=') 
 
-                              -- Substitui a TAG no XML da INSERTED e faz a extração dos dados 
+                              -- Substitui a TAG no XML da INSERTED e faz a extraï¿½ï¿½o dos dados 
                               SET @InsertedTMP = Replace(Cast(@Inserted AS VARCHAR(max)),@NomeCol + '=','Col=') 
 
                               INSERT INTO CadusuariosLogDML 

@@ -1,29 +1,29 @@
--------------------------------------------------------------------------------------------------------------------------------
--- RequisiÁıes com maiores processos cumulativos na CPU
+Ôªø-------------------------------------------------------------------------------------------------------------------------------
+-- Requisi√ß√µes com maiores processos cumulativos na CPU
 -------------------------------------------------------------------------------------------------------------------------------
 USE master
 GO
-SELECT        spid,				-- ID da sess„o do SQL Server 
+SELECT        spid,				-- ID da sess√£o do SQL Server 
 			  status,
 			  open_tran,
-			  request_id,       -- ID da solicitaÁ„o
-              blocked,			-- ID da sess„o de quem bloqueia 
+			  request_id,       -- ID da solicita√ß√£o
+              blocked,			-- ID da sess√£o de quem bloqueia 
 			  waittime as temp, -- tempo de espera atual em milisegundos 
               Db_name(dbid) DB, -- ID do banco de dados usado atualmente pelo processo 
-			  --CONVERT (TIME, DATEADD (MILLISECOND, cast(cpu as bigint) + 86400000,0), 114) as CPU_Time, -- sem convers„o dava overflow			
+			  --CONVERT (TIME, DATEADD (MILLISECOND, cast(cpu as bigint) + 86400000,0), 114) as CPU_Time, -- sem convers√£o dava overflow			
 			  cast(cpu as bigint) as CPU,		-- tempo de CPU cumulativo para o processo				-- no tipo de dados int
               physical_io,		-- IO cumulativas para o processo em disco 
 
-              cast(memusage as bigint) as Paginas_Cache,	-- n˙mero de p·ginas no cache de procedimento que est„o atualmente alocadas para este processo. 
-															-- um n˙mero negativo indica que o processo est· liberando memÛria alocada por outro processo 
+              cast(memusage as bigint) as Paginas_Cache,	-- n√∫mero de p√°ginas no cache de procedimento que est√£o atualmente alocadas para este processo. 
+															-- um n√∫mero negativo indica que o processo est√° liberando mem√≥ria alocada por outro processo 
               program_name,		-- aplicativo
-              hostname,			-- PC que fez a requisiÁ„o 
-			  loginame,			-- usu·rio
-              hostprocess		-- n˙mero de ID do processo da estaÁ„o de trabalho 			
+              hostname,			-- PC que fez a requisi√ß√£o 
+			  loginame,			-- usu√°rio
+              hostprocess		-- n√∫mero de ID do processo da esta√ß√£o de trabalho 			
 FROM   master..sysprocesses as s
 WHERE  --status = 'sleeping'
 --and open_tran = 0
- Db_name(dbid) IN ('d_healthmap_admhealthmap')
+ Db_name(dbid) IN ('d_YOUR_OBJECT_admYOUR_OBJECT')
        --AND ( cpu > 0 OR physical_io > 0 ) 
 	    --loginame = 'sa'	 
 	   -- and  hostname in ('cti-000640')
@@ -32,15 +32,15 @@ WHERE  --status = 'sleeping'
 ORDER  BY status asc; 
 
 --------------------------------------------------------------------------------------------------------------------------------
--- DBCC INPUTBUFFER - Exibe a ˙ltima instruÁ„o enviada de um cliente a uma inst‚ncia do Microsoft SQL Server
+-- DBCC INPUTBUFFER - Exibe a √∫ltima instru√ß√£o enviada de um cliente a uma inst√¢ncia do Microsoft SQL Server
 --------------------------------------------------------------------------------------------------------------------------------
-DBCC inputbuffer(266)  -- o par‚metro È o spid que È a sess„o do SQL-Server
--- retornar· trÍs colunas e na EventInfo ter· o script da requisiÁ„o
+DBCC inputbuffer(266)  -- o par√¢metro √© o spid que √© a sess√£o do SQL-Server
+-- retornar√° tr√™s colunas e na EventInfo ter√° o script da requisi√ß√£o
 /*
 Tipo de evento. Pode ser Evento RPC ou Evento Language.
-A saÌda ser· No Event quando n„o for detectado nenhum ˙ltimo evento.
-Para um EventType de RPC, EventInfo contÈm apenas o nome do procedimento. 
-Para um EventType de Language, s„o exibidos apenas os primeiros 4000 caracteres do evento.
+A sa√≠da ser√° No Event quando n√£o for detectado nenhum √∫ltimo evento.
+Para um EventType de RPC, EventInfo cont√©m apenas o nome do procedimento. 
+Para um EventType de Language, s√£o exibidos apenas os primeiros 4000 caracteres do evento.
 */
 
 
@@ -63,21 +63,21 @@ SELECT CONVERT(VARCHAR(12), DATEADD(MILLISECOND, 5874502 + 86400000, 0), 114)
 -- CONVERT (TIME, DATEADD (MILLISECOND, waittime + 86400000, 0), 114) as temp,  
 
 --------------------------------------------------------------------------------------------------------------------------------
--- coluna status	nchar(30) -> Status do ID do processo. Os valores possÌveis s„o:
+-- coluna status	nchar(30) -> Status do ID do processo. Os valores poss√≠veis s√£o:
 --------------------------------------------------------------------------------------------------------------------------------
 
- --dormant  (inativo) = SQL Server est· redefinindo a sess„o.
+ --dormant  (inativo) = SQL Server est√° redefinindo a sess√£o.
 
- --running (executando) = a sess„o est· executando um ou mais lotes. Quando s„o habilitados MARS (V·rios Conjuntos de Resultados Ativos), uma sess„o pode executar v·rios lotes. Para obter mais informaÁıes, consulte usando v·rios conjuntos de resultados ativos (. MARS &41;.
+ --running (executando) = a sess√£o est√° executando um ou mais lotes. Quando s√£o habilitados MARS (V√°rios Conjuntos de Resultados Ativos), uma sess√£o pode executar v√°rios lotes. Para obter mais informa√ß√µes, consulte usando v√°rios conjuntos de resultados ativos (. MARS &41;.
 
- --Background (plano de fundo) = a sess„o est· executando uma tarefa em segundo plano, como detecÁ„o de deadlock.
+ --Background (plano de fundo) = a sess√£o est√° executando uma tarefa em segundo plano, como detec√ß√£o de deadlock.
 
- --rollback (revers„o) = a sess„o tem uma revers„o de transaÁ„o em processo.
+ --rollback (revers√£o) = a sess√£o tem uma revers√£o de transa√ß√£o em processo.
 
- --pending (pendente) = a sess„o est· aguardando um thread de trabalho se torne disponÌvel.
+ --pending (pendente) = a sess√£o est√° aguardando um thread de trabalho se torne dispon√≠vel.
 
- --runnable (execut·vel) = a tarefa na sess„o est· na fila execut·vel de um agendador enquanto aguarda para obter um quantum de tempo.
+ --runnable (execut√°vel) = a tarefa na sess√£o est√° na fila execut√°vel de um agendador enquanto aguarda para obter um quantum de tempo.
 
- --spinloop/sleeping = a tarefa na sess„o est· esperando um spinlock fique livre.
+ --spinloop/sleeping = a tarefa na sess√£o est√° esperando um spinlock fique livre.
 
- --suspended (suspenso) = a sess„o est· aguardando um evento, como e/s, para concluir, em processo de retorno.
+ --suspended (suspenso) = a sess√£o est√° aguardando um evento, como e/s, para concluir, em processo de retorno.

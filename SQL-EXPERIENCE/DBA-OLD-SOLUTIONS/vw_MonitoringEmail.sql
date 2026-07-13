@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 CREATE OR ALTER VIEW Management.[vw_MonitoringEmail] 

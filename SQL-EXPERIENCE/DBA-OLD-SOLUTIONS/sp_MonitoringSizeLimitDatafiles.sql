@@ -1,7 +1,7 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 /*
-Referência:
+Referï¿½ncia:
 https://www.dirceuresende.com/blog/sql-server-como-identificar-e-monitorar-o-espaco-em-disco-total-livre-e-utilizado-pelos-datafiles-dos-databases/
 EXEMPLO DE USO:
 EXEC Management.sp_MonitoringSizeLimitDatafiles
@@ -10,7 +10,7 @@ EXEC Management.sp_MonitoringSizeLimitDatafiles
 
 CREATE OR ALTER PROCEDURE [Management].[sp_MonitoringSizeLimitDatafiles] (
     @Vl_Limite FLOAT = 95
-	-- no caso trazer as bases que atingiram 94% de utilização de espaço limite proposto
+	-- no caso trazer as bases que atingiram 94% de utilizaï¿½ï¿½o de espaï¿½o limite proposto
 )
 WITH ENCRYPTION
 AS BEGIN
@@ -18,7 +18,7 @@ AS BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
 			------------------------------------------------------------------------------------------------
-			-- IDENTIFICAÇÃO DO ESPAÇO UTILIZADO PELOS DATAFILES
+			-- IDENTIFICAï¿½ï¿½O DO ESPAï¿½O UTILIZADO PELOS DATAFILES
 			------------------------------------------------------------------------------------------------
 			DECLARE @Monitor_Datafile_Size TABLE
 				(
@@ -118,22 +118,22 @@ AS BEGIN
 			SELECT m.[database_name], m.[name], m.[type_desc], m.size_GB, m.max_real_size_GB, m.free_space_GB, m.growth_MB, m.growth_times, m.percent_used
 			from @Monitor_Datafile_Size AS m    
 			WHERE m.percent_used >= @Vl_Limite 
-			and m.[database_name] <> 'coleta'	-- Tratado para quando houver uma base que não precisa monitorar
+			and m.[database_name] <> 'coleta'	-- Tratado para quando houver uma base que nï¿½o precisa monitorar
 
 			IF ((SELECT COUNT(*) FROM @Monitoramento_Datafile_Size) > 0)
 			BEGIN                       
 
 				DECLARE          
-					@Assunto VARCHAR(200) = @@SERVERNAME + ' - Monitoramento de Espaço de limite Proposto nos Datafiles',
+					@Assunto VARCHAR(200) = @@SERVERNAME + ' - Monitoramento de Espaï¿½o de limite Proposto nos Datafiles',
 					@Destinatario VARCHAR(MAX) = 'suporte@cravil.com.br',
 					@Mensagem VARCHAR(MAX)                  
      
 				SET @Mensagem = '
 				Prezado DBA,<br/>
-				Foi identificado aumento considerável nos datafiles da instância ' 
+				Foi identificado aumento considerï¿½vel nos datafiles da instï¿½ncia ' 
 				+ @@SERVICENAME + ' no servidor ' + @@SERVERNAME + ':<br>
-				Obs.: O percentual é baseado em quantos porcento o tamanho do <br>
-				arquivo de dados tem em relação ao limite proposto. Alerta configurado para 95%<br><br>
+				Obs.: O percentual ï¿½ baseado em quantos porcento o tamanho do <br>
+				arquivo de dados tem em relaï¿½ï¿½o ao limite proposto. Alerta configurado para 95%<br><br>
 
 				<TABLE border=1 cellpadding=2 cellspacing=0 style=border-collapse: collapse;table-layout:fixed;width:1210;font-family:Arial;font-size:14px>															
 													<tr height=20  style=height:20.0pt align = left>
@@ -187,8 +187,8 @@ AS BEGIN
 
 		DECLARE @corpoFalha varchar(max)
 		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinatário				
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		      , @recipients VARCHAR(100);		-- destinatï¿½rio				
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'suporte@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

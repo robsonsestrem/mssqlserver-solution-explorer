@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------------------------------
 -- https://dbabrasil.net.br/dicas-para-um-dba-iniciante-identificando-indices-nao-utilizados-no-sql-server/
--- análise de uso do índice
+-- anï¿½lise de uso do ï¿½ndice
 -----------------------------------------------------------------------------------------------------------------
 SELECT Object_name(dmi.object_id) AS tbl_name,
        i.NAME                     AS idx_name,
@@ -17,13 +17,13 @@ WHERE  database_id = Db_id()
 ORDER  BY user_updates DESC
 
 
--- muitos updates em que tem mais do que seeks, já é muito 
+-- muitos updates em que tem mais do que seeks, jï¿½ ï¿½ muito 
 
 
 -----------------------------------------------------------------------------------------------------------------
--- Candidatos para REBUILD ou REORGANIZE (usado na Careplus)
+-- Candidatos para REBUILD ou REORGANIZE (usado na YOUR_OBJECT)
 -----------------------------------------------------------------------------------------------------------------
-declare @database varchar(50) = 'H_HEALTHMAP_CAREPLUS_TDE'
+declare @database varchar(50) = 'H_YOUR_DATABASE_TDE'
 declare @comando varchar(max)
 
 set @comando = '

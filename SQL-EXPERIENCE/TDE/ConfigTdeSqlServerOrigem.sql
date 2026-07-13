@@ -12,10 +12,10 @@ ALTER MASTER KEY REGENERATE WITH ENCRYPTION BY PASSWORD = '06TZMSXFcfFnX%8Q'
 GO
 
 -- Restoring the certificate and the private key on destination server
---CREATE CERTIFICATE TDE_Careplus_Cert  
---  FROM FILE = N'/home/remote/TDE_Careplus_Cert.cer' -- MS_AgentSigningCertificate.cer
+--CREATE CERTIFICATE TDE_YOUR_OBJECT_Cert  
+--  FROM FILE = N'/home/remote/TDE_YOUR_OBJECT_Cert.cer' -- MS_AgentSigningCertificate.cer
 --  WITH PRIVATE KEY ( 
---    FILE = N'/home/remote/TDE_Careplus_Cert_Key.pvk',
+--    FILE = N'/home/remote/TDE_YOUR_OBJECT_Cert_Key.pvk',
 --  DECRYPTION BY PASSWORD = 'DP5PdqbgfqG7MHsK'
 --  );
 --GO
@@ -32,7 +32,7 @@ FROM sys.dm_database_encryption_keys
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Passos para ativação da TDE em uma base de dados
+-- Passos para ativaï¿½ï¿½o da TDE em uma base de dados
 -- https://learn.microsoft.com/pt-br/sql/relational-databases/security/encryption/transparent-data-encryption?view=sql-server-ver16
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --1. Crie uma chave mestra.
@@ -57,7 +57,7 @@ GO
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- VISUALIZAR ANDAMENTO DO SCAN POR ALTERAÇÕES EM UMA BASE COM "SET ENCRYPTION ON|OFF"
+-- VISUALIZAR ANDAMENTO DO SCAN POR ALTERAï¿½ï¿½ES EM UMA BASE COM "SET ENCRYPTION ON|OFF"
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 SELECT 
     A.[name], 
@@ -75,26 +75,26 @@ JOIN sys.dm_database_encryption_keys B ON B.database_id = A.database_id
 USE [master]
 GO
 
-CREATE CERTIFICATE TDE_Careplus_HMG_Certicate
-WITH SUBJECT = 'TDE DEK Certificate Careplus HMG',
+CREATE CERTIFICATE TDE_YOUR_OBJECT_HMG_Certicate
+WITH SUBJECT = 'TDE DEK Certificate YOUR_OBJECT HMG',
 EXPIRY_DATE = '20251231';
 GO 
 
 -- Cannot change database encryption key while an encryption, decryption, or key change scan is in progress.
--- Caso tenha alterado a base "SET ENCRYPTION ON|OFF", vai ter que esperar o scan e leva em média 2 horas.
+-- Caso tenha alterado a base "SET ENCRYPTION ON|OFF", vai ter que esperar o scan e leva em mï¿½dia 2 horas.
 -- Warning: The certificate used for encrypting the database encryption key has not been backed up. 
 -- You should immediately back up the certificate and the private key associated with the certificate. 
 -- If the certificate ever becomes unavailable or if you must restore or attach the database on another server, 
 -- you must have backups of both the certificate and the private key or you will not be able to open the database.
 -- Completion time: 2023-03-31T07:43:21.7104077-03:00
-USE H_HEALTHMAP_CAREPLUS_TDE
+USE H_YOUR_DATABASE_TDE
 GO
 ALTER DATABASE ENCRYPTION KEY
-ENCRYPTION BY SERVER CERTIFICATE TDE_Careplus_HMG_Certicate;
+ENCRYPTION BY SERVER CERTIFICATE TDE_YOUR_OBJECT_HMG_Certicate;
 GO
 
 
--- Se você verificar a vinculação do certificado agora, verá que a DEK agora está vinculada ao novo certificado.
+-- Se vocï¿½ verificar a vinculaï¿½ï¿½o do certificado agora, verï¿½ que a DEK agora estï¿½ vinculada ao novo certificado.
 USE [master]
 GO
 SELECT
@@ -109,9 +109,9 @@ GO
 USE [master]
 GO
 -- Realiza o backup -> Certifique-se de que o nome do arquivo de certificado e o nome do arquivo de chave privada sejam diferentes.
-BACKUP CERTIFICATE TDE_Careplus_HMG_Certicate 
-TO FILE =  N'/opt/backups_sql/TDE_Careplus_HMG_Certicate.cer'			-- cria o novo arquivo do certificado
-WITH PRIVATE KEY ( FILE = N'/opt/backups_sql/TDE_Careplus_HMG_Key.pvk', -- cria o novo arquivo da chave privada
+BACKUP CERTIFICATE TDE_YOUR_OBJECT_HMG_Certicate 
+TO FILE =  N'/opt/backups_sql/TDE_YOUR_OBJECT_HMG_Certicate.cer'			-- cria o novo arquivo do certificado
+WITH PRIVATE KEY ( FILE = N'/opt/backups_sql/TDE_YOUR_OBJECT_HMG_Key.pvk', -- cria o novo arquivo da chave privada
 ENCRYPTION BY PASSWORD = '06TZMSXFcfFnX%8Q' );
 GO
 
@@ -119,26 +119,26 @@ GO
 USE [master]
 GO
 -- Realiza o backup -> Certifique-se de que o nome do arquivo de certificado e o nome do arquivo de chave privada sejam diferentes.
-BACKUP CERTIFICATE TDE_Careplus_Cert 
-TO FILE =  N'/opt/backups_sql/TDE_Careplus_Certicate_Old.cer'			-- cria o novo arquivo do certificado
-WITH PRIVATE KEY ( FILE = N'/opt/backups_sql/TDE_Careplus_Key_Old.pvk', -- cria o novo arquivo da chave privada
+BACKUP CERTIFICATE TDE_YOUR_OBJECT_Cert 
+TO FILE =  N'/opt/backups_sql/TDE_YOUR_OBJECT_Certicate_Old.cer'			-- cria o novo arquivo do certificado
+WITH PRIVATE KEY ( FILE = N'/opt/backups_sql/TDE_YOUR_OBJECT_Key_Old.pvk', -- cria o novo arquivo da chave privada
 ENCRYPTION BY PASSWORD = '06TZMSXFcfFnX%8Q' );
 GO
 
 
 
-BACKUP DATABASE [H_HEALTHMAP_CAREPLUS_TDE] 
-TO DISK = N'/var/opt/mssql/data/H_HEALTHMAP_CAREPLUS_TDE.bak' 
+BACKUP DATABASE [H_YOUR_DATABASE_TDE] 
+TO DISK = N'/var/opt/mssql/data/H_YOUR_DATABASE_TDE.bak' 
 WITH NOFORMAT
 , NOINIT
-, NAME = N'H_HEALTHMAP_CAREPLUS_TDE-Full Database Backup'
+, NAME = N'H_YOUR_DATABASE_TDE-Full Database Backup'
 , SKIP
 , NOREWIND
 , STATS = 5
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Buscando por "Database encryption scan for database 'H_HEALTHMAP_CAREPLUS_TDE' is complete"
+-- Buscando por "Database encryption scan for database 'H_YOUR_DATABASE_TDE' is complete"
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 declare @logs table(
 data datetime,
@@ -146,7 +146,7 @@ ProcessInfo VARCHAR(50),
 Text VARCHAR(4000) 
 )
 insert into @logs
-exec sp_readerrorlog; -- função interna
+exec sp_readerrorlog; -- funï¿½ï¿½o interna
 
 select * from @logs as l
 where l.data >= '20230403 00:00:00.000'

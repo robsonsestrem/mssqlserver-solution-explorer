@@ -1,4 +1,4 @@
-use GesCooper90
+use YOUR_DATABASE
 go
 
 select 

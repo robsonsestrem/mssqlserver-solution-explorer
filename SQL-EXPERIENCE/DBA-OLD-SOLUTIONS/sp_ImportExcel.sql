@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 CREATE PROCEDURE Management.[sp_ImportExcel](
@@ -31,6 +31,6 @@ END
 --use IntegraTICravil
 --go
 --exec Management.sp_ImportExcel
---@Caminho = 'C:\SQLImportExport\Teste.xlsx', -- Diretório
---@Aba = 'pla02',								-- Guia do excel (sifrão já está na procedure)
+--@Caminho = 'C:\SQLImportExport\Teste.xlsx', -- Diretï¿½rio
+--@Aba = 'pla02',								-- Guia do excel (sifrï¿½o jï¿½ estï¿½ na procedure)
 --@colunas = '*'								-- Campos

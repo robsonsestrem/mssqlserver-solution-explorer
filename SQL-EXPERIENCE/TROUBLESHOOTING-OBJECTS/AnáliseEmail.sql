@@ -1,6 +1,6 @@
 /*
     OBJETIVO: Identificar e-mails com falha de envio via Database Mail e consultar
-              a view de monitoramento de e-mails do banco Maintenance.
+              a view de monitoramento de e-mails do banco YOUR_DATABASE.
     PROJETO: mssqlserver-solution-explorer
     REFERÊNCIA: https://www.mssqltips.com/sqlservertip/1100/setting-up-database-mail-for-sql-server/
 */
@@ -17,7 +17,7 @@ WHERE sent_date > DATEADD(dd, ABS(@DaysBack) * -1, SYSDATETIME());
 -- ---------------------------------------------------------------------------
 -- Bloco 2: Consulta à view de monitoramento de e-mails enviados
 -- ---------------------------------------------------------------------------
-USE Maintenance;
+USE YOUR_DATABASE;
 GO
 
 SELECT *

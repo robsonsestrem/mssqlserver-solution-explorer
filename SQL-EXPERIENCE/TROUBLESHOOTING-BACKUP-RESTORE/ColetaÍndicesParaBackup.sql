@@ -1,5 +1,5 @@
 ﻿-- Defina o nome do banco de dados que deseja verificar
-USE P_HEALTHMAP_CAREPLUS_TDE;
+USE P_YOUR_DATABASE_TDE;
 
 -- Consulta o sistema de metadados para obter informações sobre índices
 SELECT 

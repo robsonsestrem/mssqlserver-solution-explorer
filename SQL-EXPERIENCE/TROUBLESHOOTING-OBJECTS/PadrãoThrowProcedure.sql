@@ -1,5 +1,5 @@
---------------------------------------------------------------------------------------------------------------------------------------------------------
--- GLPI 1105 - Rotina plano parcial: OtimizaÁ„o de cÛdigo - Crise Careplus
+Ôªø--------------------------------------------------------------------------------------------------------------------------------------------------------
+-- GLPI 1105 - Rotina plano parcial: Otimiza√ß√£o de c√≥digo - Crise YOUR_OBJECT
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 -- https://gavindraper.com/2018/05/20/SQL-Server-Error-Handling/
 -- https://stackoverflow.com/questions/59364251/question-with-xact-state-value-inside-a-catch-block
@@ -25,13 +25,13 @@ BEGIN
     BEGIN CATCH                                                                      		
         IF (XACT_STATE()) = -1  
   			BEGIN  
-  				PRINT N'A transaÁ„o est· em um estado incompatÌvel. Retrocedendo transaÁ„o.'  					  
+  				PRINT N'A transa√ß√£o est√° em um estado incompat√≠vel. Retrocedendo transa√ß√£o.'  					  
   				ROLLBACK TRANSACTION;  
   			END;  
   			
   		IF (XACT_STATE()) = 1  
   			BEGIN  
-  				PRINT N'A transaÁ„o e compatÌvel. TransaÁ„o completada.'  					  
+  				PRINT N'A transa√ß√£o e compat√≠vel. Transa√ß√£o completada.'  					  
   				COMMIT TRANSACTION;     
   			END;
 

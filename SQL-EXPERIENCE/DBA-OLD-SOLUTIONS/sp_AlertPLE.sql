@@ -1,4 +1,4 @@
-use Maintenance
+use YOUR_DATABASE
 go
 
 create or alter procedure Management.sp_AlertPLE
@@ -27,8 +27,8 @@ begin
 
 		if(@contadorDmv < @idealCalculado)
 			begin
-			   -- inserção do histórico
-			   INSERT INTO Maintenance.Management.CountPLE
+			   -- inserï¿½ï¿½o do histï¿½rico
+			   INSERT INTO YOUR_DATABASE.Management.CountPLE
 			   SELECT GETDATE() AS [dth_Contador],
 			   [object_name] AS [des_Objeto],
 			   [counter_name] AS [des_Contador],
@@ -43,10 +43,10 @@ begin
 											<tr height=20  style=color:black;>
 												<td width=300 style=height:20.0pt><b>Data:</b> '+convert(varchar(30),getdate(),113)+'	
 													<br>									
-													<br><b>Descrição:</b> O contador de desempenho do SQL Server <b>''Page Life Expectancy''</b> do objeto ''Buffer Manager'' está abaixo do ideal de '+cast(@idealCalculado as varchar(10))+', valor atual é de '+cast(@contadorDmv as varchar(20))+'.
+													<br><b>Descriï¿½ï¿½o:</b> O contador de desempenho do SQL Server <b>''Page Life Expectancy''</b> do objeto ''Buffer Manager'' estï¿½ abaixo do ideal de '+cast(@idealCalculado as varchar(10))+', valor atual ï¿½ de '+cast(@contadorDmv as varchar(20))+'.
 													<br>
-													<br><b>Obs.:</b> Esse contador nos diz o tempo em segundos que uma página de memória fica no cache. 
-													<br>Quanto maior esse tempo, maior é a chance do SQL Server encontrar a informação que precisa e assim economizar uma busca no disco.								 																			
+													<br><b>Obs.:</b> Esse contador nos diz o tempo em segundos que uma pï¿½gina de memï¿½ria fica no cache. 
+													<br>Quanto maior esse tempo, maior ï¿½ a chance do SQL Server encontrar a informaï¿½ï¿½o que precisa e assim economizar uma busca no disco.								 																			
 												</td>
 											</tr>
 											</table>
@@ -58,7 +58,7 @@ begin
 					--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 					-- envia e-mail
 					--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-					SET @assuntoEmail = 'Server - '+@@SERVERNAME+' - Evidências de Performance no SQL Server (PLE)'
+					SET @assuntoEmail = 'Server - '+@@SERVERNAME+' - Evidï¿½ncias de Performance no SQL Server (PLE)'
 					EXEC msdb.dbo.sp_send_dbmail
 											@profile_name =		'CRAVIL',
 											@recipients =		'suporte@cravil.com.br;', 						
@@ -73,8 +73,8 @@ begin
 
 				DECLARE @corpoFalha varchar(max)
 					  , @subject VARCHAR(100)			-- assunto
-					  , @recipients VARCHAR(100);		-- destinatário				
-				SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+					  , @recipients VARCHAR(100);		-- destinatï¿½rio				
+				SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 				SET @recipients = 'suporte@cravil.com.br';
 				SET @corpoFalha = '	
 					<html>

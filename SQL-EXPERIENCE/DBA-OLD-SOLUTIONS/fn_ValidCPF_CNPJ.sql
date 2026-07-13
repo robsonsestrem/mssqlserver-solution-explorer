@@ -1,4 +1,4 @@
-USE CooperSystem
+USE YOUR_DATABASE
 GO
 
 ALTER FUNCTION System.fn_ValidCPF_CNPJ(@validar varchar(30))

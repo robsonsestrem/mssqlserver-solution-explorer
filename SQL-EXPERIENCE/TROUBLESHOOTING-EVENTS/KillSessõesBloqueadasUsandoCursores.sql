@@ -3,7 +3,7 @@
 ------------------------------------------------------------------------------------------------------------------------------
 
 --CREATE PROCEDURE SP_ELIMINA_BLOCK AS
-use GesCooper90
+use YOUR_DATABASE
 go
 DECLARE @v_spid INT
 DECLARE @Sql VARCHAR(100)

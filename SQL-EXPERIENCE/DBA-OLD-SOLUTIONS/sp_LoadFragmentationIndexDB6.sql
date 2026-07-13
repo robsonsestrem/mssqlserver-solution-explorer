@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 CREATE OR ALTER PROCEDURE Management.sp_LoadFragmentationIndexDB6
 WITH ENCRYPTION
@@ -15,7 +15,7 @@ AS
 	  INSERT INTO #ListaDatabases  ( NAME )
 		 SELECT NAME
 		 FROM master.sys.sysdatabases s
-		 WHERE dbid = 6					-- gescooper90
+		 WHERE dbid = 6					-- YOUR_DATABASE
 		 AND DATABASEPROPERTYEX(NAME, 'Status') = 'ONLINE'
 		 ORDER  BY 1 
  
@@ -28,15 +28,15 @@ AS
 	  SET @id = 1
 	  SET @cnt = (SELECT MAX(id) FROM #ListaDatabases)
 	
-	  -- VALIDAÇÃO PARA NÃO FAZER MAIS DE UMA INSERÇÃO DIÁRIA
-	  SELECT COUNT(*) FROM Maintenance.Management.HistoryIndexFragmentation as h
+	  -- VALIDAï¿½ï¿½O PARA Nï¿½O FAZER MAIS DE UMA INSERï¿½ï¿½O DIï¿½RIA
+	  SELECT COUNT(*) FROM YOUR_DATABASE.Management.HistoryIndexFragmentation as h
 	  WHERE h.DateReference >= cast(floor(cast(GETDATE() as float)) as datetime)
-	  and h.DatabaseName = 'gescooper90'
+	  and h.DatabaseName = 'YOUR_DATABASE'
 	  IF(@@ROWCOUNT > 0)
 		BEGIN 
-			delete from Maintenance.Management.HistoryIndexFragmentation
+			delete from YOUR_DATABASE.Management.HistoryIndexFragmentation
 			where DateReference >= cast(floor(cast(GETDATE() as float)) as datetime)
-			and DatabaseName = 'gescooper90'
+			and DatabaseName = 'YOUR_DATABASE'
 		END
 	  BEGIN TRY
 		BEGIN TRANSACTION
@@ -129,8 +129,8 @@ AS
 
 			DECLARE @corpoFalha varchar(max)
 		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinatário				
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		      , @recipients VARCHAR(100);		-- destinatï¿½rio				
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'suporte@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

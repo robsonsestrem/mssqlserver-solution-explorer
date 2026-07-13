@@ -7,7 +7,7 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
-	SET LANGUAGE 'portuguese'; -- feito para formatação da data
+	SET LANGUAGE 'portuguese'; -- feito para formataï¿½ï¿½o da data
 	DECLARE @datainicio datetime = dateadd(DAY,-1,cast(floor(cast(getdate()as float))as datetime))
 	DECLARE @datafinal datetime = dateadd(MILLISECOND,+997,dateadd(SECOND,+59,dateadd(MINUTE,+59,dateadd(HOUR,+23,dateadd(DAY,-1,cast(floor(cast(getdate()as float))as datetime))))))			 
 
@@ -22,11 +22,11 @@ BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION 
 			SET @resultSet = (
-							  SELECT count(v.CupCodigo)	FROM GesCooper90.dbo.VENDASECF as v 
+							  SELECT count(v.CupCodigo)	FROM YOUR_DATABASE.dbo.VENDASECF as v 
 							  WHERE v.CupDatMov between @datainicio and @datafinal 
-							  and v.CupSituac = 1						-- trazer os não cancelados
-							  and v.CupSitIntegracao = 0				-- trazer os não integrados
-							  and (v.CupGNF is null or v.CupGNF = 0)	-- Trazer apenas tipo fiscal, não fiscal sempre traz um valor válido					 												
+							  and v.CupSituac = 1						-- trazer os nï¿½o cancelados
+							  and v.CupSitIntegracao = 0				-- trazer os nï¿½o integrados
+							  and (v.CupGNF is null or v.CupGNF = 0)	-- Trazer apenas tipo fiscal, nï¿½o fiscal sempre traz um valor vï¿½lido					 												
 							 )
 			SET @totalVendas = (SELECT CAST(ISNULL(IntegraTICravil.Management.fn_FormatIntToMoney( IntegraTICravil.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 1) ), 0) AS VARCHAR(20)))
 
@@ -36,10 +36,10 @@ BEGIN
 						SET @CorpoEmail = '
 											<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:12px>
 											<tr height=20  style=color:black;>
-												<td width=300 style=height:20.0pt>Não foi possível realizar carga no histórico de custo para Receitas.
+												<td width=300 style=height:20.0pt>Nï¿½o foi possï¿½vel realizar carga no histï¿½rico de custo para Receitas.
 													<br>Data de movimento: '+convert(varchar(12),@datainicio,105)+'										
-													<br>Motivo: Vendas não integradas para o comercial
-													<br>Valor total não integrado: R$'+@totalCupons+' 
+													<br>Motivo: Vendas nï¿½o integradas para o comercial
+													<br>Valor total nï¿½o integrado: R$'+@totalCupons+' 
 													<br>Segue abaixo lista destes documentos: 								
 												</td>
 											</tr>
@@ -67,10 +67,10 @@ BEGIN
 								   '<td height=20 style=height:15.0pt>' + CAST(v.CaiCod AS CHAR(2))				+ '</td>' + 
 								   '<td height=20 style=height:15.0pt>' +	CAST(v.CupCliCod AS VARCHAR(20))		+ '</td>' +					   
 								   '</tr>'
-							  FROM GesCooper90.dbo.VENDASECF as v 
+							  FROM YOUR_DATABASE.dbo.VENDASECF as v 
 							  WHERE v.CupDatMov between @datainicio and @datafinal 
-								and v.CupSituac = 1						-- trazer os não cancelados
-								and v.CupSitIntegracao = 0				-- trazer os não integrados
+								and v.CupSituac = 1						-- trazer os nï¿½o cancelados
+								and v.CupSitIntegracao = 0				-- trazer os nï¿½o integrados
 								and (v.CupGNF is null or v.CupGNF = 0)	-- Trazer apenas tipo fiscal					
 							  Order by v.CupCodigo
 
@@ -87,16 +87,16 @@ BEGIN
 									, x.SequenciaItem, x.CodFamilia, x.CodGrupo, x.CodSubgrupo
 									, cmv.CustoMedioUnitario, x.Setor, x.Secao, x.CentroCusto
 									, x.Qtdade, x.Margem, x.Peso, cmv.Estoque, cmv.CustoTotal
-								FROM GesCooper90.dbo.vw_MovimentacaoReceita AS x WITH(NOLOCK)
+								FROM YOUR_DATABASE.dbo.vw_MovimentacaoReceita AS x WITH(NOLOCK)
 								CROSS APPLY
-								GesCooper90.dbo.GetCustoMercadoria(x.Filial, x.Item, x.Emissao) AS cmv 
+								YOUR_DATABASE.dbo.GetCustoMercadoria(x.Filial, x.Item, x.Emissao) AS cmv 
 								WHERE x.Emissao between @datainicio and @datafinal
 							)						
 					SET @totalCusto = (SELECT CAST(ISNULL(IntegraTICravil.Management.fn_FormatIntToMoney( IntegraTICravil.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 2) ), 0) AS VARCHAR(20)))
 				      				             			                        	   	   	 											
 					SET @CorpoEmail = '<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:12px>
 													<tr height=20  style=color:black;>
-														<td width=300 style=height:20.0pt>Integração de hoje das Receitas com CMV realizada com sucesso.
+														<td width=300 style=height:20.0pt>Integraï¿½ï¿½o de hoje das Receitas com CMV realizada com sucesso.
 															<br>
 															<br>Data de movimento: '+convert(varchar(12),@datainicio,105)+'
 															<br>
@@ -112,7 +112,7 @@ BEGIN
 			--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 			-- envia e-mail
 			--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-			SET @assuntoEmail = 'Carga para Guru Sistemas - Histórico de CMV'
+			SET @assuntoEmail = 'Carga para Guru Sistemas - Histï¿½rico de CMV'
 			EXEC msdb.dbo.sp_send_dbmail
 									@profile_name =		'CRAVIL',
 									@recipients =		'suporte@cravil.com.br;marcon@cravil.com.br;adriana@cravil.com.br', 						
@@ -126,8 +126,8 @@ BEGIN
 		ROLLBACK TRANSACTION
 		DECLARE @corpoFalha varchar(max)
 		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinatário				
-		SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+		      , @recipients VARCHAR(100);		-- destinatï¿½rio				
+		SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 		SET @recipients = 'suporte@cravil.com.br';
 		SET @corpoFalha = '	
 			<html>

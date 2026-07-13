@@ -8,7 +8,7 @@
 -- ---------------------------------------------------------------------------
 -- Bloco 1: Inventário completo de Jobs, Steps e Schedules do SQL Server Agent
 -- ---------------------------------------------------------------------------
-USE Maintenance;
+USE YOUR_DATABASE;
 GO
 
 SELECT

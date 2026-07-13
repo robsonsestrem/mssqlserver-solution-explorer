@@ -1,4 +1,4 @@
-USE Maintenance
+USE YOUR_DATABASE
 GO
 
 create or alter procedure Management.sp_DeleteSlowQuery
@@ -21,7 +21,7 @@ begin
 				from
 				(
 				select count(*) as [Registros]
-				from [Maintenance].[Management].TraceSlowQuery as t1
+				from [YOUR_DATABASE].[Management].TraceSlowQuery as t1
 				group by cast(t1.StartTime as date)
 				) as x
 			)
@@ -30,10 +30,10 @@ begin
 			  BEGIN 
 				  set @dataMin = 
 				  (
-					select cast(dateadd(day, 1 ,((select min(t1.StartTime) from [Maintenance].[Management].TraceSlowQuery as t1))) as date)
+					select cast(dateadd(day, 1 ,((select min(t1.StartTime) from [YOUR_DATABASE].[Management].TraceSlowQuery as t1))) as date)
 				  )
 				  
-				  DELETE FROM [Maintenance].[Management].TraceSlowQuery
+				  DELETE FROM [YOUR_DATABASE].[Management].TraceSlowQuery
 				  WHERE  StartTime < @dataMin 										  
 				  
 				  set @qtdadeDias -= 1
@@ -47,8 +47,8 @@ begin
 			ROLLBACK TRANSACTION
 			DECLARE @corpoFalha varchar(max)
 				  , @subject VARCHAR(100)			-- assunto
-				  , @recipients VARCHAR(100);		-- destinatário				
-			SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+				  , @recipients VARCHAR(100);		-- destinatï¿½rio				
+			SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 			SET @recipients = 'suporte@cravil.com.br';
 			SET @corpoFalha = '	
 				<html>
