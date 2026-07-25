@@ -1,60 +1,108 @@
------------------------------------------------------------------------------------------------------------------------
+/*
+    OBJETIVO: Analisar e ranquear ocorrências de erros de rede (network error code)
+              na tabela Management.HistoryErrorLogin, com três abordagens distintas:
+              ranqueamento com estatística percentual, total por data e agrupamento
+              por login.
+    PROJETO: mssqlserver-solution-explorer
+*/
+
+USE IntegraTICravil;
+GO
+
+-- ============================================================
 -- Ranqueamento e estatística percentual
------------------------------------------------------------------------------------------------------------------------
-use IntegraTICravil
-go
-select y.Data, y.HostName, y.[Numero de Ocorr�ncias]
-, DENSE_RANK() over (order by y.[Numero de Ocorr�ncias] desc) as [Rank]
-, cast(100. * y.[Numero de Ocorr�ncias] / LAST_VALUE(y.Somatoria) over (order by y.Somatoria rows between unbounded preceding and unbounded following) as decimal(18,2)) AS PercentualDoTotal
-from
-(
-select 
-x.DataEvent as [Data]
-, count(x.DataEvent) as [Numero de Ocorr�ncias]
-, HostName
-, SUM(count(x.DataEvent)) OVER (ORDER BY count(x.DataEvent) ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) as Somatoria
-from
-(
-select cast(t1.DateError as date) as DataEvent, t1.HostName from Management.HistoryErrorLogin as t1
-where t1.TextData like '%network error code%'
-) as x
-group by x.DataEvent, x.HostName
-) as y
-group by y.Data, y.HostName, y.[Numero de Ocorr�ncias], y.Somatoria
-
-order by y.[Numero de Ocorr�ncias] desc
-
-
------------------------------------------------------------------------------------------------------------------------
--- Total
------------------------------------------------------------------------------------------------------------------------
-use IntegraTICravil
-go
-select x.DataEvent as [Data], count(x.DataEvent) as [Numero de Ocorr�ncias]
-from
-(
-select cast(t1.DateError as date) as DataEvent from Management.HistoryErrorLogin as t1
-where DateError >= '20180315'
-and TextData like '%network error code%'
-) as x
-group by x.DataEvent
-order by x.DataEvent desc
-
-
------------------------------------------------------------------------------------------------------------------------
--- Por Login
------------------------------------------------------------------------------------------------------------------------
-use IntegraTICravil
-go
-select x.DataEvent as [Data], count(x.DataEvent) as [Numero de Ocorr�ncias], x.LoginName
-from
-(
-select cast(t1.DateError as date) as DataEvent, t1.LoginName from Management.HistoryErrorLogin as t1
-where --DateError < '20180224'
- TextData like '%network error code%'
-) as x
-group by x.DataEvent, x.LoginName
-order by x.DataEvent desc
+-- ============================================================
+SELECT
+    y.Data
+  , y.HostName
+  , y.[Numero de Ocorrências]
+  , DENSE_RANK() OVER (ORDER BY y.[Numero de Ocorrências] DESC)           AS [Rank]
+  , CAST
+    (
+        100. * y.[Numero de Ocorrências]
+        / LAST_VALUE(y.Somatoria) OVER
+          (
+              ORDER BY y.Somatoria
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+          )
+        AS DECIMAL(18,2)
+    )                                                                      AS PercentualDoTotal
+FROM
+    (
+        SELECT
+            x.DataEvent                                                     AS [Data]
+          , COUNT(x.DataEvent)                                              AS [Numero de Ocorrências]
+          , x.HostName
+          , SUM(COUNT(x.DataEvent)) OVER
+            (
+                ORDER BY COUNT(x.DataEvent)
+                ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            )                                                               AS Somatoria
+        FROM
+            (
+                SELECT
+                    CAST(t1.DateError AS DATE)                              AS DataEvent
+                  , t1.HostName
+                FROM
+                    Management.HistoryErrorLogin AS t1
+                WHERE
+                    t1.TextData LIKE '%network error code%'
+            ) AS x
+        GROUP BY
+            x.DataEvent
+          , x.HostName
+    ) AS y
+GROUP BY
+    y.Data
+  , y.HostName
+  , y.[Numero de Ocorrências]
+  , y.Somatoria
+ORDER BY
+    y.[Numero de Ocorrências] DESC;
 
 
+-- ============================================================
+-- Total de ocorrências por data
+-- ============================================================
+SELECT
+    x.DataEvent                                                             AS [Data]
+  , COUNT(x.DataEvent)                                                      AS [Numero de Ocorrências]
+FROM
+    (
+        SELECT
+            CAST(t1.DateError AS DATE)                                      AS DataEvent
+        FROM
+            Management.HistoryErrorLogin AS t1
+        WHERE
+            t1.DateError >= '20180315'
+            AND t1.TextData LIKE '%network error code%'
+    ) AS x
+GROUP BY
+    x.DataEvent
+ORDER BY
+    x.DataEvent DESC;
+
+
+-- ============================================================
+-- Ocorrências por login
+-- ============================================================
+SELECT
+    x.DataEvent                                                             AS [Data]
+  , COUNT(x.DataEvent)                                                      AS [Numero de Ocorrências]
+  , x.LoginName
+FROM
+    (
+        SELECT
+            CAST(t1.DateError AS DATE)                                      AS DataEvent
+          , t1.LoginName
+        FROM
+            Management.HistoryErrorLogin AS t1
+        WHERE
+            t1.TextData LIKE '%network error code%'
+    ) AS x
+GROUP BY
+    x.DataEvent
+  , x.LoginName
+ORDER BY
+    x.DataEvent DESC;
 

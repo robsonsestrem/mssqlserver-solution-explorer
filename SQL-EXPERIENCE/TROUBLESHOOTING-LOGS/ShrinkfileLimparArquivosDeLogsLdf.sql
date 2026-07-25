@@ -1,12 +1,27 @@
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- LIMPAR ARQUIVO DE LOGS
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- A única solução oficial no SQL Server 2008 e mais recente é alternar o modelo de recuperação do banco de dados para simples como mostrado no Books Online . 
--- Isso esvazia o log de transações, permitindo que o DBA execute um DBCC SHRINKFILE posteriormente, em seguida, alternar o modelo de recuperação voltar a completo.
--- EXEMPLO DO SHIRINKFILE:
-exec sp_helpdb 'guru6'
+/*
+    OBJETIVO: Demonstrar o procedimento oficial para limpeza de arquivo de log (LDF) no SQL Server 2008+,
+              alternando o modelo de recuperação para SIMPLES, executando DBCC SHRINKFILE e retornando
+              ao modelo de recuperação COMPLETO.
+    PROJETO: mssqlserver-solution-explorer
+*/
 
-use Guru6
-go
-DBCC SHRINKFILE(dbguru_log, 10) -- deve ser nome lógico
+-- ============================================================
+-- SEÇÃO 1: Identificação do banco de dados e arquivos
+-- ============================================================
+
+-- Consulta informações do banco de dados para identificar o nome lógico do arquivo de log
+EXECUTE sp_helpdb @dbname = 'guru6';
+GO
+
+-- ============================================================
+-- SEÇÃO 2: Limpeza do arquivo de log via SHRINKFILE
+-- ============================================================
+
+-- Altera o contexto para o banco de dados alvo
+USE Guru6;
+GO
+
+-- Executa o encolhimento do arquivo de log para o tamanho especificado em MB
+-- IMPORTANTE: O primeiro parâmetro deve ser o nome lógico do arquivo de log
+DBCC SHRINKFILE(dbguru_log, 10);
 GO

@@ -1,38 +1,50 @@
---REFERÊNCIAS
--- https://gustavomaiaaguiar.wordpress.com/2009/08/01/piores-praticas-%E2%80%93-utilizar-o-comando-backup-log-com-a-opcao-with-truncate_only-%E2%80%93-parte-i/
--- https://www.brentozar.com/archive/2009/08/backup-log-with-truncate-only-in-sql-server-2008/
--- http://solutioncenter.apexsql.com/pt/lendo-um-sql-server-transaction-log/
--- https://blog.sqlauthority.com/2010/11/10/sql-server-get-database-backup-history-for-a-single-database/
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- USANDO FUNÇÃO INTERNA sys.fn_dblog
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- fn_dblog é uma função não documentada no SQL Server que lê a parte ativa de um transaction log
--- Vamos ver os passos necessários para fazer e ver o resultado apresentado
--- Execute a função fn_dblog
-Select * FROM sys.fn_dblog(NULL,NULL)
+﻿/*
+    OBJETIVO: Demonstrar o uso da função não documentada sys.fn_dblog para leitura
+              da parte ativa do transaction log do SQL Server, identificando operações
+              de INSERT e DELETE em nível de registro.
+    PROJETO: mssqlserver-solution-explorer
 
---Para visualizar transações de linhas inseridas, execute:
+    REFERÊNCIAS DE URL:
+    https://gustavomaiaaguiar.wordpress.com/2009/08/01/piores-praticas-utilizar-o-comando-backup-log-com-a-opcao-with-truncate_only-parte-i/
+    https://www.brentozar.com/archive/2009/08/backup-log-with-truncate-only-in-sql-server-2008/
+    http://solutioncenter.apexsql.com/pt/lendo-um-sql-server-transaction-log/
+    https://blog.sqlauthority.com/2010/11/10/sql-server-get-database-backup-history-for-a-single-database/
+*/
 
-SELECT [Current LSN], 
-       Operation, 
-       Context, 
-       [Transaction ID], 
-       [Begin time]
-       FROM sys.fn_dblog
-   (NULL, NULL)
-  WHERE operation IN
-   ('LOP_INSERT_ROWS');
+-- ============================================================
+-- SEÇÃO 1: Consulta geral da função sys.fn_dblog
+-- ============================================================
 
---Para visualizar transações de registros apagados, execute:
+-- A função sys.fn_dblog é não documentada e lê a parte ativa do transaction log
+-- Execução completa sem filtros para visualização geral das operações registradas
+SELECT *
+FROM sys.fn_dblog(NULL, NULL);
 
-SELECT [begin time], 
-       [rowlog contents 1], 
-       [Transaction Name], 
-       Operation
-  FROM sys.fn_dblog
-   (NULL, NULL)
-  WHERE operation IN
-   ('LOP_DELETE_ROWS');
-   
-   
-   
+-- ============================================================
+-- SEÇÃO 2: Visualização de transações de linhas inseridas
+-- ============================================================
+
+-- Filtra apenas operações de inserção de registros (LOP_INSERT_ROWS)
+-- para identificar quais transações adicionaram dados ao banco
+SELECT 
+    [Current LSN]
+    , Operation
+    , Context
+    , [Transaction ID]
+    , [Begin time]
+FROM sys.fn_dblog(NULL, NULL)
+WHERE Operation IN ('LOP_INSERT_ROWS');
+
+-- ============================================================
+-- SEÇÃO 3: Visualização de transações de registros apagados
+-- ============================================================
+
+-- Filtra apenas operações de exclusão de registros (LOP_DELETE_ROWS)
+-- para identificar quais transações removeram dados do banco
+SELECT 
+    [begin time]
+    , [rowlog contents 1]
+    , [Transaction Name]
+    , Operation
+FROM sys.fn_dblog(NULL, NULL)
+WHERE Operation IN ('LOP_DELETE_ROWS');

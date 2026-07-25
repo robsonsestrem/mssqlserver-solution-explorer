@@ -1,116 +1,191 @@
-			DECLARE @bkp table
-			(
-			status			varchar(60),
-			banco			varchar(60),
-			tipoBkp			varchar(60),
-			dataInicio		varchar(60),
-			dataFinal		varchar(60),
-			type			varchar(60),
-			backup_finish_date varchar(60),
-			recovery_model varchar(60)
-			)
+﻿/*
+    OBJETIVO: Analisar a situação dos backups (Full, Differential e Log) de todos os
+              bancos de dados do usuário, classificando o status de cada um com base
+              na data do último backup e no modelo de recuperação, gerando alertas
+              de WARNING para backups críticos e DESNECESSÁRIO para homologação.
+    PROJETO: mssqlserver-solution-explorer
+*/
+DECLARE @bkp TABLE
+(
+    Status              VARCHAR(60),
+    Banco               VARCHAR(60),
+    TipoBkp             VARCHAR(60),
+    DataInicio          VARCHAR(60),
+    DataFinal           VARCHAR(60),
+    Type                VARCHAR(60),
+    Backup_Finish_Date  VARCHAR(60),
+    Recovery_Model      VARCHAR(60)
+);
 
-			;WITH cte_BackupSets
-					 AS (
-						 SELECT MAX(isnull([A].[backup_set_id],'')) AS [backup_set_id],
-								isnull([A].[type],'') AS [type],
-								isnull(UPPER(CONVERT( VARCHAR(100), [B].[name])) ,'') AS [database_name],
-								MAX(isnull([A].[backup_start_date],'')) AS [backup_start_date],
-								MAX(isnull([A].[backup_finish_date],'')) AS [backup_finish_date],
-								isnull(b.recovery_model_desc, '') AS recovery_model
-						   FROM [master].[sys].[databases] AS [B]
-								LEFT JOIN [msdb].[dbo].[backupset] AS [A] ON [A].[database_name] = [B].[name]
-																			 AND [A].[type] IN('D', 'I')
-						  GROUP BY [B].[name],
-								   [A].[type],
-									b.recovery_model_desc
+;WITH cte_BackupSets
+AS (
+    SELECT
+        MAX(ISNULL(A.backup_set_id, ''))            AS backup_set_id
+      , ISNULL(A.type, '')                          AS type
+      , ISNULL(UPPER(CONVERT(VARCHAR(100), B.name)), '') AS database_name
+      , MAX(ISNULL(A.backup_start_date, ''))        AS backup_start_date
+      , MAX(ISNULL(A.backup_finish_date, ''))       AS backup_finish_date
+      , ISNULL(B.recovery_model_desc, '')           AS recovery_model
+    FROM
+        master.sys.databases AS B
+        LEFT JOIN msdb.dbo.backupset AS A
+            ON A.database_name = B.name
+               AND A.type IN ('D', 'I')
+    GROUP BY
+        B.name
+      , A.type
+      , B.recovery_model_desc
 
-						 UNION
+    UNION
 
-						 SELECT MAX(isnull([A].[backup_set_id],'')) AS [backup_set_id],
-								isnull([A].[type],'') AS [type],
-								isnull(UPPER(CONVERT( VARCHAR(100), [B].[name])),'') AS [database_name],
-								MAX(isnull([A].[backup_start_date],'')) AS [backup_start_date],
-								MAX(isnull([A].[backup_finish_date],'')) AS [backup_finish_date],
-								isnull(B.recovery_model_desc, '') AS recovery_model
-						   FROM [master].[sys].[databases] AS [B]
-								LEFT JOIN [msdb].[dbo].[backupset] AS [A] ON [A].[database_name] = [B].[name]
-																			 AND [A].[type] IN('L')
-						  GROUP BY [B].[name],
-								   [A].[type],
-									B.recovery_model_desc),
-					 cte_BackupFull
-					 AS (SELECT MAX(isnull([backup_set_id],'')) AS [backup_set_id],
-								isnull([type],'') AS [type],
-								isnull([database_name],'') AS [database_name],
-								MAX(isnull([backup_start_date],'')) AS [backup_start_date],
-								MAX(isnull([backup_finish_date],'')) AS [backup_finish_date],
-								recovery_model
-						   FROM [cte_BackupSets]
-						  GROUP BY [database_name],
-								   [type],
-								   recovery_model	)
+    SELECT
+        MAX(ISNULL(A.backup_set_id, ''))            AS backup_set_id
+      , ISNULL(A.type, '')                          AS type
+      , ISNULL(UPPER(CONVERT(VARCHAR(100), B.name)), '') AS database_name
+      , MAX(ISNULL(A.backup_start_date, ''))        AS backup_start_date
+      , MAX(ISNULL(A.backup_finish_date, ''))       AS backup_finish_date
+      , ISNULL(B.recovery_model_desc, '')           AS recovery_model
+    FROM
+        master.sys.databases AS B
+        LEFT JOIN msdb.dbo.backupset AS A
+            ON A.database_name = B.name
+               AND A.type IN ('L')
+    GROUP BY
+        B.name
+      , A.type
+      , B.recovery_model_desc
+)
+, cte_BackupFull
+AS (
+    SELECT
+        MAX(ISNULL(backup_set_id, ''))              AS backup_set_id
+      , ISNULL(type, '')                            AS type
+      , ISNULL(database_name, '')                   AS database_name
+      , MAX(ISNULL(backup_start_date, ''))          AS backup_start_date
+      , MAX(ISNULL(backup_finish_date, ''))         AS backup_finish_date
+      , recovery_model
+    FROM
+        cte_BackupSets
+    GROUP BY
+        database_name
+      , type
+      , recovery_model
+)
 
-				INSERT INTO @bkp
-					 SELECT					
-							IsNull(Cast(CASE
-								WHEN [A].[type] = 'D' AND CAST(DATEDIFF(day, isnull([A].[backup_finish_date],''), GETDATE()) AS VARCHAR(10)) > 1 AND A.database_name NOT LIKE '%homolog%' THEN 'WARNING'
-								WHEN [A].[type] = 'D' AND CAST(DATEDIFF(day, isnull([A].[backup_finish_date],''), GETDATE()) AS VARCHAR(10)) > 1 AND A.database_name LIKE '%homolog%'	  THEN 'DESNECESS�RIO'
-								--
-								WHEN ([A].[type] = 'I') 
-								AND 
-								(	
-									(DATEDIFF(DAY,ISNULL([A].[backup_finish_date],''), GETDATE()) >= 2 and datepart(WEEKDAY,ISNULL([A].[backup_finish_date],'')) <> 6) 
-									 OR (DATEDIFF(DAY,ISNULL([A].[backup_finish_date],''), GETDATE()) > 3 and datepart(WEEKDAY,ISNULL([A].[backup_finish_date],'')) = 6)	
-								) AND A.database_name NOT LIKE '%homolog%' 
-								THEN 'WARNING'
-								--
-								WHEN ([A].[type] = 'I') 
-								AND 
-								(	
-									(DATEDIFF(DAY,ISNULL([A].[backup_finish_date],''), GETDATE()) >= 2 and datepart(WEEKDAY,ISNULL([A].[backup_finish_date],'')) <> 6) 
-									 OR (DATEDIFF(DAY,ISNULL([A].[backup_finish_date],''), GETDATE()) > 3 and datepart(WEEKDAY,ISNULL([A].[backup_finish_date],'')) = 6)	
-								) AND A.database_name LIKE '%homolog%' 
-								THEN 'DESNECESS�RIO'
-								--						
-								WHEN [A].[type] = 'L' AND CAST(DATEDIFF(hour, isnull([A].[backup_finish_date],''), GETDATE()) AS VARCHAR(10)) > 1 and A.database_name LIKE '%homolog%' THEN 'DESNECESS�RIO'
-								WHEN [A].[type] = 'L' AND CAST(DATEDIFF(hour, isnull([A].[backup_finish_date],''), GETDATE()) AS VARCHAR(10)) > 1 AND A.database_name NOT LIKE '%homolog%' 
-													  and A.recovery_model <> 'SIMPLE' THEN 'WARNING'
-								WHEN [A].[type] = 'L' AND CAST(DATEDIFF(hour, isnull([A].[backup_finish_date],''), GETDATE()) AS VARCHAR(10)) > 1 AND A.database_name NOT LIKE '%homolog%' 
-													  and A.recovery_model = 'SIMPLE' THEN 'DESNECESS�RIO'
-								--
-								WHEN ([A].[type] IS NULL OR A.type = '') AND A.recovery_model = 'SIMPLE' THEN 'DESNECESS�RIO'
-								WHEN ([A].[type] IS NULL OR A.type = '') AND A.recovery_model <> 'SIMPLE' AND A.database_name LIKE '%homolog%' THEN 'DESNECESS�RIO'
-								WHEN ([A].[type] IS NULL OR A.type = '') AND A.recovery_model <> 'SIMPLE' AND A.database_name NOT LIKE '%homolog%' THEN 'WARNING'
-								ELSE 'Ok'
-							END as varchar(max)), '')	as Status,																											
-							--
-							UPPER(cast(isnull([A].[database_name],'') as varchar(100))) AS Banco,
-							--
-							IsNull(Cast(CASE [A].[type]
-								WHEN 'D' THEN 'Full'
-								WHEN 'I' THEN 'Differential'
-								WHEN 'L' THEN 'Log'
-								WHEN 'F' THEN 'File or Filegroup'
-								WHEN 'G' THEN 'File Differential'
-								WHEN 'P' THEN 'Partial'
-								WHEN 'Q' THEN 'Partial Differential'
-								ELSE 'Sem Backup'
-							END as varchar(max)), '')	as TipoBkp,																												
-							--																																	
-							IsNull(Cast(ISNULL(CONVERT( VARCHAR(50), [A].[backup_start_date]), '') as varchar(max)), '')	as dataInicio,	
-							IsNull(Cast(ISNULL(CONVERT( VARCHAR(50), [A].[backup_finish_date]), '') as varchar(max)), '')	as dataFinal,
-							isnull(A.type,'')  AS type,
-							isnull(A.backup_finish_date,'') AS backup_finish_date,
-							recovery_model
-			   
-					   FROM [cte_BackupFull] AS [A]
-					   where A.database_name not in ('master', 'tempdb', 'model', 'msdb')
+INSERT INTO @bkp
+SELECT
+    ISNULL(CAST
+    (
+        CASE
+            -- Full backup - produção
+            WHEN A.type = 'D'
+                 AND CAST(DATEDIFF(DAY, ISNULL(A.backup_finish_date, ''), GETDATE()) AS VARCHAR(10)) > 1
+                 AND A.database_name NOT LIKE '%homolog%'
+                THEN 'WARNING'
+            WHEN A.type = 'D'
+                 AND CAST(DATEDIFF(DAY, ISNULL(A.backup_finish_date, ''), GETDATE()) AS VARCHAR(10)) > 1
+                 AND A.database_name LIKE '%homolog%'
+                THEN 'DESNECESSÁRIO'
 
-					  ORDER BY [A].[database_name],
-							   [type];
+            -- Differential backup - produção
+            WHEN A.type = 'I'
+                 AND
+                 (
+                     (DATEDIFF(DAY, ISNULL(A.backup_finish_date, ''), GETDATE()) >= 2
+                      AND DATEPART(WEEKDAY, ISNULL(A.backup_finish_date, '')) <> 6)
+                     OR
+                     (DATEDIFF(DAY, ISNULL(A.backup_finish_date, ''), GETDATE()) > 3
+                      AND DATEPART(WEEKDAY, ISNULL(A.backup_finish_date, '')) = 6)
+                 )
+                 AND A.database_name NOT LIKE '%homolog%'
+                THEN 'WARNING'
+            WHEN A.type = 'I'
+                 AND
+                 (
+                     (DATEDIFF(DAY, ISNULL(A.backup_finish_date, ''), GETDATE()) >= 2
+                      AND DATEPART(WEEKDAY, ISNULL(A.backup_finish_date, '')) <> 6)
+                     OR
+                     (DATEDIFF(DAY, ISNULL(A.backup_finish_date, ''), GETDATE()) > 3
+                      AND DATEPART(WEEKDAY, ISNULL(A.backup_finish_date, '')) = 6)
+                 )
+                 AND A.database_name LIKE '%homolog%'
+                THEN 'DESNECESSÁRIO'
 
+            -- Log backup - homologação
+            WHEN A.type = 'L'
+                 AND CAST(DATEDIFF(HOUR, ISNULL(A.backup_finish_date, ''), GETDATE()) AS VARCHAR(10)) > 1
+                 AND A.database_name LIKE '%homolog%'
+                THEN 'DESNECESSÁRIO'
 
+            -- Log backup - produção (FULL recovery model)
+            WHEN A.type = 'L'
+                 AND CAST(DATEDIFF(HOUR, ISNULL(A.backup_finish_date, ''), GETDATE()) AS VARCHAR(10)) > 1
+                 AND A.database_name NOT LIKE '%homolog%'
+                 AND A.recovery_model <> 'SIMPLE'
+                THEN 'WARNING'
 
-SELECT * FROM @bkp
+            -- Log backup - produção (SIMPLE recovery model)
+            WHEN A.type = 'L'
+                 AND CAST(DATEDIFF(HOUR, ISNULL(A.backup_finish_date, ''), GETDATE()) AS VARCHAR(10)) > 1
+                 AND A.database_name NOT LIKE '%homolog%'
+                 AND A.recovery_model = 'SIMPLE'
+                THEN 'DESNECESSÁRIO'
 
+            -- Sem backup - SIMPLE recovery model
+            WHEN (A.type IS NULL OR A.type = '')
+                 AND A.recovery_model = 'SIMPLE'
+                THEN 'DESNECESSÁRIO'
+
+            -- Sem backup - homologação (FULL/LOG recovery model)
+            WHEN (A.type IS NULL OR A.type = '')
+                 AND A.recovery_model <> 'SIMPLE'
+                 AND A.database_name LIKE '%homolog%'
+                THEN 'DESNECESSÁRIO'
+
+            -- Sem backup - produção (FULL/LOG recovery model)
+            WHEN (A.type IS NULL OR A.type = '')
+                 AND A.recovery_model <> 'SIMPLE'
+                 AND A.database_name NOT LIKE '%homolog%'
+                THEN 'WARNING'
+
+            ELSE 'Ok'
+        END AS VARCHAR(MAX)
+    ), '')                                                                      AS Status
+  , UPPER(CAST(ISNULL(A.database_name, '') AS VARCHAR(100)))                    AS Banco
+  , ISNULL(CAST
+    (
+        CASE A.type
+            WHEN 'D' THEN 'Full'
+            WHEN 'I' THEN 'Differential'
+            WHEN 'L' THEN 'Log'
+            WHEN 'F' THEN 'File or Filegroup'
+            WHEN 'G' THEN 'File Differential'
+            WHEN 'P' THEN 'Partial'
+            WHEN 'Q' THEN 'Partial Differential'
+            ELSE 'Sem Backup'
+        END AS VARCHAR(MAX)
+    ), '')                                                                      AS TipoBkp
+  , ISNULL(CAST(ISNULL(CONVERT(VARCHAR(50), A.backup_start_date), '') AS VARCHAR(MAX)), '') AS DataInicio
+  , ISNULL(CAST(ISNULL(CONVERT(VARCHAR(50), A.backup_finish_date), '') AS VARCHAR(MAX)), '') AS DataFinal
+  , ISNULL(A.type, '')                                                          AS Type
+  , ISNULL(A.backup_finish_date, '')                                            AS Backup_Finish_Date
+  , A.recovery_model                                                            AS Recovery_Model
+FROM
+    cte_BackupFull AS A
+WHERE
+    A.database_name NOT IN ('master', 'tempdb', 'model', 'msdb')
+ORDER BY
+    A.database_name
+  , A.type;
+
+SELECT
+    Status
+  , Banco
+  , TipoBkp
+  , DataInicio
+  , DataFinal
+  , Type
+  , Backup_Finish_Date
+  , Recovery_Model
+FROM
+    @bkp;

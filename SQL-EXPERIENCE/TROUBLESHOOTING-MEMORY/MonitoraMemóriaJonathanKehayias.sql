@@ -1,51 +1,67 @@
--- ReferÍncia -> Tiago Bonamigo
+Ôªø/*
+    OBJETIVO: Monitorar o uso de mem√≥ria do Buffer Pool por banco de dados e capturar eventos
+              de monitoramento de recursos do SQL Server para an√°lise de disponibilidade de mem√≥ria.
+    PROJETO: mssqlserver-solution-explorer
+*/
+
 ---------------------------------------------------------------------------------------------------------------
---	Ent„o vamos entender os registros abaixo. O que acontece È que o SQL Server faz uso de
--- memÛria para o Buffer Pool, que È onde ele mantÈm uma cÛpia em memÛria de dados
--- acessados a partir de consultas feitas anteriormente para que ele n„o precise acessar o
--- disco/storage caso a consulta seja feita novamente. A consulta abaixo mostra qu„o grande È
--- o Buffer Pool para cada banco de dados.
---	Pages s„o as unidades de armazenamento de dados do SQL Server, e por padr„o tem 8
--- KBytes. O resultado da coluna Page Reads, que pode ser Dirty ou Clean, diferencia o status
--- dos pages. Existem os que contÈm dados que est„o alinhados com o banco de dados (clean)
--- e os que j· foram modificados em memÛria mas ainda n„o em disco (dirty). Multiplicando o
--- n˙mero de pages por 8Kb e dividindo por 1024 temos o n˙mero de MBs alocados por banco.
+--  Ent√£o vamos entender os registros abaixo. O que acontece √© que o SQL Server faz uso de
+--  mem√≥ria para o Buffer Pool, que √© onde ele mant√©m uma c√≥pia em mem√≥ria de dados
+--  acessados a partir de consultas feitas anteriormente para que ele n√£o precise acessar o
+--  disco/storage caso a consulta seja feita novamente. A consulta abaixo mostra qu√£o grande √©
+--  o Buffer Pool para cada banco de dados.
+--  Pages s√£o as unidades de armazenamento de dados do SQL Server, e por padr√£o tem 8
+--  KBytes. O resultado da coluna Page Reads, que pode ser Dirty ou Clean, diferencia o status
+--  dos pages. Existem os que cont√©m dados que est√£o alinhados com o banco de dados (clean)
+--  e os que j√° foram modificados em mem√≥ria mas ainda n√£o em disco (dirty). Multiplicando o
+--  n√∫mero de pages por 8Kb e dividindo por 1024 temos o n√∫mero de MBs alocados por banco.
 ---------------------------------------------------------------------------------------------------------------
 SELECT
-	CASE WHEN ([is_modified] = 1) 
-		THEN 'Dirty-Est· em memÛria, mas n„o em Disco' 
-	ELSE 'Clean-Est· na memÛria e no disco' END
-																					AS	'Status_P·ginas_Dados',
-	--
-	CASE WHEN ([database_id] = 32767) 
-		THEN 'mssqlsystemresource' 
-	ELSE DB_NAME (database_id) END													AS 'Nome_Database',
-	--
-	COUNT (b.page_id)																AS 'Total_P·ginas',
-	--
-	CAST(CAST(COUNT(b.page_id) * 8 AS DECIMAL(18,2)) /1024 	AS DECIMAL(18,2))		AS 'MBs_Usados',
-	--
-    CAST(CAST(COUNT(b.page_id) * 8 AS DECIMAL(18,2)) /1024 /1024 AS DECIMAL(18,2))	AS 'Gbs_Usados'
-
-FROM sys.dm_os_buffer_descriptors as b
-GROUP BY [database_id], [is_modified]
-ORDER BY [database_id], [is_modified]
+    CASE WHEN ([is_modified] = 1)
+        THEN 'Dirty-Est√° em mem√≥ria, mas n√£o em Disco'
+        ELSE 'Clean-Est√° na mem√≥ria e no disco'
+    END                                                                                 AS [Status_P√°ginas_Dados]
+  , CASE WHEN ([database_id] = 32767)
+        THEN 'mssqlsystemresource'
+        ELSE DB_NAME (database_id)
+    END                                                                                 AS [Nome_Database]
+  , COUNT (b.page_id)                                                                   AS [Total_P√°ginas]
+  , CAST(CAST(COUNT(b.page_id) * 8 AS DECIMAL(18,2)) / 1024 AS DECIMAL(18,2))           AS [MBs_Usados]
+  , CAST(CAST(COUNT(b.page_id) * 8 AS DECIMAL(18,2)) / 1024 / 1024 AS DECIMAL(18,2))    AS [Gbs_Usados]
+FROM
+    sys.dm_os_buffer_descriptors AS b
+GROUP BY
+    [database_id]
+  , [is_modified]
+ORDER BY
+    [database_id]
+  , [is_modified];
 
 
 ---------------------------------------------------------------------------------------------------------------
 -- https://www.sqlskills.com/blogs/jonathan/wow-an-online-calculator-to-misconfigure-your-sql-server-memory/
 -- Jonathan Kehayias
 ---------------------------------------------------------------------------------------------------------------
-SELECT  
-    EventTime, 
-    record.value('(/Record/ResourceMonitor/Notification)[1]', 'varchar(max)') as [Type], 
-    record.value('(/Record/MemoryRecord/AvailablePhysicalMemory)[1]', 'bigint') AS [Avail Phys Mem, Kb], 
-    record.value('(/Record/MemoryRecord/AvailableVirtualAddressSpace)[1]', 'bigint') AS [Avail VAS, Kb] 
-FROM ( 
-    SELECT 
-        DATEADD (ss, (-1 * ((cpu_ticks / CONVERT (float, ( cpu_ticks / ms_ticks ))) - [timestamp])/1000), GETDATE()) AS EventTime, 
-        CONVERT (xml, record) AS record 
-    FROM sys.dm_os_ring_buffers 
-    CROSS JOIN sys.dm_os_sys_info 
-    WHERE ring_buffer_type = 'RING_BUFFER_RESOURCE_MONITOR') AS tab 
-ORDER BY EventTime DESC
+SELECT
+    EventTime
+  , record.value('(/Record/ResourceMonitor/Notification)[1]', 'varchar(max)')   AS [Type]
+  , record.value('(/Record/MemoryRecord/AvailablePhysicalMemory)[1]', 'bigint') AS [Avail Phys Mem, Kb]
+  , record.value('(/Record/MemoryRecord/AvailableVirtualAddressSpace)[1]', 'bigint') AS [Avail VAS, Kb]
+FROM
+    (
+        SELECT
+            DATEADD
+            (
+                ss,
+                (-1 * ((cpu_ticks / CONVERT (float, ( cpu_ticks / ms_ticks ))) - [timestamp]) / 1000),
+                GETDATE()
+            )                                       AS EventTime
+          , CONVERT (xml, record)                   AS record
+        FROM
+            sys.dm_os_ring_buffers
+            CROSS JOIN sys.dm_os_sys_info
+        WHERE
+            ring_buffer_type = 'RING_BUFFER_RESOURCE_MONITOR'
+    ) AS tab
+ORDER BY
+    EventTime DESC;
