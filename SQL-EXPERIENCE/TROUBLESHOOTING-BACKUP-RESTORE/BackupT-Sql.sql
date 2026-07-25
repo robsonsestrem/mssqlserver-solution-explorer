@@ -1,10 +1,18 @@
-BACKUP DATABASE [P_YOUR_DATABASE] 
-TO DISK = N'/var/opt/mssql/data/P_YOUR_DATABASE.bak' 
-WITH NOFORMAT
-, NOINIT
-, NAME = N'P_YOUR_DATABASE-Full Database Backup'
-, SKIP
-, NOREWIND
-, STATS = 5
-, COMPRESSION
+﻿/*
+    OBJETIVO: Realizar backup completo da base de dados SQL Server com compressão e exibição de progresso.
+    PROJETO: mssqlserver-solution-explorer
+*/
 
+-- ============================================================
+-- Executa o backup completo da base de dados
+-- ============================================================
+BACKUP DATABASE [P_YOUR_DATABASE]
+TO DISK = N'/var/opt/mssql/data/P_YOUR_DATABASE.bak'
+WITH
+    NOFORMAT
+  , NOINIT
+  , NAME = N'P_YOUR_DATABASE-Full Database Backup'
+  , SKIP
+  , NOREWIND
+  , STATS = 5
+  , COMPRESSION;
