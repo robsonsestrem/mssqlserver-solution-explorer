@@ -1,29 +1,47 @@
-------------------------------------------------------------------------------------------------------------------------------
---						Fechando sessões bloqueadas
-------------------------------------------------------------------------------------------------------------------------------
--- CREATE
--- PROCEDURE SP_ELIMINA_BLOCK AS
+﻿/*
+    OBJETIVO: Identificar e encerrar sessões que estão bloqueando outras
+              sessões no SQL Server, eliminando o bloqueio e permitindo
+              que as demais execuções prossigam.
+    PROJETO: mssqlserver-solution-explorer
+*/
 
-DECLARE @v_spid INT
-DECLARE @Sql VARCHAR(100)
+-- ============================================================
+-- Fechar sessões bloqueadas
+-- ============================================================
 
-Set @v_spid =(SELECT spid 
-			  FROM MASTER.DBO.SYSPROCESSES BLOCKING 
-			  WHERE BLOCKING.BLOCKED = 0 
-			  AND EXISTS (SELECT 1 
-						  FROM MASTER.DBO.SYSPROCESSES BLOCKED 
-						  WHERE BLOCKED.BLOCKED = BLOCKING.SPID));
+DECLARE @v_spid INT;
+DECLARE @Sql VARCHAR(100);
 
-Set @Sql = 'KILL '+cast(@V_SPID AS VARCHAR)
-EXEC (@Sql)
+-- Primeiro bloqueador
+SELECT TOP 1
+    @v_spid = spid
+FROM
+    master.dbo.sysprocesses AS Blocking
+WHERE
+    Blocking.blocked = 0
+    AND EXISTS
+    (
+        SELECT 1
+        FROM master.dbo.sysprocesses AS Blocked
+        WHERE Blocked.blocked = Blocking.spid
+    );
 
-SELECT top 1 @v_spid =spid 
-FROM MASTER.DBO.SYSPROCESSES BLOCKING 
-WHERE BLOCKING.BLOCKED = 0 
-AND EXISTS (SELECT 1 
-			FROM MASTER.DBO.SYSPROCESSES BLOCKED 
-			WHERE BLOCKED.BLOCKED = BLOCKING.SPID);
-Set @Sql = 'KILL '+cast(@V_SPID AS VARCHAR)
+SET @Sql = 'KILL ' + CAST(@v_spid AS VARCHAR);
+EXEC(@Sql);
 
-EXEC (@Sql)
+-- Segundo bloqueador (caso exista)
+SELECT TOP 1
+    @v_spid = spid
+FROM
+    master.dbo.sysprocesses AS Blocking
+WHERE
+    Blocking.blocked = 0
+    AND EXISTS
+    (
+        SELECT 1
+        FROM master.dbo.sysprocesses AS Blocked
+        WHERE Blocked.blocked = Blocking.spid
+    );
 
+SET @Sql = 'KILL ' + CAST(@v_spid AS VARCHAR);
+EXEC(@Sql);
