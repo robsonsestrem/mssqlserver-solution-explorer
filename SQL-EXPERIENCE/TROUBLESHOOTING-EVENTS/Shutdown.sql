@@ -1,13 +1,26 @@
----------------------------------------------------------------------------------------------------------------
+Ôªø/*
+	OBJETIVO: Executar o desligamento imediato da inst√¢ncia do SQL Server,
+			  com a op√ß√£o WITH NOWAIT para pular a execu√ß√£o de checkpoints
+			  em todos os bancos de dados.
+	PROJETO: mssqlserver-solution-explorer
+*/
+
+-- ============================================================
 -- CUIDADO!!!
----------------------------------------------------------------------------------------------------------------
-SHUTDOWN WITH NOWAIT
+-- Este comando interrompe imediatamente o SQL Server.
+-- ============================================================
 
---Interrompe imediatamente o SQL Server.
---WITH NOWAIT
---Opcional. Desliga o SQL Server sem executar pontos de verificaÁ„o em todo o banco de dados. 
---O SQL Server sai depois de tentar finalizar todos os processos de usu·rio. 
---Quando o servidor È reiniciado, ocorre uma operaÁ„o de revers„o para transaÁıes incompletas.
+SHUTDOWN WITH NOWAIT;
 
---As permissıes SHUTDOWN s„o atribuÌdas a membros das funÁıes de servidor fixas sysadmin e serveradmin,
---e elas n„o podem ser transferidas.
+-- ============================================================
+-- Comportamento e observa√ß√µes:
+--   - WITH NOWAIT (opcional): desliga o SQL Server sem executar
+--     checkpoints em todos os bancos de dados.
+--   - O SQL Server sai ap√≥s tentar finalizar todos os processos
+--     de usu√°rio.
+--   - Quando o servidor √© reiniciado, ocorre uma opera√ß√£o de
+--     revers√£o para transa√ß√µes incompletas.
+--   - Permiss√µes: SHUTDOWN √© atribu√≠da a membros das fun√ß√µes
+--     de servidor fixas sysadmin e serveradmin, e n√£o podem
+--     ser transferidas.
+-- ============================================================

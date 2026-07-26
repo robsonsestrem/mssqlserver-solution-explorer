@@ -1,41 +1,73 @@
--- Exemplo – Query – Monitoramento de Consumo com ocorrência de FullScans
--- Júnior Galvão
+/*
+	OBJETIVO: Monitoramento de consultas com ocorrência de Full Scans, identificando
+			  possíveis índices ausentes (Missing Indexes) com base no cache do SQL Server.
+	PROJETO: mssqlserver-solution-explorer
 
-SET NOCOUNT ON
-SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+	REFERÊNCIAS E AUTORIA:
+	Autor: Júnior Galvão	
+*/
+SET NOCOUNT ON;
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
-select * from
+-- ==============================================================================
+-- Bloco principal: Extrai dados de estatísticas de execução e planos de consulta
+-- para identificar onde há sugestão de índices ausentes.
+-- ==============================================================================
+SELECT
+      x.CPU
+    , x.Duration
+    , x.Reads
+    , x.execution_count
+    , x.query_plan
+    , x.txt
+    , x.TotalImpact
+    , x.[Database]
+    , x.[Table]
+FROM
 (
-	SELECT 
-	-- tratar divisão por zero
-	qs.total_worker_time as CPU, -- / qs.execution_count
-																					  
-	qs.total_elapsed_time as Duration, -- / qs.execution_count	
-																						
-	(qs.total_logical_reads + qs.total_physical_reads ) Reads, -- / qs.execution_count			
+    SELECT
+          -- Tratamento para evitar divisão por zero (comentário original mantido)
+          qs.total_worker_time                                             AS CPU
+        , qs.total_elapsed_time                                            AS Duration
+        , (qs.total_logical_reads + qs.total_physical_reads)               AS Reads
+        , qs.execution_count
+        , CAST(qp.query_plan AS VARCHAR(MAX))                              AS query_plan
+        , SUBSTRING
+          (
+              st.text
+            , (qs.statement_start_offset / 2) + 1
+            , (
+                  (
+                      CASE qs.statement_end_offset
+                          WHEN -1
+                          THEN DATALENGTH(st.text)
+                          ELSE qs.statement_end_offset
+                      END - qs.statement_start_offset
+                  ) / 2
+              ) + 1
+          )                                                                AS txt
+        , qp.query_plan.value
+          (
+              'declare default element namespace "http://schemas.microsoft.com/sqlserver/2004/07/showplan"; (/ShowPlanXML/BatchSequence/Batch/Statements/StmtSimple/QueryPlan/MissingIndexes/MissingIndexGroup/@Impact)[1]'
+            , 'NVARCHAR(MAX)'
+          )                                                                AS TotalImpact -- * execution_count -- tratar multiplicação com nulo (comentário original mantido)
+        , qp.query_plan.value
+          (
+              'declare default element namespace "http://schemas.microsoft.com/sqlserver/2004/07/showplan"; (/ShowPlanXML/BatchSequence/Batch//Stmts/StmtSimple/QueryPlan/MissingIndexes/MissingIndexGroup/MissingIndex/@Database)[1]'
+            , 'NVARCHAR(MAX)'
+          )                                                                AS [Database]
+        , qp.query_plan.value
+          (
+              'declare default element namespace "http://schemas.microsoft.com/sqlserver/2004/07/showplan"; (/ShowPlanXML/BatchSequence/Batch/Statements/StmtSimple/QueryPlan/MissingIndexes/MissingIndexGroup/MissingIndex/@Table)[1]'
+            , 'NVARCHAR(MAX)'
+          )                                                                AS [Table]
+    FROM sys.dm_exec_query_stats                                          AS qs
+    CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle)                       AS st
+    CROSS APPLY sys.dm_exec_query_plan(qs.plan_handle)                    AS qp
+    -- WHERE CAST(qp.query_plan AS VARCHAR(MAX)) LIKE '%missing%'         -- Filtro opcional comentado
+    -- ORDER BY TotalImpact DESC                                          -- Ordenação opcional comentada
+)                                                                          AS x
+WHERE x.query_plan LIKE '%missing%';
 
-	execution_count,
-
-	cast(qp.query_plan as varchar(max)) as query_plan,
-
-	substring(st.text, (qs.statement_start_offset/2)+1 , ((case qs.statement_end_offset when - 1 then datalength(st.text) 
-	else qs.statement_end_offset end - qs.statement_start_offset)/2) + 1)													as txt,
-
-	qp.query_plan.value('declare default element namespace http://schemas.microsoft.com/sqlserver/2004/07/showplan; (/ShowPlanXML/BatchSequence/Batch/Statements/StmtSimple/QueryPlan/MissingIndexes/MissingIndexGroup/@Impact)[1]' , 'nvarchar(max)') as TotalImpact, --* execution_count -- tratar multiplicação com nulo,
-
-	qp.query_plan.value('declare default element namespace http://schemas.microsoft.com/sqlserver/2004/07/showplan; (/ShowPlanXML/BatchSequence/Batch/Statements/StmtSimple/QueryPlan/MissingIndexes/MissingIndexGroup/MissingIndex/@Database)[1]' , 'nvarchar(max)') AS [Database],
-
-	qp.query_plan.value('declare default element namespace http://schemas.microsoft.com/sqlserver/2004/07/showplan; (/ShowPlanXML/BatchSequence/Batch/Statements/StmtSimple/QueryPlan/MissingIndexes/MissingIndexGroup/MissingIndex/@Table)[1]' , 'nvarchar(max)') AS [Table]
-	from sys.dm_exec_query_stats qs
-	cross apply sys.dm_exec_sql_text(sql_handle) st
-	cross apply sys.dm_exec_query_plan(plan_handle) qp	
-	--where cast(qp.query_plan as varchar(max)) like '%missing%'
-	--order by TotalImpact desc
-) as x
-where x.query_plan like '%missing%'
-
-
-SET NOCOUNT OFF
-SET TRANSACTION ISOLATION LEVEL READ COMMITTED
-
-
+SET NOCOUNT OFF;
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;

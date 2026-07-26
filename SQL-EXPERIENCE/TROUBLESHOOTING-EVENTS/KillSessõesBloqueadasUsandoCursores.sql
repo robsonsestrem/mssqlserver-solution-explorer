@@ -1,30 +1,47 @@
-------------------------------------------------------------------------------------------------------------------------------
---						Fechando sessões bloqueadas usando cursores 
-------------------------------------------------------------------------------------------------------------------------------
+﻿/*
+    OBJETIVO: Identificar e encerrar todas as sessões que estão bloqueando
+              outras sessões no SQL Server utilizando cursores, eliminando
+              os bloqueios de forma iterativa.
+    PROJETO: mssqlserver-solution-explorer
+*/
 
---CREATE PROCEDURE SP_ELIMINA_BLOCK AS
-use YOUR_DATABASE
-go
-DECLARE @v_spid INT
-DECLARE @Sql VARCHAR(100)
+USE YOUR_DATABASE;
+GO
+
+-- ============================================================
+-- Fechar sessões bloqueadas usando cursores
+-- ============================================================
+
+DECLARE @v_spid INT;
+DECLARE @Sql VARCHAR(100);
+
 DECLARE bloq_cursor CURSOR FOR
+SELECT
+    spid
+FROM
+    master.dbo.sysprocesses AS Blocking
+WHERE
+    Blocking.blocked = 0
+    AND EXISTS
+    (
+        SELECT 1
+        FROM master.dbo.sysprocesses AS Blocked
+        WHERE Blocked.blocked = Blocking.spid
+    );  -- captura spid com bloqueio
 
-SELECT spid 
-FROM MASTER.DBO.SYSPROCESSES BLOCKING 
-WHERE BLOCKING.BLOCKED = 0 
-AND EXISTS(SELECT 1 
-		   FROM MASTER.DBO.SYSPROCESSES BLOCKED 
-		   WHERE BLOCKED.BLOCKED = BLOCKING.SPID); -- captura spid com bloqueio
+OPEN bloq_cursor;
 
-OPEN bloq_cursor
 FETCH NEXT FROM bloq_cursor INTO @v_spid;
+
 WHILE @@FETCH_STATUS = 0
 BEGIN
-Set @Sql = 'KILL '+cast(@V_SPID AS VARCHAR)
-EXEC (@Sql)
-print 'killed spid '+str(@v_spid)
-FETCH NEXT FROM bloq_cursor INTO @v_spid;
-END
+    SET @Sql = 'KILL ' + CAST(@v_spid AS VARCHAR);
+    EXEC(@Sql);
+
+    PRINT 'killed spid ' + STR(@v_spid);
+
+    FETCH NEXT FROM bloq_cursor INTO @v_spid;
+END;
+
 CLOSE bloq_cursor;
 DEALLOCATE bloq_cursor;
-

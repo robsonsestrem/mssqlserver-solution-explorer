@@ -1,83 +1,86 @@
-﻿-------------------------------------------------------------------------------------------------------------------------------
--- Requisições com maiores processos cumulativos na CPU
--------------------------------------------------------------------------------------------------------------------------------
-USE master
-GO
-SELECT        spid,				-- ID da sessão do SQL Server 
-			  status,
-			  open_tran,
-			  request_id,       -- ID da solicitação
-              blocked,			-- ID da sessão de quem bloqueia 
-			  waittime as temp, -- tempo de espera atual em milisegundos 
-              Db_name(dbid) DB, -- ID do banco de dados usado atualmente pelo processo 
-			  --CONVERT (TIME, DATEADD (MILLISECOND, cast(cpu as bigint) + 86400000,0), 114) as CPU_Time, -- sem conversão dava overflow			
-			  cast(cpu as bigint) as CPU,		-- tempo de CPU cumulativo para o processo				-- no tipo de dados int
-              physical_io,		-- IO cumulativas para o processo em disco 
-
-              cast(memusage as bigint) as Paginas_Cache,	-- número de páginas no cache de procedimento que estão atualmente alocadas para este processo. 
-															-- um número negativo indica que o processo está liberando memória alocada por outro processo 
-              program_name,		-- aplicativo
-              hostname,			-- PC que fez a requisição 
-			  loginame,			-- usuário
-              hostprocess		-- número de ID do processo da estação de trabalho 			
-FROM   master..sysprocesses as s
-WHERE  --status = 'sleeping'
---and open_tran = 0
- Db_name(dbid) IN ('d_YOUR_OBJECT_admYOUR_OBJECT')
-       --AND ( cpu > 0 OR physical_io > 0 ) 
-	    --loginame = 'sa'	 
-	   -- and  hostname in ('cti-000640')
-	   -- and Db_name(dbid) = 'guru5'
-	   -- and spid = 227
-ORDER  BY status asc; 
-
---------------------------------------------------------------------------------------------------------------------------------
--- DBCC INPUTBUFFER - Exibe a última instrução enviada de um cliente a uma instância do Microsoft SQL Server
---------------------------------------------------------------------------------------------------------------------------------
-DBCC inputbuffer(266)  -- o parâmetro é o spid que é a sessão do SQL-Server
--- retornará três colunas e na EventInfo terá o script da requisição
-/*
-Tipo de evento. Pode ser Evento RPC ou Evento Language.
-A saída será No Event quando não for detectado nenhum último evento.
-Para um EventType de RPC, EventInfo contém apenas o nome do procedimento. 
-Para um EventType de Language, são exibidos apenas os primeiros 4000 caracteres do evento.
+﻿/*
+	OBJETIVO: Monitorar processos ativos no SQL Server, exibindo informações de CPU, I/O,
+			  bloqueios, memória cache e outros indicadores de performance. Inclui também
+			  exemplos de conversão de tempo e uso do DBCC INPUTBUFFER para depuração.
+	PROJETO: mssqlserver-solution-explorer
 */
 
+-- ============================================================
+-- Requisições com maiores processos cumulativos na CPU
+-- ============================================================
+USE master;
+GO
 
---------------------------------------------------------------------------------------------------------------------------------
--- Converter os campos do tipo int para milissegundos
---------------------------------------------------------------------------------------------------------------------------------
--- Converter 5874502 Milisegundos para tempo
-SELECT CONVERT(TIME, DATEADD(MILLISECOND, 5874502 + 86400000, 0), 114)
+SELECT
+      s.spid                                                                          AS spid          -- ID da sessão do SQL Server
+    , s.status                                                                        AS status
+    , s.open_tran                                                                     AS open_tran
+    , s.request_id                                                                    AS request_id    -- ID da solicitação
+    , s.blocked                                                                       AS blocked       -- ID da sessão de quem bloqueia
+    , s.waittime                                                                      AS temp          -- tempo de espera atual em milissegundos
+    , DB_NAME(s.dbid)                                                                 AS DB            -- ID do banco de dados usado atualmente pelo processo
+    -- , CONVERT(TIME, DATEADD(MILLISECOND, CAST(s.cpu AS BIGINT) + 86400000, 0), 114) AS CPU_Time     -- sem conversão dava overflow (comentário original mantido)
+    , CAST(s.cpu AS BIGINT)                                                           AS CPU           -- tempo de CPU cumulativo para o processo
+    , s.physical_io                                                                   AS physical_io   -- IO cumulativas para o processo em disco
+    , CAST(s.memusage AS BIGINT)                                                      AS Paginas_Cache -- número de páginas no cache de procedimento que estão atualmente alocadas para este processo.
+    -- Um número negativo indica que o processo está liberando memória alocada por outro processo (comentário original mantido)
+    , s.program_name                                                                  AS program_name  -- aplicativo
+    , s.hostname                                                                      AS hostname      -- PC que fez a requisição
+    , s.loginame                                                                      AS loginame      -- usuário
+    , s.hostprocess                                                                   AS hostprocess   -- número de ID do processo da estação de trabalho
+FROM master..sysprocesses                                                             AS s
+WHERE
+      -- status = 'sleeping'                                                          -- Filtro opcional comentado
+      -- AND open_tran = 0                                                           -- Filtro opcional comentado
+      DB_NAME(s.dbid) IN ('d_YOUR_OBJECT_admYOUR_OBJECT')
+      -- AND (s.cpu > 0 OR s.physical_io > 0)                                        -- Filtro opcional comentado
+      -- AND s.loginame = 'sa'                                                       -- Filtro opcional comentado
+      -- AND s.hostname IN ('cti-000640')                                            -- Filtro opcional comentado
+      -- AND DB_NAME(s.dbid) = 'guru5'                                               -- Filtro opcional comentado
+      -- AND s.spid = 227                                                            -- Filtro opcional comentado
+ORDER BY
+      s.status ASC;
+
+-- ================================================================================================
+-- DBCC INPUTBUFFER - Exibe a última instrução enviada de um cliente a uma instância do SQL Server
+-- ================================================================================================
+-- O parâmetro é o spid que é a sessão do SQL Server
+-- Retornará três colunas e na EventInfo terá o script da requisição
+--
+-- Tipos de evento:
+--   - Evento RPC: EventInfo contém apenas o nome do procedimento
+--   - Evento Language: são exibidos apenas os primeiros 4000 caracteres do evento
+--   - No Event: quando não for detectado nenhum último evento
+DBCC INPUTBUFFER(266);
+
+-- ================================================================================================
+-- Conversão de campos do tipo int para milissegundos / tempo
+-- ================================================================================================
+-- Converter 5.874.502 Milissegundos para tempo
+SELECT CONVERT(TIME, DATEADD(MILLISECOND, 5874502 + 86400000, 0), 114) AS Tempo_Milissegundos;
 
 -- Converter 587 Segundos para tempo
-SELECT CONVERT(TIME, DATEADD(SECOND, 587 + 86400000, 0), 114)
+SELECT CONVERT(TIME, DATEADD(SECOND, 587 + 86400000, 0), 114) AS Tempo_Segundos;
 
 -- Converter 457 Minutos para tempo
-SELECT CONVERT(TIME, DATEADD(MINUTE, 457 + 86400000, 0), 114)
+SELECT CONVERT(TIME, DATEADD(MINUTE, 457 + 86400000, 0), 114) AS Tempo_Minutos;
 
--- Converter 5874502 Milisegundos para string
-SELECT CONVERT(VARCHAR(12), DATEADD(MILLISECOND, 5874502 + 86400000, 0), 114)
+-- Converter 5.874.502 Milissegundos para string (formato HH:MI:SS:mmm)
+SELECT CONVERT(VARCHAR(12), DATEADD(MILLISECOND, 5874502 + 86400000, 0), 114) AS Tempo_String;
 
---EX.:
--- CONVERT (TIME, DATEADD (MILLISECOND, waittime + 86400000, 0), 114) as temp,  
+-- Exemplo de uso com a coluna 'waittime':
+-- CONVERT(TIME, DATEADD(MILLISECOND, waittime + 86400000, 0), 114) AS temp,
 
---------------------------------------------------------------------------------------------------------------------------------
--- coluna status	nchar(30) -> Status do ID do processo. Os valores possíveis são:
---------------------------------------------------------------------------------------------------------------------------------
-
- --dormant  (inativo) = SQL Server está redefinindo a sessão.
-
- --running (executando) = a sessão está executando um ou mais lotes. Quando são habilitados MARS (Vários Conjuntos de Resultados Ativos), uma sessão pode executar vários lotes. Para obter mais informações, consulte usando vários conjuntos de resultados ativos (. MARS &41;.
-
- --Background (plano de fundo) = a sessão está executando uma tarefa em segundo plano, como detecção de deadlock.
-
- --rollback (reversão) = a sessão tem uma reversão de transação em processo.
-
- --pending (pendente) = a sessão está aguardando um thread de trabalho se torne disponível.
-
- --runnable (executável) = a tarefa na sessão está na fila executável de um agendador enquanto aguarda para obter um quantum de tempo.
-
- --spinloop/sleeping = a tarefa na sessão está esperando um spinlock fique livre.
-
- --suspended (suspenso) = a sessão está aguardando um evento, como e/s, para concluir, em processo de retorno.
+-- ================================================================================================
+-- Coluna status (nchar(30)) - Status do ID do processo
+-- ================================================================================================
+-- Valores possíveis:
+--   dormant   : SQL Server está redefinindo a sessão (inativo)
+--   running   : a sessão está executando um ou mais lotes (com MARS, pode executar vários)
+--   Background: a sessão está executando uma tarefa em segundo plano (ex: detecção de deadlock)
+--   rollback  : a sessão tem uma reversão de transação em processo
+--   pending   : a sessão está aguardando um thread de trabalho se tornar disponível
+--   runnable  : a tarefa está na fila executável de um agendador aguardando quantum de tempo
+--   spinloop  : a tarefa está esperando um spinlock ficar livre
+--   suspended : a sessão está aguardando um evento (ex: I/O) para concluir
+--   sleeping  : a sessão está aguardando, em processo de retorno
