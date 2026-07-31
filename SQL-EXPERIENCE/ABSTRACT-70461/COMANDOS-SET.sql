@@ -1,163 +1,266 @@
----------------------------------------------------------------------------------------------------------------------------
-SET DATEFIRST 7;  
+Ôªø/*
+ *
+    OBJETIVO: Cole√ß√£o de comandos SET do SQL Server para configura√ß√£o de
+              op√ß√µes de sess√£o: DATEFIRST, DEADLOCK_PRIORITY, IDENTITY_INSERT,
+              QUOTED_IDENTIFIER, ARITHABORT, ROWCOUNT, TEXTSIZE, ANSI_WARNINGS,
+              FORCEPLAN, STATISTICS XML, SHOWPLAN_XML, ANSI_NULL_DFLT_ON e
+              XACT_ABORT. Inclui exemplos pr√°ticos com transa√ß√µes e
+              tratamento de erros via TRY...CATCH com XACT_STATE().
+    PROJETO: mssqlserver-solution-explorer
 
-SELECT CAST('1999-1-1' AS datetime2) AS SelectDate  
-    ,DATEPART(dw, '1999-1-1') AS DayOfWeek;  
--- January 1, 1999 is a Friday. Because the U.S. English default   
--- specifies Sunday as the first day of the week, DATEPART of 1999-1-1  
--- (Friday) yields a value of 6, because Friday is the sixth day of the   
--- week when you start with Sunday as day 1.  
+    REFER√äNCIA: Curso ProWay - https://proway.com.br/
+ * 
+ */
+-- ============================================================
+-- SET DATEFIRST: Define o primeiro dia da semana
+-- ============================================================
+-- Define domingo (7) como primeiro dia da semana
+SET DATEFIRST 7;
 
-SET DATEFIRST 3;  
--- Because Wednesday is now considered the first day of the week,  
--- DATEPART now shows that 1999-1-1 (a Friday) is the third day of the   
--- week. The following DATEPART function should return a value of 3.  
-SELECT CAST('1999-1-1' AS datetime2) AS SelectDate  
-    ,DATEPART(dw, '1999-1-1') AS DayOfWeek;  
-GO 
+-- 1 de janeiro de 1999 √© uma sexta-feira. Com DATEFIRST = 7 (domingo),
+-- DATEPART(dw, ...) retorna 6, pois sexta √© o 6¬∫ dia a partir de domingo
+SELECT
+      CAST('1999-1-1' AS DATETIME2) AS SelectDate
+    , DATEPART(dw, '1999-1-1') AS DayOfWeek;
 
+-- Define quarta-feira (3) como primeiro dia da semana
+SET DATEFIRST 3;
 
----------------------------------------------------------------------------------------------------------------------------
-SET DEADLOCK_PRIORITY HIGH -- LOW | NORMAL | HIGH | <numeric-priority> | @deadlock_var | @deadlock_intvar
--- Diz pra sess„o que prioridade tem caso de um deadLock, por exemplo se deixar como 
--- "HIGH" tem menor chance de ser escolhido como vÌtima
-
-
----------------------------------------------------------------------------------------------------------------------------
-SET IDENTITY_INSERT dbo.Cliente ON;
--- Permite inserir valores explÌcitos em uma coluna IDENTITY (Somente uma tabela em uma sess„o
--- pode ter a propriedade IDENTITY_INSERT de“nida como ON)
-
-
----------------------------------------------------------------------------------------------------------------------------
-SET QUOTED_IDENTIFIER ON;
--- assim permite colocar aspas duplas em palavras reservadas nos comandos
--- exemplo -> SELECT "identity","order" FROM "select"
-
-
----------------------------------------------------------------------------------------------------------------------------
-SET ARITHABORT ON
--- Define se ao ocorrer overflow ou erro de divis„o por zero a consulta ser· encerrada (ON)
-
-
----------------------------------------------------------------------------------------------------------------------------
-SET ROWCOUNT 0; -- traz os dez primeiros registros
+-- Agora sexta-feira √© o 3¬∫ dia da semana. DATEPART deve retornar 3
+SELECT
+      CAST('1999-1-1' AS DATETIME2) AS SelectDate
+    , DATEPART(dw, '1999-1-1') AS DayOfWeek;
 GO
-SELECT * FROM tabela_teste as t1
 
 
----------------------------------------------------------------------------------------------------------------------------
--- Especifica valor de varchar por linha que ir· trazer em todos os campos
-SET TEXTSIZE 10 -- -1
-select t1.TextData from tabela_teste as t1
+-- ============================================================
+-- SET DEADLOCK_PRIORITY: Define prioridade 
+-- da sess√£o em deadlocks
+-- ============================================================
+-- Op√ß√µes: LOW | NORMAL | HIGH | <numeric-priority> | @deadlock_var | @deadlock_intvar
+-- HIGH reduz a chance de a sess√£o ser escolhida como v√≠tima de deadlock
+SET DEADLOCK_PRIORITY HIGH
 
 
----------------------------------------------------------------------------------------------------------------------------
--- Quando SET ANSI_PADDING = ON, espaÁos ‡ direita ser„o cortados em colunas VARCHAR e
--- VARBINARY
+-- ============================================================
+-- SET IDENTITY_INSERT: Permite inserir 
+-- valores expl√≠citos em coluna IDENTITY
+-- ============================================================
+-- Somente uma tabela por sess√£o pode ter IDENTITY_INSERT = ON simultaneamente
+SET IDENTITY_INSERT dbo.Cliente ON;
 
 
----------------------------------------------------------------------------------------------------------------------------
--- Quando SET ANSI_NULLS È OFF, os operadores de comparaÁ„o Igual a (=) e Diferente de (<>) n„o
--- seguem o padr„o ISO. Uma instruÁ„o SELECT que usa WHERE column_name = NULL retorna as
--- linhas que tÍm valores nulos em column_name
+-- ============================================================
+-- SET QUOTED_IDENTIFIER: Permite uso de 
+-- aspas duplas em identificadores
+-- ============================================================
+-- Com ON, aspas duplas delimitam identificadores (n√£o strings)
+-- Exemplo: SELECT "identity", "order" FROM "select"
+SET QUOTED_IDENTIFIER ON;
 
 
----------------------------------------------------------------------------------------------------------------------------
+-- ============================================================
+-- SET ARITHABORT: Define comportamento 
+-- em overflow ou divis√£o por zero
+-- ============================================================
+-- ON: encerra a consulta quando ocorre overflow ou divis√£o por zero
+SET ARITHABORT ON
+
+
+-- ============================================================
+-- SET ROWCOUNT: Limita o n√∫mero de linhas retornadas
+-- ============================================================
+-- 0 = sem limite (retorna todos os registros)
+SET ROWCOUNT 0;
+GO
+
+SELECT
+    *
+FROM
+    tabela_teste AS t1
+
+
+-- ============================================================
+-- SET TEXTSIZE: Limita o tamanho de dados varchar retornados
+-- ============================================================
+-- Define o tamanho m√°ximo em bytes para campos de texto (-1 = ilimitado)
+SET TEXTSIZE 10
+
+SELECT
+    t1.TextData
+FROM
+    tabela_teste AS t1
+
+
+-- ============================================================
+-- ANSI_PADDING: Comportamento de espa√ßos 
+-- √† direita em VARCHAR e VARBINARY
+-- ============================================================
+-- Quando SET ANSI_PADDING = ON, espa√ßos √† direita s√£o preservados em
+-- colunas VARCHAR e VARBINARY. Quando OFF, espa√ßos √† direita s√£o truncados.
+
+
+-- ============================================================
+-- ANSI_NULLS: Comportamento de compara√ß√µes com NULL
+-- ============================================================
+-- Quando SET ANSI_NULLS √© OFF, os operadores = e <> n√£o seguem o padr√£o ISO.
+-- Uma instru√ß√£o SELECT com WHERE column_name = NULL retorna as linhas que
+-- t√™m valores nulos em column_name.
+
+
+-- ============================================================
+-- SET ANSI_WARNINGS: Exibi√ß√£o de avisos em fun√ß√µes de agrega√ß√£o
+-- ============================================================
+-- ON: gera aviso quando valores nulos aparecem em fun√ß√µes de agrega√ß√£o
+-- (SUM, AVG, MAX, MIN, STDEV, STDEVP, VAR, VARP, COUNT)
 SET ANSI_WARNINGS ON
--- ñ Quando definida como ON, se forem exibidos valores nulos em funÁıes de agregaÁ„o, como
--- SUM, AVG, MAX, MIN, STDEV, STDEVP, VAR, VARP ou COUNT, ser· gerada uma mensagem de
--- aviso. Quando definido como OFF, nenhum aviso È emitido.
 
 
----------------------------------------------------------------------------------------------------------------------------
+-- ============================================================
+-- SET FORCEPLAN: For√ßa ordem de JOINs 
+-- conforme aparecem no FROM
+-- ============================================================
+-- ON: o otimizador de consultas processa os JOINs na mesma ordem
+-- em que as tabelas aparecem na cl√°usula FROM
 SET FORCEPLAN ON
--- Quando FORCEPLAN est· definido como ON, o otimizador de consulta do SQL Server processa os
--- JOINS na mesma ordem conforme as tabelas s„o exibidas na cl·usula FROM de uma consulta
 
 
----------------------------------------------------------------------------------------------------------------------------
-SET STATISTICS XML ON -- no caso do SET SHOWPLAN_XML ON ele sÛ traz o plano e n„o a consulta
--- Quando È ON, Faz com que o SQL Server execute instruÁıes e gere informaÁıes detalhadas sobre
--- como as instruÁıes foram executadas na forma de um documento XML:
--- select t1.TextData, t1.StartTime from Management.TraceSlowQuery as t1
--- where t1.StartTime >= '20171120'
+-- ============================================================
+-- SET STATISTICS XML: Gera plano de execu√ß√£o em formato XML
+-- ============================================================
+-- ON: executa as instru√ß√µes e gera informa√ß√µes detalhadas sobre
+-- a execu√ß√£o na forma de um documento XML
+-- (SET SHOWPLAN_XML ON apenas exibe o plano sem executar a consulta)
+SET STATISTICS XML ON
+
+-- Exemplo de uso:
+ SELECT
+       t1.TextData
+     , t1.StartTime
+ FROM
+     Management.TraceSlowQuery AS t1
+ WHERE
+     t1.StartTime >= '20171120'
 
 
----------------------------------------------------------------------------------------------------------------------------
 SET SHOWPLAN_XML OFF
--- select t1.TextData, t1.StartTime from Management.TraceSlowQuery as t1
--- where t1.StartTime >= '20171120'
+
+-- Exemplo de uso:
+ SELECT
+       t1.TextData
+     , t1.StartTime
+ FROM
+     Management.TraceSlowQuery AS t1
+ WHERE
+     t1.StartTime >= '20171120'
 
 
----------------------------------------------------------------------------------------------------------------------------
+-- ============================================================
+-- SET ANSI_NULL_DFLT_ON: Permite NULL 
+-- em novas colunas por padr√£o
+-- ============================================================
+-- ON: novas colunas criadas com ALTER TABLE e CREATE TABLE aceitar√£o
+-- NULL se a nulabilidade n√£o for especificada explicitamente
 SET ANSI_NULL_DFLT_ON ON
--- Quando SET ANSI_NULL_DFLT_OFF for ON, novas colunas criadas com o uso das instruÁıes ALTER
--- TABLE e CREATE TABLE aceitar„o valores NULL se n„o for especi“cado explicitamente
 
 
----------------------------------------------------------------------------------------------------------------------------
+-- ============================================================
+-- SET XACT_ABORT: Define comportamento de rollback autom√°tico
+-- ============================================================
+-- ON: o SQL Server reverte (ROLLBACK) automaticamente a transa√ß√£o atual
+-- quando uma instru√ß√£o T-SQL gera erro em tempo de execu√ß√£o
 SET XACT_ABORT ON
--- Quando È ON, especifica que o SQL Server deve reverter (ROLLBACK) automaticamente a
--- transaÁ„o atual quando uma instruÁ„o Transact-SQL gerar um erro em tempo de execuÁ„o.
 
-CREATE TABLE t1 
-    (a INT NOT NULL PRIMARY KEY);  
-CREATE TABLE t2  
-    (a INT NOT NULL REFERENCES t1(a));  
-GO  
-INSERT INTO t1 VALUES (1);  
-INSERT INTO t1 VALUES (3);  
-INSERT INTO t1 VALUES (4);  
-INSERT INTO t1 VALUES (6);  
-GO  
-SET XACT_ABORT OFF;  
-GO  
-BEGIN TRANSACTION;  
-INSERT INTO t2 VALUES (1);  
-INSERT INTO t2 VALUES (2); -- Foreign key error.  o 2 n„o existe na tabela origem daÌ cai na constraint
-INSERT INTO t2 VALUES (3); -- porÈm vai fazer o insert dos outros dados
-COMMIT TRANSACTION;  
-GO  
-SET XACT_ABORT ON;  -- n„o vai deixar inserir nada devido ao erro
-GO  
-BEGIN TRANSACTION;  
-INSERT INTO t2 VALUES (4);  
-INSERT INTO t2 VALUES (5); -- Foreign key error.  
-INSERT INTO t2 VALUES (6);  
-COMMIT TRANSACTION;  
-GO  
+-- Cria tabelas de teste para demonstrar o comportamento do XACT_ABORT
+-- t1: tabela de origem com chave prim√°ria
+-- t2: tabela de destino com foreign key referenciando t1
+CREATE TABLE t1 (
+      a INT NOT NULL PRIMARY KEY
+);
 
-select * from dbo.t1
-select * from dbo.t2
+CREATE TABLE t2 (
+      a INT NOT NULL REFERENCES t1(a)
+);
+GO
+
+-- Insere valores v√°lidos na tabela de origem
+INSERT INTO t1 VALUES (1);
+INSERT INTO t1 VALUES (3);
+INSERT INTO t1 VALUES (4);
+INSERT INTO t1 VALUES (6);
+GO
+
+-- Desativa XACT_ABORT para demonstrar comportamento sem rollback autom√°tico
+SET XACT_ABORT OFF;
+GO
+
+-- Sem XACT_ABORT, o erro de foreign key n√£o reverte a transa√ß√£o inteira.
+-- Apenas a instru√ß√£o que falhou √© descartada; as demais s√£o executadas.
+BEGIN TRANSACTION;
+INSERT INTO t2 VALUES (1);
+INSERT INTO t2 VALUES (2);  -- Erro de foreign key: 2 n√£o existe em t1
+INSERT INTO t2 VALUES (3);  -- Este INSERT ser√° executado normalmente
+COMMIT TRANSACTION;
+GO
+
+-- Ativa XACT_ABORT: agora qualquer erro reverte toda a transa√ß√£o
+SET XACT_ABORT ON;
+GO
+
+-- Com XACT_ABORT ON, o erro de foreign key reverte toda a transa√ß√£o.
+-- Nenhum dos INSERTs ser√° confirmado.
+BEGIN TRANSACTION;
+INSERT INTO t2 VALUES (4);
+INSERT INTO t2 VALUES (5);  -- Erro de foreign key: 5 n√£o existe em t1
+INSERT INTO t2 VALUES (6);  -- N√£o ser√° executado (transa√ß√£o revertida)
+COMMIT TRANSACTION;
+GO
+
+-- Verifica os dados inseridos em ambas as tabelas
+SELECT
+    *
+FROM
+    dbo.t1
+
+SELECT
+    *
+FROM
+    dbo.t2
 
 
--- testes da transaÁ„o
+-- ============================================================
+-- Tratamento de transa√ß√µes com TRY...CATCH e XACT_STATE()
+-- ============================================================
+-- Demonstra o uso de TRY...CATCH com controle de estado da transa√ß√£o
+-- via XACT_STATE(): retorna -1 (incompat√≠vel, rollback necess√°rio),
+-- 1 (compat√≠vel, commit poss√≠vel) ou 0 (sem transa√ß√£o ativa)
 BEGIN TRY
-  BEGIN TRANSACTION;
-  INSERT INTO dbo.SimpleOrders (custid, empid, orderdate)
-    VALUES (68, 9, '2006-07-12');
-  INSERT INTO dbo.SimpleOrderDetails (orderid, productid, unitprice, qty)
-    VALUES (1, 2, 15.20, 20);
-  COMMIT TRANSACTION;
+    BEGIN TRANSACTION;
+    INSERT INTO dbo.SimpleOrders (custid, empid, orderdate)
+        VALUES (68, 9, '2006-07-12');
+    INSERT INTO dbo.SimpleOrderDetails (orderid, productid, unitprice, qty)
+        VALUES (1, 2, 15.20, 20);
+    COMMIT TRANSACTION;
 END TRY
 BEGIN CATCH
-  SELECT
-    ERROR_NUMBER() AS ErrNum
-   ,ERROR_MESSAGE() AS ErrMsg;
-  IF (XACT_STATE()) = -1
-  BEGIN
-    PRINT 'A transaÁ„o est· em um estado incompatÌvel. Retrocedendo transaÁ„o.'
-    ROLLBACK TRANSACTION;
-  END;
-  IF (XACT_STATE()) = 1
-  BEGIN
-    PRINT 'A transaÁ„o È compatÌvel. TransaÁ„o completada.'
-    COMMIT TRANSACTION;
-  END;
+    SELECT
+          ERROR_NUMBER() AS ErrNum
+        , ERROR_MESSAGE() AS ErrMsg;
+
+    -- Verifica se a transa√ß√£o est√° em estado incompat√≠vel (rollback obrigat√≥rio)
+    IF (XACT_STATE()) = -1
+    BEGIN
+        PRINT 'A transa√ß√£o est√° em um estado incompat√≠vel. Retrocedendo transa√ß√£o.'
+        ROLLBACK TRANSACTION;
+    END
+
+    -- Verifica se a transa√ß√£o est√° em estado compat√≠vel (commit poss√≠vel)
+    IF (XACT_STATE()) = 1
+    BEGIN
+        PRINT 'A transa√ß√£o √© compat√≠vel. Transa√ß√£o completada.'
+        COMMIT TRANSACTION;
+    END
 END CATCH
+GO
 
-
-/*********/
--- Obs: A funÁ„o @@ROWCOUNT È atualizada mesmo quando SET NOCOUNT È ON
-/*********/
+-- OBS: A fun√ß√£o @@ROWCOUNT √© atualizada mesmo quando SET NOCOUNT √© ON.
