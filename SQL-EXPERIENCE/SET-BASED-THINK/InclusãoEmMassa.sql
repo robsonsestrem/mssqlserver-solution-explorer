@@ -1,85 +1,313 @@
+ï»¿/*
+ *
+	OBJETIVO: Scripts demonstrativos para inclusÃ£o em massa de dados, comparando abordagens
+			  com cursor (baixo desempenho) versus soluÃ§Ãµes baseadas em conjunto (INSERT SELECT)
+			  para melhor performance, incluindo tratamento de chave primÃ¡ria com e sem IDENTITY.
+	PROJETO: mssqlserver-solution-explorer
+ *	
+ */
+-- ============================================================
+-- SoluÃ§Ãµes para inclusÃ£o em massa
+-- ============================================================
 
---------------------------------------------------------------------------------------------------------------------------------------------
--- Soluções para inclusão em massa
---------------------------------------------------------------------------------------------------------------------------------------------
-
--- com cursor
-
+-- ============================================================
+-- Abordagem 1: Utilizando CURSOR (baixo desempenho - evitar)
+-- ============================================================
 DECLARE
-	@NOME_COMPLETO VARCHAR(70),
-	@CPF VARCHAR(11),
-	@SEXO VARCHAR(1),
-	@DATA_NASC VARCHAR(11),
-	@CEP VARCHAR(8),
-	@LOGRADOURO VARCHAR(90),
-	@NUMERO VARCHAR(6),
-	@COMPLEMENTO VARCHAR(60),
-	@BAIRRO VARCHAR(65),
-	@MUNICIPIO VARCHAR(55),
-	@ESTADO VARCHAR(2),
-	@DDD VARCHAR(3),
-	@TELEFONE VARCHAR(15),
-	@EMAIL VARCHAR(100),
-	@COD_ID INT
+    @NOME_COMPLETO VARCHAR(70),
+    @CPF VARCHAR(11),
+    @SEXO VARCHAR(1),
+    @DATA_NASC VARCHAR(11),
+    @CEP VARCHAR(8),
+    @LOGRADOURO VARCHAR(90),
+    @NUMERO VARCHAR(6),
+    @COMPLEMENTO VARCHAR(60),
+    @BAIRRO VARCHAR(65),
+    @MUNICIPIO VARCHAR(55),
+    @ESTADO VARCHAR(2),
+    @DDD VARCHAR(3),
+    @TELEFONE VARCHAR(15),
+    @EMAIL VARCHAR(100),
+    @COD_ID INT
 
 DECLARE cursor_objects CURSOR LOCAL FOR
-	
-	SELECT NOME_COMPLETO, CPF, SEXO, DATA_NASC, CEP, LOGRADOURO, NUMERO, COMPLEMENTO, BAIRRO, MUNICIPIO, ESTADO, DDD, TELEFONE, EMAIL, COD_ID
-	FROM dbo.tb_clientes_tmp
+    SELECT
+        NOME_COMPLETO,
+        CPF,
+        SEXO,
+        DATA_NASC,
+        CEP,
+        LOGRADOURO,
+        NUMERO,
+        COMPLEMENTO,
+        BAIRRO,
+        MUNICIPIO,
+        ESTADO,
+        DDD,
+        TELEFONE,
+        EMAIL,
+        COD_ID
+    FROM dbo.tb_clientes_tmp
 
-	OPEN cursor_objects
-	FETCH NEXT FROM cursor_objects INTO @NOME_COMPLETO, @CPF, @SEXO, @DATA_NASC, @CEP, @LOGRADOURO, @NUMERO, @COMPLEMENTO, @BAIRRO, @MUNICIPIO, @ESTADO, @DDD, @TELEFONE, @EMAIL, @COD_ID
+OPEN cursor_objects
+FETCH NEXT FROM cursor_objects
+INTO
+    @NOME_COMPLETO,
+    @CPF,
+    @SEXO,
+    @DATA_NASC,
+    @CEP,
+    @LOGRADOURO,
+    @NUMERO,
+    @COMPLEMENTO,
+    @BAIRRO,
+    @MUNICIPIO,
+    @ESTADO,
+    @DDD,
+    @TELEFONE,
+    @EMAIL,
+    @COD_ID
 
-	WHILE @@FETCH_STATUS = 0
-	BEGIN 
-		
-		SET @COD_ID = (SELECT CAST(ISNULL(MAX(COD_ID), '')+1 AS int) FROM dbo.tb_cliente)
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    SET @COD_ID =
+    (
+        SELECT CAST(ISNULL(MAX(COD_ID), '') + 1 AS INT)
+        FROM dbo.tb_cliente
+    )
 
-		INSERT INTO dbo.tb_cliente(COD_ID,NOME_COMPLETO, CPF, SEXO, DATA_NASC, CEP, LOGRADOURO, NUMERO, COMPLEMENTO, BAIRRO, MUNICIPIO, ESTADO, DDD, TELEFONE, EMAIL)
-		values				(@COD_ID,@NOME_COMPLETO, @CPF, @SEXO, @DATA_NASC, @CEP, @LOGRADOURO, @NUMERO, @COMPLEMENTO, @BAIRRO, @MUNICIPIO, @ESTADO, @DDD, @TELEFONE, @EMAIL)
+    INSERT INTO dbo.tb_cliente
+    (
+        COD_ID,
+        NOME_COMPLETO,
+        CPF,
+        SEXO,
+        DATA_NASC,
+        CEP,
+        LOGRADOURO,
+        NUMERO,
+        COMPLEMENTO,
+        BAIRRO,
+        MUNICIPIO,
+        ESTADO,
+        DDD,
+        TELEFONE,
+        EMAIL
+    )
+    VALUES
+    (
+        @COD_ID,
+        @NOME_COMPLETO,
+        @CPF,
+        @SEXO,
+        @DATA_NASC,
+        @CEP,
+        @LOGRADOURO,
+        @NUMERO,
+        @COMPLEMENTO,
+        @BAIRRO,
+        @MUNICIPIO,
+        @ESTADO,
+        @DDD,
+        @TELEFONE,
+        @EMAIL
+    )
 
-		FETCH NEXT FROM cursor_objects INTO @NOME_COMPLETO, @CPF, @SEXO, @DATA_NASC, @CEP, @LOGRADOURO, @NUMERO, @COMPLEMENTO, @BAIRRO, @MUNICIPIO, @ESTADO, @DDD, @TELEFONE, @EMAIL, @COD_ID
-	END
+    FETCH NEXT FROM cursor_objects
+    INTO
+        @NOME_COMPLETO,
+        @CPF,
+        @SEXO,
+        @DATA_NASC,
+        @CEP,
+        @LOGRADOURO,
+        @NUMERO,
+        @COMPLEMENTO,
+        @BAIRRO,
+        @MUNICIPIO,
+        @ESTADO,
+        @DDD,
+        @TELEFONE,
+        @EMAIL,
+        @COD_ID
+END
 
---------------------------------------------------------------------------------------------------------------------------------------------
--- agora com soluções de melhor desempenho
---------------------------------------------------------------------------------------------------------------------------------------------
+CLOSE cursor_objects
+DEALLOCATE cursor_objects
 
-
--- exemplo com uma tabela que tenha identity
-INSERT INTO dbo.tb_cliente(NOME_COMPLETO, CPF, SEXO, DATA_NASC, CEP, LOGRADOURO, NUMERO, COMPLEMENTO, BAIRRO, MUNICIPIO, ESTADO, DDD, TELEFONE, EMAIL, DELETADO)
-SELECT NOME_COMPLETO, CPF, SEXO, DATA_NASC, CEP, LOGRADOURO, NUMERO, COMPLEMENTO, BAIRRO, MUNICIPIO, ESTADO, DDD, TELEFONE, EMAIL, '' as DELETADO
+-- ============================================================
+-- Abordagem 2: INSERT SELECT com IDENTITY (alta performance)
+-- ============================================================
+INSERT INTO dbo.tb_cliente
+(
+    NOME_COMPLETO,
+    CPF,
+    SEXO,
+    DATA_NASC,
+    CEP,
+    LOGRADOURO,
+    NUMERO,
+    COMPLEMENTO,
+    BAIRRO,
+    MUNICIPIO,
+    ESTADO,
+    DDD,
+    TELEFONE,
+    EMAIL,
+    DELETADO
+)
+SELECT
+    NOME_COMPLETO,
+    CPF,
+    SEXO,
+    DATA_NASC,
+    CEP,
+    LOGRADOURO,
+    NUMERO,
+    COMPLEMENTO,
+    BAIRRO,
+    MUNICIPIO,
+    ESTADO,
+    DDD,
+    TELEFONE,
+    EMAIL,
+    '' AS DELETADO
 FROM dbo.tb_clientes_tmp
 GO
 
-
--- exemplo sem identity e com max
-INSERT INTO dbo.tb_cliente(COD_ID,NOME_COMPLETO, CPF, SEXO, DATA_NASC, CEP, LOGRADOURO, NUMERO, COMPLEMENTO, BAIRRO, MUNICIPIO, ESTADO, DDD, TELEFONE, EMAIL, DELETADO)
-SELECT (SELECT CAST(ISNULL(MAX(COD_ID),'') +1 AS int) FROM dbo.tb_cliente), NOME_COMPLETO, CPF, SEXO, DATA_NASC, CEP, LOGRADOURO, NUMERO, COMPLEMENTO, BAIRRO, MUNICIPIO, ESTADO, DDD, TELEFONE, EMAIL, '' as DELETADO
-FROM dbo.tb_clientes_tmp
-
-
--- exemplo sem identity 
--- é quase igual ao MAX
--- neste caso só server para a tabela quando ta vazia, se eu rodar o script mais uma vez ele viola a primary key
-INSERT INTO dbo.tb_cliente(COD_ID,NOME_COMPLETO, CPF, SEXO, DATA_NASC, CEP, LOGRADOURO, NUMERO, COMPLEMENTO, BAIRRO, MUNICIPIO, ESTADO, DDD, TELEFONE, EMAIL, DELETADO)
+-- ============================================================
+-- Abordagem 3: Sem IDENTITY com MAX 
+-- (funciona apenas para tabela vazia)
+-- ============================================================
+INSERT INTO dbo.tb_cliente
+(
+    COD_ID,
+    NOME_COMPLETO,
+    CPF,
+    SEXO,
+    DATA_NASC,
+    CEP,
+    LOGRADOURO,
+    NUMERO,
+    COMPLEMENTO,
+    BAIRRO,
+    MUNICIPIO,
+    ESTADO,
+    DDD,
+    TELEFONE,
+    EMAIL,
+    DELETADO
+)
 SELECT
-(convert(int,ROW_NUMBER() over(order by nome_completo))) -- dessa forma o sql server não precisa buscar o último registro como é feito no MAX
-,NOME_COMPLETO, CPF, SEXO, DATA_NASC, CEP, LOGRADOURO, NUMERO, COMPLEMENTO, BAIRRO, MUNICIPIO, ESTADO, DDD, TELEFONE, EMAIL, '' as DELETADO
+    (
+        SELECT CAST(ISNULL(MAX(COD_ID), '') + 1 AS INT)
+        FROM dbo.tb_cliente
+    ) AS COD_ID,
+    NOME_COMPLETO,
+    CPF,
+    SEXO,
+    DATA_NASC,
+    CEP,
+    LOGRADOURO,
+    NUMERO,
+    COMPLEMENTO,
+    BAIRRO,
+    MUNICIPIO,
+    ESTADO,
+    DDD,
+    TELEFONE,
+    EMAIL,
+    '' AS DELETADO
 FROM dbo.tb_clientes_tmp
+GO
 
-
-
--- exemplo sem identity e com o cross join
--- com esse posso rodar várias vezes o script 
--- que a sequência vai se manter consecutiva
-INSERT INTO dbo.tb_cliente(COD_ID,NOME_COMPLETO, CPF, SEXO, DATA_NASC, CEP, LOGRADOURO, NUMERO, COMPLEMENTO, BAIRRO, MUNICIPIO, ESTADO, DDD, TELEFONE, EMAIL, DELETADO)
+-- ============================================================
+-- Abordagem 4: Sem IDENTITY com ROW_NUMBER 
+-- (tabela vazia, melhor que MAX)
+-- ============================================================
+INSERT INTO dbo.tb_cliente
+(
+    COD_ID,
+    NOME_COMPLETO,
+    CPF,
+    SEXO,
+    DATA_NASC,
+    CEP,
+    LOGRADOURO,
+    NUMERO,
+    COMPLEMENTO,
+    BAIRRO,
+    MUNICIPIO,
+    ESTADO,
+    DDD,
+    TELEFONE,
+    EMAIL,
+    DELETADO
+)
 SELECT
-(convert(int,ROW_NUMBER() over(order by nome_completo))+t1.max_cod_id) 
-,NOME_COMPLETO, CPF, SEXO, DATA_NASC, CEP, LOGRADOURO, NUMERO, COMPLEMENTO, BAIRRO, MUNICIPIO, ESTADO, DDD, TELEFONE, EMAIL, '' as DELETADO
-FROM dbo.tb_clientes_tmp as tmp
-cross join (
-	SELECT ISNULL(MAX(COD_ID), '0') AS max_cod_id FROM dbo.tb_cliente
-) as t1
+    CONVERT(INT, ROW_NUMBER() OVER (ORDER BY nome_completo)) AS COD_ID,
+    NOME_COMPLETO,
+    CPF,
+    SEXO,
+    DATA_NASC,
+    CEP,
+    LOGRADOURO,
+    NUMERO,
+    COMPLEMENTO,
+    BAIRRO,
+    MUNICIPIO,
+    ESTADO,
+    DDD,
+    TELEFONE,
+    EMAIL,
+    '' AS DELETADO
+FROM dbo.tb_clientes_tmp
+GO
 
-
+-- ============================================================
+-- Abordagem 5: Sem IDENTITY 
+-- com ROW_NUMBER + CROSS JOIN (permite execuÃ§Ãµes mÃºltiplas)
+-- ============================================================
+INSERT INTO dbo.tb_cliente
+(
+    COD_ID,
+    NOME_COMPLETO,
+    CPF,
+    SEXO,
+    DATA_NASC,
+    CEP,
+    LOGRADOURO,
+    NUMERO,
+    COMPLEMENTO,
+    BAIRRO,
+    MUNICIPIO,
+    ESTADO,
+    DDD,
+    TELEFONE,
+    EMAIL,
+    DELETADO
+)
+SELECT
+    CONVERT(INT, ROW_NUMBER() OVER (ORDER BY tmp.nome_completo) + t1.max_cod_id) AS COD_ID,
+    tmp.NOME_COMPLETO,
+    tmp.CPF,
+    tmp.SEXO,
+    tmp.DATA_NASC,
+    tmp.CEP,
+    tmp.LOGRADOURO,
+    tmp.NUMERO,
+    tmp.COMPLEMENTO,
+    tmp.BAIRRO,
+    tmp.MUNICIPIO,
+    tmp.ESTADO,
+    tmp.DDD,
+    tmp.TELEFONE,
+    tmp.EMAIL,
+    '' AS DELETADO
+FROM dbo.tb_clientes_tmp AS tmp
+CROSS JOIN
+(
+    SELECT ISNULL(MAX(COD_ID), 0) AS max_cod_id
+    FROM dbo.tb_cliente
+) AS t1
+GO

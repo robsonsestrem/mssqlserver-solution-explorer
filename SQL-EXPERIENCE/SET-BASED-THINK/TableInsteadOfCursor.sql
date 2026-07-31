@@ -1,80 +1,104 @@
--------------------------------------------------------------------------------------------------------------------------------
---Instead of a cursor, use a table variable to process the result set
--------------------------------------------------------------------------------------------------------------------------------
+﻿/*
+ *
+	OBJETIVO: Demonstração de processamento de result set utilizando TABLE VARIABLE
+			  em substituição ao uso de CURSOR, evitando I/O em disco, lock de
+			  recursos e comunicação inter-DB (tempdb).
+	PROJETO: mssqlserver-solution-explorer
+	
+	REFERÊNCIAS DE URL:
+ *	https://learn.microsoft.com/pt-br/sql/t-sql/data-types/table-transact-sql
+ */
+-- ============================================================
+-- Table Variable vs Cursor vs Temporary Table
+-- ============================================================
 
---What is a Table variable?
---In TSQL (since SQL Server 2000), a Table variable is a special kind of variable that resembles more or less an actual table. 
---But, the most important thing about a Table variable is, it resides in memory almost 100% of the time 
---(unless the Table variable itself is too large; in this case, the Table variable could reside in the tempdb database).
+-- Em vez de um cursor, utilize uma TABLE VARIABLE para processar o result set.
 
---Use of a Table variable is efficient (most of the time, in terms of memory and execution time) compared to 
---temporary tables because of the following reasons:
---Temporary tables reside in the tempdb database, and operating on temporary tables results in inter-DB communication. 
---This is bound to be slow. But, Table variables are mostly in memory variables, so I/O in Table variables is bound to be fast.
---Operating on temporary tables result in lots of disk activities and resource usage because:
---The temporary table has to be created
---Data has to be inserted on the temporary table
---Often, temporary table has to be joined with a physical table to obtain a result
---A lock has to be established on the temporary table while updating data on it
---Temporary table has to be dropped
---But, operating on table variables requires no locking on the resources. Moreover, data insertion on a 
---table variable is a lot faster than on a temporary table as no disk I/O and inter DB communication takes place. 
---Also, the table variable goes out of scope when the corresponding SQL block goes out of scope. Therefore, 
---table variables need not be dropped. All these make table variables an excellent choice for implementing faster TSQL.
+-- O que é uma TABLE VARIABLE?
+-- Em T-SQL (desde o SQL Server 2000), uma TABLE VARIABLE é um tipo especial de
+-- variável que se assemelha a uma tabela real.
+-- O aspecto mais importante de uma TABLE VARIABLE é que ela reside em memória
+-- quase 100% do tempo (a menos que a própria TABLE VARIABLE seja muito grande;
+-- nesse caso, ela pode residir no banco de dados tempdb).
 
---Well, now it's obvious that Table variables are better than the temporary tables in most cases. 
---But, can you use Table variables in place of Cursors?
+-- O uso de uma TABLE VARIABLE é eficiente (na maioria das vezes, em termos de
+-- memória e tempo de execução) em comparação com tabelas temporárias, pelos
+-- seguintes motivos:
 
---Yes, you can. Following is an example of processing a result set using a Table variable 
---(the SQL that uses the Cursor to process the result set is not included here, because I don't like you to learn Cursors.. ha ha)
+-- Tabelas temporárias residem no banco de dados tempdb, e operar sobre elas
+-- resulta em comunicação inter-DB. Isso tende a ser lento.
+-- TABLE VARIABLES são majoritariamente variáveis em memória, portanto o I/O
+-- em TABLE VARIABLES tende a ser rápido.
 
+-- Operar sobre tabelas temporárias resulta em grande atividade de disco e uso
+-- de recursos porque:
+-- 1. A tabela temporária precisa ser criada
+-- 2. Os dados precisam ser inseridos na tabela temporária
+-- 3. Frequentemente, a tabela temporária precisa ser unida (JOIN) a uma tabela
+--    física para obter um resultado
+-- 4. Um lock precisa ser estabelecido na tabela temporária durante a atualização
+--    dos dados
+-- 5. A tabela temporária precisa ser removida (DROP)
 
--------------------------------------------------------------------------------------------------------------------------------
--- SOLU��O COM MAIOR DESEMPENHO
--------------------------------------------------------------------------------------------------------------------------------
+-- Por outro lado, operar sobre TABLE VARIABLES não requer lock sobre os recursos.
+-- Além disso, a inserção de dados em uma TABLE VARIABLE é muito mais rápida do que
+-- em uma tabela temporária, pois não ocorre I/O de disco nem comunicação inter-DB.
+-- A TABLE VARIABLE também sai de escopo quando o bloco SQL correspondente sai de
+-- escopo, portanto TABLE VARIABLES não precisam ser removidas com DROP.
+-- Tudo isso torna TABLE VARIABLES uma excelente escolha para implementar T-SQL
+-- mais rápido.
 
---Declare the Table variable 
+-- É possível utilizar TABLE VARIABLES no lugar de CURSORS?
+-- Sim. A seguir, um exemplo de processamento de result set utilizando TABLE VARIABLE.
+
+-- SOLUÇÃO COM MAIOR DESEMPENHO
+
+-- Declaração da TABLE VARIABLE
 DECLARE @Elements TABLE
 (
-    Number INT IDENTITY(1,1), --Auto incrementing Identity column
-    ProductName VARCHAR(300)  --The string value
+    Number INT IDENTITY(1,1) -- Auto incrementing Identity column
+    ,ProductName VARCHAR(300) -- The string value
 )
 
---Decalre a variable to remember the position of the current delimiter
-DECLARE @N INT 
+-- Declaração de variável para rastrear a posição atual do delimitador
+DECLARE @N INT
 
---Decalre a variable to remember the number of rows in the table
+-- Declaração de variável para armazenar o número de linhas na tabela
 DECLARE @Count INT
 
---Populate the TABLE variable using some logic
-INSERT INTO @Elements SELECT Name FROM dbo.Products
+-- Populando a TABLE VARIABLE com dados da tabela de produtos
+INSERT INTO @Elements
+SELECT Name
+FROM dbo.Products
 
---Initialize the looper variable
+-- Inicialização da variável de iteração
 SET @N = 1
 
---Determine the number of rows in the Table
-SELECT @Count=max(Number) from @Elements
+-- Determinação do número total de linhas na TABLE VARIABLE
+SELECT @Count = MAX(Number)
+FROM @Elements
 
---A variable to hold the currently selected value from the table
-DECLARE @CurrentValue varchar(300);
+-- Variável para armazenar o valor atualmente selecionado da tabela
+DECLARE @CurrentValue VARCHAR(300);
 
---Loop through until all row processing is done
+-- Loop para processamento de todas as linhas do result set
 WHILE @N <= @Count
 BEGIN
-    --Load current value from the Table
-    SELECT @CurrentValue = ProductName FROM @Elements WHERE Number = @N
-    --Process the current value
-    print @CurrentValue
-    --Increment loop counter
+    -- Carregamento do valor atual da TABLE VARIABLE
+    SELECT @CurrentValue = ProductName
+    FROM @Elements
+    WHERE Number = @N
+
+    -- Processamento do valor atual
+    PRINT @CurrentValue
+
+    -- Incremento do contador de iteração
     SET @N = @N + 1;
 END
 
-
---I can bet you will be surprised to see the performance benefits by replacing the Cursor based code that you might 
---have written with a Table variable based code.
-
---Please note that you still should try not to write TSQL using the Procedural approach
---(use of a Table variable is still a Procedural approach). 
---But, if for some reason you really need to write your own way of processing a result set, you can at least 
---use Table variables to avoid Cursors.
---Have fun writing Set based SQL. Enjoy!
+-- A substituição de código baseado em CURSOR por código baseado em TABLE VARIABLE
+-- proporciona ganhos significativos de performance.
+-- Observação: ainda assim, deve-se evitar escrever T-SQL utilizando abordagem
+-- procedural (o uso de TABLE VARIABLE ainda é uma abordagem procedural).
+-- Contudo, se for realmente necessário escrever uma forma própria de processamento
+-- de result set, utilize TABLE VARIABLES para evitar CURSORS.
