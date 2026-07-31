@@ -1,115 +1,180 @@
-﻿DECLARE @sth bigint;
+﻿/*
+ *
+	OBJETIVO: Script T-SQL para consulta de valores atuais e reordenação (restart)
+			  de Sequences do banco de dados com base no maior valor das tabelas de negócio.
+	PROJETO: mssqlserver-solution-explorer
+ *	
+ */
+-- ============================================================
+-- Reordenação e Ajuste do Valor Atual de Sequences de Banco
+-- ============================================================
+
+-- Reinicialização dinâmica da sequence StreamEntrySequence
+DECLARE @sth BIGINT;
 SET @sth = 1000;
-DECLARE @sql nvarchar(max);
-SET @sql = N'ALTER SEQUENCE StreamEntrySequence RESTART WITH ' + cast(@sth as nvarchar(20)) + ';';
+
+DECLARE @sql NVARCHAR(MAX);
+SET @sql = N'ALTER SEQUENCE StreamEntrySequence RESTART WITH ' + CAST(@sth AS NVARCHAR(20)) + ';';
+
 EXEC SP_EXECUTESQL @sql;
+GO
 
-----------------------------------------------------------------------------------------------
--- seq_cd_plaac - ok
-----------------------------------------------------------------------------------------------
-SELECT current_value
-FROM sys.sequences
-WHERE name = 'seq_cd_plaac'
--- plaac = 24539909
+-- ============================================================
+-- Sequence: seq_cd_plaac
+-- ============================================================
 
-select max(CD_PLAAC) from PLAAC -- 24534975
+-- Consulta do valor atual da sequence seq_cd_plaac
+SELECT
+    S.current_value
+FROM sys.sequences AS S
+WHERE S.name = 'seq_cd_plaac';
 
+-- Identificação do maior código na tabela PLAAC (plaac = 24539909 / max = 24534975)
+SELECT
+    MAX(P.CD_PLAAC) AS max_cd_plaac
+FROM PLAAC AS P;
+
+-- Reajuste do valor inicial da sequence seq_cd_plaac
 ALTER SEQUENCE seq_cd_plaac
-RESTART WITH 24534976
+RESTART WITH 24534976;
+GO
 
+-- ============================================================
+-- Sequence: seq_cd_acspa
+-- ============================================================
 
-----------------------------------------------------------------------------------------------
--- seq_cd_acspa - ok
-----------------------------------------------------------------------------------------------
-SELECT current_value
-FROM sys.sequences
-WHERE name = 'seq_cd_acspa'
--- acspa = 2108888
+-- Consulta do valor atual da sequence seq_cd_acspa
+SELECT
+    S.current_value
+FROM sys.sequences AS S
+WHERE S.name = 'seq_cd_acspa';
 
-select max(CD_ACSPA) from ACSPA --3062626
+-- Identificação do maior código na tabela ACSPA (acspa = 2108888 / max = 3062626)
+SELECT
+    MAX(A.CD_ACSPA) AS max_cd_acspa
+FROM ACSPA AS A;
 
+-- Reajuste do valor inicial da sequence seq_cd_acspa
 ALTER SEQUENCE seq_cd_acspa
-RESTART WITH 3062627
+RESTART WITH 3062627;
+GO
 
+-- ============================================================
+-- Sequence: seq_cd_pssoa
+-- ============================================================
 
-----------------------------------------------------------------------------------------------
--- seq_cd_pssoa - ok
-----------------------------------------------------------------------------------------------
-SELECT current_value
-FROM sys.sequences
-WHERE name = 'seq_cd_pssoa'
+-- Consulta do valor atual da sequence seq_cd_pssoa
+SELECT
+    S.current_value
+FROM sys.sequences AS S
+WHERE S.name = 'seq_cd_pssoa';
 
-select max(CD_PSSOA) from PSSOA -- 1738983
+-- Identificação do maior código na tabela PSSOA (max = 1738983)
+SELECT
+    MAX(P.CD_PSSOA) AS max_cd_pssoa
+FROM PSSOA AS P;
 
+-- Reajuste do valor inicial da sequence seq_cd_pssoa
 ALTER SEQUENCE seq_cd_pssoa
-RESTART WITH 1738984
+RESTART WITH 1738984;
+GO
 
+-- ============================================================
+-- Sequence: seq_cd_cnsul
+-- ============================================================
 
-----------------------------------------------------------------------------------------------
--- seq_cd_cnsul - ok
-----------------------------------------------------------------------------------------------
-SELECT current_value
-FROM sys.sequences
-WHERE name = 'seq_cd_cnsul' -- 1315570
+-- Consulta do valor atual da sequence seq_cd_cnsul
+SELECT
+    S.current_value
+FROM sys.sequences AS S
+WHERE S.name = 'seq_cd_cnsul';
 
-select max(CD_cnsul) from CNSUL -- 1315570
+-- Identificação do maior código na tabela CNSUL (max = 1315570)
+SELECT
+    MAX(C.CD_cnsul) AS max_cd_cnsul
+FROM CNSUL AS C;
 
+-- Reajuste do valor inicial da sequence seq_cd_cnsul
 ALTER SEQUENCE seq_cd_cnsul
-RESTART WITH 1315571
+RESTART WITH 1315571;
+GO
 
+-- ============================================================
+-- Sequence: seq_cd_avals
+-- ============================================================
 
-----------------------------------------------------------------------------------------------
--- seq_cd_avals - ok
-----------------------------------------------------------------------------------------------
-SELECT current_value
-FROM sys.sequences
-WHERE name = 'seq_cd_avals' -- 1478120
+-- Consulta do valor atual da sequence seq_cd_avals
+SELECT
+    S.current_value
+FROM sys.sequences AS S
+WHERE S.name = 'seq_cd_avals';
 
-select max(CD_AVALS) from AVALS -- 2478115 
+-- Identificação do maior código na tabela AVALS (avals = 1478120 / max = 2478115)
+SELECT
+    MAX(A.CD_AVALS) AS max_cd_avals
+FROM AVALS AS A;
 
+-- Reajuste do valor inicial da sequence seq_cd_avals
 ALTER SEQUENCE seq_cd_avals
-RESTART WITH 2478116
+RESTART WITH 2478116;
+GO
 
+-- ============================================================
+-- Sequence: seq_cd_respc
+-- ============================================================
 
-----------------------------------------------------------------------------------------------
--- seq_cd_respc - ok
-----------------------------------------------------------------------------------------------
-SELECT current_value
-FROM sys.sequences
-WHERE name = 'seq_cd_respc'     -- 7884097
+-- Consulta do valor atual da sequence seq_cd_respc
+SELECT
+    S.current_value
+FROM sys.sequences AS S
+WHERE S.name = 'seq_cd_respc';
 
-select max(CD_RESPC) from RESPC -- 25884084
+-- Identificação do maior código na tabela RESPC (respc = 7884097 / max = 25884084)
+SELECT
+    MAX(R.CD_RESPC) AS max_cd_respc
+FROM RESPC AS R;
 
+-- Reajuste do valor inicial da sequence seq_cd_respc
 ALTER SEQUENCE seq_cd_respc
-RESTART WITH 25884086
+RESTART WITH 25884086;
+GO
 
+-- ============================================================
+-- Sequence: seq_cd_hipdi
+-- ============================================================
 
-----------------------------------------------------------------------------------------------
--- seq_cd_hipdi - ok
-----------------------------------------------------------------------------------------------
-SELECT current_value
-FROM sys.sequences
-WHERE name = 'seq_cd_hipdi'     -- 1070034
+-- Consulta do valor atual da sequence seq_cd_hipdi
+SELECT
+    S.current_value
+FROM sys.sequences AS S
+WHERE S.name = 'seq_cd_hipdi';
 
-select max(CD_HIPDI) from HIPDI -- 1070034
+-- Identificação do maior código na tabela HIPDI (max = 1070034)
+SELECT
+    MAX(H.CD_HIPDI) AS max_cd_hipdi
+FROM HIPDI AS H;
 
+-- Reajuste do valor inicial da sequence seq_cd_hipdi
 ALTER SEQUENCE seq_cd_hipdi
-RESTART WITH 1070035
+RESTART WITH 1070035;
+GO
 
+-- ============================================================
+-- Sequence: seq_cd_ctrnh
+-- ============================================================
 
-----------------------------------------------------------------------------------------------
--- seq_cd_ctrnh - ok
-----------------------------------------------------------------------------------------------
-SELECT current_value
-FROM sys.sequences
-WHERE name = 'seq_cd_ctrnh'     -- 42541238
+-- Consulta do valor atual da sequence seq_cd_ctrnh
+SELECT
+    S.current_value
+FROM sys.sequences AS S
+WHERE S.name = 'seq_cd_ctrnh';
 
-select max(CD_CTRNH) from CTRNH -- 142093333
+-- Identificação do maior código na tabela CTRNH (ctrnh = 42541238 / max = 142093333)
+SELECT
+    MAX(C.CD_CTRNH) AS max_cd_ctrnh
+FROM CTRNH AS C;
 
+-- Reajuste do valor inicial da sequence seq_cd_ctrnh
 ALTER SEQUENCE seq_cd_ctrnh
-RESTART WITH 142093334
-
-
-
-
-
+RESTART WITH 142093334;
+GO

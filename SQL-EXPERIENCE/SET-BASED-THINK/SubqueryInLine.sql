@@ -1,46 +1,71 @@
--------------------------------------------------------------------------------------------------------------------------------
---Use inline sub queries to replace User Defined Functions
--------------------------------------------------------------------------------------------------------------------------------
+/*
+ *
+	OBJETIVO: Demonstração de otimização de desempenho substituindo Funções Definidas pelo Usuário (UDFs)
+			  por subconsultas inline em consultas SET-based, com exemplos práticos de melhoria
+			  significativa de performance (redução de 90 segundos para 1 segundo em 20.000 registros).
+	PROJETO: mssqlserver-solution-explorer
+ *	
+ */
+-- ============================================================
+-- Uso de subconsultas inline para substituir 
+-- Funções Definidas pelo Usuário
+-- ============================================================
 
---Let's assume, for a self-referential table Employee(ID, Name,MgrID), 
---there is a query written in Procedural approach using a User Defined Function. 
---The query outputs employee names and corresponding manager names.
---Here is the query:
+-- ============================================================
+-- Exemplo de abordagem procedural com UDF (baixo desempenho)
+-- ============================================================
+-- Considerando uma tabela auto-referencial Employee(ID, Name, MgrID),
+-- onde MgrID referencia o ID de outro funcionário na mesma tabela.
+-- A consulta abaixo retorna o nome do funcionário e o nome do seu gerente.
 
-
-SELECT Name AS [Employee Name],
-       dbo.fnGetManagerName(MgrID) as [Manager Name] 
+SELECT
+    Name AS [Employee Name],
+    dbo.fnGetManagerName(MgrID) AS [Manager Name]
 FROM Employee
 
---Here, dbo.fnGetManagerName(MgrID) is a UDF that returns the manager's name 
---(which is nothing but another employee in the same Employee table) as follows:
-
-
-CREATE FUNCTION [dbo].[fnGetManagerName](@ID int) 
-RETURNS VARCHAR(50) AS
+-- ============================================================
+-- Definição da UDF utilizada na abordagem procedural
+-- ============================================================
+CREATE FUNCTION [dbo].[fnGetManagerName](@ID INT)
+RETURNS VARCHAR(50)
+AS
 BEGIN
-          --Declare the variable to hold result 
-          DECLARE @ManagerName varchar(50)
-          --Determine the Employee name by the given ID 
-          SELECT @ManagerName = Name FROM Employee WHERE ID = @ID
-          --Return the result
-          RETURN @ManagerName
+    -- Declara a variável para armazenar o resultado
+    DECLARE @ManagerName VARCHAR(50)
+
+    -- Obtém o nome do funcionário com base no ID informado
+    SELECT @ManagerName = Name
+    FROM Employee
+    WHERE ID = @ID
+
+    -- Retorna o resultado
+    RETURN @ManagerName
 END
---The above Procedural SQL could be re-written using a sub query in Set based approach as follows:
+GO
 
+-- ============================================================
+-- SOLUÇÃO COM MAIOR DESEMPENHO: Subconsulta inline SET-based
+-- ============================================================
+-- A abordagem procedural com UDF é substituída por uma subconsulta
+-- correlacionada, eliminando a execução linha a linha da função
+-- e obtendo ganho expressivo de performance.
 
--------------------------------------------------------------------------------------------------------------------------------
--- SOLUÇÃO COM MAIOR DESEMPENHO
--------------------------------------------------------------------------------------------------------------------------------
+SELECT
+    E.Name AS [Employee Name],
+    (
+        SELECT Name
+        FROM Employee
+        WHERE ID = E.MgrID
+    ) AS [Manager Name]
+FROM Employee AS E
+GO
 
-SELECT E.Name AS [Employee Name],
-(
-    SELECT Name FROM Employee WHERE ID = E.MgrID
-) AS [Manager Name] 
-FROM Employee E 
-
---In one of the projects I worked on, we had a slow performing Stored Procedure in a 
---moderate sized SQL Server 2000 database. The SP used to process around 20,000 records to produce a result set. 
---All we needed to optimize it was replace a UDF with an inline sub query 
---(because all other optimizations were done already). 
---Believe me, that turned down the total execution time from 90 long seconds to just 1 second!
+-- ============================================================
+-- NOTA DE PERFORMANCE
+-- ============================================================
+-- Em um projeto com SQL Server 2000, um procedimento armazenado
+-- que processava cerca de 20.000 registros teve sua execução
+-- reduzida de 90 segundos para apenas 1 segundo após substituir
+-- a UDF por uma subconsulta inline, com as demais otimizações
+-- já aplicadas previamente.
+-- ============================================================

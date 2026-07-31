@@ -1,53 +1,64 @@
+﻿/*
+	OBJETIVO: Excluir registros da tabela TRANSACIONADORES que possuem
+			  correspondência em uma subconsulta que combina dados da própria
+			  tabela e da tabela TRACONTASLEVEL1, filtrados por condição
+			  específica de banco.
+	PROJETO: mssqlserver-solution-explorer
+*/
 USE YOUR_DATABASE
 GO
 
-BEGIN TRANSACTION
-
 BEGIN TRY
-delete from YOUR_DATABASE.dbo.TRANSACIONADORES
-from YOUR_DATABASE.dbo.TRANSACIONADORES as t1
-inner join 
-		(  select Cod from
-			(	SELECT 
-				 Cod=TRACOD
-				,Nome=TRANOM
-				,Nat=TRANATJURIDICA
-				,CPF=TRACPF
-				,CNPJ=TraCnpj
-				,Origem='Transacionadores'
-				,Banco=TRABANCOD
-				,Age=TRAAGECOD
-				,Conta=TRACODCONTABANCO 
-				  FROM YOUR_DATABASE.dbo.TRANSACIONADORES T 
-				 WHERE T.TRASIT =1
+    BEGIN TRANSACTION
+        DELETE FROM YOUR_DATABASE.dbo.TRANSACIONADORES
+        FROM YOUR_DATABASE.dbo.TRANSACIONADORES AS t1
+        INNER JOIN
+        (
+            SELECT
+                  Cod
+            FROM
+            (
+                SELECT
+                      TRACOD                                                                  AS Cod
+                    , TRANOM                                                                  AS Nome
+                    , TRANATJURIDICA                                                          AS Nat
+                    , TRACPF                                                                  AS CPF
+                    , TraCnpj                                                                 AS CNPJ
+                    , 'Transacionadores'                                                      AS Origem
+                    , TRABANCOD                                                               AS Banco
+                    , TRAAGECOD                                                               AS Age
+                    , TRACODCONTABANCO                                                        AS Conta
+                FROM YOUR_DATABASE.dbo.TRANSACIONADORES AS T
+                WHERE T.TRASIT = 1
 
-				 UNION
+                UNION
 
-				 SELECT TRACOD
-				,TRANOM
-				,TRANATJURIDICA
-				,TRACPF
-				,TraCnpj
-				, 'TraContasLevel1'
-				,TraConBanCod
-				,TraconAgeCod
-				,TraConNumCon
-
-				  FROM YOUR_DATABASE.dbo.TRANSACIONADORES T 
-				 INNER JOIN YOUR_DATABASE.dbo.TRACONTASLEVEL1  C ON T.TRACOD=C.TRACONCOD
-				 WHERE T.TRASIT =1 
-
-			) x
-			WHERE X.BANCO IN (1)
-		) as t2
-		on t1.TraCod = t2.Cod
-
+                SELECT
+                      TRACOD
+                    , TRANOM
+                    , TRANATJURIDICA
+                    , TRACPF
+                    , TraCnpj
+                    , 'TraContasLevel1'
+                    , TraConBanCod
+                    , TraconAgeCod
+                    , TraConNumCon
+                FROM YOUR_DATABASE.dbo.TRANSACIONADORES AS T
+                INNER JOIN YOUR_DATABASE.dbo.TRACONTASLEVEL1 AS C
+                        ON T.TRACOD = C.TRACONCOD
+                WHERE T.TRASIT = 1
+            ) AS x
+            WHERE X.Banco IN (1)
+        ) AS t2
+            ON t1.TraCod = t2.Cod;
+    COMMIT TRANSACTION
 END TRY
-	BEGIN CATCH
-		ROLLBACK TRANSACTION
-		SELECT ERROR_NUMBER(), ERROR_MESSAGE()
-	END CATCH
+BEGIN CATCH
+    ROLLBACK TRANSACTION
+    SELECT
+          ERROR_NUMBER() AS ErrorNumber
+        , ERROR_MESSAGE() AS ErrorMessage;
+END CATCH;
 
---COMMIT TRANSACTION
-
---SELECT @@TRANCOUNT
+-- COMMIT TRANSACTION;
+-- SELECT @@TRANCOUNT;

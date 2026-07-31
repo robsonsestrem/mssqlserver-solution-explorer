@@ -1,155 +1,282 @@
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- https://www.devmedia.com.br/melhoria-de-desempenho-utilizando-estatisticas-e-indices/32631
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- SELECT top 1 * FROM sys.dm_tran_current_transaction
+Ôªø/*
+	OBJETIVO: Demonstrar problemas de desempenho relacionados a estimativas de
+			  cardinalidade, uso de vari√°veis locais, estat√≠sticas desatualizadas
+			  e correla√ß√£o entre colunas, apresentando solu√ß√µes pr√°ticas como
+			  procedimentos armazenados, SQL din√¢mico com sp_executesql e
+			  √≠ndices filtrados.
+	PROJETO: mssqlserver-solution-explorer
+
+	REFER√äNCIAS E AUTORIA:
+	https://www.devmedia.com.br/melhoria-de-desempenho-utilizando-estatisticas-e-indices/32631
+*/
+
+-- ============================================================
+-- Cria√ß√£o do banco de dados de teste
+-- ============================================================
 CREATE DATABASE TEST;
-go
-ALTER DATABASE TEST SET Recovery Simple
-go
-USE TEST
-go
--- cria a tabela NUMERO
-CREATE TABLE numero(n INT NOT NULL PRIMARY KEY);
-go
--- insere os registros na tabela numero
-INSERT numero(n)
-   SELECT rn FROM (SELECT ROW_NUMBER()
-              OVER(ORDER BY current_timestamp) AS rn
-            FROM sys.trace_event_bindings AS b1
-              ,sys.trace_event_bindings AS b2) AS rd
-   WHERE rn <= 1000000
-go
--- cria uma tabela de teste
-IF (object_id('T0', 'U') IS NOT NULL)
- DROP TABLE T0;
-go
+GO
+
+ALTER DATABASE TEST
+SET RECOVERY SIMPLE;
+GO
+
+USE TEST;
+GO
+
+-- ============================================================
+-- Cria√ß√£o da tabela auxiliar "numero"
+-- ============================================================
+CREATE TABLE numero
+(
+      n INT NOT NULL PRIMARY KEY
+);
+GO
+
+-- ============================================================
+-- Inser√ß√£o de 1.000.000 registros na tabela "numero"
+-- ============================================================
+INSERT INTO numero
+(
+      n
+)
+SELECT rn
+FROM
+(
+    SELECT
+          ROW_NUMBER() OVER (ORDER BY CURRENT_TIMESTAMP) AS rn
+    FROM sys.trace_event_bindings AS b1
+    CROSS JOIN sys.trace_event_bindings AS b2
+) AS rd
+WHERE rn <= 1000000;
+GO
+
+-- ============================================================
+-- Cria√ß√£o da tabela de teste "T0" com √≠ndice nonclustered
+-- ============================================================
+IF (OBJECT_ID('T0', 'U') IS NOT NULL)
+BEGIN
+    DROP TABLE T0;
+END;
+GO
+
 CREATE TABLE T0
- ( c1 INT NOT NULL
-  ,c2 nchar(200) NOT NULL DEFAULT '#'
- )
-go
--- Insere 100000 linhas com o valor 1000 para a coluna c1
-INSERT T0(c1)
-  SELECT 1000 FROM numero
-  WHERE n <= 100000
-go
--- insere uma linha com valor 2000
-INSERT T0(c1) VALUES(2000)
-go
---cria um Ìndice nonclustered para a coluna c1
-CREATE NONCLUSTERED INDEX ix_T0_1 ON T0(c1)
+(
+      c1 INT NOT NULL
+    , c2 NCHAR(200) NOT NULL DEFAULT '#'
+);
+GO
 
+-- ============================================================
+-- Inser√ß√£o de 100.000 registros com c1 = 1000
+-- ============================================================
+INSERT INTO T0
+(
+      c1
+)
+SELECT 1000
+FROM numero
+WHERE n <= 100000;
+GO
 
----------------------------------------------------------------------------
--- Problemas que ocorrem com estimativa e vari·veis locais 
----------------------------------------------------------------------------
-DECLARE @x int
-SET @x = 2000
-SELECT c1,c2
- FROM T0
- WHERE c1 = @x
+-- ============================================================
+-- Inser√ß√£o de 1 registro com c1 = 2000
+-- ============================================================
+INSERT INTO T0
+(
+      c1
+)
+VALUES
+(
+      2000
+);
+GO
 
--- soluÁ„o com proc - melhora plano de execuÁ„o
-CREATE PROCEDURE getT0Values(@x int) AS
-SELECT c1,c2 FROM T0
-WHERE c1 = @x
+-- ============================================================
+-- Cria√ß√£o de √≠ndice nonclustered na coluna c1
+-- ============================================================
+CREATE NONCLUSTERED INDEX ix_T0_1
+ON T0(c1);
+GO
 
-EXEC getT0Values 2000
+-- ============================================================
+-- Problemas com estimativa e vari√°veis locais
+-- ============================================================
 
--- soluÁ„o com sql din‚mico - melhora plano de execuÁ„o mas tem efeitos colaterais muito negativos
-DECLARE @x int
-    ,@cmd nvarchar(300)
-SET @x = 2000
-SET @cmd = 'SELECT c1,c2 FROM T0 WHERE c1=' + CAST(@x as nvarchar(8))
-EXEC (@cmd)
+-- Caso 1: Uso de vari√°vel local (estimativa ruim)
+DECLARE @x INT = 2000;
 
--- melhor forma com sql din‚mico
-EXEC sp_executesql N'SELECT c1, c2 FROM T0 WHERE c1 = @x', N'@x int', @x = 2000
+SELECT
+      c1
+    , c2
+FROM T0
+WHERE c1 = @x;
+GO
 
+-- ============================================================
+-- Solu√ß√£o 1: Utilizar procedimento armazenado (melhora o plano)
+-- ============================================================
+CREATE PROCEDURE getT0Values
+(
+      @x INT
+)
+AS
+BEGIN
+    SELECT
+          c1
+        , c2
+    FROM T0
+    WHERE c1 = @x;
+END;
+GO
 
+EXEC getT0Values 2000;
 
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- AQUI EXPLICA COMO AS ESTATÕSTICAS N√O ATUALIZAM AUTOMATICAMENTE
--- EstatÌsticas remotas
--- A sincronizaÁ„o de estatÌsticas sempre fica para tr·s nas modificaÁıes de dados reais. Por isso, quase todos os objetos estatÌsticos s„o obsoletos, pelo menos atÈ um certo nÌvel.
--- Em muitos casos, esse comportamento È absolutamente aceit·vel, mas h· tambÈm situaÁıes em que o desvio entre os dados de origem e as estatÌsticas pode ser muito grande.
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ============================================================
+-- Solu√ß√£o 2: SQL din√¢mico com concatena√ß√£o (melhora o plano,
+-- mas tem efeitos colaterais negativos - risco de SQL Injection)
+-- ============================================================
+DECLARE @x    INT = 2000;
+DECLARE @cmd  NVARCHAR(300) = 'SELECT c1, c2 FROM T0 WHERE c1=' + CAST(@x AS NVARCHAR(8));
+
+EXEC (@cmd);
+
+-- ============================================================
+-- Solu√ß√£o 3: SQL din√¢mico com sp_executesql (melhor abordagem)
+-- ============================================================
+EXEC sp_executesql
+     N'SELECT c1, c2 FROM T0 WHERE c1 = @x'
+   , N'@x INT'
+   , @x = 2000;
+
+-- ============================================================
+-- Demonstra√ß√£o: Estat√≠sticas desatualizadas
+-- ============================================================
+
+-- ============================================================
+-- Cria√ß√£o da tabela "produto"
+-- ============================================================
 CREATE TABLE produto
- ( id_produto int IDENTITY(1,1) NOT NULL
-  ,valor decimal(8,2) NOT NULL
-  ,data_alteracao datetime NOT NULL default current_timestamp
+(
+      id_produto     INT IDENTITY(1, 1) NOT NULL
+    , valor          DECIMAL(8, 2) NOT NULL
+    , data_alteracao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+GO
+
+ALTER TABLE produto
+ADD CONSTRAINT pk_produto PRIMARY KEY CLUSTERED (id_produto);
+
+CREATE NONCLUSTERED INDEX ix_produto_data_alteracao
+ON produto(data_alteracao);
+
+-- ============================================================
+-- Inser√ß√£o de 500.000 registros na tabela "produto"
+-- ============================================================
+INSERT INTO produto
+(
+      data_alteracao
+    , valor
 )
+SELECT
+      DATEADD(DAY, ABS(CHECKSUM(NEWID())) % 3250, '01/01/2010')
+    , 0.01 * (ABS(CHECKSUM(NEWID())) % 20000)
+FROM numero
+WHERE n <= 500000;
 GO
-ALTER TABLE produto ADD CONSTRAINT pk_produto
- PRIMARY KEY CLUSTERED (id_produto)
 
-
-CREATE NONCLUSTERED INDEX ix_produto_data_alteracao ON produto(data_alteracao)
-
--- insert de massa de dados
-INSERT produto(data_alteracao, valor)
- SELECT DATEADD(day, abs(checksum(newid())) % 3250,01/01/2010)
-    ,0.01*(ABS(checksum(newid())) % 20000)
-  FROM numero
- WHERE n <= 500000
-GO
---
+-- ============================================================
+-- Atualiza√ß√£o completa das estat√≠sticas
+-- ============================================================
 UPDATE STATISTICS produto WITH FULLSCAN;
 
+-- ============================================================
+-- Inser√ß√£o de mais 100.000 registros com data fixa (01/01/2015)
+-- Causa desatualiza√ß√£o das estat√≠sticas
+-- ============================================================
+INSERT INTO produto
+(
+      data_alteracao
+    , valor
+)
+SELECT
+      '01/01/2015'
+    , 100
+FROM numero
+WHERE n <= 100000;
 
--- Utilizou-se alguns valores calculados de forma aleatÛria para data_alteracao e valor, 
--- alÈm de atualizar todas as estatÌsticas existentes apÛs o comando insert ser concluÌdo. Em seguida, faz-se a inserÁ„o de mais 100 mil registros, estes, 
--- porÈm, todos com a data fixa em 01/01/2015:
+-- ============================================================
+-- Consulta com estimativa incorreta (discrep√¢ncia entre
+-- valores estimados e reais no plano de execu√ß√£o)
+-- ============================================================
+SELECT *
+FROM produto
+WHERE data_alteracao = '01/01/2015';
 
-INSERT produto(data_alteracao, valor)
-   SELECT '01/01/2015', 100 FROM numero WHERE n <= 100000
-
-SELECT * FROM produto WHERE data_alteracao = '01/01/2015'
-
--- RODE O PLANO E VER¡ A DISCREP¬NCIA NA DIFEREN«A DE VALORES ESTIMADOS
--- SOLU«√O -> ATUALIZE MANUALMENTE
+-- ============================================================
+-- Solu√ß√£o: Atualizar manualmente as estat√≠sticas
+-- ============================================================
 UPDATE STATISTICS produto WITH FULLSCAN;
 
+-- ============================================================
+-- Demonstra√ß√£o: Estat√≠sticas para colunas correlatas
+-- (n√£o s√£o suportadas automaticamente)
+-- ============================================================
 
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- EstatÌsticas para colunas correlatas n„o s„o suportadas
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE veiculo_aluguel(
- id_veiculo_aluguel INT NOT NULL IDENTITY(1,1) PRIMARY KEY clustered
- ,tipo_veiculo nvarchar(20) NOT NULL
- ,valor_diaria decimal(6,2)
-)
+-- ============================================================
+-- Cria√ß√£o da tabela "veiculo_aluguel"
+-- ============================================================
+CREATE TABLE veiculo_aluguel
+(
+      id_veiculo_aluguel INT NOT NULL IDENTITY(1, 1) PRIMARY KEY CLUSTERED
+    , tipo_veiculo       NVARCHAR(20) NOT NULL
+    , valor_diaria       DECIMAL(6, 2)
+);
+GO
 
 CREATE NONCLUSTERED INDEX ix_veiculo_aluguel_tipo_veic_valor_diaria
-ON veiculo_aluguel(tipo_veiculo, valor_diaria)
+ON veiculo_aluguel(tipo_veiculo, valor_diaria);
 
-
--- InserÁ„o de registros na tabela de aluguel de veÌculos.
-;WITH tipo_veiculo(minimo, maximo, tipo) AS
- ( SELECT 40, 69, 'B·sico'
-  UNION ALL SELECT 70, 99, 'Sedan'
-  UNION ALL SELECT 100, 149, 'Camionete'
-  UNION ALL SELECT 149, 250, 'Luxo'
- )
-INSERT veiculo_aluguel(tipo_veiculo, valor_diaria)
- SELECT tipo, minimo + abs(checksum(newid())) % (maximo-minimo)
-  FROM tipo_veiculo
-     INNER JOIN numero ON n <= 25000
+-- ============================================================
+-- Inser√ß√£o de registros na tabela de aluguel de ve√≠culos
+-- ============================================================
+WITH tipo_veiculo(minimo, maximo, tipo) AS
+(
+    SELECT 40, 69, 'B√°sico'
+    UNION ALL
+    SELECT 70, 99, 'Sedan'
+    UNION ALL
+    SELECT 100, 149, 'Camionete'
+    UNION ALL
+    SELECT 149, 250, 'Luxo'
+)
+INSERT INTO veiculo_aluguel
+(
+      tipo_veiculo
+    , valor_diaria
+)
+SELECT
+      tipo
+    , minimo + ABS(CHECKSUM(NEWID())) % (maximo - minimo)
+FROM tipo_veiculo
+INNER JOIN numero
+        ON n <= 25000;
 GO
 
-UPDATE STATISTICS veiculo_aluguel WITH FULLSCAN
+UPDATE STATISTICS veiculo_aluguel WITH FULLSCAN;
 
-SELECT * FROM Veiculo_aluguel
-   WHERE Tipo_veiculo='Luxo'
-    AND Valor_diaria < 149
+-- ============================================================
+-- Consulta com duas condi√ß√µes correlatas.
+-- O otimizador n√£o tem estat√≠sticas 
+-- de correla√ß√£o entre colunas.
+-- ============================================================
+SELECT *
+FROM veiculo_aluguel
+WHERE tipo_veiculo = 'Luxo'
+      AND valor_diaria < 149;
 
--- usando Ìndice filtrado
+-- ============================================================
+-- Solu√ß√£o: Utilizar √≠ndice filtrado para melhorar a estimativa
+-- ============================================================
 CREATE NONCLUSTERED INDEX ix_veiculo_aluguel_tipo_luxo_valor_diaria
-    ON veiculo_aluguel(valor_diaria)
-   WHERE tipo_veiculo='Luxo'
-
-
-
-
-
-
+ON veiculo_aluguel(valor_diaria)
+WHERE tipo_veiculo = 'Luxo';
