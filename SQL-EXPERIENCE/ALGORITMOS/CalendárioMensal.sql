@@ -1,82 +1,113 @@
----------------------------------------------------------------------------------------------------------------
--- criando calend�rio mensal de dados
----------------------------------------------------------------------------------------------------------------
+﻿/*
+ *
+	OBJETIVO: Geração de calendário mensal em tempo de execução, populando uma
+			  table variable com dias da semana distribuídos em colunas, utilizando
+			  loops WHILE com UPDATE condicional via CASE e DatePart.
+	PROJETO: mssqlserver-solution-explorer
+ *
+ */
+-- ============================================================
+-- Calendário Mensal via Table Variable e Loop WHILE
+-- ============================================================
 
+SET NOCOUNT ON
+SET DATEFIRST 7
+SET DATEFORMAT DMY
 
-Set Nocount On
-Set DateFirst 7
-Set DateFormat DMY
- 
-Declare @Calendario Table
- (Semana Int Identity(1,1) ,
-  Segunda SmallInt Default null,
-  Terca SmallInt Default null, 
-  Quarta SmallInt Default null,
-  Quinta SmallInt Default null,
-   Sexta SmallInt Default null,
-   Sabado SmallInt Default Null,
-   Domingo SmallInt Default Null)
- 
-Declare @DataInicial Date
-Declare @DataFinal  Date
-Declare @Semana  Int
- 
-Select @DataInicial = '01/04/2016' , @DataFinal = '30/04/2016', @Semana = 1
- 
-While @DataInicial <= @DataFinal
-Begin
-  Insert into @Calendario Default Values
- 
-  While 1=1
-     Begin 
-       Update @Calendario
-        Set Segunda = Case When DatePart(WeekDay,@DataInicial) = 2 Then DatePart(Day,@DataInicial) Else Segunda End,
-              Terca = Case When DatePart(WeekDay,@DataInicial) = 3 Then DatePart(Day,@DataInicial) Else Terca End,
-              Quarta = Case When DatePart(WeekDay,@DataInicial) = 4 Then DatePart(Day,@DataInicial) Else Quarta End,
-              Quinta = Case When DatePart(WeekDay,@DataInicial) = 5 Then DatePart(Day,@DataInicial) Else Quinta End,
-              Sexta = Case When DatePart(WeekDay,@DataInicial) = 6 Then DatePart(Day,@DataInicial) Else Sexta End,
-              Sabado = Case When DatePart(WeekDay,@DataInicial) = 7 Then DatePart(Day,@DataInicial) Else Sabado End,
-              Domingo = Case When DatePart(WeekDay,@DataInicial) = 1 Then DatePart(Day,@DataInicial) Else Domingo End    
-       Where Semana = @Semana
-       And DatePart(Month,@DataInicial) =  DatePart(Month,@DataFinal)
-      If DatePart(WeekDay,@DataInicial) = 1
-       Break
-         Select @DataInicial = Dateadd(Day,1,@DataInicial)
-      End
-     Select @DataInicial = Dateadd(Day,1,@DataInicial)
-     Set @Semana = @Semana + 1
-End
- 
-Select * From @Calendario
+-- Declaração da table variable para armazenar o calendário mensal
+DECLARE @Calendario TABLE
+(
+    Semana INT IDENTITY(1,1)
+    ,Segunda SMALLINT DEFAULT NULL
+    ,Terca SMALLINT DEFAULT NULL
+    ,Quarta SMALLINT DEFAULT NULL
+    ,Quinta SMALLINT DEFAULT NULL
+    ,Sexta SMALLINT DEFAULT NULL
+    ,Sabado SMALLINT DEFAULT NULL
+    ,Domingo SMALLINT DEFAULT NULL
+)
 
+-- Declaração de variáveis de controle do loop
+DECLARE @DataInicial DATE
+DECLARE @DataFinal DATE
+DECLARE @Semana INT
 
---O segredo deste c�digo encontra-se na execu��o do Comando Update 
---em conjunto com o Comando Case, ambos, destacados a seguir:
+-- Inicialização das datas do mês de referência
+SELECT 
+    @DataInicial = '01/04/2016'
+    ,@DataFinal = '30/04/2016'
+    ,@Semana = 1
 
+-- Loop externo: itera até a data final do mês
+WHILE @DataInicial <= @DataFinal
+BEGIN
+    -- Insere uma nova linha para a semana atual
+    INSERT INTO @Calendario DEFAULT VALUES
 
-Update @Calendario
-        Set Segunda = Case When DatePart(WeekDay,@DataInicial) = 2 Then DatePart(Day,@DataInicial) Else Segunda End,
-              Terca = Case When DatePart(WeekDay,@DataInicial) = 3 Then DatePart(Day,@DataInicial) Else Terca End,
-              Quarta = Case When DatePart(WeekDay,@DataInicial) = 4 Then DatePart(Day,@DataInicial) Else Quarta End,
-              Quinta = Case When DatePart(WeekDay,@DataInicial) = 5 Then DatePart(Day,@DataInicial) Else Quinta End,
-              Sexta = Case When DatePart(WeekDay,@DataInicial) = 6 Then DatePart(Day,@DataInicial) Else Sexta End,
-              Sabado = Case When DatePart(WeekDay,@DataInicial) = 7 Then DatePart(Day,@DataInicial) Else Sabado End,
-              Domingo = Case When DatePart(WeekDay,@DataInicial) = 1 Then DatePart(Day,@DataInicial) Else Domingo End    
-       Where Semana = @Semana
-       And DatePart(Month,@DataInicial) =  DatePart(Month,@DataFinal)
+    -- Loop interno: popula os dias da semana até encontrar domingo
+    WHILE 1 = 1
+    BEGIN
+        -- Atualização condicional da linha atual com base no dia da semana
+        UPDATE @Calendario
+        SET Segunda = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 2 THEN DATEPART(DAY, @DataInicial) ELSE Segunda END
+            ,Terca = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 3 THEN DATEPART(DAY, @DataInicial) ELSE Terca END
+            ,Quarta = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 4 THEN DATEPART(DAY, @DataInicial) ELSE Quarta END
+            ,Quinta = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 5 THEN DATEPART(DAY, @DataInicial) ELSE Quinta END
+            ,Sexta = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 6 THEN DATEPART(DAY, @DataInicial) ELSE Sexta END
+            ,Sabado = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 7 THEN DATEPART(DAY, @DataInicial) ELSE Sabado END
+            ,Domingo = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 1 THEN DATEPART(DAY, @DataInicial) ELSE Domingo END
+        WHERE Semana = @Semana
+            AND DATEPART(MONTH, @DataInicial) = DATEPART(MONTH, @DataFinal)
 
---Neste bloco de c�digo, estamos realizando a atualiza��o de cada Registro inserido na 
---vari�vel table @Calendario, fazendo a an�lise para identificar em qual dia da semana 
---e tamb�m em qual semana do m�s os valores est�o sendo acumulados. 
---Para tamb�m esta sendo utilizado a Fun��o DatePart em conjunto com as op��es Day, WeekDay e Month.
+        -- Se encontrou domingo, encerra o loop interno
+        IF DATEPART(WEEKDAY, @DataInicial) = 1
+            BREAK
 
+        -- Avança para o próximo dia
+        SELECT @DataInicial = DATEADD(DAY, 1, @DataInicial)
+    END
 
--- Gerando um calend�rio mensal em tempo de execu��o, com base, no m�s atual [outra maneira]
+    -- Avança para o próximo dia e incrementa o contador de semana
+    SELECT @DataInicial = DATEADD(DAY, 1, @DataInicial)
+    SET @Semana = @Semana + 1
+END
 
-Select dateadd(month,datediff(month,0,getdate()),0) + number
+-- Exibição do calendário gerado
+SELECT * FROM @Calendario
 
-from master..spt_values n with (nolock)
+-- ============================================================
+-- Análise Técnica: UPDATE com CASE
+-- ============================================================
 
-where number between 0 and day(dateadd(month,datediff(month,-1,getdate()),0) - 1) -1 and type = 'p'
+/*
+O segredo deste código encontra-se na execução do comando UPDATE
+em conjunto com o comando CASE, ambos destacados a seguir:
 
-Go
+UPDATE @Calendario
+SET Segunda = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 2 THEN DATEPART(DAY, @DataInicial) ELSE Segunda END
+    ,Terca = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 3 THEN DATEPART(DAY, @DataInicial) ELSE Terca END
+    ,Quarta = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 4 THEN DATEPART(DAY, @DataInicial) ELSE Quarta END
+    ,Quinta = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 5 THEN DATEPART(DAY, @DataInicial) ELSE Quinta END
+    ,Sexta = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 6 THEN DATEPART(DAY, @DataInicial) ELSE Sexta END
+    ,Sabado = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 7 THEN DATEPART(DAY, @DataInicial) ELSE Sabado END
+    ,Domingo = CASE WHEN DATEPART(WEEKDAY, @DataInicial) = 1 THEN DATEPART(DAY, @DataInicial) ELSE Domingo END
+WHERE Semana = @Semana
+    AND DATEPART(MONTH, @DataInicial) = DATEPART(MONTH, @DataFinal)
+
+Neste bloco de código, estamos realizando a atualização de cada registro inserido na
+table variable @Calendario, fazendo a análise para identificar em qual dia da semana
+e também em qual semana do mês os valores estão sendo acumulados.
+
+Para isso, está sendo utilizada a função DATEPART em conjunto com as opções DAY, WEEKDAY e MONTH.
+*/
+
+-- ============================================================
+-- Alternativa: Calendário Mensal via spt_values
+-- ============================================================
+
+-- Geração de calendário mensal em tempo de execução com base no mês atual
+SELECT DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0) + n.number
+FROM master..spt_values AS n WITH (NOLOCK)
+WHERE n.number BETWEEN 0 AND DAY(DATEADD(MONTH, DATEDIFF(MONTH, -1, GETDATE()), 0) - 1) - 1
+    AND n.type = 'P'
+GO

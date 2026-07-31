@@ -1,24 +1,50 @@
-------------------------------------------------------------------------------------------------------------------------------
--- Op��o 01 - zera o time convertendo para date
-------------------------------------------------------------------------------------------------------------------------------
-select x.Data, COUNT(*) as DadosTotais
-from
+﻿/*
+ *
+	OBJETIVO: Contagem de registros agrupados por data, demonstrando duas técnicas
+			  distintas para normalização temporal (remoção da parte horária):
+			  conversão explícita para DATE e uso de FLOOR com CAST para DATETIME.
+	PROJETO: mssqlserver-solution-explorer
+	
+	REFERÊNCIAS DE URL:
+ *	https://learn.microsoft.com/pt-br/sql/t-sql/functions/date-and-time-data-types-and-functions-transact-sql
+ */
+-- ============================================================
+-- Contagem de Dados por Data: 
+-- Técnicas de Normalização Temporal
+-- ============================================================
+
+-- ============================================================
+-- OPÇÃO 01: Zera o time convertendo explicitamente para DATE
+-- ============================================================
+
+-- Conversão direta para DATE remove automaticamente a parte horária
+SELECT 
+    x.Data
+    ,COUNT(*) AS DadosTotais
+FROM
 (
-select cast(t1.DateReference as date) as [Data]
-from Management.HistoryIndexFragmentation as t1
-) as x
-group by x.Data
-order by x.Data desc
+    SELECT CAST(t1.DateReference AS DATE) AS Data
+    FROM Management.HistoryIndexFragmentation AS t1
+) AS x
+GROUP BY x.Data
+ORDER BY x.Data DESC
 
+-- ============================================================
+-- OPÇÃO 02: Zera o time com FLOOR e 
+-- agrupamento otimizado com SUBSTRING
+-- ============================================================
 
-------------------------------------------------------------------------------------------------------------------------------
--- Op��o 01 - zera o time com floor e agrupamento otimizado com substring
-------------------------------------------------------------------------------------------------------------------------------
-select x.TimeZerado, COUNT(*)
-from
+-- FLOOR converte DATETIME para FLOAT e trunca a parte decimal (horário)
+-- SUBSTRING extrai o mês para agrupamento adicional
+SELECT 
+    x.TimeZerado
+    ,COUNT(*) AS TotalRegistros
+FROM
 (
- select cast(floor(cast(t1.DateReference as float)) as datetime) as TimeZerado from IntegraTICravil.Management.HistoryIndexFragmentation as t1
- ) as x
-group by substring(CONVERT(varchar(10), x.TimeZerado, 103),4,2), x.TimeZerado
-order by x.TimeZerado desc
-
+    SELECT CAST(FLOOR(CAST(t1.DateReference AS FLOAT)) AS DATETIME) AS TimeZerado
+    FROM IntegraTICravil.Management.HistoryIndexFragmentation AS t1
+) AS x
+GROUP BY 
+    SUBSTRING(CONVERT(VARCHAR(10), x.TimeZerado, 103), 4, 2)
+    ,x.TimeZerado
+ORDER BY x.TimeZerado DESC

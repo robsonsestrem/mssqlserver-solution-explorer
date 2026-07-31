@@ -1,10 +1,10 @@
 ﻿/*
-================================================================================
-OBJETIVO: Demonstrar a extração de substring antes do delimitador '/' usando
-		  CHARINDEX e LEFT, com conversão explícita para INT via CAST.
-PROJETO: mssqlserver-solution-explorer
-================================================================================
-*/
+ *
+	OBJETIVO: Demonstrar a extração de substring antes do delimitador '/' usando
+			  CHARINDEX e LEFT, com conversão explícita para INT via CAST.
+	PROJETO: mssqlserver-solution-explorer
+ *
+ */
 
 -- Declaração das variáveis de teste com prefixos numéricos de comprimento variado
 DECLARE @teste01 VARCHAR(30) = '2/15_Ciclo 1_Todas_VAR_RTV_EMAIL_TOD_SE'

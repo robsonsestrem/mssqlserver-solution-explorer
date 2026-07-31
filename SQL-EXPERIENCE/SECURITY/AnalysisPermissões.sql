@@ -1,46 +1,67 @@
--- Verifica todas as permiss�es do usu�rio 'Usuario_Teste' na inst�ncia
+﻿/*
+ *
+	OBJETIVO: Scripts de análise e verificação de permissões no SQL Server,
+			  utilizando a stored procedure Management.sp_VerifyPermissions
+			  para consultar permissões de usuários, databases e objetos,
+			  bem como roles de servidor e permissões de sistema.
+	PROJETO: mssqlserver-solution-explorer
+ *	
+ */
+-- ============================================================
+-- Verifica todas as permissões do usuário na instância
+-- ============================================================
 EXEC Management.[sp_VerifyPermissions]
     @Ds_Usuario = 'infjoabel'
-    
-    
--- Verifica todas as permiss�es da tabela 'xxxx' no database 'Protheus_Producao'
+
+-- ============================================================
+-- Verifica todas as permissões da tabela no database especificado
+-- ============================================================
 EXEC Management.[sp_VerifyPermissions]
     @Ds_Database = 'INTEGRATICRAVIL',
     @Ds_Objeto = 'CadusuariosLogDML'
-    
 
--- Verifica as roles de database do usu�rio 'Usuario_Teste' em todos os bancos
+-- ============================================================
+-- Verifica as roles de database do usuário em todos os bancos
+-- @Nr_Tipo_Permissao = 1 (Database Roles)
+-- ============================================================
 EXEC Management.[sp_VerifyPermissions]
-    @Ds_Usuario = 'infjoabel', -- varchar(100)
-    @Ds_Database = NULL, -- varchar(100)
+    @Ds_Usuario = 'infjoabel',
+    @Ds_Database = NULL,
     @Ds_Objeto = NULL,
     @Nr_Tipo_Permissao = 1,
-    @Fl_Permissoes_Servidor = 0 -- N�o
-    
-    
--- Verifica as permiss�es a n�vel de Database do usu�rio 'Usuario_Teste'
+    @Fl_Permissoes_Servidor = 0
+
+-- ============================================================
+-- Verifica as permissões a nível de Database do usuário
+-- @Nr_Tipo_Permissao = 2 (Database Permissions)
+-- ============================================================
 EXEC Management.[sp_VerifyPermissions]
-    @Ds_Usuario = 'infjoabel', -- varchar(100)
-    @Ds_Database = NULL, -- varchar(100)
+    @Ds_Usuario = 'infjoabel',
+    @Ds_Database = NULL,
     @Ds_Objeto = NULL,
     @Nr_Tipo_Permissao = 2,
-    @Fl_Permissoes_Servidor = 0 -- N�o
-    
-    
--- Verifica as permiss�es do database 'Protheus_Producao' para todos os usu�rios
+    @Fl_Permissoes_Servidor = 0
+
+-- ============================================================
+-- Verifica as permissões do database para todos os usuários
+-- ============================================================
 EXEC Management.[sp_VerifyPermissions]
-    @Ds_Usuario = NULL, -- varchar(100)
-    @Ds_Database = 'YOUR_DATABASE', -- varchar(100)
+    @Ds_Usuario = NULL,
+    @Ds_Database = 'YOUR_DATABASE',
     @Ds_Objeto = NULL,
     @Nr_Tipo_Permissao = 2,
-    @Fl_Permissoes_Servidor = 0 -- N�o
-    
-    
--- Verifica as permiss�es a n�vel de sistema da inst�ncia
+    @Fl_Permissoes_Servidor = 0
+
+-- ============================================================
+-- Verifica as permissões a nível de sistema da instância
+-- @Nr_Tipo_Permissao = 4 (Server Permissions)
+-- ============================================================
 EXEC Management.[sp_VerifyPermissions]
     @Nr_Tipo_Permissao = 4
-    
-   
--- Verifica os membros de roles de sistema da inst�ncia
+
+-- ============================================================
+-- Verifica os membros de roles de sistema da instância
+-- @Nr_Tipo_Permissao = 3 (Server Roles)
+-- ============================================================
 EXEC Management.[sp_VerifyPermissions]
     @Nr_Tipo_Permissao = 3

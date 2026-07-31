@@ -1,13 +1,14 @@
 ﻿/*
-================================================================================
-OBJETIVO: Tratar coordenadas geográficas duplicadas (Latitude/Longitude) usando
-		  CTE com ROW_NUMBER, aplicando concatenação ou STUFF para diferenciar
-		  registros com coordenadas idênticas.
-PROJETO: mssqlserver-solution-explorer
-================================================================================
-*/
-
+ *
+	OBJETIVO: Tratar coordenadas geográficas duplicadas (Latitude/Longitude) usando
+			  CTE com ROW_NUMBER, aplicando concatenação ou STUFF para diferenciar
+			  registros com coordenadas idênticas.
+	PROJETO: mssqlserver-solution-explorer
+ *
+ */
+-- ==================================================================================
 -- CTE: enumera registros por Latitude usando ROW_NUMBER para identificar duplicatas
+-- ==================================================================================
 ;WITH coord AS
 (
 	SELECT
@@ -30,7 +31,7 @@ SELECT
 		WHEN t2.Contador > 1 AND LEN(t2.Latitude) >= 10
 			THEN STUFF(t2.Latitude, 10, 5, CAST(t2.Contador AS VARCHAR(5)))
 		ELSE t2.Latitude
-	END                                                             AS Latitude
+	END AS Latitude
    ,CASE
 		-- Concatenação simples quando o campo tem menos de 10 caracteres
 		WHEN t2.Contador > 1 AND LEN(t2.Longitude) < 10
@@ -39,5 +40,5 @@ SELECT
 		WHEN t2.Contador > 1 AND LEN(t2.Longitude) >= 10
 			THEN STUFF(t2.Longitude, 10, 5, CAST(t2.Contador AS VARCHAR(5)))
 		ELSE t2.Longitude
-	END                                                             AS Longitude
+	END AS Longitude
 FROM coord AS t2;
