@@ -1,12 +1,48 @@
---------------------------------------------------------------------------------------------------------------------------
--- convers�o coloca v�rgula/ponto a cada milhar dos n�meros 
---------------------------------------------------------------------------------------------------------------------------
+﻿/*
+ *
+	OBJETIVO: Demonstração de formatação de números com separadores de milhar
+			  utilizando conversão para MONEY e manipulação de strings,
+			  convertendo valores bigint para formato com vírgula ou ponto
+			  a cada três dígitos, e também para gigabytes.
+	PROJETO: mssqlserver-solution-explorer
+ *	
+ */
+-- ============================================================
+-- Conversão: coloca vírgula/ponto a cada milhar dos números
+-- ============================================================
+DECLARE @free_space_mb BIGINT
 
-declare @free_space_mb bigint
+SET @free_space_mb = 187406112745679
 
-set @free_space_mb = 187406112745679
-
-select 
-REVERSE (SUBSTRING (REVERSE (CONVERT (VARCHAR (30),	CONVERT (MONEY, @free_space_mb), 1)), 4, 15))						as MegabytesVirgula, 
-REPLACE( REVERSE (SUBSTRING (REVERSE (CONVERT (VARCHAR (30),	CONVERT (MONEY, @free_space_mb), 1)), 4, 15)),',','.' )	as MegabytesPonto, 
-cast(@free_space_mb/1024 as decimal(15,2))																				as Gibabytes 
+SELECT
+    REVERSE
+    (
+        SUBSTRING
+        (
+            REVERSE
+            (
+                CONVERT(VARCHAR(30), CONVERT(MONEY, @free_space_mb), 1)
+            ),
+            4,
+            15
+        )
+    ) AS MegabytesVirgula,
+    REPLACE
+    (
+        REVERSE
+        (
+            SUBSTRING
+            (
+                REVERSE
+                (
+                    CONVERT(VARCHAR(30), CONVERT(MONEY, @free_space_mb), 1)
+                ),
+                4,
+                15
+            )
+        ),
+        ',',
+        '.'
+    ) AS MegabytesPonto,
+    CAST(@free_space_mb / 1024 AS DECIMAL(15, 2)) AS Gibabytes
+GO

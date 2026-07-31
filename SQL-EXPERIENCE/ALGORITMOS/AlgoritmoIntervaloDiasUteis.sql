@@ -1,11 +1,11 @@
 ﻿/*
-================================================================================
-OBJETIVO : Algoritmo de validação de intervalo de dias úteis entre datas,
-           detectando falha quando o ciclo de comunicação ultrapassa o limite
-           tolerado de dias corridos de segunda a sexta-feira.
-PROJETO  : mssqlserver-solution-explorer
-================================================================================
-*/
+ *
+	OBJETIVO : Algoritmo de validação de intervalo de dias úteis entre datas,
+			   detectando falha quando o ciclo de comunicação ultrapassa o limite
+			   tolerado de dias corridos de segunda a sexta-feira.
+	PROJETO  : mssqlserver-solution-explorer
+ *
+ */
 
 -- =============================================================================
 -- CONTEXTO DE BANCO (desativado para execução isolada)

@@ -1,19 +1,69 @@
---------------------------------------------------------------------------------------------------------------
--- http://www.tek-tips.com/viewthread.cfm?qid=1284504
--- Convers�es para trazer dias, horas, minutos, segundos etc...
---------------------------------------------------------------------------------------------------------------
-Declare @Temp Table (ArrivalDate DateTime)
+﻿/*
+ *
+	OBJETIVO: Demonstração de cálculos de diferença entre datas no SQL Server,
+			  totalizando dias, horas, minutos e segundos entre uma data de
+			  chegada e a data/hora atual, utilizando funções de data.
+	PROJETO: mssqlserver-solution-explorer
+	
+	REFERÊNCIAS DE URL:
+ *	http://www.tek-tips.com/viewthread.cfm?qid=1284504
+ */
+-- ============================================================
+-- Conversões para trazer dias, horas, minutos, segundos etc...
+-- ============================================================
+DECLARE @Temp TABLE
+(
+    ArrivalDate DATETIME
+)
 
-Set DateFormat MDY
-insert Into @Temp Values('10-01-2006 18:00:00')
-insert Into @Temp Values('09-30-2006 11:30:00')
-insert Into @Temp Values('09-29-2006 20:00:00')
-insert Into @Temp Values('10-02-2006 08:00:00')
-insert Into @Temp Values('10-01-2006 15:00:00')
-insert Into @Temp Values('09-27-2006 00:09:00')
+SET DATEFORMAT MDY
 
-Select     *,
-        DateDiff(Hour, ArrivalDate, GetDate()) / 24 as Days,
-        DateDiff(Minute, DateAdd(Day, DateDiff(Hour, ArrivalDate, GetDate()) / 24, ArrivalDate), GetDate()) / 60 As Hours,
-        DateDiff(Second, DateAdd(Hour, DateDiff(Minute, DateAdd(Day, DateDiff(Hour, ArrivalDate, GetDate()) / 24, ArrivalDate), GetDate()) / 60, DateAdd(Day, DateDiff(Hour, ArrivalDate, GetDate()) / 24, ArrivalDate)), GetDate())/60 As Seconds
-From     @Temp
+INSERT INTO @Temp VALUES('10-01-2006 18:00:00')
+INSERT INTO @Temp VALUES('09-30-2006 11:30:00')
+INSERT INTO @Temp VALUES('09-29-2006 20:00:00')
+INSERT INTO @Temp VALUES('10-02-2006 08:00:00')
+INSERT INTO @Temp VALUES('10-01-2006 15:00:00')
+INSERT INTO @Temp VALUES('09-27-2006 00:09:00')
+
+SELECT
+    ArrivalDate,
+    DATEDIFF(HOUR, ArrivalDate, GETDATE()) / 24 AS Days,
+    DATEDIFF
+    (
+        MINUTE,
+        DATEADD
+        (
+            DAY,
+            DATEDIFF(HOUR, ArrivalDate, GETDATE()) / 24,
+            ArrivalDate
+        ),
+        GETDATE()
+    ) / 60 AS Hours,
+    DATEDIFF
+    (
+        SECOND,
+        DATEADD
+        (
+            HOUR,
+            DATEDIFF
+            (
+                MINUTE,
+                DATEADD
+                (
+                    DAY,
+                    DATEDIFF(HOUR, ArrivalDate, GETDATE()) / 24,
+                    ArrivalDate
+                ),
+                GETDATE()
+            ) / 60,
+            DATEADD
+            (
+                DAY,
+                DATEDIFF(HOUR, ArrivalDate, GETDATE()) / 24,
+                ArrivalDate
+            )
+        ),
+        GETDATE()
+    ) / 60 AS Seconds
+FROM @Temp
+GO

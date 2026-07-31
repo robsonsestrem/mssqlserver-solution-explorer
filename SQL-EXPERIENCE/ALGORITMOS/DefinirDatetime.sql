@@ -1,9 +1,38 @@
-
-select  dateadd(MILLISECOND,+997,dateadd(SECOND,+59,dateadd(MINUTE,+59,dateadd(HOUR,+23,dateadd(day,-1,  
-		
-		cast(floor(cast(getdate()as float))as datetime)  -- floor usado para zerar e depois poder setar hora, minuto, etc
-		)--dia
-		)--hora
-		)--minutos
-		)--segundos
-		)--milissegundos
+﻿/*
+ *
+	OBJETIVO: Demonstração de construção de uma data/hora específica no SQL Server
+			  utilizando DATEADD para definir valores personalizados de dia, hora,
+			  minuto, segundo e milissegundo a partir da data atual.
+	PROJETO: mssqlserver-solution-explorer
+ *	
+ */
+-- ============================================================
+-- Definir datetime com valores 
+-- específicos de dia, hora, minuto, segundo e milissegundo
+-- ============================================================
+SELECT
+    DATEADD
+    (
+        MILLISECOND, +997,
+        DATEADD
+        (
+            SECOND, +59,
+            DATEADD
+            (
+                MINUTE, +59,
+                DATEADD
+                (
+                    HOUR, +23,
+                    DATEADD
+                    (
+                        DAY, -1,
+                        CAST
+                        (
+                            FLOOR(CAST(GETDATE() AS FLOAT)) AS DATETIME
+                        )
+                    )
+                )
+            )
+        )
+    ) AS DataHoraCustomizada
+GO

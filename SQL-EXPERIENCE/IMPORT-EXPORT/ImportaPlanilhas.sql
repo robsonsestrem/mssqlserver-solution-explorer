@@ -1,72 +1,106 @@
-----------------------------------------------------------------------------------------------------------------------------------
--- https://www.dirceuresende.com/blog/sql-server-como-instalar-os-drivers-microsoft-ace-oledb-12-0-e-microsoft-jet-oledb-4-0/
--- https://www.dirceuresende.com/blog/sql-server-importando-e-exportando-dados-de-planilhas-do-excel/
-----------------------------------------------------------------------------------------------------------------------------------
--- como verificar quais providers existentes.
-----------------------------------------------------------------------------------------------------------------------------------
+Ôªø/*
+ *
+	OBJETIVO: Procedimentos para importa√ß√£o e exporta√ß√£o de dados entre SQL Server e
+			  planilhas Excel utilizando os drivers Microsoft ACE OLEDB 12.0,
+			  incluindo configura√ß√£o de permiss√µes, exemplos de SELECT e INSERT
+			  com OPENROWSET e OPENDATASOURCE.
+	PROJETO: mssqlserver-solution-explorer
+	
+	REFER√äNCIAS DE URL:
+ *	https://www.dirceuresende.com/blog/sql-server-como-instalar-os-drivers-microsoft-ace-oledb-12-0-e-microsoft-jet-oledb-4-0/
+ *	https://www.dirceuresende.com/blog/sql-server-importando-e-exportando-dados-de-planilhas-do-excel/
+ */
+-- ============================================================
+-- Verificar providers existentes
+-- ============================================================
 EXEC master.dbo.sp_MSset_oledb_prop
 -- Microsoft.ACE.OLEDB.12.0
 
-
-----------------------------------------------------------------------------------------------
--- habilitar as transaÁıes distribuÌdas
-----------------------------------------------------------------------------------------------
-sp_configure 'Show Advanced Options', 1;
-RECONFIGURE;
-GO
-sp_configure 'Ad Hoc Distributed Queries', 1;
-RECONFIGURE;
+-- ============================================================
+-- Habilitar transa√ß√µes distribu√≠das e consultas ad hoc
+-- ============================================================
+sp_configure 'Show Advanced Options', 1
+RECONFIGURE
 GO
 
-
-----------------------------------------------------------------------------------------------
--- Executar os comandos abaixo para
--- habilitar as features AllowInProcess e DynamicParameters
-----------------------------------------------------------------------------------------------
-EXEC master.dbo.sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0' 
-    , N'AllowInProcess', 1 
-GO
-EXEC master.dbo.sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0'
-    , N'DynamicParameters', 1
+sp_configure 'Ad Hoc Distributed Queries', 1
+RECONFIGURE
 GO
 
+-- ============================================================
+-- Habilitar features AllowInProcess e DynamicParameters para o provider
+-- ============================================================
+EXEC master.dbo.sp_MSset_oledb_prop
+    N'Microsoft.ACE.OLEDB.12.0',
+    N'AllowInProcess',
+    1
+GO
 
-----------------------------------------------------------------------------------------------
--- Como SELECIONAR os dados, pode ser qualquer vers„o do excel para esta API - ACE 12.0
--- N„o fazer isso com a planilha aberta
-----------------------------------------------------------------------------------------------
--- Utilizando OPENROWSET
-SELECT * FROM OPENROWSET('Microsoft.ACE.OLEDB.12.0', 'Excel 12.0;Database=C:\tmp\audit_update_st_pssoa.xlsx', [dados$])
--- OU
-SELECT * FROM OPENROWSET('Microsoft.ACE.OLEDB.12.0', 'Excel 12.0;Database=C:\tmp\audit_update_st_pssoa.xlsx', 'SELECT * FROM [dados$]')
+EXEC master.dbo.sp_MSset_oledb_prop
+    N'Microsoft.ACE.OLEDB.12.0',
+    N'DynamicParameters',
+    1
+GO
 
--- Utilizando OPENDATASOURCE
-SELECT * FROM OPENDATASOURCE('Microsoft.ACE.OLEDB.12.0', 'Data Source=C:\tmp\audit_update_st_pssoa.xlsx;Extended Properties=Excel 12.0')...[dados$]
+-- ============================================================
+-- SELECT utilizando OPENROWSET (Excel)
+-- ============================================================
+-- N√£o fazer isso com a planilha aberta
 
--- OUTROS TESTES
-SELECT * FROM OPENROWSET('Microsoft.ACE.OLEDB.12.0', 'Excel 12.0;Database=C:\tmp\fetch-api-poa.xls', [dados$])
-SELECT * FROM OPENROWSET('Microsoft.ACE.OLEDB.12.0', 'Excel 12.0;Database=C:\tmp\LCK_M_SCH_M.xls', [dados$])
--- n„o lÍ csv
-SELECT * FROM OPENROWSET('Microsoft.ACE.OLEDB.12.0', 'Excel 12.0;Database=C:\tmp\st_pssoa_cad.csv', [st_pssoa_cad$])
-SELECT * FROM OPENROWSET('Microsoft.ACE.OLEDB.12.0', 'Excel 12.0;Database=C:\tmp\log-events-viewer-result.csv', [log-events-viewer-result$])
+-- Utilizando OPENROWSET com nome da planilha
+SELECT *
+FROM OPENROWSET(
+    'Microsoft.ACE.OLEDB.12.0',
+    'Excel 12.0;Database=C:\tmp\audit_update_st_pssoa.xlsx',
+    [dados$]
+)
 
+-- Utilizando OPENROWSET com consulta SQL
+SELECT *
+FROM OPENROWSET(
+    'Microsoft.ACE.OLEDB.12.0',
+    'Excel 12.0;Database=C:\tmp\audit_update_st_pssoa.xlsx',
+    'SELECT * FROM [dados$]'
+)
 
-SELECT *													
-FROM OPENROWSET (
-    'Microsoft.ACE.OLEDB.12.0', 
-    'Excel 12.0;Database=C:\Users\sysadmin\Documents\Devart\audit_update_st_pssoa.xlsx;', 
-    'SELECT * FROM [dados$]'								
-) as x
+-- ============================================================
+-- SELECT utilizando OPENDATASOURCE (Excel)
+-- ============================================================
+SELECT *
+FROM OPENDATASOURCE(
+    'Microsoft.ACE.OLEDB.12.0',
+    'Data Source=C:\tmp\audit_update_st_pssoa.xlsx;Extended Properties=Excel 12.0'
+)...[dados$]
 
+-- ============================================================
+-- Testes com outros arquivos
+-- ============================================================
+-- SELECT * FROM OPENROWSET('Microsoft.ACE.OLEDB.12.0', 'Excel 12.0;Database=C:\tmp\fetch-api-poa.xls', [dados$])
+-- SELECT * FROM OPENROWSET('Microsoft.ACE.OLEDB.12.0', 'Excel 12.0;Database=C:\tmp\LCK_M_SCH_M.xls', [dados$])
 
-----------------------------------------------------------------------------------------------
--- Como INSERIR os dados, pode ser qualquer vers„o do excel para esta API - ACE 12.0
--- N„o fazer isso com a planilha aberta
-----------------------------------------------------------------------------------------------
---INSERT INTO 
---OPENROWSET (
---    'Microsoft.ACE.OLEDB.12.0', 
---    'Excel 12.0;Database=C:\Users\sysadmin\Documents\Devart\dbForge Studio for SQL Server\Export\audit-update-st_pssoa.xlsx;', 
---    'SELECT * FROM [pla01$]'
---)
---SELECT * FROM TABELA_ORIGEM_DADOS
+-- ============================================================
+-- N√£o l√™ arquivos CSV diretamente
+-- ============================================================
+-- SELECT * FROM OPENROWSET('Microsoft.ACE.OLEDB.12.0', 'Excel 12.0;Database=C:\tmp\st_pssoa_cad.csv', [st_pssoa_cad$])
+-- SELECT * FROM OPENROWSET('Microsoft.ACE.OLEDB.12.0', 'Excel 12.0;Database=C:\tmp\log-events-viewer-result.csv', [log-events-viewer-result$])
+
+-- ============================================================
+-- SELECT com alias e formata√ß√£o completa
+-- ============================================================
+SELECT *
+FROM OPENROWSET(
+    'Microsoft.ACE.OLEDB.12.0',
+    'Excel 12.0;Database=C:\Users\sysadmin\Documents\Devart\audit_update_st_pssoa.xlsx;',
+    'SELECT * FROM [dados$]'
+) AS x
+
+-- ============================================================
+-- INSERT utilizando OPENROWSET (Excel)
+-- ============================================================
+-- INSERT INTO
+-- OPENROWSET(
+--     'Microsoft.ACE.OLEDB.12.0',
+--     'Excel 12.0;Database=C:\Users\sysadmin\Documents\Devart\dbForge Studio for SQL Server\Export\audit-update-st_pssoa.xlsx;',
+--     'SELECT * FROM [pla01$]'
+-- )
+-- SELECT * FROM TABELA_ORIGEM_DADOS

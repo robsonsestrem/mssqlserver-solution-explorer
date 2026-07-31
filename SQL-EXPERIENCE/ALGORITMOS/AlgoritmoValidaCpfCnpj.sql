@@ -1,19 +1,17 @@
 ﻿/*
-================================================================================
-OBJETIVO: Function para validação de CPF/CNPJ via cálculo dos dígitos
-		  verificadores. Inclui algoritmos exploratórios de extração de
-		  caracteres por categoria (números, letras, especiais) com CTE recursiva.
-PROJETO: mssqlserver-solution-explorer
-================================================================================
-*/
+ *
+	OBJETIVO: Function para validação de CPF/CNPJ via cálculo dos dígitos
+			  verificadores. Inclui algoritmos exploratórios de extração de
+			  caracteres por categoria (números, letras, especiais) com CTE recursiva.
+	PROJETO: mssqlserver-solution-explorer
+	REFERÊNCIA: https://sqlfromhell.wordpress.com/tag/removendo-caracteres-especiais/
+ *
+ */
 
--- Referência: https://sqlfromhell.wordpress.com/tag/removendo-caracteres-especiais/
-
-USE IntegraTICravil;
-GO
-
+-- ================================================================================
 -- Criação/alteração da function de validação de CPF e CNPJ
-ALTER FUNCTION Management.fn_ValidCPF_CNPJ(@validar VARCHAR(30))
+-- ================================================================================
+CREATE OR ALTER FUNCTION Management.fn_ValidCPF_CNPJ(@validar VARCHAR(30))
 RETURNS VARCHAR(30)
 WITH ENCRYPTION
 AS
@@ -97,14 +95,11 @@ BEGIN
 END;
 GO
 
-
-/*
-================================================================================
-ALGORITMOS EXPLORATÓRIOS
-Extração de caracteres por categoria (números, letras, especiais) usando
-CTE recursiva com acumulação via operador +=.
-================================================================================
-*/
+-- ================================================================================
+-- ALGORITMOS EXPLORATÓRIOS
+-- Extração de caracteres por categoria (números, letras, especiais) usando
+-- CTE recursiva com acumulação via operador +=.
+-- ================================================================================
 
 -- Texto de exemplo para extração de caracteres por categoria
 DECLARE @Texto2 NVARCHAR(MAX);
