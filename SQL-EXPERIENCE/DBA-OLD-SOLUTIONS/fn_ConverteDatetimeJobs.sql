@@ -1,78 +1,74 @@
-------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Veremos como converter as colunas run_date e run_time da tabela de cat�logo do banco msdb.dbo.sysjobhistory para datetime. 
--- Atualmente, a coluna run_date � um varchar no formato yyyymmdd (Ex: 07/05/2015 = 20150507), 
--- e a coluna run_time � uma hora no formato hmmss (Ex: 08:27:00 = 82700). 
--- At� d� pra entender visualmente o que significam esses valores, mas o c�lculo com essas datas e horas ficam bem mais complicado.
-------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Usada no BaseLine di�rio
-------------------------------------------------------------------------------------------------------------------------------------------------------------
-USE YOUR_DATABASE
+﻿/*
+ *
+	OBJETIVO: Conversão das colunas run_date e run_time da tabela de catálogo
+	          msdb.dbo.sysjobhistory para o tipo DATETIME, facilitando cálculos
+	          e filtros temporais em rotinas de baseline e auditoria de Jobs.
+	PROJETO: mssqlserver-solution-explorer
+ */
+-- ============================================================
+-- Conversão de run_date e run_time 
+-- do SQL Server Agent para DATETIME
+-- ============================================================
+
+USE [YOUR_DATABASE];
 GO
 
-/****** Object:  UserDefinedFunction [dbo].[fn_ConverteDatetimeJobs]    Script Date: 19/04/2017 11:07:41 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
- 
-CREATE FUNCTION Management.[fn_ConverteDatetimeJobs]
+-- Criação da função personalizada para conversão de run_date (yyyymmdd) e run_time (hmmss) em DATETIME
+CREATE FUNCTION [Management].[fn_ConverteDatetimeJobs]
 (
     @DATE INT,
     @TIME INT
 )
-RETURNS datetime
+RETURNS DATETIME
 WITH ENCRYPTION
-AS BEGIN
- 
-    DECLARE @Date_Time datetime
- 
-    DECLARE @Ds_Date VARCHAR(8) = @DATE
-    DECLARE @Ds_Time VARCHAR(8) = @TIME
- 
-    IF (@DATE = 0) RETURN NULL
- 
-    SET @Ds_Time = RIGHT('000000'+@Ds_Time,6)
-    SET @Ds_Time = SUBSTRING(@Ds_Time,1,2)+':'+SUBSTRING(@Ds_Time,3,2)+':'+SUBSTRING(@Ds_Time,5,2)
- 
-    SET @Date_Time = CAST(@Ds_Date + ' ' + @Ds_Time AS datetime)
- 
-    RETURN @Date_Time	
+AS
+BEGIN
+    DECLARE @Date_Time DATETIME;
+    DECLARE @Ds_Date VARCHAR(8) = @DATE;
+    DECLARE @Ds_Time VARCHAR(8) = @TIME;
+
+    -- Retorna nulo quando a data informada for zero (Job ainda não executado)
+    IF (@DATE = 0)
+        RETURN NULL;
+
+    -- Padroniza a hora com zeros à esquerda e formata como HH:MM:SS
+    SET @Ds_Time = RIGHT('000000' + @Ds_Time, 6);
+    SET @Ds_Time = SUBSTRING(@Ds_Time, 1, 2) + ':' + SUBSTRING(@Ds_Time, 3, 2) + ':' + SUBSTRING(@Ds_Time, 5, 2);
+
+    -- Concatena data e hora formatadas convertendo para DATETIME
+    SET @Date_Time = CAST(@Ds_Date + ' ' + @Ds_Time AS DATETIME);
+
+    RETURN @Date_Time;
 END
 GO
 
------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Colocando a fun��o personalizada em uso
------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Exemplo de uso da função personalizada em consultas de Jobs com falha (run_status = 0)
 SELECT
-    j.name,
-    h.step_id,
-    h.step_name,
-    h.run_status,
-    h.message,
-    [RunDateTime] = IntegraTICravil.Management.fn_Converte_Datetime_Jobs(h.run_date, h.run_time)
-FROM
-    [msdb].[dbo].[sysjobs] j
-    JOIN [msdb].[dbo].sysjobhistory h ON j.job_id = h.job_id
-WHERE
-    h.run_status = 0 
-    AND h.step_id = 0
+    [j].[name]
+  , [h].[step_id]
+  , [h].[step_name]
+  , [h].[run_status]
+  , [h].[message]
+  , [RunDateTime] = [IntegraTICravil].[Management].[fn_ConverteDatetimeJobs]([h].[run_date], [h].[run_time])
+FROM [msdb].[dbo].[sysjobs] AS [j]
+INNER JOIN [msdb].[dbo].[sysjobhistory] AS [h]
+    ON [j].[job_id] = [h].[job_id]
+WHERE [h].[run_status] = 0
+  AND [h].[step_id] = 0;
 
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------
--- ABAIXO OP��O J� EXISTENTE TAMB�M NO SQL SERVER (A DE CIMA � PERSONALIZADA)
-------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Alternativa utilizando a função interna do SQL Server Agent (msdb.dbo.agent_datetime)
 SELECT
-    j.name,
-    h.step_id,
-    h.step_name,
-    h.run_status,
-    h.message,
-    [RunDateTime] = msdb.dbo.agent_datetime(h.run_date, h.run_time), -- FUN��O INTERNA
-    h.run_date,
-    h.run_time
-FROM
-    [msdb].[dbo].[sysjobs] j
-    JOIN [msdb].[dbo].sysjobhistory h ON j.job_id = h.job_id
-WHERE
-    h.run_status = 0 AND h.step_id = 0
+    [j].[name]
+  , [h].[step_id]
+  , [h].[step_name]
+  , [h].[run_status]
+  , [h].[message]
+  , [RunDateTime] = [msdb].[dbo].[agent_datetime]([h].[run_date], [h].[run_time])
+  , [h].[run_date]
+  , [h].[run_time]
+FROM [msdb].[dbo].[sysjobs] AS [j]
+INNER JOIN [msdb].[dbo].[sysjobhistory] AS [h]
+    ON [j].[job_id] = [h].[job_id]
+WHERE [h].[run_status] = 0
+  AND [h].[step_id] = 0;
+

@@ -9,7 +9,6 @@
 	REFERÊNCIAS E AUTORIA:
 	https://www.devmedia.com.br/melhoria-de-desempenho-utilizando-estatisticas-e-indices/32631
 */
-
 -- ============================================================
 -- Criação do banco de dados de teste
 -- ============================================================
@@ -101,7 +100,6 @@ GO
 -- ============================================================
 -- Problemas com estimativa e variáveis locais
 -- ============================================================
-
 -- Caso 1: Uso de variável local (estimativa ruim)
 DECLARE @x INT = 2000;
 
@@ -151,10 +149,7 @@ EXEC sp_executesql
 -- ============================================================
 -- Demonstração: Estatísticas desatualizadas
 -- ============================================================
-
--- ============================================================
 -- Criação da tabela "produto"
--- ============================================================
 CREATE TABLE produto
 (
       id_produto     INT IDENTITY(1, 1) NOT NULL
@@ -221,10 +216,7 @@ UPDATE STATISTICS produto WITH FULLSCAN;
 -- Demonstração: Estatísticas para colunas correlatas
 -- (não são suportadas automaticamente)
 -- ============================================================
-
--- ============================================================
 -- Criação da tabela "veiculo_aluguel"
--- ============================================================
 CREATE TABLE veiculo_aluguel
 (
       id_veiculo_aluguel INT NOT NULL IDENTITY(1, 1) PRIMARY KEY CLUSTERED
