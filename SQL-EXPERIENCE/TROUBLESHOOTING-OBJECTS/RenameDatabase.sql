@@ -1,12 +1,16 @@
 ﻿/*
+ *
     OBJETIVO:   Renomear banco de dados no SQL Server (Linux/Windows), incluindo
                 nome lógico do banco, nomes lógicos dos arquivos e paths físicos.
     PROJETO:    mssqlserver-solution-explorer
-*/
-
--- ---------------------------------------------------------------------------
+    REFERÊNCIAS:
+    https://luanmorenodba.com/2011/03/14/movendo-arquivos-de-banco-de-dados/
+    http://www.consultoriadba.com/single-post/2016/05/20/Alterar-pasta-diret%C3%B3rio-dos-arquivos-do-Banco-de-Dados
+ *
+ */
+-- ===========================================================================
 -- Bloco 1: Renomeação rápida (SINGLE_USER ? MODIFY NAME ? MULTI_USER)
--- ---------------------------------------------------------------------------
+-- ===========================================================================
 USE [master];
 GO
 
@@ -19,9 +23,10 @@ GO
 ALTER DATABASE UPDATED_NAME SET MULTI_USER;
 GO
 
--- ---------------------------------------------------------------------------
--- Bloco 2: Renomeação completa com OFFLINE/ONLINE e atualização de paths físicos
--- ---------------------------------------------------------------------------
+-- ===========================================================================
+-- Bloco 2: Renomeação completa com OFFLINE/ONLINE 
+-- e atualização de paths físicos
+-- ===========================================================================
 USE [master];
 GO
 
@@ -60,9 +65,9 @@ GO
 ALTER DATABASE UPDATED_NAME SET MULTI_USER;
 GO
 
--- ---------------------------------------------------------------------------
+-- ===========================================================================
 -- Bloco 3: Validação — verificar file_id, nome lógico e path físico atual
--- ---------------------------------------------------------------------------
+-- ===========================================================================
 USE [UPDATED_NAME];
 GO
 
@@ -76,10 +81,9 @@ GO
 -- 1    P_LOGICAL_NAME         /var/opt/mssql/data/ORIGINAL_NAME.mdf
 -- 2    P_LOGICAL_NAME_log     /var/opt/mssql/data/H_LOGICAL_NAME_YOUR_OBJECT_TDE_log.ldf
 
--- ---------------------------------------------------------------------------
+-- ===========================================================================
 -- Bloco 4: Step-by-step — guia sequencial completo de renomeação
--- ---------------------------------------------------------------------------
-
+-- ===========================================================================
 -- Passo 1: Altera o nome lógico do banco
 USE [master];
 GO

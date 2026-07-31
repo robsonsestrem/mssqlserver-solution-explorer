@@ -11,24 +11,20 @@
 
     AUTOR: Bill Fellows
 */
-
 -- ============================================================
 -- Bloco 1: Declaração de variáveis de controle
 -- ============================================================
-
 -- Variáveis para construção dinâmica de DDL e iteração por tabelas
 DECLARE
     @query NVARCHAR(4000)
     , @targetSchema SYSNAME = 'dbo_HISTORY'
     , @tableName SYSNAME
-    , @targetFileGroup SYSNAME = 'History'
-;
+    , @targetFileGroup SYSNAME = 'History';
 
 -- ============================================================
 -- Bloco 2: Cursor FAST_FORWARD sobre tabelas do schema 'dbo'
 -- que ainda não possuem tabela de histórico correspondente
 -- ============================================================
-
 DECLARE
     CSR CURSOR
     FAST_FORWARD
@@ -54,18 +50,14 @@ DECLARE
                 ON TI.schema_id = SI.schema_id
             WHERE SI.name = @targetSchema
         )
-;
 
 OPEN CSR
-;
-FETCH NEXT FROM CSR INTO @query, @tableName
-;
+FETCH NEXT FROM CSR INTO @query, @tableName;
 
 -- ============================================================
 -- Bloco 3: Loop pelo cursor, gerando o DDL completo de 
 -- temporal table para cada tabela encontrada
 -- ============================================================
-
 WHILE @@FETCH_STATUS = 0
 BEGIN
     -- Constrói dinamicamente o script SQL para:
@@ -190,11 +182,8 @@ BEGIN
         )
     ;
 
-    FETCH NEXT FROM CSR INTO @query, @tableName
-    ;
+    FETCH NEXT FROM CSR INTO @query, @tableName;
 END
 
 CLOSE CSR
-;
-DEALLOCATE CSR
-;
+DEALLOCATE CSR;
