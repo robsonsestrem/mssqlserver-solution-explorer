@@ -9,9 +9,9 @@
     http://www.dbinternals.com.br/?p=1080
 */
 -- ============================================================
--- Criação da tabela de auditoria DDL no banco IntegraTICravil
+-- Criação da tabela de auditoria DDL no banco DBA_PerformanceHub
 -- ============================================================
-USE IntegraTICravil;
+USE DBA_PerformanceHub;
 GO
 
 CREATE TABLE Management.DDLTransaction
@@ -38,7 +38,7 @@ CREATE TABLE Management.DDLTransaction
 -- Migração de dados da tabela antiga (se existir)
 -- ============================================================
 /*
-INSERT INTO IntegraTICravil.Management.DDLTransaction
+INSERT INTO DBA_PerformanceHub.Management.DDLTransaction
 (
     DateDDl
   , PostTime
@@ -71,27 +71,27 @@ SELECT
   , ObjectType
   , Query
 FROM
-    IntegraTICravil.Management.DDLTransaction_Old
+    DBA_PerformanceHub.Management.DDLTransaction_Old
 ORDER BY
     DateDDl ASC;
 */
 
 
 -- ============================================================
--- Configuração do Service Broker no banco Maintenance
+-- Configuração do Service Broker no banco DBA_PerformanceHub
 -- ============================================================
-USE Maintenance;
+USE DBA_PerformanceHub;
 GO
 
 /*
-ALTER DATABASE Maintenance SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-ALTER DATABASE Maintenance SET MULTI_USER WITH ROLLBACK IMMEDIATE;
+ALTER DATABASE DBA_PerformanceHub SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+ALTER DATABASE DBA_PerformanceHub SET MULTI_USER WITH ROLLBACK IMMEDIATE;
 */
 
-ALTER DATABASE Maintenance SET TRUSTWORTHY ON;
+ALTER DATABASE DBA_PerformanceHub SET TRUSTWORTHY ON;
 GO
 
-ALTER DATABASE Maintenance SET ENABLE_BROKER;
+ALTER DATABASE DBA_PerformanceHub SET ENABLE_BROKER;
 GO
 
 
@@ -171,7 +171,7 @@ BEGIN
 
         IF (@@ROWCOUNT = 1)
         BEGIN
-            INSERT INTO Maintenance.Management.DDLTransaction
+            INSERT INTO DBA_PerformanceHub.Management.DDLTransaction
             (
                 DateDDl
               , PostTime

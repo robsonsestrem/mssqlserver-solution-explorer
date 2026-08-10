@@ -1,4 +1,4 @@
-USE IntegraTICravil
+USE DBA_PerformanceHub
 GO
 
 SELECT i.id        AS ObjectId, 

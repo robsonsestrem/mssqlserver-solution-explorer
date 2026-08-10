@@ -49,7 +49,7 @@ SELECT
   , [h].[step_name]
   , [h].[run_status]
   , [h].[message]
-  , [RunDateTime] = [IntegraTICravil].[Management].[fn_ConverteDatetimeJobs]([h].[run_date], [h].[run_time])
+  , [RunDateTime] = [DBA_PerformanceHub].[Management].[fn_ConverteDatetimeJobs]([h].[run_date], [h].[run_time])
 FROM [msdb].[dbo].[sysjobs] AS [j]
 INNER JOIN [msdb].[dbo].[sysjobhistory] AS [h]
     ON [j].[job_id] = [h].[job_id]

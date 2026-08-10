@@ -50,7 +50,7 @@ FROM
         ON qs.plan_handle = cp.plan_handle
 WHERE
     DB_NAME(st.dbid) IS NOT NULL
-    AND DB_NAME(st.dbid) IN ('YOUR_DATABASE')--, 'IntegraTICravil', 'TICRAVIL', 'Guru5', 'Guru6', 'YOUR_DATABASE', 'YOUR_DATABASE')
+    AND DB_NAME(st.dbid) IN ('YOUR_DATABASE')--, 'DBA_PerformanceHub', 'TICRAVIL', 'Guru5', 'Guru6', 'YOUR_DATABASE', 'YOUR_DATABASE')
 GROUP BY
     DB_NAME(st.dbid)
   , OBJECT_SCHEMA_NAME(objectid, st.dbid)
@@ -92,7 +92,7 @@ FROM
         ON qs.plan_handle = cp.plan_handle
 WHERE
     DB_NAME(st.dbid) IS NOT NULL
-    AND DB_NAME(st.dbid) IN ('YOUR_DATABASE')--, 'IntegraTICravil', 'TICRAVIL', 'Guru5', 'Guru6', 'YOUR_DATABASE', 'YOUR_DATABASE')
+    AND DB_NAME(st.dbid) IN ('YOUR_DATABASE')--, 'DBA_PerformanceHub', 'TICRAVIL', 'Guru5', 'Guru6', 'YOUR_DATABASE', 'YOUR_DATABASE')
 GROUP BY
     DB_NAME(st.dbid)
   , OBJECT_SCHEMA_NAME(objectid, st.dbid)

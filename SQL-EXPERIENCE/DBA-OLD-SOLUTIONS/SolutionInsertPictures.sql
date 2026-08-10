@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Referência -> https://pedrogalvaojunior.wordpress.com/2012/07/20/dica-armazenando-arquivos-de-imagem-no-sql-server-2008-e-r2-atraves-do-comando-openrowset-em-conjunto-com-a-opcao-bulk/
+-- Referï¿½ncia -> https://pedrogalvaojunior.wordpress.com/2012/07/20/dica-armazenando-arquivos-de-imagem-no-sql-server-2008-e-r2-atraves-do-comando-openrowset-em-conjunto-com-a-opcao-bulk/
 -- https://basitaalishan.com/2014/09/11/sql-server-converting-binary-data-to-a-hexadecimal-string/
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Create Table Imagens
@@ -22,18 +22,18 @@ SELECT 'robson.png', *
 FROM OPENROWSET(BULK N'C:\DBACravil\DatabaseMail\robson.png',  SINGLE_BLOB) Load;
 
 
---Após isso, nossos dados já estão gravados no SQL Server, o que nos resta é fazer um simples 
---Select consultando os dados nesta tabela que serão apresentados na Coluna Arquivo de forma Binária. 
---Para que você possa apresentar estas imagens de uma forma legível, utilize qualquer aplicação ou 
---gerador de relatórios fazendo uso de componentes do tipo Image, responsáveis em decodificar 
---e converter o conteúdo binário em pontos mapeados conhecidos como bitmap.
+--Apï¿½s isso, nossos dados jï¿½ estï¿½o gravados no SQL Server, o que nos resta ï¿½ fazer um simples 
+--Select consultando os dados nesta tabela que serï¿½o apresentados na Coluna Arquivo de forma Binï¿½ria. 
+--Para que vocï¿½ possa apresentar estas imagens de uma forma legï¿½vel, utilize qualquer aplicaï¿½ï¿½o ou 
+--gerador de relatï¿½rios fazendo uso de componentes do tipo Image, responsï¿½veis em decodificar 
+--e converter o conteï¿½do binï¿½rio em pontos mapeados conhecidos como bitmap.
 
 
 SELECT * FROM dbo.Imagens i
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USE IntegraTICravil
+USE DBA_PerformanceHub
 GO
 
 CREATE FUNCTION Management.[fn_Binvaluetohexdecstr] (@p_binhexvalue [varbinary](256))

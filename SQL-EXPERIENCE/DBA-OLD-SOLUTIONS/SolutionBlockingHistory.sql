@@ -17,23 +17,23 @@
 -- 1. Habilitação do Service Broker e Trustworthy
 ---------------------------------------------------------------------------------------
 -- É necessário alterar a configuração habilitando o Broker e o Trustworthy
-USE Maintenance
+USE DBA_PerformanceHub
 GO
 
-ALTER DATABASE Maintenance
+ALTER DATABASE DBA_PerformanceHub
 SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 GO
 
-ALTER DATABASE Maintenance SET ENABLE_BROKER
+ALTER DATABASE DBA_PerformanceHub SET ENABLE_BROKER
 GO
 
 -- Caso haja problema de mesmo ID do Service Broker:
--- ALTER DATABASE Maintenance SET NEW_BROKER
+-- ALTER DATABASE DBA_PerformanceHub SET NEW_BROKER
 
-ALTER DATABASE Maintenance SET TRUSTWORTHY ON
+ALTER DATABASE DBA_PerformanceHub SET TRUSTWORTHY ON
 GO
 
-ALTER DATABASE Maintenance
+ALTER DATABASE DBA_PerformanceHub
 SET MULTI_USER WITH ROLLBACK IMMEDIATE
 GO
 
@@ -89,7 +89,7 @@ CREATE TABLE Gescooper90.dbo.HistoryBlockedProcess
 ---------------------------------------------------------------------------------------
 -- Em seguida crio a QUEUE, o Service e o Event Notification para esta coleta.
 -- Na criação do Event a ação que é monitorada é o BLOCKED_PROCESS_REPORT.
-USE Maintenance
+USE DBA_PerformanceHub
 GO
 
 CREATE QUEUE Audit_Blocked_Process_Queue
@@ -99,7 +99,7 @@ CREATE SERVICE Audit_Blocked_Process_Service
 ON QUEUE Audit_Blocked_Process_Queue ([http://schemas.microsoft.com/SQL/Notifications/PostEventNotification])
 GO
 
-USE Maintenance
+USE DBA_PerformanceHub
 GO
 
 CREATE EVENT NOTIFICATION Audit_Blocked_Process_Event
@@ -119,7 +119,7 @@ GO
 ---------------------------------------------------------------------------------------
 -- Os eventos vêm como XML (EVENT_INSTANCE) a partir de um SELECT na QUEUE Audit_Blocked_Process_Queue.
 -- Como a stored procedure é acionada a cada evento, ela capta da QUEUE o XML, desserializa e grava cada campo na tabela HistoryBlockedProcess.
-USE Maintenance
+USE DBA_PerformanceHub
 GO
 
 CREATE PROCEDURE Management.sp_BlockedProcess
@@ -150,7 +150,7 @@ BEGIN
                 , @DBname = DB_NAME(@message_body.value('(/EVENT_INSTANCE/TextData/blocked-process-report/blocked-process/process/@currentdb)[1]', 'varchar(10)'))
 
             -- Insere registros
-            INSERT INTO Maintenance.Management.HistoryBlockedProcess
+            INSERT INTO DBA_PerformanceHub.Management.HistoryBlockedProcess
             (
                 DateBlock
                 , DatabaseName
@@ -171,7 +171,7 @@ GO
 ---------------------------------------------------------------------------------------
 -- Em seguida configuro a QUEUE Audit_Blocked_Process_Queue para acionar a stored procedure
 -- sp_BlockedProcess houver um evento e já ativar a QUEUE.
-USE Maintenance
+USE DBA_PerformanceHub
 GO
 
 ALTER QUEUE Audit_Blocked_Process_Queue
@@ -188,7 +188,7 @@ GO
 -- =====================================================================================
 -- Consulta de Análise dos Dados Coletados (XML Parsing)
 -- =====================================================================================
-USE Maintenance
+USE DBA_PerformanceHub
 GO
 
 ;WITH cte_BlockedProcess AS
@@ -295,7 +295,7 @@ SELECT SUM(x.TotalBlock) AS total, MAX(x.DateBlock), x.DatabaseName FROM (
         COUNT(h.IdBlock) AS TotalBlock
         , CONVERT(VARCHAR(12), h.DateBlock, 103) AS DateBlock
         , h.DatabaseName
-    FROM IntegraTICravil.Management.HistoryBlockedProcess AS h
+    FROM DBA_PerformanceHub.Management.HistoryBlockedProcess AS h
     WHERE h.DatabaseName IS NOT NULL AND h.DateBlock IS NOT NULL
         AND CAST(h.DateBlock AS DATE)
         BETWEEN DATEADD(WEEK, -1, CAST(CAST(FLOOR(CAST(GETDATE() AS FLOAT)) AS DATETIME) AS DATE))

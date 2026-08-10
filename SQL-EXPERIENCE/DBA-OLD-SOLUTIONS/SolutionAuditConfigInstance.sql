@@ -93,7 +93,7 @@ BEGIN
         -- Se recebeu uma mensagem, processa
         IF (@@ROWCOUNT = 1)
         BEGIN
-            INSERT INTO Maintenance.Management.HistoryServerConfig
+            INSERT INTO DBA_PerformanceHub.Management.HistoryServerConfig
             (
                 DateInsert,
                 [EventType],
@@ -153,6 +153,6 @@ GO
 -- GO
 
 -- Para consultar os dados coletados:
--- SELECT * FROM Maintenance.Management.HistoryServerConfig
+-- SELECT * FROM DBA_PerformanceHub.Management.HistoryServerConfig
 -- ORDER BY DateInsert DESC
 -- GO

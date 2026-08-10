@@ -38,7 +38,7 @@ AS (
     FROM
         Management.HistoryIndexFragmentation AS t1
     WHERE
-        t1.DatabaseName = 'IntegraTICravil'
+        t1.DatabaseName = 'DBA_PerformanceHub'
         AND t1.AvgFragmentationInPercent > 5
         AND t1.PageCount > 1000
         AND t1.AllocUnitTypeDesc = 'IN_ROW_DATA'
@@ -120,7 +120,7 @@ AS (
               WHEN t1.AvgFragmentationInPercent < 30 THEN 'REORGANIZE'
               ELSE 'REBUILD'
           END
-        + '; BACKUP LOG IntegraTICravil TO DISK = ''G:\Backup\IntegraTICravil_log.TRN'' WITH INIT;' AS SCRIPTS
+        + '; BACKUP LOG DBA_PerformanceHub TO DISK = ''G:\Backup\DBA_PerformanceHub_log.TRN'' WITH INIT;' AS SCRIPTS
       , LAST_VALUE(t1.DateReference) OVER
         (
             ORDER BY t1.DateReference
@@ -132,7 +132,7 @@ AS (
     FROM
         Management.HistoryIndexFragmentation AS t1
     WHERE
-        t1.DatabaseName = 'IntegraTICravil'
+        t1.DatabaseName = 'DBA_PerformanceHub'
         AND t1.AvgFragmentationInPercent > 5
         AND t1.PageCount > 1000
         AND t1.AllocUnitTypeDesc = 'IN_ROW_DATA'
@@ -200,7 +200,7 @@ FROM
         FROM
             Management.HistoryIndexFragmentation AS t1
         WHERE
-            t1.DatabaseName = 'IntegraTICravil'
+            t1.DatabaseName = 'DBA_PerformanceHub'
             AND t1.AvgFragmentationInPercent > 3
             AND t1.PageCount > 1000
             AND t1.AllocUnitTypeDesc = 'IN_ROW_DATA'

@@ -15,7 +15,7 @@ GO
 
 EXEC Management.sp_VerifyDirectDependencies 'YOUR_DATABASE.dbo.TRANSACIONADORES';
 EXEC Management.sp_VerifyDirectDependencies 'YOUR_DATABASE.dbo.tr_Transacionadores_LogUD';
-EXEC Management.sp_VerifyDirectDependencies 'IntegraTICravil.Management.DDLTransaction';
+EXEC Management.sp_VerifyDirectDependencies 'DBA_PerformanceHub.Management.DDLTransaction';
 
 
 -- ---------------------------------------------------------------------------
@@ -25,10 +25,10 @@ EXEC Management.sp_VerifyDirectDependencies 'IntegraTICravil.Management.DDLTrans
 USE YOUR_DATABASE;
 GO
 
-EXEC Management.sp_VerifyDependenciesFull 'IntegraTICravil.LogErp.TransacionadorLogDML';    -- mostra a trigger que alimenta
+EXEC Management.sp_VerifyDependenciesFull 'DBA_PerformanceHub.LogErp.TransacionadorLogDML';    -- mostra a trigger que alimenta
 EXEC Management.sp_VerifyDependenciesFull 'YOUR_DATABASE.dbo.TRANSACIONADORES';
 EXEC Management.sp_VerifyDependenciesFull 'YOUR_DATABASE.dbo.FILIAIS';                      -- mostra a trigger e outros
-EXEC Management.sp_VerifyDependenciesFull 'IntegraTICravil.Management.DDLTransaction';
+EXEC Management.sp_VerifyDependenciesFull 'DBA_PerformanceHub.Management.DDLTransaction';
 
 -- ---------------------------------------------------------------------------
 -- Bloco 3: Relatório completo de dependências

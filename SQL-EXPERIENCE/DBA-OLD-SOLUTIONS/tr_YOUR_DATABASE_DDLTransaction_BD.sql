@@ -11,7 +11,7 @@ As
   Declare @DadosXML XML
   Set @DadosXML=EVENTDATA()
 
-  Insert Into IntegraTICravil.Management.DDLTransaction(
+  Insert Into DBA_PerformanceHub.Management.DDLTransaction(
 						EventType,
 						ObjectName,
 						ObjectType,
@@ -30,7 +30,7 @@ GO
 -- Tabela dedo duro
 ----------------------------------------------------------------------------------------------------------------------
 
---use IntegraTICravil
+--use DBA_PerformanceHub
 --go
 --Create Table Management.DDLTransaction
 --(

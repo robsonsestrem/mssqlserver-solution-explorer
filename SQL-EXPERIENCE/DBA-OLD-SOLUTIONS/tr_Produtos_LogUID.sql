@@ -88,7 +88,7 @@ SET NOCOUNT ON
 						-- Substitui a TAG no XML da DELETED e faz a extra��o dos dados
 						SET @DeletedTMP = REPLACE(CAST(@Deleted As VARCHAR(MAX)),@NomeCol + '=','Col=')
 														
-						INSERT INTO IntegraTICravil.LogErp.ProdutosLogDML 
+						INSERT INTO DBA_PerformanceHub.LogErp.ProdutosLogDML 
 									(
 										DateDML, 
 										DatabaseUser, 
@@ -153,7 +153,7 @@ SET NOCOUNT ON
                               -- Substitui a TAG no XML da INSERTED e faz a extra��o dos dados 
                               SET @InsertedTMP = Replace(Cast(@Inserted AS VARCHAR(max)),@NomeCol + '=','Col=') 
 
-                              INSERT INTO IntegraTICravil.LogErp.ProdutosLogDML 
+                              INSERT INTO DBA_PerformanceHub.LogErp.ProdutosLogDML 
                                         (DateDML, 
 										 DatabaseUser, 
 										 LoginUser, 
@@ -199,7 +199,7 @@ GO
 ----TABELA DE LOGS � Local onde a trigger acima registra os dados DML da tabela PRODUTOS
 ---------------------------------------------------------------------------------------------------------------------------------
 
---Use IntegraTICravil
+--Use DBA_PerformanceHub
 --GO
 --create table LogErp.ProdutosLogDML (
 --	LogId int not null identity (1,1),

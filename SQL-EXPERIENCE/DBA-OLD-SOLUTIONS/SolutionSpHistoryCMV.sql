@@ -22,7 +22,7 @@
 -- FUNÇÃO: fn_TotaisEmailBi
 -- Calcula totais para diferentes tipos de operação (faturamento, CMV, cupons, transferências)
 -- ================================================================================================================================
-USE IntegraTICravil
+USE DBA_PerformanceHub
 GO
 
 CREATE OR ALTER FUNCTION Bi.fn_TotaisEmailBi
@@ -240,7 +240,7 @@ GO
 -- PROCEDURE: sp_HistoryCMV
 -- Realiza a carga do histórico de CMV para receitas
 -- ================================================================================================================================
-USE [IntegraTICravil]
+USE [DBA_PerformanceHub]
 GO
 
 CREATE OR ALTER PROCEDURE Bi.[sp_HistoryCMV]
@@ -295,8 +295,8 @@ BEGIN
                 SELECT
                     CAST(
                         ISNULL(
-                            IntegraTICravil.Management.fn_FormatIntToMoney(
-                                IntegraTICravil.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 1)
+                            DBA_PerformanceHub.Management.fn_FormatIntToMoney(
+                                DBA_PerformanceHub.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 1)
                             ),
                             0
                         ) AS VARCHAR(20)
@@ -312,8 +312,8 @@ BEGIN
                     SELECT
                         CAST(
                             ISNULL(
-                                IntegraTICravil.Management.fn_FormatIntToMoney(
-                                    IntegraTICravil.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 3)
+                                DBA_PerformanceHub.Management.fn_FormatIntToMoney(
+                                    DBA_PerformanceHub.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 3)
                                 ),
                                 0
                             ) AS VARCHAR(20)
@@ -375,7 +375,7 @@ BEGIN
             -- ----------------------------------------------------------------
             IF (@resultSet = 0)
             BEGIN
-                INSERT INTO IntegraTICravil.Bi.HistoricoCMV
+                INSERT INTO DBA_PerformanceHub.Bi.HistoricoCMV
                 (
                     DataIntegracao,
                     CodigoFilial,
@@ -429,8 +429,8 @@ BEGIN
                     SELECT
                         CAST(
                             ISNULL(
-                                IntegraTICravil.Management.fn_FormatIntToMoney(
-                                    IntegraTICravil.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 2)
+                                DBA_PerformanceHub.Management.fn_FormatIntToMoney(
+                                    DBA_PerformanceHub.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 2)
                                 ),
                                 0
                             ) AS VARCHAR(20)
@@ -529,7 +529,7 @@ GO
 -- PROCEDURE: sp_HistoryCMVSecondShot
 -- Segunda tentativa de carga do histórico de CMV (execução em horário alternativo)
 -- ================================================================================================================================
-USE IntegraTICravil
+USE DBA_PerformanceHub
 GO
 
 CREATE OR ALTER PROCEDURE Bi.sp_HistoryCMVSecondShot
@@ -573,7 +573,7 @@ BEGIN
                 SELECT
                     COUNT(*)
                 FROM
-                    IntegraTICravil.Bi.HistoricoCMV AS t1
+                    DBA_PerformanceHub.Bi.HistoricoCMV AS t1
                 WHERE
                     t1.DataEmissao >= @datainicio
             )
@@ -604,8 +604,8 @@ BEGIN
                     SELECT
                         CAST(
                             ISNULL(
-                                IntegraTICravil.Erp.fn_FormatIntToMoney(
-                                    IntegraTICravil.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 1)
+                                DBA_PerformanceHub.Erp.fn_FormatIntToMoney(
+                                    DBA_PerformanceHub.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 1)
                                 ),
                                 0
                             ) AS VARCHAR(20)
@@ -621,8 +621,8 @@ BEGIN
                         SELECT
                             CAST(
                                 ISNULL(
-                                    IntegraTICravil.Erp.fn_FormatIntToMoney(
-                                        IntegraTICravil.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 3)
+                                    DBA_PerformanceHub.Erp.fn_FormatIntToMoney(
+                                        DBA_PerformanceHub.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 3)
                                     ),
                                     0
                                 ) AS VARCHAR(20)
@@ -696,7 +696,7 @@ BEGIN
                         SET @texto = 'Integração de hoje das Receitas com CMV realizada com sucesso.'
                     END
 
-                    INSERT INTO IntegraTICravil.Bi.HistoricoCMV
+                    INSERT INTO DBA_PerformanceHub.Bi.HistoricoCMV
                     (
                         DataIntegracao,
                         CodigoFilial,
@@ -750,8 +750,8 @@ BEGIN
                         SELECT
                             CAST(
                                 ISNULL(
-                                    IntegraTICravil.Erp.fn_FormatIntToMoney(
-                                        IntegraTICravil.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 2)
+                                    DBA_PerformanceHub.Erp.fn_FormatIntToMoney(
+                                        DBA_PerformanceHub.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 2)
                                     ),
                                     0
                                 ) AS VARCHAR(20)
@@ -850,7 +850,7 @@ GO
 -- PROCEDURE: sp_HistoryCMVTransferencia
 -- Realiza a carga do histórico de CMV para transferências
 -- ================================================================================================================================
-USE [IntegraTICravil]
+USE [DBA_PerformanceHub]
 GO
 
 CREATE OR ALTER PROCEDURE Bi.[sp_HistoryCMVTransferencia]
@@ -892,7 +892,7 @@ BEGIN
                 SELECT
                     COUNT(*)
                 FROM
-                    IntegraTICravil.Bi.HistoricoCMVTransf AS t1
+                    DBA_PerformanceHub.Bi.HistoricoCMVTransf AS t1
                 WHERE
                     t1.DataEmissao >= @datainicio
             )
@@ -908,8 +908,8 @@ BEGIN
                     SELECT
                         CAST(
                             ISNULL(
-                                IntegraTICravil.Erp.fn_FormatIntToMoney(
-                                    IntegraTICravil.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 4)
+                                DBA_PerformanceHub.Erp.fn_FormatIntToMoney(
+                                    DBA_PerformanceHub.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 4)
                                 ),
                                 0
                             ) AS VARCHAR(20)
@@ -917,7 +917,7 @@ BEGIN
                 )
 
                 -- Realiza a carga dos dados
-                INSERT INTO IntegraTICravil.Bi.HistoricoCMVTransf
+                INSERT INTO DBA_PerformanceHub.Bi.HistoricoCMVTransf
                 (
                     DataIntegracao,
                     CodigoFilial,
@@ -971,8 +971,8 @@ BEGIN
                     SELECT
                         CAST(
                             ISNULL(
-                                IntegraTICravil.Erp.fn_FormatIntToMoney(
-                                    IntegraTICravil.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 5)
+                                DBA_PerformanceHub.Erp.fn_FormatIntToMoney(
+                                    DBA_PerformanceHub.Bi.fn_TotaisEmailBi(@datainicio, @datafinal, 5)
                                 ),
                                 0
                             ) AS VARCHAR(20)

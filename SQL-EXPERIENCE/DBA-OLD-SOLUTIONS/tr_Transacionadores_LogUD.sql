@@ -830,7 +830,7 @@ AS
 						-- Substitui a TAG no XML da DELETED e faz a extra��o dos dados
 						SET @DeletedTMP = REPLACE(CAST(@Deleted As VARCHAR(MAX)),@NomeCol + '=','Col=')
 														
-						INSERT INTO IntegraTICravil.LogErp.TransacionadorLogDML
+						INSERT INTO DBA_PerformanceHub.LogErp.TransacionadorLogDML
 									(
 										DateDML, 
 										DatabaseUser, 
@@ -891,7 +891,7 @@ AS
                               -- Substitui a TAG no XML da INSERTED e faz a extra��o dos dados 
                               SET @InsertedTMP = Replace(Cast(@Inserted AS VARCHAR(max)),@NomeCol + '=','Col=') 
 
-                              INSERT INTO IntegraTICravil.LogErp.TransacionadorLogDML 
+                              INSERT INTO DBA_PerformanceHub.LogErp.TransacionadorLogDML 
                                         (DateDML, 
 										 DatabaseUser, 
 										 LoginUser, 
@@ -937,7 +937,7 @@ GO
 -- Tabela dos logs de altera��o ou exclus�o da tabela transacionadores
 ------------------------------------------------------------------------------------------------------------------------------
 
---USE IntegraTICravil
+--USE DBA_PerformanceHub
 --GO
 
 --CREATE TABLE LogErp.TransacionadorLogDML

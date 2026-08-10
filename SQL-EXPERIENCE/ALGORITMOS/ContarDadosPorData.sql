@@ -42,7 +42,7 @@ SELECT
 FROM
 (
     SELECT CAST(FLOOR(CAST(t1.DateReference AS FLOAT)) AS DATETIME) AS TimeZerado
-    FROM IntegraTICravil.Management.HistoryIndexFragmentation AS t1
+    FROM DBA_PerformanceHub.Management.HistoryIndexFragmentation AS t1
 ) AS x
 GROUP BY 
     SUBSTRING(CONVERT(VARCHAR(10), x.TimeZerado, 103), 4, 2)

@@ -8,7 +8,7 @@
     REFERÊNCIAS:
     http://www.dbinternals.com.br/?p=1089
 */
-USE Maintenance;
+USE DBA_PerformanceHub;
 GO
 
 -- ============================================================
@@ -88,7 +88,7 @@ BEGIN
 
         IF (@@ROWCOUNT = 1)
         BEGIN
-            INSERT INTO Maintenance.Management.HistoryDBFileGrowth
+            INSERT INTO DBA_PerformanceHub.Management.HistoryDBFileGrowth
             (
                 DateInsert
               , EventType

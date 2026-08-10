@@ -56,8 +56,8 @@ SELECT * FROM sys.dm_os_memory_brokers;
 -- ---------------------------------------------------------------------------
 /*
 An exception occurred while enqueueing a message in the target queue.
-Error: 33009, State: 2. The database owner SID recorded in the master database differs from the database owner SID recorded in database 'IntegraTICravil'.
-You should correct this situation by resetting the owner of database 'IntegraTICravil' using the ALTER AUTHORIZATION statement.
+Error: 33009, State: 2. The database owner SID recorded in the master database differs from the database owner SID recorded in database 'DBA_PerformanceHub'.
+You should correct this situation by resetting the owner of database 'DBA_PerformanceHub' using the ALTER AUTHORIZATION statement.
 */
 
 -- Gera e executa ALTER AUTHORIZATION dinamicamente para o banco corrente
@@ -71,7 +71,7 @@ JOIN master..syslogins AS SL
     ON SD.SID = SL.SID
 WHERE SD.Name = DB_NAME();
 
-PRINT @Command;    -- result -> ALTER AUTHORIZATION ON DATABASE::[IntegraTICravil] TO [CRAVIL\rdornel]
+PRINT @Command;    -- result -> ALTER AUTHORIZATION ON DATABASE::[DBA_PerformanceHub] TO [CRAVIL\rdornel]
 EXEC(@Command);
 
 ALTER AUTHORIZATION ON SCHEMA::Management TO admcravil;
@@ -161,7 +161,7 @@ BEGIN CATCH
 END CATCH;
 GO
 
-ALTER DATABASE IntegraTICravil SET TRUSTWORTHY ON;
+ALTER DATABASE DBA_PerformanceHub SET TRUSTWORTHY ON;
 GO
 
 -- ---------------------------------------------------------------------------
@@ -183,7 +183,7 @@ RECONFIGURE WITH OVERRIDE;
 -- ---------------------------------------------------------------------------
 -- [TEMPLATE] Monitoramento de Blocked Process: Audit_Blocked_Process_Event
 -- ---------------------------------------------------------------------------
---USE IntegraTICravil
+--USE DBA_PerformanceHub
 --GO
 --CREATE EVENT NOTIFICATION [Audit_Blocked_Process_Event]
 --ON SERVER 
@@ -192,7 +192,7 @@ RECONFIGURE WITH OVERRIDE;
 --TO SERVICE N'Audit_Blocked_Process_Service', N'current database';
 --GO
 
---USE IntegraTICravil
+--USE DBA_PerformanceHub
 --GO
 --Alter Queue [Audit_Blocked_Process_Queue]
 --With Activation 
@@ -287,7 +287,7 @@ RECONFIGURE WITH OVERRIDE;
 	   
 --    TO SERVICE 'Audit_AlterObjects_Service', 'current database';
 --GO
---USE IntegraTICravil
+--USE DBA_PerformanceHub
 --GO
 --ALTER QUEUE [Audit_AlterObjects_Queue] WITH ACTIVATION
 --(
@@ -302,14 +302,14 @@ RECONFIGURE WITH OVERRIDE;
 -- ---------------------------------------------------------------------------
 -- [TEMPLATE] Monitoramento de Deadlock: Audit_DeadLock_Event
 -- ---------------------------------------------------------------------------
---USE IntegraTICravil
+--USE DBA_PerformanceHub
 --GO
 --CREATE EVENT NOTIFICATION Audit_DeadLock_Event ON SERVER
 --WITH FAN_IN 
 --FOR DEADLOCK_GRAPH 
 --TO SERVICE 'Audit_DeadLock_Service', 'current database';
 
---USE IntegraTICravil
+--USE DBA_PerformanceHub
 --go
 --Alter Queue Audit_DeadLock_Queue
 --With Activation

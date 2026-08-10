@@ -1,4 +1,4 @@
-USE IntegraTICravil
+USE DBA_PerformanceHub
 GO
 
 create or alter procedure LogErp.sp_DeleteLogProdutos
@@ -21,7 +21,7 @@ begin
 				from
 				(
 				select count(*) as [Registros]
-				from IntegraTICravil.LogErp.ProdutosLogDML as t1
+				from DBA_PerformanceHub.LogErp.ProdutosLogDML as t1
 				group by cast(t1.DateDML as date)
 				) as x
 			)
@@ -30,10 +30,10 @@ begin
 			  BEGIN 
 				  set @dataMin = 
 				  (
-					  select cast(dateadd(day, 1 ,((select min(t1.DateDML) from IntegraTICravil.LogErp.ProdutosLogDML as t1))) as date)
+					  select cast(dateadd(day, 1 ,((select min(t1.DateDML) from DBA_PerformanceHub.LogErp.ProdutosLogDML as t1))) as date)
 				  )
 				  
-				  DELETE FROM IntegraTICravil.LogErp.ProdutosLogDML
+				  DELETE FROM DBA_PerformanceHub.LogErp.ProdutosLogDML
 				  WHERE DateDML < @dataMin 										  
 				  
 				  set @qtdadeDias -= 1
@@ -47,8 +47,8 @@ begin
 			ROLLBACK TRANSACTION
 			DECLARE @corpoFalha varchar(max)
 				  , @subject VARCHAR(100)			-- assunto
-				  , @recipients VARCHAR(100);		-- destinatário				
-			SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+				  , @recipients VARCHAR(100);		-- destinatï¿½rio				
+			SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 			SET @recipients = 'suporte@cravil.com.br';
 			SET @corpoFalha = '	
 				<html>

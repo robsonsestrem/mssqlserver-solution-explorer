@@ -27,7 +27,7 @@
 -- ================================================================================================================================
 -- CRIAÇÃO DAS TABELAS DE MONITORAMENTO
 -- ================================================================================================================================
-USE Maintenance
+USE DBA_PerformanceHub
 GO
 
 IF OBJECT_ID('Management.HistorySizeTables') IS NOT NULL
@@ -175,7 +175,7 @@ GO
 -- VIEW: vw_SizeTables
 -- Facilita a visualização consolidada dos dados de tamanho
 -- ================================================================================================================================
-USE Maintenance
+USE DBA_PerformanceHub
 GO
 
 IF OBJECT_ID('Management.vw_SizeTables') IS NOT NULL
@@ -210,7 +210,7 @@ GO
 -- PROCEDURE: sp_LoadSizeTables
 -- Realiza a coleta e armazenamento diário dos tamanhos das tabelas
 -- ================================================================================================================================
-USE Maintenance
+USE DBA_PerformanceHub
 GO
 
 IF OBJECT_ID('Management.sp_LoadSizeTables') IS NOT NULL
@@ -545,7 +545,7 @@ WHERE ItemsTable.Collation1Col COLLATE DATABASE_DEFAULT
 -- VIEW PARA ANÁLISE DE CRESCIMENTO EM BASES ESPECÍFICAS
 -- ================================================================================================================================
 -- Usada para análise de crescimento de tabelas em toda a instância.
-USE IntegraTICravil
+USE DBA_PerformanceHub
 GO
 
 IF OBJECT_ID('Management.vw_SizeTables') IS NOT NULL
@@ -696,7 +696,7 @@ BEGIN
       , v.DtReferencia
       , REPLACE(CAST(CAST(SUM(v.NrTamanhoTotal / 1024) AS MONEY) AS VARCHAR(20)), '.', ',')
     FROM
-        integraTICravil.Management.vw_SizeTables AS v
+        DBA_PerformanceHub.Management.vw_SizeTables AS v
     WHERE
         v.DtReferencia = @dia
     GROUP BY

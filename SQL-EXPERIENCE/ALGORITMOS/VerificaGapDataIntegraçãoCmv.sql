@@ -13,7 +13,7 @@
 -- Verificação de Gaps de Datas em Integração CMV
 -- ============================================================
 
-USE IntegraTICravil
+USE DBA_PerformanceHub
 GO
 
 -- Declaração de variáveis de filtro temporal (mês e ano de referência)

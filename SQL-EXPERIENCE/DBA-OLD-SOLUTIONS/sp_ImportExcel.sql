@@ -28,7 +28,7 @@ END
 --------------------------------------------------------------------------------------------------------
 -- Como usar [sp_ImportExcel]
 --------------------------------------------------------------------------------------------------------
---use IntegraTICravil
+--use DBA_PerformanceHub
 --go
 --exec Management.sp_ImportExcel
 --@Caminho = 'C:\SQLImportExport\Teste.xlsx', -- Diret�rio

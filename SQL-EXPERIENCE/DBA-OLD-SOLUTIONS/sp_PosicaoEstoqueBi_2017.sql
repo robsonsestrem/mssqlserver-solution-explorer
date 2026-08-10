@@ -1,4 +1,4 @@
-USE IntegraTICravil
+USE DBA_PerformanceHub
 GO
 	create OR ALTER procedure Bi.sp_PosicaoEstoqueBi_2017	
 	with encryption
@@ -12,7 +12,7 @@ GO
 				
 		-- Coleta �ltima data processada
 		-- Seta a pr�xima data pra ser calculada
-		set @execucao = (select max(t1.[DataRotina] + 1) from IntegraTICravil.Bi.Execucao as t1
+		set @execucao = (select max(t1.[DataRotina] + 1) from DBA_PerformanceHub.Bi.Execucao as t1
 						 where t1.Descricao like '%HistoricoPosicaoEstoque_2017%')
 
 		-- controle para inserir o m�s fechado
@@ -24,10 +24,10 @@ GO
 		while(@execucao < @datalimite)
 		BEGIN		
 		
-			insert into IntegraTICravil.Bi.Execucao(DataInsercao, Descricao, DataRotina)
+			insert into DBA_PerformanceHub.Bi.Execucao(DataInsercao, Descricao, DataRotina)
 			values (GETDATE(), 'INSERT TABELA HistoricoPosicaoEstoque_2017', @execucao)
 
-			insert into IntegraTICravil.Bi.HistoricoPosicaoEstoque	
+			insert into DBA_PerformanceHub.Bi.HistoricoPosicaoEstoque	
 			(
 			Filial , 
 			NomeFilial , 
@@ -60,7 +60,7 @@ GO
 			   , t1.CustoMercadoriaVendida
 			   , t1.Estoque
 			   , t1.CustoTotal
-			 from IntegraTICravil.Bi.HistoricoCMV as t1 with(nolock) 
+			 from DBA_PerformanceHub.Bi.HistoricoCMV as t1 with(nolock) 
 			 inner join YOUR_DATABASE.dbo.PRODUTOS as t2 with(nolock)
 			 on t2.ProCod = t1.CodigoProduto
 			 inner join YOUR_DATABASE.dbo.FAMILIAS as t3 with(nolock)
@@ -88,7 +88,7 @@ GO
 					and t2.filflag2 = 0 -- filiais ativas
 					and t2.FilCod not in (61,90)
 					except
-					select distinct t1.CodigoFilial, t1.CodigoProduto from IntegraTICravil.Bi.HistoricoCMV as t1 with(nolock)
+					select distinct t1.CodigoFilial, t1.CodigoProduto from DBA_PerformanceHub.Bi.HistoricoCMV as t1 with(nolock)
 					where t1.DataEmissao = @execucao
 
 				) as x cross apply YOUR_DATABASE.dbo.GetCustoMercadoria(x.FilCod, x.ProCod, @execucao) as t2

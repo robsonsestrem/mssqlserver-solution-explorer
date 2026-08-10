@@ -9,7 +9,7 @@
     REFERÊNCIAS:
     https://www.dirceuresende.com/blog/como-criar-uma-auditoria-para-monitorar-criacao-modificacao-exclusao-de-jobs-no-sql-server/
 */
-USE Maintenance;
+USE DBA_PerformanceHub;
 GO
 
 -- ============================================================
@@ -84,7 +84,7 @@ BEGIN
     BEGIN
         IF (@New_Enabled = 1)
         BEGIN
-            INSERT INTO Maintenance.Management.Job_Audit
+            INSERT INTO DBA_PerformanceHub.Management.Job_Audit
             (
                 Ds_Usuario
               , Ds_Job
@@ -102,7 +102,7 @@ BEGIN
 
         IF (@New_Enabled = 0)
         BEGIN
-            INSERT INTO Maintenance.Management.Job_Audit
+            INSERT INTO DBA_PerformanceHub.Management.Job_Audit
             (
                 Ds_Usuario
               , Ds_Job
@@ -120,7 +120,7 @@ BEGIN
     END
     ELSE
     BEGIN
-        INSERT INTO Maintenance.Management.Job_Audit
+        INSERT INTO DBA_PerformanceHub.Management.Job_Audit
         (
             Ds_Usuario
           , Ds_Job
@@ -196,7 +196,7 @@ BEGIN
 
     IF (@JobName != '')
     BEGIN
-        INSERT INTO Maintenance.Management.Job_Audit
+        INSERT INTO DBA_PerformanceHub.Management.Job_Audit
         (
             Ds_Usuario
           , Ds_Job
@@ -269,7 +269,7 @@ BEGIN
 
     SET @Qry = (SELECT EventInfo FROM #inputbuffer);
 
-    INSERT INTO Maintenance.Management.Job_Audit
+    INSERT INTO DBA_PerformanceHub.Management.Job_Audit
     (
         Ds_Usuario
       , Ds_Job
