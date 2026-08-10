@@ -1,4 +1,4 @@
-use IntegraTICravil
+use DBA_PerformanceHub
 go
 CREATE OR ALTER PROCEDURE Erp.sp_ReportNotSaleEmployee
 WITH ENCRYPTION
@@ -63,7 +63,7 @@ BEGIN
 								   '<td height=20 style=height:15.0pt>' +	CAST(PAG.CaiOpeCod	AS varchar(10))										+ '</td>' +										   
 								   '<td height=20 style=height:15.0pt>' +	CONVERT(VARCHAR(20), PAG.CupDatMov, 103)								+ '</td>' +	
 								   '<td height=20 style=height:15.0pt>' +		CAST(PAG.CupCodigo AS varchar(10)) 									+ '</td>' +	
-								   '<td height=20 style=height:15.0pt>' +	(SELECT IntegraTICravil.Erp.fn_FormatIntToMoney(PAG.CupTotVlr))	+ '</td>' +	
+								   '<td height=20 style=height:15.0pt>' +	(SELECT DBA_PerformanceHub.Erp.fn_FormatIntToMoney(PAG.CupTotVlr))	+ '</td>' +	
 								   '<td height=20 style=height:15.0pt>' +	CONVERT(VARCHAR(20), PAG.CupTotDatVct, 103) 							+ '</td>' +	
 								   --
 								   '<td height=20 style=height:15.0pt>' +	CASE when CUP.CupSituac = 1 then 'NORMAL'

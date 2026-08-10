@@ -1,9 +1,9 @@
-USE IntegraTICravil
+USE DBA_PerformanceHub
 GO
 
 create or alter procedure Bi.sp_DeletePosicaoEstoque
 (
- @qtdadeManterDias int = 60 -- Quantidade de dias para manter conforme data de emissão
+ @qtdadeManterDias int = 60 -- Quantidade de dias para manter conforme data de emissï¿½o
 )
 with encryption
 as
@@ -49,8 +49,8 @@ begin
 			ROLLBACK TRANSACTION
 			DECLARE @corpoFalha varchar(max)
 				  , @subject VARCHAR(100)			-- assunto
-				  , @recipients VARCHAR(100);		-- destinatário				
-			SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+				  , @recipients VARCHAR(100);		-- destinatï¿½rio				
+			SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 			SET @recipients = 'suporte@cravil.com.br';
 			SET @corpoFalha = '	
 				<html>

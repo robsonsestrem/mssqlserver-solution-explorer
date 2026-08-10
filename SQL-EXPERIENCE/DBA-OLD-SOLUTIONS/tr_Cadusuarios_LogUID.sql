@@ -260,7 +260,7 @@ AS
 						-- Substitui a TAG no XML da DELETED e faz a extra��o dos dados
 						SET @DeletedTMP = REPLACE(CAST(@Deleted As VARCHAR(MAX)),@NomeCol + '=','Col=')
 														
-						INSERT INTO IntegraTICravil.LogErp.CadusuariosLogDML 
+						INSERT INTO DBA_PerformanceHub.LogErp.CadusuariosLogDML 
 									(
 										DateDML, 
 										DatabaseUser, 
@@ -325,7 +325,7 @@ AS
                               -- Substitui a TAG no XML da INSERTED e faz a extra��o dos dados 
                               SET @InsertedTMP = Replace(Cast(@Inserted AS VARCHAR(max)),@NomeCol + '=','Col=') 
 
-                              INSERT INTO IntegraTICravil.LogErp.CadusuariosLogDML 
+                              INSERT INTO DBA_PerformanceHub.LogErp.CadusuariosLogDML 
                                         (DateDML, 
 										 DatabaseUser, 
 										 LoginUser, 
@@ -370,7 +370,7 @@ GO
 -- TABELA DE LOGS � Local onde a trigger acima registra os dados DML da tabela CADUSUARIOS
 ---------------------------------------------------------------------------------------------------------------------------------
 
---Use IntegraTICravil
+--Use DBA_PerformanceHub
 --GO
 --create table CadusuariosLogDML (
 --	LogId int not null identity (1,1),

@@ -26,7 +26,7 @@
 -- ABORDAGEM: FAUSTO BRANCO
 -- Consulta de fragmentação com decisão entre REBUILD e REORGANIZE
 -- ================================================================================================================================
-DECLARE @database VARCHAR(50) = 'integraticravil'
+DECLARE @database VARCHAR(50) = 'DBA_PerformanceHub'
 DECLARE @comando VARCHAR(MAX)
 
 SET @comando =

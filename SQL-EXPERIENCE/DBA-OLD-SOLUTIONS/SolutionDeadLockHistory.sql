@@ -91,7 +91,7 @@ GO
 -- 4. Criação da Queue, Service e 
 -- Event Notification para captura de DeadLocks
 ------------------------------------------------------------------
-USE [Maintenance];
+USE [DBA_PerformanceHub];
 GO
 
 CREATE QUEUE [Audit_DeadLock_Queue];
@@ -115,7 +115,7 @@ GO
 ------------------------------------------------------------------
 -- 5. Procedure para processamento da fila de DeadLocks
 ------------------------------------------------------------------
-USE [Maintenance];
+USE [DBA_PerformanceHub];
 GO
 
 CREATE OR ALTER PROCEDURE [Management].[sp_DeadLock]
@@ -154,7 +154,7 @@ BEGIN
                 @event_datetime = @message_body.value('(/EVENT_INSTANCE/PostTime)[1]', 'datetime'),
                 @DBname = DB_NAME(@message_body.value('(//*/process/@currentdb)[1]', 'varchar(10)'));
 
-            INSERT INTO [Maintenance].[Management].[HistoryDeadLock]
+            INSERT INTO [DBA_PerformanceHub].[Management].[HistoryDeadLock]
             (
                 [DateDeadLock],
                 [DatabaseName],
@@ -206,7 +206,7 @@ GO
 ------------------------------------------------------------------
 -- Consulta detalhada de DeadLocks com extração de dados do XML
 ------------------------------------------------------------------
-USE [Maintenance];
+USE [DBA_PerformanceHub];
 GO
 
 WITH [cte_DeadLock] AS (

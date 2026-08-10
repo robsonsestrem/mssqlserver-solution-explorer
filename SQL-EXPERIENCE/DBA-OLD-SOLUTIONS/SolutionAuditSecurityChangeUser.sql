@@ -10,7 +10,7 @@
 -- ============================================================
 -- Auditoria de Alterações de Segurança (Security Change Audit)
 -- ============================================================
-USE [IntegraTICravil];
+USE [DBA_PerformanceHub];
 GO
 
 -- Criação da tabela de histórico de alterações de segurança
@@ -89,7 +89,7 @@ BEGIN
                 OR @version > 9
             BEGIN
                 -- Inserção de eventos de nível de banco de dados (usuários)
-                INSERT INTO [Maintenance].[Management].[HistorySecurityChange]
+                INSERT INTO [DBA_PerformanceHub].[Management].[HistorySecurityChange]
                 (
                     [LoginName]
                   , [UserName]
@@ -111,7 +111,7 @@ BEGIN
             ELSE
             BEGIN
                 -- Inserção de eventos de nível de servidor (logins e roles)
-                INSERT INTO [Maintenance].[Management].[HistorySecurityChange]
+                INSERT INTO [DBA_PerformanceHub].[Management].[HistorySecurityChange]
                 (
                     [LoginName]
                   , [UserName]

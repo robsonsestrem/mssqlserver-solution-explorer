@@ -6,7 +6,7 @@
     PROJETO: mssqlserver-solution-explorer
 */
 
-USE IntegraTICravil;
+USE DBA_PerformanceHub;
 GO
 
 -- ============================================================

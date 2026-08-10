@@ -477,7 +477,7 @@ AS
 				WHEN 4 THEN 'Em Progresso'
 			END) [status]
 			, h.message		
-			, IntegraTICravil.Management.fn_ConverteDatetimeJobs(h.run_date, h.run_time)
+			, DBA_PerformanceHub.Management.fn_ConverteDatetimeJobs(h.run_date, h.run_time)
 		FROM msdb.dbo.sysjobs j
 		CROSS APPLY
 		(	SELECT TOP 1 h.run_date,

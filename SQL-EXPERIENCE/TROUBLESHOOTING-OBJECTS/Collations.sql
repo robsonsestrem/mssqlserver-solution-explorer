@@ -16,17 +16,17 @@
 EXEC sp_helpsort
 
 -- Collation do banco de dados
-SELECT DATABASEPROPERTYEX('INTEGRATICRAVIL', 'Collation')
+SELECT DATABASEPROPERTYEX('DBA_PerformanceHub', 'Collation')
 
 -- Collation das colunas de uma tabela específica
-USE IntegraTICravil
+USE DBA_PerformanceHub
 GO
 
 SELECT
     TABLE_NAME
     , COLUMN_NAME
     , COLLATION_NAME
-FROM IntegraTICravil.INFORMATION_SCHEMA.COLUMNS
+FROM DBA_PerformanceHub.INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'DevedoresSigaCred_01'
 
 
@@ -35,9 +35,9 @@ WHERE TABLE_NAME = 'DevedoresSigaCred_01'
 -- ============================================================
 -- Alterar collation de uma Database
 -- Necessário dropar algumas constraints e recriar depois
-ALTER DATABASE IntegraTICravil COLLATE SQL_Latin1_General_CP1_CI_AS
+ALTER DATABASE DBA_PerformanceHub COLLATE SQL_Latin1_General_CP1_CI_AS
 
-USE IntegraTICravil
+USE DBA_PerformanceHub
 GO
 
 -- Alterar collation de uma coluna específica
@@ -74,11 +74,11 @@ WHERE B.NmServidor IS NULL
         , ISNULL(t.TraRg, '') AS Rg
         , ISNULL(t.TraCnpj, '') AS CNPJ
         , CASE
-            WHEN (SELECT IntegraTICravil.Management.fn_ValidCPF_CNPJ(t.TraCnpj)) COLLATE Latin1_General_CI_AS = 'TRUE'
-                AND (SELECT IntegraTICravil.Management.fn_ValidCPF_CNPJ(t.TraCpf)) COLLATE Latin1_General_CI_AS = 'TRUE' THEN
+            WHEN (SELECT DBA_PerformanceHub.Management.fn_ValidCPF_CNPJ(t.TraCnpj)) COLLATE Latin1_General_CI_AS = 'TRUE'
+                AND (SELECT DBA_PerformanceHub.Management.fn_ValidCPF_CNPJ(t.TraCpf)) COLLATE Latin1_General_CI_AS = 'TRUE' THEN
                 'F'
-            WHEN (SELECT IntegraTICravil.Management.fn_ValidCPF_CNPJ(t.TraCpf)) COLLATE Latin1_General_CI_AS = 'FALSE'
-                AND (SELECT IntegraTICravil.Management.fn_ValidCPF_CNPJ(t.TraCnpj)) COLLATE Latin1_General_CI_AS = 'FALSE' THEN
+            WHEN (SELECT DBA_PerformanceHub.Management.fn_ValidCPF_CNPJ(t.TraCpf)) COLLATE Latin1_General_CI_AS = 'FALSE'
+                AND (SELECT DBA_PerformanceHub.Management.fn_ValidCPF_CNPJ(t.TraCnpj)) COLLATE Latin1_General_CI_AS = 'FALSE' THEN
                 'F'
             ELSE
                 'V'

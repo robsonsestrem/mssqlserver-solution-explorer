@@ -2,7 +2,7 @@
 -- Rotina necess�ria colocada em Job devido � reindexa��o semanal, onde foi deixado esta janela de tempo para combinar com as Jobs do Backup Exec.
 -- Abaixo para bases de ETL
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-BACKUP LOG [IntegraTICravil] TO  DISK = N'F:\Log_SSMS\IntegraTICravil_Log.trn' WITH INIT;
+BACKUP LOG [DBA_PerformanceHub] TO  DISK = N'F:\Log_SSMS\DBA_PerformanceHub_Log.trn' WITH INIT;
 GO
 
 BACKUP LOG [TICRAVIL] TO  DISK = N'F:\Log_SSMS\TICRAVIL_Log.trn' WITH INIT;
@@ -35,4 +35,4 @@ GO
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- backup e shrink para o reindex de bases
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-DBCC shrinkfile(integraticravil_log, 60000)
+DBCC shrinkfile(DBA_PerformanceHub_log, 60000)

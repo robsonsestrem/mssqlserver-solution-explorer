@@ -57,7 +57,7 @@ SET @NomeCol = (SELECT Name
 						-- Substitui a TAG no XML da DELETED e faz a extra��o dos dados
 						SET @DeletedTMP = REPLACE (CAST (@Deleted As VARCHAR (MAX)), @NomeCol + '=','Col=')
 														
-						INSERT INTO IntegraTICravil.LogErp.Produtoslevel4LogDML 
+						INSERT INTO DBA_PerformanceHub.LogErp.Produtoslevel4LogDML 
 									(
 										DateDML, 
 										DatabaseUser, 
@@ -124,7 +124,7 @@ SET @NomeCol = (SELECT Name
                               -- Substitui a TAG no XML da INSERTED e faz a extra��o dos dados 
                               SET @InsertedTMP = Replace (Cast (@Inserted AS VARCHAR (max)), @NomeCol + '=','Col=') 
 
-                              INSERT INTO IntegraTICravil.LogErp.Produtoslevel4LogDML
+                              INSERT INTO DBA_PerformanceHub.LogErp.Produtoslevel4LogDML
                                         (
 										 DateDML, 
 										 DatabaseUser, 
@@ -175,7 +175,7 @@ GO
 -- TABELA DE LOGS � Local onde a trigger acima registra os dados DML da tabela PRODUTOSLEVEL4, onde s�o
 -- registradas as mudan�as de pre�os dos produtos
 ---------------------------------------------------------------------------------------------------------------------------------
---Use IntegraTICravil
+--Use DBA_PerformanceHub
 --GO
 --create table Produtoslevel4LogDML (
 --	LogId int not null identity (1,1),

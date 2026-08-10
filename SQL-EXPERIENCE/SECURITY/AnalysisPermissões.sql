@@ -17,7 +17,7 @@ EXEC Management.[sp_VerifyPermissions]
 -- Verifica todas as permissões da tabela no database especificado
 -- ============================================================
 EXEC Management.[sp_VerifyPermissions]
-    @Ds_Database = 'INTEGRATICRAVIL',
+    @Ds_Database = 'DBA_PerformanceHub',
     @Ds_Objeto = 'CadusuariosLogDML'
 
 -- ============================================================

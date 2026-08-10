@@ -15,7 +15,7 @@ BEGIN
 
 			set @Tp_Alteracao = 'D'
 			
-			INSERT INTO IntegraTICravil.LogErp.ProgUsuLevel1LogDML
+			INSERT INTO DBA_PerformanceHub.LogErp.ProgUsuLevel1LogDML
 			(
 				DateDML, 
 				DatabaseUser, 
@@ -47,7 +47,7 @@ BEGIN
 
 			set @Tp_Alteracao = 'I'
 			
-			INSERT INTO IntegraTICravil.LogErp.ProgUsuLevel1LogDML
+			INSERT INTO DBA_PerformanceHub.LogErp.ProgUsuLevel1LogDML
 			(
 				DateDML, 
 				DatabaseUser, 
@@ -82,7 +82,7 @@ GO
 -- Obs.: o que defini se tem acesso acesso ou n�o � o TypeSQL (I, D)
 -------------------------------------------------------------------------------------------------
 
---USE IntegraTICravil
+--USE DBA_PerformanceHub
 --GO
 --create table LogErp.ProgUsuLevel1LogDML (
 --	LogId int not null identity(1,1),

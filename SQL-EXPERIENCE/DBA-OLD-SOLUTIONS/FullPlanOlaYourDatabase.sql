@@ -6,7 +6,7 @@
 	PROJETO: mssqlserver-solution-explorer
 	
 	REFERÊNCIAS DE URL:
- *	https://ola.hallengren.com/sql-server-index-and-statistics-maintenance.html
+ *	https://ola.hallengren.com/sql-server-index-and-statistics-DBA_PerformanceHub.html
  */
 -- ============================================================
 -- Plano de Manutenção FULL (Ola Hallengren - IndexOptimize)

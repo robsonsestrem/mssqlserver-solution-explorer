@@ -38,7 +38,7 @@
 -- 
 
 -- Define o contexto de execução no banco de dados
-USE IntegraTICravil
+USE DBA_PerformanceHub
 GO
 
 -- ================================================================================

@@ -28,7 +28,7 @@ FROM [sys].[dm_os_buffer_descriptors];
 -- Resultado de exemplo: 114 GB
 -- Cálculo do valor mínimo recomendado: ((114 GB / 128 GB de memória disponível) * 300) = ~267 segundos
 
-USE [Maintenance];
+USE [DBA_PerformanceHub];
 GO
 
 -- Criação da tabela de histórico de contadores de performance
@@ -77,14 +77,14 @@ SELECT @ReturnCode = 0;
 IF NOT EXISTS (
     SELECT [name]
     FROM [msdb].[dbo].[syscategories]
-    WHERE [name] = N'Database Maintenance'
+    WHERE [name] = N'Database DBA_PerformanceHub'
       AND [category_class] = 1
 )
 BEGIN
     EXEC @ReturnCode = [msdb].[dbo].[sp_add_category]
         @class = N'JOB',
         @type = N'LOCAL',
-        @name = N'Database Maintenance';
+        @name = N'Database DBA_PerformanceHub';
 
     IF (@@ERROR <> 0 OR @ReturnCode <> 0)
         GOTO QuitWithRollback;
@@ -102,7 +102,7 @@ EXEC @ReturnCode = [msdb].[dbo].[sp_add_job]
     @notify_level_page = 0,
     @delete_level = 0,
     @description = N'Coleta histórica do contador Page Life Expectancy.',
-    @category_name = N'Database Maintenance',
+    @category_name = N'Database DBA_PerformanceHub',
     @owner_login_name = N'admcravil',
     @job_id = @jobId OUTPUT;
 
@@ -123,7 +123,7 @@ EXEC @ReturnCode = [msdb].[dbo].[sp_add_jobstep]
     @retry_interval = 0,
     @os_run_priority = 0,
     @subsystem = N'TSQL',
-    @command = N'INSERT INTO [Maintenance].[Management].[CountPLE]
+    @command = N'INSERT INTO [DBA_PerformanceHub].[Management].[CountPLE]
     SELECT
         GETDATE() AS [dth_Contador]
       , [object_name] AS [des_Objeto]
@@ -140,7 +140,7 @@ EXEC @ReturnCode = [msdb].[dbo].[sp_add_jobstep]
     FROM [sys].[dm_os_performance_counters]
     WHERE [object_name] LIKE ''%Manager%''
       AND [counter_name] = ''Page life expectancy'';',
-    @database_name = N'Maintenance',
+    @database_name = N'DBA_PerformanceHub',
     @flags = 0;
 
 IF (@@ERROR <> 0 OR @ReturnCode <> 0)

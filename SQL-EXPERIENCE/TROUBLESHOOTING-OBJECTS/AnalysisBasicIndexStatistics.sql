@@ -155,7 +155,7 @@ ORDER BY
 -- =============================================================================
 -- Verifica a alocação de espaço da base de dados
 -- =============================================================================
-USE [IntegraTICravil];
+USE [DBA_PerformanceHub];
 GO
 
 EXEC sp_spaceused;

@@ -1,4 +1,4 @@
-use IntegraTICravil
+use DBA_PerformanceHub
 go
 
 create or alter procedure Bi.sp_BackupLogPosicaoEstoque
@@ -17,8 +17,8 @@ begin
 
 		while(@seconds < @limiteSeconds)
 		begin	
-			BACKUP LOG [IntegraTICravil] TO  DISK = N'F:\Log_SSMS\IntegraTICravil_DeletePosicaoEstoque.trn' 
-			WITH NOFORMAT, NOINIT,  NAME = N'IntegraTICravil-Full Database Backup', SKIP, NOREWIND, NOUNLOAD, COMPRESSION,  STATS = 10	
+			BACKUP LOG [DBA_PerformanceHub] TO  DISK = N'F:\Log_SSMS\DBA_PerformanceHub_DeletePosicaoEstoque.trn' 
+			WITH NOFORMAT, NOINIT,  NAME = N'DBA_PerformanceHub-Full Database Backup', SKIP, NOREWIND, NOUNLOAD, COMPRESSION,  STATS = 10	
 
 			waitfor delay @WaitForTime
 
@@ -30,8 +30,8 @@ begin
 			ROLLBACK TRANSACTION
 			DECLARE @corpoFalha varchar(max)
 				  , @subject VARCHAR(100)			-- assunto
-				  , @recipients VARCHAR(100);		-- destinatário				
-			SET @subject = 'Falha na execução de Procedure: '+@@SERVERNAME;
+				  , @recipients VARCHAR(100);		-- destinatï¿½rio				
+			SET @subject = 'Falha na execuï¿½ï¿½o de Procedure: '+@@SERVERNAME;
 			SET @recipients = 'suporte@cravil.com.br';
 			SET @corpoFalha = '	
 				<html>
