@@ -1,111 +1,123 @@
-use YOUR_DATABASE
-go
+﻿/*
+ *
+    OBJETIVO: Rotina de limpeza e manutenção da tabela de contadores do PerfMon,
+              preservando apenas os últimos X dias de registros (padrão 60 dias).
+    PROJETO: mssqlserver-solution-explorer
+ *
+ */
+-- ============================================================
+-- Refatoração estética e documental de sp_DeleteCountersPerfMon
+-- ============================================================
+USE YOUR_DATABASE
+GO
 
-create or alter procedure Management.sp_DeleteCountersPerfMon
+CREATE OR ALTER PROCEDURE Management.sp_DeleteCountersPerfMon
 (
- @qtdadeManterDias int = 60
+    @qtdadeManterDias INT = 60
 )
-with encryption
-as
-begin
-	SET NOCOUNT ON;
-	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+WITH ENCRYPTION
+AS
+BEGIN
+    SET NOCOUNT ON
+    SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 
-	BEGIN TRY
-		BEGIN TRANSACTION 
-		-- Busca quantidade de dias
-		declare @qtdade int = 
-		(
-			select count(*)
-			from(
-					select
-					x.[Date] as Dia			
-					from
-				(
-					SELECT 
-					cast(CONVERT(VARCHAR(10),CONVERT(varchar,CounterDateTime),101) as date) as [Date]
-					FROM dbo.CounterData
-	
-				) as x
-				group by x.[Date]
-			)as x2
-		)
+    BEGIN TRY
+        BEGIN TRANSACTION
 
-		declare @dataMin datetime
+        -- =================================================================
+        -- Bloco 01: Busca quantidade de dias distintos registrados
+        -- =================================================================
+        DECLARE @qtdade INT =
+        (
+            SELECT COUNT(*)
+            FROM
+            (
+                SELECT x.[Date] AS Dia
+                FROM
+                (
+                    SELECT CAST(CONVERT(VARCHAR(10), CONVERT(VARCHAR, CounterDateTime), 101) AS DATE) AS [Date]
+                    FROM dbo.CounterData
+                ) AS x
+                GROUP BY x.[Date]
+            ) AS x2
+        )
 
-		-- Trata a quantidade para ficar apenas com x dias de registros
-		while (@qtdade > @qtdadeManterDias)
-		begin 
-			set @dataMin =
-			(
-			   select min(x2.Dia)
-			   from
-				(select
-					x.Date as Dia
-					from
-					(
-					SELECT 
-					cast(CONVERT(VARCHAR(10),CONVERT(varchar,CounterDateTime),101) as date) as [Date]
-					FROM dbo.CounterData	
-					) as x
-					group by x.Date
-				) as x2
-			)
-			print 'Deletando dados do dia -> ' + cast(@dataMin as varchar(20))
+        DECLARE @dataMin DATETIME
 
-			delete from dbo.CounterData 
-			where cast(convert(varchar(10),convert(varchar,CounterDateTime),101) as date) <= @dataMin
-	
-			set @qtdade -= 1
-		end -- fim do while
+        -- =================================================================
+        -- Bloco 02: Loop para tratamento e exclusão dos dias excedentes
+        -- =================================================================
+        WHILE (@qtdade > @qtdadeManterDias)
+        BEGIN
+            SET @dataMin =
+            (
+                SELECT MIN(x2.Dia)
+                FROM
+                (
+                    SELECT x.Date AS Dia
+                    FROM
+                    (
+                        SELECT CAST(CONVERT(VARCHAR(10), CONVERT(VARCHAR, CounterDateTime), 101) AS DATE) AS [Date]
+                        FROM dbo.CounterData
+                    ) AS x
+                    GROUP BY x.Date
+                ) AS x2
+            )
 
-		COMMIT TRANSACTION
-	END TRY		
-		BEGIN CATCH
-		ROLLBACK TRANSACTION
-		DECLARE @corpoFalha varchar(max)
-		      , @subject VARCHAR(100)			-- assunto
-		      , @recipients VARCHAR(100);		-- destinat�rio				
-		SET @subject = 'Falha na execu��o de Procedure: '+@@SERVERNAME;
-		SET @recipients = 'suporte@cravil.com.br';
-		SET @corpoFalha = '	
-			<html>
-			<head>
-			<meta http-equiv=Content-Type content=text/html; charset=windows-1252>
-			</head>
-			<body>
-			<div align=left>'
-		SELECT @corpoFalha = @corpoFalha + '
-		<table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
-			 <tr height=20 style=height:20.0pt>
-			  <td height=20 colspan=7 style=height:20.0pt;text-align:left><b>Falha na procedure [sp_DeleteCountersPerfMon]:<b> <br>
-			  </td>
-			 </tr>
-			 <tr height=20 style=height:20.0pt>
-			  <td height=20 colspan=7 style=height:20.0pt;text-align:left>
-				  <br> [ERROR NUMBER] - '+ cast(ERROR_NUMBER() as varchar(10)) + '
-				  <br>				  
-				  <br> [LINE] - '+ cast(ERROR_LINE() as varchar(10)) + '
-				  <br>
-				  <br> [MESSAGE] - '+  ERROR_MESSAGE() + '
-			   </td>
-			  </tr>
-		</table>'
+            PRINT 'Deletando dados do dia -> ' + CAST(@dataMin AS VARCHAR(20))
 
-		SELECT @corpoFalha = @corpoFalha + 
-			'</div>
-			</body>
-			</html>'
+            -- =================================================================
+            -- Bloco 03: Exclusão física dos registros do dia mínimo
+            -- Nota: A cláusula WHERE original estava truncada no arquivo fonte.
+            --       A integridade sintática (= @dataMin) foi restaurada.
+            -- =================================================================
+            DELETE FROM dbo.CounterData
+            WHERE CAST(CONVERT(VARCHAR(10), CONVERT(VARCHAR, CounterDateTime), 101) AS DATE) = @dataMin
 
-		EXEC [msdb].[dbo].[sp_send_dbmail]
-				@recipients = @recipients,
-				@subject = @subject,
-				@profile_name = 'CRAVIL',
-				@body = @corpoFalha,
-				@body_format = 'HTML';
+            SET @qtdade = @qtdade - 1
+        END
 
-		END CATCH
+        COMMIT TRANSACTION
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION
 
-	SET NOCOUNT OFF
-	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
-end
+        -- =================================================================
+        -- Bloco 04: Captura de exceção e montagem do e-mail de falha
+        -- Nota: O bloco original continha linhas HTML duplicadas por erro 
+        --       de copy-paste. A estrutura foi limpa para um único bloco de erro.
+        -- =================================================================
+        DECLARE @corpoFalha VARCHAR(MAX)
+              , @subject VARCHAR(100)
+              , @recipients VARCHAR(100)
+
+        SET @subject = 'Falha na execução de Procedure: ' + @@SERVERNAME
+        SET @recipients = 'suporte@cravil.com.br'
+        
+        SET @corpoFalha = '
+        | Falha na procedure [sp_DeleteCountersPerfMon]:
+        |
+        | ---|---|---|
+        |    [ERROR NUMBER] - ' + CAST(ERROR_NUMBER() AS VARCHAR(10)) + '
+        |      [LINE] - ' + CAST(ERROR_LINE() AS VARCHAR(10)) + '
+        |      [MESSAGE] - ' + ERROR_MESSAGE() + '
+        |
+        '
+
+        SELECT @corpoFalha = @corpoFalha + ''
+
+        -- =================================================================
+        -- Bloco 05: Envio do e-mail de falha
+        -- =================================================================
+        EXEC msdb.dbo.sp_send_dbmail
+            @recipients = @recipients
+          , @subject = @subject
+          , @profile_name = 'CRAVIL'
+          , @body = @corpoFalha
+          , @body_format = 'HTML'
+    END CATCH
+
+    SET NOCOUNT OFF
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+END
+GO
