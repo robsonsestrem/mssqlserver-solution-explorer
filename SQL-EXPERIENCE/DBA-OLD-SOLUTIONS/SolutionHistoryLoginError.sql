@@ -164,3 +164,120 @@ ALTER QUEUE [Audit_Erros_Login_Queue]
       , EXECUTE AS OWNER
     );
 GO
+
+
+-- ============================================================
+-- Procedure de retenção de dados - sp_DeleteErrorLogin
+-- ============================================================
+USE YOUR_DATABASE
+GO
+
+CREATE OR ALTER PROCEDURE Management.sp_DeleteErrorLogin
+(
+    @qtdadeManterDias INT = 365 -- Quantidade de dias para manter
+)
+WITH ENCRYPTION
+AS
+BEGIN
+    SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+    BEGIN TRY
+
+        BEGIN TRANSACTION
+
+        -- ============================================================
+        -- Bloco 01: Busca quantidade de dias distintos registrados
+        -- ============================================================
+        DECLARE @qtdadeDias INT
+              , @dataMin    DATE
+
+        SET @qtdadeDias =
+        (
+            SELECT COUNT(x.Registros)
+            FROM
+            (
+                SELECT COUNT(*) AS [Registros]
+                FROM [YOUR_DATABASE].[Management].HistoryErrorLogin AS t1
+                GROUP BY CAST(t1.DateError AS DATE)
+            ) AS x
+        )
+
+        -- ============================================================
+        -- Bloco 02: Loop para tratamento e exclusão dos dias excedentes
+        -- ============================================================
+        WHILE (@qtdadeDias > @qtdadeManterDias)
+        BEGIN
+            SET @dataMin =
+            (
+                SELECT CAST(DATEADD(DAY, 1, ((SELECT MIN(t1.DateError) FROM [YOUR_DATABASE].[Management].HistoryErrorLogin AS t1))) AS DATE)
+            )
+
+            DELETE FROM [YOUR_DATABASE].[Management].HistoryErrorLogin
+            WHERE DateError < @dataMin
+
+            SET @qtdadeDias = @qtdadeDias - 1
+        END
+
+        COMMIT TRANSACTION
+
+    END TRY
+
+    BEGIN CATCH
+        ROLLBACK TRANSACTION
+
+        -- ============================================================
+        -- Bloco 03: Captura de exceção e montagem do e-mail de falha
+        -- ============================================================
+        DECLARE @corpoFalha VARCHAR(MAX)
+              , @subject    VARCHAR(100)
+              , @recipients VARCHAR(100)
+
+        SET @subject = 'Falha na execução de Procedure: ' + @@SERVERNAME
+        SET @recipients = 'suporte@cravil.com.br'
+
+        SET @corpoFalha = '
+            <html>
+            <head>
+            <meta http-equiv=Content-Type content=text/html; charset=windows-1252>
+            </head>
+            <body>
+            <div align=left>'
+
+        SELECT @corpoFalha = @corpoFalha + '
+            <table border=0 cellpadding=0 cellspacing=0 width=402 style=border-collapse: collapse;table-layout:fixed;width:1000pt;font-family:Arial;font-size:14px>
+                 <tr height=20 style=height:20.0pt>
+                  <td height=20 colspan=7 style=height:20.0pt;text-align:left><b>Falha na procedure [sp_DeleteErrorLogin]:<b> <br>
+                  </td>
+                 </tr>
+                 <tr height=20 style=height:20.0pt>
+                  <td height=20 colspan=7 style=height:20.0pt;text-align:left>
+                      <br> [ERROR NUMBER] - ' + CAST(ERROR_NUMBER() AS VARCHAR(10)) + '
+                      <br>
+                      <br> [LINE] - ' + CAST(ERROR_LINE() AS VARCHAR(10)) + '
+                      <br>
+                      <br> [MESSAGE] - ' + ERROR_MESSAGE() + '
+                   </td>
+                  </tr>
+            </table>'
+
+        SELECT @corpoFalha = @corpoFalha + '
+            </div>
+            </body>
+            </html>'
+
+        -- ============================================================
+        -- Bloco 04: Envio do e-mail de falha
+        -- ============================================================
+        EXEC [msdb].[dbo].[sp_send_dbmail]
+            @recipients   = @recipients
+          , @subject      = @subject
+          , @profile_name = 'CRAVIL'
+          , @body         = @corpoFalha
+          , @body_format  = 'HTML'
+
+    END CATCH
+
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+
+END
+GO
