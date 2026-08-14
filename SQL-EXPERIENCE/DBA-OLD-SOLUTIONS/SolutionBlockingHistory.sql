@@ -461,3 +461,105 @@ FROM (
         -- WHERE xml.BD = 'YOUR_DATABASE'
     ) AS x
 ) AS y
+
+
+-- ============================================================
+-- Retenção de dados - Tabela HistoryBlockedProcess
+-- ============================================================
+USE YOUR_DATABASE
+GO
+
+CREATE OR ALTER PROCEDURE Management.sp_DeleteHistoryLocks
+(
+    @qtdadeManterDias INT = 365 -- Quantidade de dias para manter
+)
+WITH ENCRYPTION
+AS
+BEGIN
+    SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+    BEGIN TRY
+        BEGIN TRANSACTION
+
+        -- ============================================================
+        -- Bloco 01: Contagem de dias distintos com histórico de bloqueio
+        -- ============================================================
+        DECLARE @qtdadeDias INT
+              , @dataMin DATE
+
+        SET @qtdadeDias =
+        (
+            SELECT COUNT(x.Registros)
+            FROM
+            (
+                SELECT COUNT(*) AS [Registros]
+                FROM [YOUR_DATABASE].[Management].HistoryBlockedProcess AS t1
+                GROUP BY CAST(t1.DateBlock AS DATE)
+            ) AS x
+        )
+
+        -- ============================================================
+        -- Bloco 02: Loop de exclusão dos dias excedentes
+        -- ============================================================
+        WHILE (@qtdadeDias > @qtdadeManterDias)
+        BEGIN
+            SET @dataMin =
+            (
+                SELECT CAST(DATEADD(DAY, 1,
+                (
+                    SELECT MIN(t1.DateBlock)
+                    FROM [YOUR_DATABASE].[Management].HistoryBlockedProcess AS t1
+                )) AS DATE)
+            )
+
+            DELETE FROM [YOUR_DATABASE].[Management].HistoryBlockedProcess
+            WHERE DateBlock < @dataMin
+
+            SET @qtdadeDias -= 1
+        END
+
+        COMMIT TRANSACTION
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION
+
+        -- ============================================================
+        -- Bloco 03: Variáveis para envio de e-mail de falha
+        -- ============================================================
+        DECLARE @corpoFalha VARCHAR(MAX)
+              , @subject VARCHAR(100) -- assunto
+              , @recipients VARCHAR(100); -- destinatário
+
+        SET @subject = 'Falha na execução de Procedure: ' + @@SERVERNAME;
+        SET @recipients = 'suporte@cravil.com.br';
+        SET @corpoFalha = ''
+
+        -- ============================================================
+        -- Bloco 04: Montagem do corpo do e-mail de falha
+        -- ============================================================
+        SELECT @corpoFalha = @corpoFalha + '
+        | Falha na procedure [sp_DeleteHistoryLocks]:
+        |
+        | ---|---|---|
+        |    [ERROR NUMBER] - ' + CAST(ERROR_NUMBER() AS VARCHAR(10)) + '
+        |      [LINE] - ' + CAST(ERROR_LINE() AS VARCHAR(10)) + '
+        |      [MESSAGE] - ' + ERROR_MESSAGE() + '
+        |
+        '
+
+        SELECT @corpoFalha = @corpoFalha + ''
+
+        -- ============================================================
+        -- Bloco 05: Envio do e-mail de falha
+        -- ============================================================
+        EXEC [msdb].[dbo].[sp_send_dbmail]
+            @recipients = @recipients
+          , @subject = @subject
+          , @profile_name = 'CRAVIL'
+          , @body = @corpoFalha
+          , @body_format = 'HTML';
+    END CATCH
+
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+END
+GO

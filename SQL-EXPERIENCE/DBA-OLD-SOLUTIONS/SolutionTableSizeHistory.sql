@@ -12,7 +12,9 @@
     - Management.vw_SizeTables
     - Management.sp_LoadSizeTables
 
-    REFERÊNCIA BASE: Fabrício Lima     
+    REFERÊNCIAS:
+    BASE: Fabrício Lima 
+    https://learn.microsoft.com/pt-br/sql/relational-databases/system-stored-procedures/sp-send-dbmail-transact-sql
  *
  */
 -- ================================================================================================================================
@@ -786,3 +788,104 @@ FROM
 GROUP BY
     v.NmDatabase
   , v.DtReferencia
+
+
+-- ============================================================
+-- Retenção de dados - Tabela HistorySizeTables
+-- ============================================================
+USE YOUR_DATABASE
+GO
+
+CREATE OR ALTER PROCEDURE Management.sp_DeleteHistoryTables
+(
+    @qtdadeManterDias INT = 365 -- Quantidade de dias para manter
+)
+WITH ENCRYPTION
+AS
+BEGIN
+    SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+    BEGIN TRY
+        BEGIN TRANSACTION
+
+        -- ============================================================
+        -- Bloco 01: Contagem de datas de referência distintas
+        -- ============================================================
+        DECLARE @qtdadeDias INT
+              , @dataMin DATE
+
+        SET @qtdadeDias =
+        (
+            SELECT COUNT(x.Registros)
+            FROM
+            (
+                SELECT COUNT(*) AS [Registros]
+                FROM [YOUR_DATABASE].[Management].[HistorySizeTables] AS t1
+                GROUP BY t1.DtReferencia
+            ) AS x
+        )
+
+        -- ============================================================
+        -- Bloco 02: Loop de exclusão das datas de referência excedentes
+        -- ============================================================
+        WHILE (@qtdadeDias > @qtdadeManterDias)
+        BEGIN
+            -- Identifica a menor data de referência existente
+            SET @dataMin =
+            (
+                SELECT MIN(t1.DtReferencia) AS dataMin
+                FROM Management.HistorySizeTables AS t1
+            )
+
+            -- Remove os registros da menor data de referência
+            DELETE FROM Management.HistorySizeTables
+            WHERE DtReferencia = @dataMin
+
+            SET @qtdadeDias -= 1
+        END
+
+        COMMIT TRANSACTION
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION
+
+        -- ============================================================
+        -- Bloco 03: Variáveis para envio de e-mail de falha
+        -- ============================================================
+        DECLARE @corpoFalha VARCHAR(MAX)
+              , @subject VARCHAR(100) -- assunto
+              , @recipients VARCHAR(100); -- destinatário
+
+        SET @subject = 'Falha na execução de Procedure: ' + @@SERVERNAME;
+        SET @recipients = 'suporte@cravil.com.br';
+        SET @corpoFalha = ''
+
+        -- ============================================================
+        -- Bloco 04: Montagem do corpo do e-mail de falha
+        -- ============================================================
+        SELECT @corpoFalha = @corpoFalha + '
+        | Falha na procedure [sp_DeleteHistoryTables]:
+        |
+        | ---|---|---|
+        |    [ERROR NUMBER] - ' + CAST(ERROR_NUMBER() AS VARCHAR(10)) + '
+        |      [LINE] - ' + CAST(ERROR_LINE() AS VARCHAR(10)) + '
+        |      [MESSAGE] - ' + ERROR_MESSAGE() + '
+        |
+        '
+
+        SELECT @corpoFalha = @corpoFalha + ''
+
+        -- ============================================================
+        -- Bloco 05: Envio do e-mail de falha
+        -- ============================================================
+        EXEC [msdb].[dbo].[sp_send_dbmail]
+            @recipients = @recipients
+          , @subject = @subject
+          , @profile_name = 'CRAVIL'
+          , @body = @corpoFalha
+          , @body_format = 'HTML';
+    END CATCH
+
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+END
+GO
