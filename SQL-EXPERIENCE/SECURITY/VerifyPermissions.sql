@@ -12,7 +12,6 @@
 -- ============================================================
 -- Procedure de Verificação de Permissões
 -- ============================================================
-
 CREATE OR ALTER PROCEDURE [dbo].[sp_verify_permissions]
     @Ds_Usuario VARCHAR(100) = NULL
     ,@Ds_Database VARCHAR(100) = NULL
