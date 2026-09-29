@@ -11,7 +11,9 @@
 -- ============================================================
 
 SELECT TOP 100
-    OBJECT_NAME(qt.objectid)                                                        AS [object_name]
+    qs.creation_time
+  , qs.last_execution_time
+  ,  OBJECT_NAME(qt.objectid)                                                        AS [object_name]
   , SUBSTRING
     (
         qt.text,

@@ -9,7 +9,9 @@
 -- TOP 100 Consultas que Mais Utilizaram CPU
 -- ============================================================
 SELECT TOP 100
-    SUBSTRING
+    qs.creation_time
+  , qs.last_execution_time
+   , SUBSTRING
     (
         ST.text,
         (QS.statement_start_offset / 2) + 1,
