@@ -14,9 +14,9 @@
 USE YOUR_DATABASE;
 GO
 
-EXEC Management.sp_VerifyDirectDependencies 'YOUR_DATABASE.dbo.TRANSACIONADORES';
-EXEC Management.sp_VerifyDirectDependencies 'YOUR_DATABASE.dbo.tr_Transacionadores_LogUD';
-EXEC Management.sp_VerifyDirectDependencies 'DBA_PerformanceHub.Management.DDLTransaction';
+EXEC dbo.sp_VerifyDirectDependencies 'YOUR_DATABASE.dbo.TRANSACIONADORES';
+EXEC dbo.sp_VerifyDirectDependencies 'YOUR_DATABASE.dbo.tr_Transacionadores_LogUD';
+EXEC dbo.sp_VerifyDirectDependencies 'DBA_PerformanceHub.dbo.DDLTransaction';
 
 
 -- ---------------------------------------------------------------------------
@@ -26,10 +26,10 @@ EXEC Management.sp_VerifyDirectDependencies 'DBA_PerformanceHub.Management.DDLTr
 USE YOUR_DATABASE;
 GO
 
-EXEC Management.sp_VerifyDependenciesFull 'DBA_PerformanceHub.LogErp.TransacionadorLogDML';    -- mostra a trigger que alimenta
-EXEC Management.sp_VerifyDependenciesFull 'YOUR_DATABASE.dbo.TRANSACIONADORES';
-EXEC Management.sp_VerifyDependenciesFull 'YOUR_DATABASE.dbo.FILIAIS';                      -- mostra a trigger e outros
-EXEC Management.sp_VerifyDependenciesFull 'DBA_PerformanceHub.Management.DDLTransaction';
+EXEC dbo.sp_VerifyDependenciesFull 'DBA_PerformanceHub.LogErp.TransacionadorLogDML';    -- mostra a trigger que alimenta
+EXEC dbo.sp_VerifyDependenciesFull 'YOUR_DATABASE.dbo.TRANSACIONADORES';
+EXEC dbo.sp_VerifyDependenciesFull 'YOUR_DATABASE.dbo.FILIAIS';                      -- mostra a trigger e outros
+EXEC dbo.sp_VerifyDependenciesFull 'DBA_PerformanceHub.dbo.DDLTransaction';
 
 -- ---------------------------------------------------------------------------
 -- Bloco 3: Relatório completo de dependências
@@ -268,12 +268,12 @@ SET NOCOUNT OFF;
 -- SQL Server, listando os objetos que fazem referência a ele,
 -- com suporte a consultas cross-database.
 -- EXEMPLO DE USO:
--- EXEC Management.sp_VerifyDirectDependencies 'Testes.dbo.Clientes'
+-- EXEC dbo.sp_VerifyDirectDependencies 'Testes.dbo.Clientes'
 -- =========================================================================
 USE YOUR_DATABASE
 GO
 
-CREATE OR ALTER PROCEDURE Management.sp_VerifyDirectDependencies
+CREATE OR ALTER PROCEDURE dbo.sp_VerifyDirectDependencies
 (
     @Ds_Objeto_Completo VARCHAR(255)
   , @Ds_Tabela_Destino  VARCHAR(100) = NULL
@@ -304,9 +304,9 @@ BEGIN
     -- Extrai os componentes do nome do objeto (database, schema, objeto)
     -- ============================================================
     SELECT
-          @Ds_Database = Management.fn_ValueSeparateByVarious(@Ds_Objeto_Completo, '.', 1)
-        , @Ds_Schema   = Management.fn_ValueSeparateByVarious(@Ds_Objeto_Completo, '.', 2)
-        , @Ds_Objeto   = Management.fn_ValueSeparateByVarious(@Ds_Objeto_Completo, '.', 3)
+          @Ds_Database = dbo.fn_ValueSeparateByVarious(@Ds_Objeto_Completo, '.', 1)
+        , @Ds_Schema   = dbo.fn_ValueSeparateByVarious(@Ds_Objeto_Completo, '.', 2)
+        , @Ds_Objeto   = dbo.fn_ValueSeparateByVarious(@Ds_Objeto_Completo, '.', 3)
 
     -- ============================================================
     -- Criação da tabela temporária para armazenar as dependências
@@ -399,14 +399,14 @@ GO
 -- =========================================================================
 -- Procedure cross-database e multi-nível para mapeamento de dependências
 -- entre objetos do SQL Server usando CTE recursiva.
--- Procedure Management.sp_VerifyDependenciesFull
+-- Procedure dbo.sp_VerifyDependenciesFull
 -- Exemplo de uso:
--- EXEC Management.sp_VerifyDependenciesFull 'Testes.dbo.Clientes'
+-- EXEC dbo.sp_VerifyDependenciesFull 'Testes.dbo.Clientes'
 -- =========================================================================
 USE YOUR_DATABASE
 GO
 
-CREATE OR ALTER PROCEDURE Management.sp_VerifyDependenciesFull
+CREATE OR ALTER PROCEDURE sp_VerifyDependenciesFull
 (
     @Ds_Objeto_Completo VARCHAR(255)
   , @Ds_Tabela_Destino VARCHAR(100) = NULL
@@ -438,9 +438,9 @@ BEGIN
     )
 
     SELECT
-        @Ds_Database = Management.fn_ValueSeparateByVarious(@Ds_Objeto_Completo, '.', 1)
-      , @Ds_Schema = Management.fn_ValueSeparateByVarious(@Ds_Objeto_Completo, '.', 2)
-      , @Ds_Objeto = Management.fn_ValueSeparateByVarious(@Ds_Objeto_Completo, '.', 3)
+        @Ds_Database = [HEALTHCARE_DEMO].dbo.fn_ValueSeparateByVarious(@Ds_Objeto_Completo, '.', 1)
+      , @Ds_Schema = [HEALTHCARE_DEMO].dbo.fn_ValueSeparateByVarious(@Ds_Objeto_Completo, '.', 2)
+      , @Ds_Objeto = [HEALTHCARE_DEMO].dbo.fn_ValueSeparateByVarious(@Ds_Objeto_Completo, '.', 3)
 
     -- ============================================================
     -- Bloco 02: Criação da tabela de destino das dependências
